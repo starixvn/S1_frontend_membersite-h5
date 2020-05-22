@@ -32,7 +32,7 @@ const HeaderBtn = () => {
 		});
 	};
 
-	const handleLogin = ({ username, password }, callbackfunc) => {
+	const handleLogin = (username, password, callbackfunc) => {
 		const _callbackFunc = (errorCode, isLogin, userData, langCode) => {
 			if (errorCode === 0) {
 				if (userInfo?.langCode !== langCode) {
