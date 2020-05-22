@@ -17,19 +17,24 @@ export const login = async ({ username, password }, callback) => {
 	await UserLogin({
 		UserName: username,
 		Userpwd: password
-	}).then(res => {
-		if (res.data.errorCode === 0) {
-			let userLangCode = res.data.message.replace("/", "");
-			let _loginUser = {
-				username: username
-			};
-			callback(true, _loginUser, userLangCode);
-			return setUser(_loginUser);
-		} else {
-			callback(false, {});
-			alert(res.data.message);
+	}).then(
+		res => {
+			if (res.data.errorCode === 0) {
+				let userLangCode = res.data.message.replace("/", "");
+				let _loginUser = {
+					username: username
+				};
+				callback(res.data.errorCode, true, _loginUser, userLangCode);
+				return setUser(_loginUser);
+			} else {
+				callback(res.data.errorCode, false, {});
+				alert(res.data.message);
+			}
+		},
+		err => {
+			callback(999, false, {});
 		}
-	});
+	);
 
 	return false;
 };

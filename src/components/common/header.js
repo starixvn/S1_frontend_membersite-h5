@@ -32,22 +32,26 @@ const HeaderBtn = () => {
 		});
 	};
 
-	const handleLogin = ({ username, password }) => {
-		const callbackFunc = (isLogin, userData, langCode) => {
-			if (userInfo?.langCode !== langCode) {
-				GetTranslationData(langKeys_Home, langCode).then(res => {
-					seti18n(res.data.data);
-				});
+	const handleLogin = ({ username, password }, callbackfunc) => {
+		const _callbackFunc = (errorCode, isLogin, userData, langCode) => {
+			if (errorCode === 0) {
+				if (userInfo?.langCode !== langCode) {
+					GetTranslationData(langKeys_Home, langCode).then(res => {
+						seti18n(res.data.data);
+					});
+				}
+
+				setUserInfo(() => ({
+					isLogin: isLogin,
+					langCode: langCode,
+					...userData
+				}));
 			}
 
-			setUserInfo(() => ({
-				isLogin: isLogin,
-				langCode: langCode,
-				...userData
-			}));
+			callbackfunc(errorCode);
 		};
 
-		login({ username: username, password: password }, callbackFunc);
+		login({ username: username, password: password }, _callbackFunc);
 	};
 
 	return userInfo?.isLogin ? (
