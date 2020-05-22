@@ -9,7 +9,6 @@ import "../../styles/Nova88/css/font.css";
 const Layout = ({ children }) => {
 	return (
 		<div>
-			<Header siteTitle={"Nova88"} />
 			<Header siteTitle="Nova88" />
 			<main style={{ position: "fixed" }}>{children}</main>
 			<Footer />

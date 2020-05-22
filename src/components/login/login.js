@@ -4,7 +4,26 @@ import Checkbox from "./checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
 
 const LoginPage = ({ ButtonTitle }) => {
-	let showPsw = false;
+	// -----userValue-----
+	const [userValueState, setUserValueState] = useState({
+		UserName: "",
+		Password: "",
+		Checkbox: false
+	});
+
+	const usernameValueHandler = e => {
+		let val = e.target.value;
+		setUserValueState(prevState => {
+			return { ...prevState, UserName: val };
+		});
+	};
+
+	const passwordValueHandler = e => {
+		let val = e.target.value;
+		setUserValueState(prevState => {
+			return { ...prevState, Password: val };
+		});
+	};
 
 	// -----showTips-----
 	const [showTipsState, setShowTipsState] = useState({
@@ -25,9 +44,10 @@ const LoginPage = ({ ButtonTitle }) => {
 	};
 
 	// -----showPsw-----
+	const [pswState, setPswState] = useState(false);
+
 	const showPswHandler = () => {
-		showPsw = !showPsw;
-		console.log(showPsw);
+		setPswState(!pswState);
 	};
 
 	// ---warning-----
@@ -37,6 +57,41 @@ const LoginPage = ({ ButtonTitle }) => {
 		Checkbox: false
 	});
 
+	// -----checkbox-----
+	const [checkboxState, setCheckboxState] = useState(false);
+
+	const checkboxHandler = () => {
+		let checked = !checkboxState;
+		setCheckboxState(checked);
+		setUserValueState(prevState => {
+			return { ...prevState, Checkbox: checked };
+		});
+	};
+
+	// -----checkList-----
+	const checklistHandler = () => {
+		if (userValueState.UserName === "") {
+			setWarningState(prevState => {
+				return { ...prevState, UserName: true };
+			});
+		} else if (userValueState.UserName !== "") {
+			setWarningState(prevState => {
+				return { ...prevState, UserName: false };
+			});
+		}
+
+		if (userValueState.Password === "") {
+			setWarningState(prevState => {
+				return { ...prevState, Password: true };
+			});
+		} else if (userValueState.Password !== "") {
+			setWarningState(prevState => {
+				return { ...prevState, Password: false };
+			});
+		}
+	};
+
+	// ----showPanel-----
 	const [showPanel, handlePanel] = useState(false);
 	const handleJoinPanel = () => {
 		handlePanel(prevState => !prevState);
@@ -56,34 +111,42 @@ const LoginPage = ({ ButtonTitle }) => {
 					<span></span>
 				</div>
 				<img src={logo} alt="" />
-				<div className="title">JOIN NOW</div>
+				<div className="title">LOGIN</div>
 
 				<Inputbox
 					icon="icon-member"
 					inputType="text"
 					placeholder="UserName"
 					onFocus={showTipsHandler}
+					onBlur={usernameValueHandler}
 					colName="UserName"
 					warningState={warningState.UserName}
 					ClassName="JoinRule"
 					showTips={showTipsState.UserName}
-					Warning="Invalid UserName"></Inputbox>
+					Warning="Please enter UserName"></Inputbox>
 
 				<Inputbox
 					icon="icon-key"
-					inputType={`${!showPsw ? "password" : "text"}`}
+					inputType={`${!pswState ? "password" : "text"}`}
 					placeholder="PassWord"
 					onFocus={showTipsHandler}
+					onBlur={passwordValueHandler}
 					colName="Password"
-					showPsw={showPsw}
+					showPsw={pswState}
 					showPswHandler={showPswHandler}
 					warningState={warningState.Password}
 					ClassName="JoinRule"
 					showTips={showTipsState.Password}
-					Warning="Invalid Password"></Inputbox>
+					Warning="Please enter Password"></Inputbox>
 
-				<Checkbox>Remember Password</Checkbox>
-				<button>LOGIN</button>
+				<Checkbox
+					className="Terms"
+					id="c2"
+					Checked={checkboxState}
+					checkboxHandler={checkboxHandler}>
+					Remember Password
+				</Checkbox>
+				<button onClick={checklistHandler}>LOGIN</button>
 			</div>
 		</>
 	);

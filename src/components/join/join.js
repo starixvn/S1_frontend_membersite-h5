@@ -9,7 +9,7 @@ import logo from "../../styles/Nova88/img/logo.svg";
 const colName = ["UserName", "Password", "Email", "Currency"];
 const icon = ["icon-member", "icon-key", "icon-email", "icon-coin-dollar"];
 
-function App() {
+function Join() {
 	// -----userValue-----
 	const [userValueState, setUserValueState] = useState({
 		UserName: "",
@@ -186,8 +186,10 @@ function App() {
 		for (let i in checklistState) {
 			if (!checklistState[i]) {
 				checked = false;
-				alert("fail to join");
-				break;
+				console.log(checklistState[i]);
+
+				// alert("fail to join");
+				// break;
 			}
 		}
 		if (checked) {
@@ -276,6 +278,7 @@ function App() {
 				</div>
 
 				<Checkbox
+					Checked={checkboxState}
 					className="Terms"
 					checkboxHandler={checkboxHandler}
 					id="c1">
@@ -300,4 +303,4 @@ function App() {
 	);
 }
 
-export default App;
+export default Join;
