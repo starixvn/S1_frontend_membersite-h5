@@ -1,9 +1,15 @@
-import React from 'react';
+import React from "react";
 
 const Checkbox = props => {
+	console.log(props.Checked);
 	return (
-		<div className={props.className} onChange={props.checkboxHandler}>
-			<input type="checkbox" id={props.id} />
+		<div className={props.className}>
+			<input
+				type="checkbox"
+				id={props.id}
+				checked={props.Checked}
+				onChange={props.checkboxHandler}
+			/>
 			<label htmlFor={props.id}>
 				<div></div>
 			</label>

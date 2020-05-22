@@ -9,7 +9,7 @@ import { i18nContext } from "../context/i18n";
 import { GetTranslationData } from "../../service/api/site";
 import { SetLanguage } from "../../service/api/account";
 import langKeys_Home from "../../datas/langKeys_Home";
-import JoinPanel from "../join/app";
+import JoinPanel from "../join/join";
 import LoginPanel from "../login/login";
 
 const Header = () => (
