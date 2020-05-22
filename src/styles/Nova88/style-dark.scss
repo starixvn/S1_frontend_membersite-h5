@@ -1,0 +1,67 @@
+@import "color-group.scss";
+html.dark{
+  header {
+    background: $Dark;
+    border-bottom: 1px solid $Orange;
+    button {
+      &:nth-child(2) {
+        background: $Orange;
+      }
+    }
+    .subMenu{
+      background: rgba($Dark,.95);
+    }
+  }
+
+  main {
+    .marquee {
+      color: $Gray;
+      background: $Black;
+      .icon {
+        color: $Orange;
+      }
+    }
+    .sideBar{
+      background: $Dark;
+    }
+    .thBar {
+      background: $Dark;
+      a {
+        color: $Orange;
+        border-right: 1px solid $lightBlack;
+        &.icon {
+          &:before{
+            color: $White;
+          }
+        }
+      }
+    }
+    .gameList {
+      a {
+        &:after {
+          border-color: transparent $Dark $Dark transparent;
+        }
+      }
+    }
+  }
+
+  footer {
+    background: $lightBlack;
+    a {
+      border-right: 1px solid $Dark;
+      border-bottom: 2px solid $Dark;
+      .circleAnimation {
+        color: #6f6f6f;
+      }
+      &.open {
+        border-bottom: 2px solid $Orange;
+        .circleAnimation {
+          background: url(../img/footerActiveDark.svg) no-repeat top center/100% 100%;
+          + span {
+            color: $White;
+          }
+        }
+      }
+    }
+  }
+}

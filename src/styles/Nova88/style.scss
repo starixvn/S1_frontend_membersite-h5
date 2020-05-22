@@ -1,0 +1,763 @@
+@import "reset.scss";
+@import "color-group.scss";
+$width:100%;
+$transition:.7s;
+body, html {
+  width: $width;
+  overflow-x: hidden;
+  background: $Gray;
+  height: 100%;
+  font-size: 3vw;
+  font-family: 'Microsoft YaHei',sans-serif;
+}
+.close {
+  width: 6vw;
+  height: 4.5vw;
+  position: absolute;
+  transform: rotate(0deg);
+  right: 4vw;
+  z-index: 1;
+  span {
+    position: absolute;
+    height: 2px;
+    width: $width/2;
+    background: $White;
+    opacity: 1;
+    transition: .25s ease-in-out;
+    &:nth-child(even) {
+      left: 50%;
+    }
+    &:nth-child(odd) {
+      left: 0px;
+    }
+    &:nth-child(1),&:nth-child(2){
+      top: 0px;
+    }
+    &:nth-child(3),&:nth-child(4){
+      top: 8px;
+    }
+    &:nth-child(5),&:nth-child(6){
+      top: 16px;
+    }
+  }
+  &.open{
+    span{
+      &:nth-child(1),&:nth-child(6){
+        transform: rotate(45deg);
+      }
+      &:nth-child(2),&:nth-child(5){
+        transform: rotate(-45deg);
+      }
+      &:nth-child(1) {
+        top: 2px;
+      }
+      &:nth-child(2) {
+        top: 2px;
+        left: calc(50% - 3px);
+      }
+      &:nth-child(3) {
+        left: -50%;
+        opacity: 0;
+      }
+      &:nth-child(4) {
+        left: 100%;
+        opacity: 0;
+      }
+      &:nth-child(5) {
+        top: 9px;
+      }
+      &:nth-child(6) {
+        top: 9px;
+        left: calc(50% - 3px);
+      }
+    }
+  }
+}
+header {
+  width: calc(#{$width} - 8vw);
+  position: fixed;
+  top: 0;
+  background: $Blue;
+  border-bottom: 1px solid $Orange;
+  height: 12vw;
+  display: flex;
+  align-items: center;
+  padding: 0 4vw;
+  z-index: 4;
+  > a > img {
+    width: 22vw;
+  }
+  .Join,.Login{    
+    display: flex;
+    flex-direction: column;
+    width: calc(#{$width} - 16vw) !important;
+    padding: 4vw 8vw !important;
+    height: calc(100% - 8vw);
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: #fff;
+    padding: 4vw 0;
+    z-index: 2;
+    background: rgba(0, 25, 66, 0.95);
+    visibility: hidden;
+    transition: $transition;
+    opacity: 0;
+    justify-content: center;
+    pointer-events: none;
+    &.open{
+      visibility: visible;
+      transition: $transition;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    >.close{
+      top: 4vw;
+    }
+    >img{
+      width: 40vw;
+      margin: 3vw auto;
+    }
+    .title{
+      text-align: center;
+      font-size: 6vw;
+      margin: 2vw auto;
+      font-weight: bold;
+    }
+    .inputBox{
+      position: relative;
+      >.dropdown{
+        background: transparent;
+        border: 1px solid $Orange;
+        border-radius: 3px;
+        color: $White;
+        padding: 3vw 0 3vw 8vw;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        width: calc(#{$width} - 8vw);
+        &:before{
+          content: '';
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 5px 5px 0 5px;
+          border-color: #fff transparent transparent transparent;
+          position: absolute;
+          right: 3vw;
+          transform: translateY(100%);
+        }
+        &.open .dropdown-container{
+          display: block;
+        }
+        >.dropdown-container{
+          display: none;
+          .dropdown-item{
+            padding: 3vw 0 0;
+          }
+        }
+        >.btn{
+          width: 100%;
+          display: block;
+        }
+      }
+      >input{
+        background: transparent;
+        border: 1px solid $Orange;
+        border-radius: 3px;
+        color: $White;
+        padding: 3vw 0 3vw 8vw;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        width: calc(#{$width} - 8vw);
+        &::placeholder {
+          color: $White;
+        }
+      }
+      .JoinRule,.LoginRule{
+        height: 0;
+        visibility: hidden;
+        opacity: 0;
+        &.open{
+          height: auto;
+          visibility: visible;
+          transition: $transition;
+          opacity: 1;
+        }
+      }
+      >.icon-module{
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      i.icon{
+        position: absolute;
+        transform: translateY(60%);
+        left: 2vw;
+        top: 0;
+        &.icon-eye,&.icon-eye-blocked{
+          display: none;
+        }
+        &.icon-key + input + div > .icon-eye{
+          display: inline-block;
+          position: initial;
+          margin-right: 2vw;
+        }        
+        &.icon-key + input + div > .icon-eye-blocked{
+          display: inline-block;
+          position: initial;
+          margin-right: 2vw;
+        }
+        &.icon-warning{
+          position: initial;
+          margin-right: 2vw;
+          display: inline-block;
+          &.open{
+            display: none;
+          }
+        }
+      }
+    }
+    button{
+      background: $Orange;
+      border-radius: 3px;
+      color: $White;
+      padding: 3vw;
+    }
+    .Terms{
+      margin: 3vw auto;
+      line-height: 26px;
+      a{
+        color: $Orange;
+        text-decoration: none;
+      }
+      input[type="checkbox"] {
+        display:none;
+      }      
+      input[type="checkbox"] + label {
+        margin: 0vw 1vw 0 0;
+        border: 1px solid $Orange;
+        border-radius: 100%;        
+        width:4vw;
+        height:4vw;        
+        display: inline-flex;
+        vertical-align: middle;
+        align-items: center;
+      }      
+      input[type="checkbox"] + label > div {
+        width: 3vw;
+        height: 3vw;
+        background: transparent;
+        margin: auto;
+        border-radius: 100%;
+      }      
+      input[type="checkbox"]:checked + label > div {
+        background: $Orange;
+      }
+    }
+  }
+  .headerButton {
+    display: flex;
+    justify-content: flex-end;
+    width: $width;
+    padding-right: 7vw;
+    >button {
+      border-radius: 3px;
+      color: $Orange;
+      height: 6.5vw;
+      width: 15vw;
+      background: $White;
+      margin: 0 5px;
+      font-size: 3vw;
+      &:nth-child(3) {
+        background: $Orange;
+        color: $White;
+      }
+    }
+  }
+  .subMenu{
+    width: $width;
+    height: calc(100% - 8vw);
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: $White;
+    padding: 4vw 0;
+    z-index: 0;
+    overflow-y: scroll;
+    background: rgba($Blue,.95);
+    visibility: hidden;
+    transition: $transition;
+    opacity: 0;
+    pointer-events: none;
+    &.open{
+      visibility: visible;
+      transition: $transition;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    :before{
+      font-size: 10vw;
+    }
+    > div{
+      width: calc(#{$width} - 8vw);
+      border-bottom: 1px solid $Orange;
+      padding: 4vw;
+      display: flex;
+      &:last-child{
+        border-bottom: 0;
+        margin-top: 4vw;
+      }
+      &.info{
+        display: inline-block;
+        font-size: 3vw;
+      }
+      &.subThBar,&.memberFunction{
+        a{
+          text-align: center;
+          width: $width / 3;
+          float: left;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          &.icon-email{
+            &:after{
+              content: "100";
+              width: 7vw;
+              height: 7vw;
+              background: $Orange;
+              position: absolute;
+              border-radius: 100%;
+              margin-top: -3vw;
+              margin-left: 5vw;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+      }
+      &.subGameList{
+        display: flex;
+        flex-direction: column;
+        >button{
+          display: flex;
+          align-items: center;
+          margin: 1vw 0;
+          color: $White;
+          transition: $transition;
+          &.open{
+            font-size: 4vw;
+            background: rgba($Orange, 0.7);
+            border-radius: 10px;
+            padding: 1vw;
+            width: calc(#{$width} - 2vw);
+            transition: $transition;
+          }
+          >span{
+            margin-left: 2vw;
+            border-left: 2px solid $Orange;
+            padding-left: 2vw;
+          }
+          & + div{
+            transition: $transition;
+            visibility: hidden;
+            opacity: 0;
+            &.open{
+              transition: $transition;
+              visibility: visible;
+              opacity: 1;
+            }
+            a{
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+              width: calc(20vw - 2px);
+              height: calc(20vw - 2px);
+              float: left;
+              border: 1px solid $Orange;
+              justify-content: center;
+              border-radius: 100%;
+              margin: -20vw 0 0 -30vw;
+              transition: $transition;
+              &.open{
+                margin: 2vw 1.5vw 0 1.5vw;
+                transition: $transition;
+                transform: scale(0.9);
+              }
+              span{
+                transform: scale(0.75);
+                white-space: nowrap;
+              }
+            }
+          }
+        }
+        >div{
+          margin-bottom: 3vw;
+        }
+      }
+    }
+  }
+}
+main {
+  width: $width;
+  height: calc(100% - 12vw);
+  padding-top: 12vw;
+  &.stopScroll{
+    position: fixed;
+  }
+  .swiper-container{
+    z-index: 3;
+  }
+  .banner {
+    background: $White;
+    width: $width;
+    height: auto;
+    display: block;
+    // position: fixed;
+    top: 12vw;
+    z-index: 3;
+  }
+  #Marquee {
+    background: $White;
+    height: 5.6vw;
+    display: flex;
+    align-items: center;
+    box-shadow: 1px 1px 5px 0px rgba($Black, 0.3);
+    position: fixed;
+    z-index: 3;
+    width: $width;
+    top: 49.4vw;overflow : hidden;
+    button{
+      color: #5e5e5e;
+    }
+    .icon {
+      color: $Orange;
+      display: flex;
+      width: 5vw;
+      background: $White;
+    }
+    .marquee-box {
+      white-space: nowrap;
+      width: calc(100% - 5vw);
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      display: flex;
+      z-index: -1;
+      .marquee-run {
+        position: absolute;
+      }
+    }
+    > div.open{
+      width: calc(100% - 5vw);
+      animation-name: marquee;
+      animation-duration: 4600ms;
+      animation-iteration-count: infinite;
+    }
+  }
+  .sideBar{
+    background: $Blue;
+    width: 19vw;
+    height: calc(100% - 75vw);
+    border-right: 2px solid $Orange;
+    box-shadow: 0px 2px 2px 2px rgba($Black, 0.5);
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    padding: 56vw 0 20vw 1vw;
+    overflow-y: scroll; 
+    button {
+      transition: $transition;
+      color: $White;
+      padding: 1vw 0;
+      width: calc(100%);
+      font-size: 3vw;
+      min-height: 15vw;
+      &.open {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background: $Orange;
+        transition: $transition;
+      }
+      &.icon{
+        &:before{
+          width: $width;
+          font-size: 7vw;
+          text-align: center;
+          line-height: 7vw;
+        }
+      }
+      div {
+        font-size: 3vw;
+        max-width: 18vw;
+      }
+    }
+  }
+  .gameList {
+    width: calc(#{$width} - 20vw);
+    position: absolute;
+    top: 73vw;
+    left: 20vw;
+    margin-bottom: 20vw;
+    a {
+      flex: 1;
+      margin: 1vw 0 1vw 2vw;
+      background: $White;
+      border-radius: 10px;
+      width: calc(50% - 3vw);
+      height: 25vw;
+      float: left;
+      box-shadow: 1px 2px 4px 0px #5e5e5e;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      position: relative;
+      @for $i from 1 through 8 {
+        &:nth-child(#{$i}) {
+          background: url(../img/gamePic#{$i}.jpg) no-repeat top center/cover;
+        }
+      }
+      &:before {
+        position: absolute;
+        right: 1vw;
+        bottom: 1vw;
+        color: $White;
+      }
+      &:after {
+        content: '';
+        border-style: solid;
+        border-width: 20px 20px 20px 20px;
+        border-color: transparent $Blue $Blue transparent;
+        border-bottom-right-radius: 10px;
+      }
+      &:nth-child(1) {
+        &:after{
+          border-color: transparent $Orange $Orange transparent;
+        }
+      }
+    }
+  }
+  .thBar {
+    width: calc(#{$width} - 20vw);
+    height: 16vw;
+    position: fixed;
+    top: 55vw;
+    right: 0;
+    z-index: 1;
+    background: $White;
+    box-shadow: 1px 1px 5px 0px rgba($Black, 0.2);
+    display: flex;
+    a {
+      flex: 1;
+      color: $Blue;
+      border-right: 1px solid $Gray;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-content: center;
+      &.icon {
+        &:before{
+          width: $width;
+          font-size: 8vw;
+          text-align: center;
+          color: $Orange;
+        }
+      }
+      span {
+        // transform: scale(0.9);
+        font-size: 3vw;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+footer {
+  width: $width;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  background: $White;
+  display: flex;
+  height: 12.8vw;
+  >a {
+    flex: 1 1 0;
+    text-align: center;
+    border-right: 1px solid $Gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid $White;
+    transition: $transition;
+    position: relative;
+    .circleAnimation {
+      position: absolute;
+      margin-top: -9vw;
+      width: calc(20vw - 1px);
+      height: 10vw;
+      justify-content: center;
+      align-items: center;
+      color: $Blue;
+      > div {
+        position: relative;
+        bottom: -11vw;
+        &:before{
+          font-size: 7vw;
+        }
+      }
+    }
+    &:last-child {
+      border-right: 0;
+    }
+    span {
+      display: none;
+    }
+    &.open {
+      border-bottom: 2px solid $Orange;
+      color: $Orange;
+      transition: $transition;
+      .circleAnimation {
+        background: url(../img/footerActive.svg) no-repeat top center/100% 100%;
+        display: flex;
+        color: $White;
+        padding-top: 3.9vw;
+        &:before {
+          content: '';
+          border-radius: 100%;
+          background: rgba($Orange, 0.33);
+          width: 11.73vw;
+          height: 11.73vw;
+          animation-name: zoom1;
+          animation-duration: 4s;
+          animation-iteration-count: infinite;
+          position: absolute;
+          margin-top: -4vw;
+          margin-left: -5.815vw;
+          left: 50%;
+          top: 50%;
+        }
+        &:after {
+          content: '';
+          border-radius: 100%;
+          background: rgba($Orange, 0.66);
+          width: 9.6vw;
+          height: 9.6vw;
+          animation-name: zoom2;
+          animation-duration: 4s;
+          animation-iteration-count: infinite;
+          position: absolute;
+          // margin-top: 0.7vw;
+          top: 50%;
+          left: 50%;
+          margin-top: -2.9vw;
+          margin-left: -4.8vw;
+        }
+        > div {
+          border-radius: 100%;
+          background: $Orange;
+          width: 7.47vw;
+          height: 7.47vw;
+          // margin-top: 1.4vw;
+          display: flex;
+          z-index: 1;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          position: initial;
+          &:before{
+            font-size: 5vw;
+          }
+        }
+        + span {
+          transform: scale(0.9);
+          font-size: 3vw;
+          color: $Orange;
+          display: block;
+        }
+      }
+    }
+  }
+}
+@keyframes zoom1 {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
+@keyframes zoom2 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes marquee {
+  0% {
+    opacity: 0;
+    transform:translateY(16px);
+  }
+  25%{
+    opacity: 1;
+    transform:translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform:translateY(0px);
+  }
+}
+@keyframes gl {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#popup{
+  width: calc(100% - 16vw);
+  height: calc(100% - 16vw);
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: $White;
+  background: rgba($Blue, 0.95);
+  padding: 8vw;
+  display: none;
+  &.show{
+    display: flex;
+  }
+  >div{
+    border: 1px solid  $Orange;
+    padding: 2vw 4vw;
+  }
+  .close{
+    top: 4vw;
+    right: 2vw;
+  }
+  .popTit{
+    background: $Orange;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    position: relative;
+    font-size: 4vw;
+    padding-right: 9vw;
+  }
+  .popTxt{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    line-height: 7vw;
+  }
+}
