@@ -210,47 +210,6 @@ header .Join .inputBox, header .Login .inputBox {
   position: relative;
 }
 
-header .Join .inputBox > .dropdown, header .Login .inputBox > .dropdown {
-  background: transparent;
-  border: 1px solid #ff5d00;
-  border-radius: 3px;
-  color: #fff;
-  padding: 3vw 0 3vw 8vw;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  width: calc(100% - 8vw);
-}
-
-header .Join .inputBox > .dropdown:before, header .Login .inputBox > .dropdown:before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  border-color: #fff transparent transparent transparent;
-  position: absolute;
-  right: 3vw;
-  -webkit-transform: translateY(100%);
-          transform: translateY(100%);
-}
-
-header .Join .inputBox > .dropdown.open .dropdown-container, header .Login .inputBox > .dropdown.open .dropdown-container {
-  display: block;
-}
-
-header .Join .inputBox > .dropdown > .dropdown-container, header .Login .inputBox > .dropdown > .dropdown-container {
-  display: none;
-}
-
-header .Join .inputBox > .dropdown > .dropdown-container .dropdown-item, header .Login .inputBox > .dropdown > .dropdown-container .dropdown-item {
-  padding: 3vw 0 0;
-}
-
-header .Join .inputBox > .dropdown > .btn, header .Login .inputBox > .dropdown > .btn {
-  width: 100%;
-  display: block;
-}
-
 header .Join .inputBox > input, header .Login .inputBox > input {
   background: transparent;
   border: 1px solid #ff5d00;
@@ -455,6 +414,16 @@ header .subMenu > div.info {
   font-size: 3vw;
 }
 
+header .subMenu > div.info .Country :before {
+  font-size: 5vw;
+  float: left;
+}
+
+header .subMenu > div.info .Country > .dropdown {
+  width: calc(100% - 14vw);
+  margin-left: 6vw;
+}
+
 header .subMenu > div.subThBar a, header .subMenu > div.memberFunction a {
   text-align: center;
   width: 33.33333%;
@@ -629,6 +598,7 @@ main #Marquee {
 
 main #Marquee button {
   color: #5e5e5e;
+  font-size: 3vw;
 }
 
 main #Marquee .icon {
@@ -1106,6 +1076,47 @@ footer > a.open .circleAnimation + span {
   }
 }
 
+.dropdown {
+  background: transparent;
+  border: 1px solid #ff5d00;
+  border-radius: 3px;
+  color: #fff;
+  padding: 3vw 0 3vw 8vw;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  width: calc(100% - 8vw);
+}
+
+.dropdown:before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #fff transparent transparent transparent;
+  position: absolute;
+  right: 3vw;
+  -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+}
+
+.dropdown.open .dropdown-container {
+  display: block;
+}
+
+.dropdown > .dropdown-container {
+  display: none;
+}
+
+.dropdown > .dropdown-container .dropdown-item {
+  padding: 3vw 0 0;
+}
+
+.dropdown > .btn {
+  width: 100%;
+  display: block;
+}
+
 #popup {
   width: calc(100% - 16vw);
   height: calc(100% - 16vw);
@@ -1152,11 +1163,13 @@ footer > a.open .circleAnimation + span {
   position: relative;
   font-size: 4vw;
   padding-right: 9vw;
+  width: calc(100% - 13vw - 2px);
 }
 
 #popup .popTxt {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   line-height: 7vw;
+  width: calc(100% - 8vw - 2px);
 }
 /*# sourceMappingURL=style.css.map */

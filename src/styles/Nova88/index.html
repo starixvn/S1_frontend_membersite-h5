@@ -12,30 +12,11 @@
     <link rel="stylesheet" href="css/font.css?v=202003">    
     <link rel="stylesheet" href="css/swiper.css">
 </head>
-<style>
-    .Switch{
-        width: 20vw;
-        height: 10vw;
-        position: absolute;
-        z-index: 999;
-        left: 50%;
-        background: #fff;
-        transform: translateX(-100%);
-    }
-</style>
 <body>
-    <button class="Switch"></button>
     <div id="root"></div>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
-    <script>
-        $(function(){
-            $('.Switch').click(function() {
-                $('html').toggleClass('dark')
-            })
-        })
-    </script>
 </body>
 </html>
