@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useContext, createRef } from "react";
 import { GetAnnouncement as GetAnnouncementAPI } from "../../service/api/message";
 import PropTypes from "prop-types";
 import { popBoxContext } from "../context/popBox";
@@ -23,21 +23,21 @@ class Marquee extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { datas: [], hover: false, pos: null, initWidth: 0 };
-		this.ClickMarquee = this.ClickMarquee.bind(this);
-		this.GetAnnouncement = this.GetAnnouncement.bind(this);
 		this.unmounted = false;
+		this.marquee = createRef();
+		this.content = createRef();
 	}
-	componentDidMount() {
+	componentDidMount = () => {
 		this.GetAnnouncement();
 		this.intervalId = setInterval(this.GetAnnouncement, 60000);
-	}
+	};
 	SetPos = () => {
 		if (
 			!this.unmounted &&
 			!this.props.popBoxIsOpen &&
 			this.state.prev !== null
 		) {
-			let style = window.getComputedStyle(this.refs.content, null);
+			let style = window.getComputedStyle(this.content.current, null);
 			let outerBox = parseFloat(style.width);
 
 			this.setState(prev => {
@@ -55,13 +55,13 @@ class Marquee extends Component {
 	};
 	componentDidUpdate = () => {
 		if (this.state.pos === null) {
-			let style = window.getComputedStyle(this.refs.marquee, null);
+			let style = window.getComputedStyle(this.marquee.current, null);
 			let pos = parseFloat(style.width);
 
 			this.setState({ pos: -pos, initWidth: pos });
 		}
 	};
-	GetAnnouncement() {
+	GetAnnouncement = () => {
 		GetAnnouncementAPI(this.props.langCode).then(res => {
 			let resData = res.data.data;
 			let stateData = this.state.datas;
@@ -100,7 +100,7 @@ class Marquee extends Component {
 				});
 			}
 		});
-	}
+	};
 	ClickMarquee = item => {
 		if (this.props.userIsLogin) {
 			let content = item.content.split("\\n").join("　");
@@ -130,8 +130,11 @@ class Marquee extends Component {
 		return (
 			<div id="Marquee">
 				<div className="icon icon-marquee"></div>
-				<div ref="content" className="marquee-box">
-					<div className="marquee-run" ref="marquee" style={style}>
+				<div ref={this.content} className="marquee-box">
+					<div
+						className="marquee-run"
+						ref={this.marquee}
+						style={style}>
 						{rows}
 					</div>
 				</div>

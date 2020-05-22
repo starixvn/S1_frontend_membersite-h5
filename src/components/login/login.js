@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Inputbox from "./inputbox";
-import Checkbox from "./checkbox";
+import Inputbox from "../common/inputbox";
+import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
 
-const LoginPage = ({ ButtonTitle }) => {
+const LoginPage = ({ ButtonTitle, handleLogin }) => {
 	// -----userValue-----
 	const [userValueState, setUserValueState] = useState({
 		UserName: "",

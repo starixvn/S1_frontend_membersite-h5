@@ -1,7 +1,6 @@
 import React from "react";
 
 const Checkbox = props => {
-	console.log(props.Checked);
 	return (
 		<div className={props.className}>
 			<input

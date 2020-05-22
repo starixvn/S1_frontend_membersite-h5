@@ -32,7 +32,7 @@ const HeaderBtn = () => {
 		});
 	};
 
-	const handleLogin = () => {
+	const handleLogin = ({ username, password }) => {
 		const callbackFunc = (isLogin, userData, langCode) => {
 			if (userInfo?.langCode !== langCode) {
 				GetTranslationData(langKeys_Home, langCode).then(res => {
@@ -47,7 +47,7 @@ const HeaderBtn = () => {
 			}));
 		};
 
-		//login({ username: "", password: "" }, callbackFunc);
+		login({ username: username, password: password }, callbackFunc);
 	};
 
 	return userInfo?.isLogin ? (
@@ -57,7 +57,10 @@ const HeaderBtn = () => {
 	) : (
 		<div className="headerButton">
 			<JoinPanel />
-			<LoginPanel ButtonTitle={Geti18n("lbl_Login")} />
+			<LoginPanel
+				ButtonTitle={Geti18n("lbl_Login")}
+				OnLogin={handleLogin}
+			/>
 		</div>
 	);
 };

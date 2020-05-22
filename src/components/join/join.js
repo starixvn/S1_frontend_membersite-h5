@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Inputbox from "./inputbox";
-import Dropdown from "./dropdown";
-import Checkbox from "./checkbox";
-import Joinbtn from "./joinbtn";
+import Inputbox from "../common/inputbox";
+import Dropdown from "../common/dropdown";
+import Checkbox from "../common/checkbox";
 import Tips from "./tips";
 import logo from "../../styles/Nova88/img/logo.svg";
 
@@ -60,9 +59,7 @@ function Join() {
 	};
 
 	// -----showTips-----
-	const showTipsHandler = (col, e) => {
-		e.stopPropagation();
-
+	const showTipsHandler = col => {
 		if (warningState[col] === true) {
 			setShowTipsState(prevState => {
 				Object.keys(prevState).forEach(_col => {
@@ -265,9 +262,8 @@ function Join() {
 						colName={colName[3]}
 						selectedIdx={currencyState}
 						options={["MYR", "THB", "RMB"]}
-						showTipsHandler={showTipsHandler}
-						showTips={showTipsState.Currency}
-						selectState={dropdownStateHandler}></Dropdown>
+						clickDropdown={showTipsHandler}
+						onSelectItem={dropdownStateHandler}></Dropdown>
 					<Tips
 						Icon={icon[3]}
 						IsOpen={showTipsState.Currency}
@@ -297,7 +293,7 @@ function Join() {
 					of Nova88. I acknowledge I am at least 21 year of age.
 				</Checkbox>
 
-				<Joinbtn checklistHandler={checklistHandler} />
+				<button onClick={checklistHandler}>LOGIN</button>
 			</div>
 		</>
 	);
