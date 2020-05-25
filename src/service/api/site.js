@@ -5,3 +5,6 @@ export const GetTranslationData = (data, langCode) =>
 		`/GetTranslationData${langCode ? `/${langCode}` : ""}`,
 		data
 	);
+
+export const ExistsUserName = ({ UserName }) =>
+	siteRequest.post(`/ExistsUserName`, { UserName: UserName });
