@@ -7,8 +7,10 @@ const Inputbox = props => {
 			<input
 				type={props.inputType}
 				placeholder={props.placeholder}
-				onFocus={props.onFocus.bind(null, props.colName)}
+				onFocus={props.onFocus}
 				onBlur={props.onBlur}
+				onChange={props.onChange}
+				value={props.value}
 			/>
 			<div className="icon-module">
 				<i
@@ -18,20 +20,20 @@ const Inputbox = props => {
 					onClick={props.showPswHandler}></i>
 				<i
 					className={`icon ${
-						props.warningState ? "icon-warning" : ""
+						props.Warning.status ? "icon-warning" : ""
 					}`}></i>
 			</div>
 			<div
-				className={`${props.ClassName} ${
-					props.showTips ? "open" : ""
+				className={`${props.ClassName}${
+					props.showTips ? " open" : ""
 				}`}>
 				{props.Tips}
 			</div>
 			<div
-				className={`${props.ClassName} ${
-					props.warningState ? "open" : ""
+				className={`${props.ClassName}${
+					props.Warning.status ? " open" : ""
 				}`}>
-				{props.Warning}
+				{props.Warning.msg}
 			</div>
 		</div>
 	);
