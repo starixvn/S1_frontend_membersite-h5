@@ -16,6 +16,16 @@ const LoginPage = ({ ButtonTitle, handleLogin }) => {
 		setUserValueState(prevState => {
 			return { ...prevState, UserName: val };
 		});
+
+		if (val === "") {
+			setWarningState(prevState => {
+				return { ...prevState, UserName: true };
+			});
+		} else if (val !== "") {
+			setWarningState(prevState => {
+				return { ...prevState, UserName: false };
+			});
+		}
 	};
 
 	const passwordValueHandler = e => {
@@ -23,6 +33,16 @@ const LoginPage = ({ ButtonTitle, handleLogin }) => {
 		setUserValueState(prevState => {
 			return { ...prevState, Password: val };
 		});
+
+		if (val === "") {
+			setWarningState(prevState => {
+				return { ...prevState, Password: true };
+			});
+		} else if (val !== "") {
+			setWarningState(prevState => {
+				return { ...prevState, Password: false };
+			});
+		}
 	};
 
 	// -----showTips-----
