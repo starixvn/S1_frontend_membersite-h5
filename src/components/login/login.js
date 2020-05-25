@@ -1,51 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
 import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
+import { login } from "../../service/auth";
+import { GetTranslationData } from "../../service/api/site";
+import { userInfoContext } from "../context/userInfo";
+import { i18nContext } from "../context/i18n";
 
-const LoginPage = ({ ButtonTitle, handleLogin }) => {
-	// -----userValue-----
-	const [userValueState, setUserValueState] = useState({
-		UserName: "",
-		Password: "",
-		Checkbox: false
-	});
+const initState = {
+	UserName: "",
+	Password: "",
+	Checkbox: false
+};
 
-	const usernameValueHandler = e => {
+const initWarningState = {
+	UserName: {
+		status: false,
+		msg: ""
+	},
+	Password: {
+		status: false,
+		msg: ""
+	},
+	Checkbox: {
+		status: false,
+		msg: ""
+	}
+};
+
+const warningLangKey = {
+	UserName: "msg_UsernameReq",
+	Password: "msg_PasswordReq"
+};
+
+const LoginPage = ({ ButtonTitle }) => {
+	const { i18n, seti18n } = useContext(i18nContext);
+	const { userInfo, setUserInfo } = useContext(userInfoContext);
+
+	const [userValueState, setUserValueState] = useState(initState);
+
+	const checkValueHandler = (colName, e) => {
 		let val = e.target.value;
-		setUserValueState(prevState => {
-			return { ...prevState, UserName: val };
+		setWarningState(prevState => {
+			return {
+				...prevState,
+				[colName]: {
+					...prevState[colName],
+					status: val === "",
+					msg: i18n[warningLangKey[colName]]
+				}
+			};
 		});
-
-		if (val === "") {
-			setWarningState(prevState => {
-				return { ...prevState, UserName: true };
-			});
-		} else if (val !== "") {
-			setWarningState(prevState => {
-				return { ...prevState, UserName: false };
-			});
-		}
 	};
 
-	const passwordValueHandler = e => {
-		let val = e.target.value;
-		setUserValueState(prevState => {
-			return { ...prevState, Password: val };
-		});
-
-		if (val === "") {
-			setWarningState(prevState => {
-				return { ...prevState, Password: true };
-			});
-		} else if (val !== "") {
-			setWarningState(prevState => {
-				return { ...prevState, Password: false };
-			});
-		}
-	};
-
-	// -----showTips-----
 	const [showTipsState, setShowTipsState] = useState({
 		UserName: false,
 		Password: false
@@ -63,21 +70,14 @@ const LoginPage = ({ ButtonTitle, handleLogin }) => {
 		});
 	};
 
-	// -----showPsw-----
 	const [pswState, setPswState] = useState(false);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);
 	};
 
-	// ---warning-----
-	const [warningState, setWarningState] = useState({
-		UserName: false,
-		Password: false,
-		Checkbox: false
-	});
+	const [warningState, setWarningState] = useState(initWarningState);
 
-	// -----checkbox-----
 	const [checkboxState, setCheckboxState] = useState(false);
 
 	const checkboxHandler = () => {
@@ -88,41 +88,99 @@ const LoginPage = ({ ButtonTitle, handleLogin }) => {
 		});
 	};
 
-	// -----checkList-----
-	const checklistHandler = () => {
-		if (userValueState.UserName === "") {
-			setWarningState(prevState => {
-				return { ...prevState, UserName: true };
-			});
-		} else if (userValueState.UserName !== "") {
-			setWarningState(prevState => {
-				return { ...prevState, UserName: false };
-			});
-		}
+	const handleLogin = () => {
+		let checked =
+			userValueState.UserName !== "" && userValueState.Password !== "";
 
-		if (userValueState.Password === "") {
-			setWarningState(prevState => {
-				return { ...prevState, Password: true };
-			});
-		} else if (userValueState.Password !== "") {
-			setWarningState(prevState => {
-				return { ...prevState, Password: false };
-			});
+		setWarningState(prevState => {
+			return {
+				...prevState,
+				UserName: {
+					...prevState.UserName,
+					status: userValueState.UserName === "",
+					msg: i18n[warningLangKey.UserName]
+				},
+				Password: {
+					...prevState.Password,
+					status: userValueState.Password === "",
+					msg: i18n[warningLangKey.Password]
+				}
+			};
+		});
+
+		if (checked) {
+			const callbackFunc = (
+				errorCode,
+				message,
+				isLogin,
+				userData,
+				langCode
+			) => {
+				if (errorCode === 0) {
+					if (userInfo?.langCode !== langCode) {
+						GetTranslationData(langCode).then(res => {
+							seti18n(res.data.data);
+						});
+					}
+
+					setUserInfo(() => ({
+						isLogin: isLogin,
+						langCode: langCode,
+						...userData
+					}));
+				} else if (
+					errorCode === 1101 ||
+					errorCode === 1102 ||
+					errorCode === 9000
+				) {
+					setWarningState(prevState => ({
+						...prevState,
+						UserName: { status: true, msg: message }
+					}));
+				} else if (errorCode === 1001) {
+					setWarningState(prevState => ({
+						...prevState,
+						Password: { status: true, msg: message }
+					}));
+				}
+			};
+
+			login(
+				{
+					username: userValueState.UserName,
+					password: userValueState.Password,
+					isPersistent: userValueState.Checkbox
+				},
+				callbackFunc
+			);
 		}
 	};
 
-	// ----showPanel-----
 	const [showPanel, handlePanel] = useState(false);
-	const handleJoinPanel = () => {
-		handlePanel(prevState => !prevState);
+	const handleloginPanel = () => {
+		let _showPanel = !showPanel;
+
+		if (!_showPanel) {
+			setUserValueState(initState);
+			setWarningState(initWarningState);
+		}
+		handlePanel(() => _showPanel);
+	};
+
+	const EditField = (colName, e) => {
+		let value = e.target.value;
+		setUserValueState(prevState => ({
+			...prevState,
+			[colName]: value
+		}));
 	};
 	return (
 		<>
-			<button onClick={handleJoinPanel}>{ButtonTitle}</button>
+			<button onClick={handleloginPanel}>{ButtonTitle}</button>
 			<div className={`Login${showPanel ? " open" : ""}`}>
 				<div
 					className={`close${showPanel ? " open" : ""}`}
-					onClick={handleJoinPanel}>
+					onClick={handleloginPanel}>
 					<span></span>
 					<span></span>
 					<span></span>
@@ -130,43 +188,45 @@ const LoginPage = ({ ButtonTitle, handleLogin }) => {
 					<span></span>
 					<span></span>
 				</div>
-				<img src={logo} alt="" />
-				<div className="title">LOGIN</div>
+				<img src={logo} alt="Nova88" />
+				<div className="title">{i18n["lbl_Login"]}</div>
 
 				<Inputbox
 					icon="icon-member"
 					inputType="text"
-					placeholder="UserName"
-					onFocus={showTipsHandler}
-					onBlur={usernameValueHandler}
-					colName="UserName"
-					warningState={warningState.UserName}
+					placeholder={i18n["lbl_Username"]}
+					onFocus={showTipsHandler.bind(null, "UserName")}
+					onBlur={checkValueHandler.bind(null, "UserName")}
+					onChange={EditField.bind(null, "UserName")}
 					ClassName="JoinRule"
 					showTips={showTipsState.UserName}
-					Warning="Please enter UserName"></Inputbox>
+					Warning={warningState.UserName}
+					value={userValueState.UserName}
+				/>
 
 				<Inputbox
 					icon="icon-key"
 					inputType={`${!pswState ? "password" : "text"}`}
-					placeholder="PassWord"
-					onFocus={showTipsHandler}
-					onBlur={passwordValueHandler}
-					colName="Password"
+					placeholder={i18n["lbl_Password"]}
+					onFocus={showTipsHandler.bind(null, "Password")}
+					onBlur={checkValueHandler.bind(null, "Password")}
+					onChange={EditField.bind(null, "Password")}
 					showPsw={pswState}
 					showPswHandler={showPswHandler}
-					warningState={warningState.Password}
 					ClassName="JoinRule"
 					showTips={showTipsState.Password}
-					Warning="Please enter Password"></Inputbox>
+					Warning={warningState.Password}
+					value={userValueState.Password}
+				/>
 
 				<Checkbox
 					className="Terms"
-					id="c2"
+					id="Login-RemeberPWD"
 					Checked={checkboxState}
 					checkboxHandler={checkboxHandler}>
 					Remember Password
 				</Checkbox>
-				<button onClick={checklistHandler}>LOGIN</button>
+				<button onClick={handleLogin}>{i18n["lbl_Login"]}</button>
 			</div>
 		</>
 	);

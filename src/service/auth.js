@@ -24,11 +24,16 @@ export const login = async ({ username, password }, callback) => {
 				let _loginUser = {
 					username: username
 				};
-				callback(res.data.errorCode, true, _loginUser, userLangCode);
+				callback(
+					res.data.errorCode,
+					"",
+					true,
+					_loginUser,
+					userLangCode
+				);
 				return setUser(_loginUser);
 			} else {
-				callback(res.data.errorCode, false, {});
-				alert(res.data.message);
+				callback(res.data.errorCode, res.data.message, false, {});
 			}
 		},
 		err => {

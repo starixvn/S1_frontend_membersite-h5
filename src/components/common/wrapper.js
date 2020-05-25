@@ -21,7 +21,7 @@ export const Wrapper = ({ children, pageLangKeys, afterLogin }) => {
 
 	useEffect(() => {
 		let mounted = true;
-		GetTranslationData(pageLangKeys).then(
+		GetTranslationData().then(
 			res => {
 				if (mounted) {
 					seti18n(() => res.data.data);

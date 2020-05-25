@@ -10,5 +10,9 @@ export default [
 	"lbl_Transfer",
 	"lbl_Withdrawal",
 	"lbl_Email",
-	"lbl_Logout"
+	"lbl_Logout",
+	"msg_UsernameReq",
+	"msg_PasswordReq",
+	"lbl_Username",
+	"lbl_Password"
 ];
