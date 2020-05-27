@@ -25,20 +25,19 @@ export class DropdownBox extends Component {
 		let arr = this.props.options.map((item, i) => {
 			return (
 				<Item
-					key={i}
+					key={`${this.props.mainKey}-${item.id}`}
 					value={i}
-					displayText={item}
+					displayText={item.displayText}
 					onClick={this.SelectItem.bind(null, i)}
 				/>
 			);
 		});
-
 		return (
 			<div
 				ref={this.wrapper}
 				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
-				{this.props.options[this.props.selectedIdx]}
+				{this.props.options[this.props.selectedIdx]?.displayText}
 				<div
 					className={`dropdown-container${
 						this.state.isOpen ? " open" : ""
@@ -62,7 +61,8 @@ DropdownBox.propTypes = {
 	colName: PropTypes.string,
 	onSelectItem: PropTypes.func,
 	options: PropTypes.array,
-	selectedIdx: PropTypes.number
+	selectedIdx: PropTypes.number,
+	mainKey: PropTypes.string
 };
 
 export default DropdownBox;

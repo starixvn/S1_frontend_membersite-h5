@@ -10,14 +10,10 @@ export const GetTranslationData = (langCode, data) =>
 export const ExistsUserName = ({ UserName }) =>
 	siteRequest.post(`/ExistsUserName`, { UserName: UserName });
 
-export const Register = ({ UserName, Userpwd, Email, CurrencyId, UserLang }) =>
-	siteRequest.post(`/Register/`, {
-		UserName,
-		Userpwd,
-		Email,
-		CurrencyId,
-		UserLang
-	});
+export const ExistsEmail = ({ Email }) =>
+	siteRequest.post(`/ExistsEmail`, { Email: Email });
+
+export const Register = data => siteRequest.post(`/Register/`, data);
 
 export const GetSiteCurrencyList = () =>
 	siteRequest.post(`/GetSiteCurrencyList/`);
