@@ -17,3 +17,5 @@ export const Register = data => siteRequest.post(`/Register/`, data);
 
 export const GetSiteCurrencyList = () =>
 	siteRequest.post(`/GetSiteCurrencyList/`);
+
+export const GetSiteLangList = () => siteRequest.post(`/GetSiteLangList/`);
