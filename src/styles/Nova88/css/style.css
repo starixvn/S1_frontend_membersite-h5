@@ -190,6 +190,20 @@ header .Join.open, header .Login.open {
   pointer-events: auto;
 }
 
+header .Join .dropdown, header .Login .dropdown {
+  padding: 3vw 0 3vw 5vw;
+  margin-left: 0;
+  width: calc(100% - 5vw);
+}
+
+header .Join .dropdown .btn, header .Login .dropdown .btn {
+  padding-bottom: 0;
+}
+
+header .Join .dropdown .dropdown-item, header .Login .dropdown .dropdown-item {
+  padding: 3vw 3vw 0;
+}
+
 header .Join > .close, header .Login > .close {
   top: 4vw;
 }
@@ -414,14 +428,42 @@ header .subMenu > div.info {
   font-size: 3vw;
 }
 
+header .subMenu > div.info .Avatar {
+  width: 23vw;
+  height: 23vw;
+  border-radius: 100%;
+  border: 1px solid #ff5d00;
+  float: left;
+  margin-right: 3vw;
+}
+
+header .subMenu > div.info .MemberID {
+  font-size: 5vw;
+  color: #ff5d00;
+}
+
+header .subMenu > div.info .Balance {
+  font-size: 5vw;
+  font-weight: bold;
+}
+
+header .subMenu > div.info .Country > .icon:before {
+  margin-top: 3vw;
+}
+
 header .subMenu > div.info .Country :before {
   font-size: 5vw;
   float: left;
 }
 
-header .subMenu > div.info .Country > .dropdown {
-  width: calc(100% - 14vw);
-  margin-left: 6vw;
+header .subMenu > div.info .Country .dropdown {
+  width: 30vw;
+  margin-left: 2vw;
+  padding-top: 2vw;
+}
+
+header .subMenu > div.info .Country .dropdown > .btn {
+  padding-bottom: 1.5vw;
 }
 
 header .subMenu > div.subThBar a, header .subMenu > div.memberFunction a {
@@ -1081,10 +1123,11 @@ footer > a.open .circleAnimation + span {
   border: 1px solid #ff5d00;
   border-radius: 3px;
   color: #fff;
-  padding: 3vw 0 3vw 8vw;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  width: calc(100% - 8vw);
+  margin: 1vw 0 0 1vw;
+  width: 100%;
+  position: relative;
+  padding: 3vw 0 0;
+  float: left;
 }
 
 .dropdown:before {
@@ -1100,6 +1143,10 @@ footer > a.open .circleAnimation + span {
           transform: translateY(100%);
 }
 
+.dropdown i {
+  margin-right: 1vw;
+}
+
 .dropdown.open .dropdown-container {
   display: block;
 }
@@ -1109,12 +1156,13 @@ footer > a.open .circleAnimation + span {
 }
 
 .dropdown > .dropdown-container .dropdown-item {
-  padding: 3vw 0 0;
+  padding: 3vw;
 }
 
 .dropdown > .btn {
-  width: 100%;
+  width: calc(100% - 6vw);
   display: block;
+  padding: 0 3vw 3vw;
 }
 
 #popup {
@@ -1171,5 +1219,38 @@ footer > a.open .circleAnimation + span {
   border-bottom-right-radius: 15px;
   line-height: 7vw;
   width: calc(100% - 8vw - 2px);
+}
+
+.flag:before {
+  content: "";
+  width: 6vw;
+  height: 4.5vw;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
+}
+
+.flag.cs:before {
+  background-image: url(../img/flag/cs.png);
+}
+
+.flag.ch:before {
+  background-image: url(../img/flag/ch.png);
+}
+
+.flag.en:before {
+  background-image: url(../img/flag/en.png);
+}
+
+.flag.id:before {
+  background-image: url(../img/flag/id.png);
+}
+
+.flag.th:before {
+  background-image: url(../img/flag/th.png);
+}
+
+.flag.vn:before {
+  background-image: url(../img/flag/vn.png);
 }
 /*# sourceMappingURL=style.css.map */

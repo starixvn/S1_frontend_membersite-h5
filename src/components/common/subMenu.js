@@ -1,17 +1,12 @@
-import React, { useState, useContext } from "react";
-import { userInfoContext } from "../context/userInfo";
+import React, { useState } from "react";
+import Profile from "./subMenu.profile";
 
 const SubMenu = () => {
-	const { userInfo } = useContext(userInfoContext);
 	const [isOpen, setOpen] = useState(false);
 
 	const handleOpen = () => {
 		setOpen(prevState => setOpen(!prevState));
 	};
-
-	if (userInfo && !userInfo.isLogin) {
-		userInfo["username"] = "guest";
-	}
 
 	return (
 		<>
@@ -27,10 +22,8 @@ const SubMenu = () => {
 			</div>
 
 			<div className={`subMenu${isOpen ? " open" : ""}`}>
-				<div className="info">
-					<div>Welcome {userInfo?.username}</div>
-					<div>THB 0.00</div>
-				</div>
+				<Profile />
+
 				<div className="subThBar">
 					<a className="icon icon-deposit">
 						<span>Deposit</span>

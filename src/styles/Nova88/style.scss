@@ -111,6 +111,17 @@ header {
       opacity: 1;
       pointer-events: auto;
     }
+    .dropdown{
+      padding: 3vw 0 3vw 5vw;
+      margin-left: 0;
+      width: calc(100% - 5vw);
+      .btn{
+        padding-bottom: 0;
+      }
+      .dropdown-item{
+        padding: 3vw 3vw 0;
+      }
+    }
     >.close{
       top: 4vw;
     }
@@ -126,7 +137,6 @@ header {
     }
     .inputBox{
       position: relative;
-      
       >input{
         background: transparent;
         border: 1px solid $Orange;
@@ -277,15 +287,37 @@ header {
       &.info{
         display: inline-block;
         font-size: 3vw;
+        .Avatar{
+          width: 23vw;
+          height: 23vw;
+          border-radius: 100%;
+          border: 1px solid #ff5d00;
+          float: left;
+          margin-right: 3vw;
+        }
+        .MemberID{
+          font-size: 5vw;
+          color: $Orange;
+        }
+        .Balance{
+          font-size: 5vw;
+          font-weight: bold;
+        }
         .Country{
-          
+          >.icon:before{
+            margin-top: 3vw;
+          }
           :before{
             font-size: 5vw;
             float: left;
           }
-          >.dropdown{
-            width: calc(100% - 14vw);
-            margin-left: 6vw;
+          .dropdown{
+            width: 30vw;
+            margin-left: 2vw;
+            padding-top: 2vw;
+            >.btn{
+              padding-bottom: 1.5vw;
+            }
           }
         }
       }
@@ -706,10 +738,11 @@ footer {
   border: 1px solid $Orange;
   border-radius: 3px;
   color: $White;
-  padding: 3vw 0 3vw 8vw;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  width: calc(#{$width} - 8vw);
+  margin: 1vw 0 0 1vw;
+  width: $width;
+  position: relative;
+  padding: 3vw 0 0;
+  float: left;
   &:before{
     content: '';
     width: 0;
@@ -721,18 +754,22 @@ footer {
     right: 3vw;
     transform: translateY(100%);
   }
+  i{
+    margin-right: 1vw;
+  }
   &.open .dropdown-container{
     display: block;
   }
   >.dropdown-container{
     display: none;
     .dropdown-item{
-      padding: 3vw 0 0;
+      padding: 3vw;
     }
   }
   >.btn{
-    width: 100%;
+    width: calc(100% - 6vw);
     display: block;
+    padding: 0 3vw 3vw;
   }
 }
 #popup{
@@ -774,5 +811,33 @@ footer {
     border-bottom-right-radius: 15px;
     line-height: 7vw;
     width: calc(100% - 8vw - 2px);
+  }
+}
+.flag{
+  &:before{
+    content: "";
+    width: 6vw;
+    height: 4.5vw;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% 100%;
+  }
+  &.cs:before{
+    background-image: url(../img/flag/cs.png);
+  }
+  &.ch:before{
+    background-image: url(../img/flag/ch.png);
+  }
+  &.en:before{
+    background-image: url(../img/flag/en.png);
+  }
+  &.id:before{
+    background-image: url(../img/flag/id.png);
+  }
+  &.th:before{
+    background-image: url(../img/flag/th.png);
+  }
+  &.vn:before{
+    background-image: url(../img/flag/vn.png);
   }
 }
