@@ -42,25 +42,28 @@ const Profile = () => {
 	}, [langList, userInfo.langCode]);
 
 	const selectItemHandler = idx => {
-		let langId = langList[idx].langId;
-
 		if (idx !== userLanValue) {
+			let langId = langList[idx].langId;
 			setUserInfo(prevState => ({
 				...prevState,
 				langCode: langId
 			}));
 
-			let getIdx = langList.findIndex(x => x.langId === langId);
-			setUserLanValue(getIdx);
+			setUserLanValue(idx);
 
 			if (userInfo.isLogin) {
-				SetLanguage(userInfo.langId);
+				SetLanguage(langId).then(res => {
+					GetTranslationData(langId).then(res => {
+						let data = res.data.data;
+						seti18n(data);
+					});
+				});
+			} else {
+				GetTranslationData(langId).then(res => {
+					let data = res.data.data;
+					seti18n(data);
+				});
 			}
-
-			GetTranslationData(langId).then(res => {
-				let data = res.data.data;
-				seti18n(data);
-			});
 		}
 	};
 
