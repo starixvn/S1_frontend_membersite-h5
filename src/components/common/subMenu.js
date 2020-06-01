@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Profile from "./subMenu.profile";
+import { navContext, defPanel } from "../context/nav";
 
 const SubMenu = () => {
-	const [isOpen, setOpen] = useState(false);
-
+	const { nav, setNav } = useContext(navContext);
 	const handleOpen = () => {
-		setOpen(prevState => setOpen(!prevState));
+		setNav(prevState => {
+			let newState =
+				prevState === defPanel.subMenu ? null : defPanel.subMenu;
+			return newState;
+		});
 	};
+
+	let isOpen = nav === defPanel.subMenu;
 
 	return (
 		<>

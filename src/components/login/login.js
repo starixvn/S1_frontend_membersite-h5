@@ -6,6 +6,7 @@ import { login, OnlineCheck } from "../../service/auth";
 import { api_GetTranslationData } from "../../service/api/site";
 import { userInfoContext } from "../context/userInfo";
 import { i18nContext } from "../context/i18n";
+import { navContext, defPanel } from "../context/nav";
 import { navigate } from "@reach/router";
 
 const initState = {
@@ -176,16 +177,19 @@ const LoginPage = ({ ButtonTitle }) => {
 		}
 	};
 
-	const [showPanel, handlePanel] = useState(false);
-	const handleloginPanel = () => {
-		let _showPanel = !showPanel;
-
-		if (!_showPanel) {
+	const { nav, setNav } = useContext(navContext);
+	const handleloginPanel = (show, reset) => {
+		if (reset) {
 			setUserValueState(initState);
 			setWarningState(initWarningState);
 		}
-		handlePanel(() => _showPanel);
+		setNav(() => {
+			let newState = show ? null : defPanel.login;
+			return newState;
+		});
 	};
+
+	let showPanel = nav === defPanel.login;
 
 	const EditField = (colName, e) => {
 		let value = e.target.value;
@@ -196,11 +200,13 @@ const LoginPage = ({ ButtonTitle }) => {
 	};
 	return (
 		<>
-			<button onClick={handleloginPanel}>{ButtonTitle}</button>
+			<button onClick={handleloginPanel.bind(this, showPanel)}>
+				{ButtonTitle}
+			</button>
 			<div className={`Login${showPanel ? " open" : ""}`}>
 				<div
 					className={`close${showPanel ? " open" : ""}`}
-					onClick={handleloginPanel}>
+					onClick={handleloginPanel.bind(this, showPanel, true)}>
 					<span></span>
 					<span></span>
 					<span></span>

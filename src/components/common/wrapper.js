@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { i18nContext } from "../context/i18n";
 import { userInfoContext } from "../context/userInfo";
 import { popBoxContext } from "../context/popBox";
+import { navContext } from "../context/nav";
 import { api_GetTranslationData } from "../../service/api/site";
 import { isLoggedIn } from "../../service/auth";
 import { OnlineCheck } from "../../service/auth";
@@ -19,6 +20,8 @@ export const Wrapper = ({ children }) => {
 		title: "",
 		content: ""
 	});
+
+	const [nav, setNav] = useState(null);
 
 	useEffect(() => {
 		if (userInfo.isLogin) {
@@ -64,7 +67,9 @@ export const Wrapper = ({ children }) => {
 		<userInfoContext.Provider value={{ userInfo, setUserInfo }}>
 			<i18nContext.Provider value={{ i18n, seti18n }}>
 				<popBoxContext.Provider value={{ popBox, setPopBox }}>
-					{children}
+					<navContext.Provider value={{ nav, setNav }}>
+						{children}
+					</navContext.Provider>
 				</popBoxContext.Provider>
 			</i18nContext.Provider>
 		</userInfoContext.Provider>
