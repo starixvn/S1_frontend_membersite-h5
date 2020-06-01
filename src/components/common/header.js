@@ -6,6 +6,7 @@ import { Geti18n } from "../../service/language";
 import { userInfoContext } from "../context/userInfo";
 import SubMenu from "./subMenu";
 import { i18nContext } from "../context/i18n";
+import { navContext } from "../context/nav";
 import { api_GetTranslationData } from "../../service/api/site";
 import { api_SetLanguage } from "../../service/api/account";
 import JoinPanel from "../join/join";
@@ -22,10 +23,15 @@ const Header = () => (
 );
 
 const HeaderBtn = () => {
+	const { setNav } = useContext(navContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const handleLogout = () => {
 		logout(() => {
-			setUserInfo(() => ({ isLogin: false }));
+			setUserInfo(prevState => ({
+				isLogin: false,
+				langCode: prevState.langCode
+			}));
+			setNav(() => null);
 			navigate("/");
 		});
 	};
