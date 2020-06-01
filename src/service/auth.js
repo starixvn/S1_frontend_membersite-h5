@@ -1,4 +1,8 @@
-import { UserLogin, UserLogout } from "../service/api/account";
+import {
+	api_UserLogin,
+	api_UserLogout,
+	api_onlineCheck
+} from "../service/api/account";
 
 const isBrowser = typeof window !== `undefined`;
 
@@ -14,7 +18,7 @@ const setUser = user => (window.localStorage.loginUser = JSON.stringify(user));
 export const login = async ({ username, password }, callback) => {
 	if (!isBrowser) return false;
 
-	await UserLogin({
+	await api_UserLogin({
 		UserName: username,
 		Userpwd: password
 	}).then(
@@ -22,7 +26,9 @@ export const login = async ({ username, password }, callback) => {
 			if (res.data.errorCode === 0) {
 				let userLangCode = res.data.message.replace("/", "");
 				let _loginUser = {
-					username: username
+					username: username,
+					langCode: userLangCode,
+					isLogin: true
 				};
 				callback(
 					res.data.errorCode,
@@ -47,23 +53,57 @@ export const login = async ({ username, password }, callback) => {
 export const isLoggedIn = () => {
 	if (!isBrowser) return false;
 	const user = getUser();
-	return !!user.username;
+	return user && user.isLogin === true;
 };
 
 export const logout = callback => {
 	if (!isBrowser) return;
-	UserLogout().then(
+	api_UserLogout().then(
 		res => {
 			if (res.data.errorCode === 0) {
-				setUser(prevState => ({ langCode: prevState.langCode }));
+				let loginUser = getUser();
+				setUser({ ...loginUser, username: null, isLogin: false });
 				callback();
 			}
 		},
 		err => {
 			if (err.response.status === 401) {
-				setUser({});
+				let loginUser = getUser();
+				setUser({ ...loginUser, username: null, isLogin: false });
 				callback();
 			}
 		}
 	);
+};
+
+export const OnlineCheck = callback => {
+	if (isLoggedIn()) {
+		api_onlineCheck().then(
+			res => {
+				var result = res.data;
+				if (result.errorCode !== null && result.errorCode !== 0) {
+					if (isLoggedIn()) {
+						let loginUser = getUser();
+						setUser({
+							...loginUser,
+							username: null,
+							isLogin: false
+						});
+						callback(result.errorCode, result.message);
+					}
+				} else {
+					setTimeout(OnlineCheck.bind(this, callback), 10000);
+				}
+			},
+			error => {
+				if (error.response !== null && error.response.status === 401) {
+					let loginUser = getUser();
+					setUser({ ...loginUser, username: null, isLogin: false });
+					callback(error.response.status);
+				} else {
+					setTimeout(OnlineCheck.bind(this, callback), 10000);
+				}
+			}
+		);
+	}
 };

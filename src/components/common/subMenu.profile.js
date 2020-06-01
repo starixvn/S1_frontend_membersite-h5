@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userInfoContext } from "../context/userInfo";
 import LangDropdown from "./dropdown.icon";
-import { GetSiteLangList } from "../../service/api/site";
+import { api_GetSiteLangList } from "../../service/api/site";
 import { GetLangId } from "../../service/language";
-import { SetLanguage } from "../../service/api/account";
-import { GetTranslationData } from "../../service/api/site";
+import { api_SetLanguage } from "../../service/api/account";
+import { api_GetTranslationData } from "../../service/api/site";
 import { i18nContext } from "../context/i18n";
 
 const Profile = () => {
@@ -20,7 +20,7 @@ const Profile = () => {
 	const [langList, setLangList] = useState([]);
 
 	useEffect(() => {
-		GetSiteLangList().then(res => {
+		api_GetSiteLangList().then(res => {
 			const langNum = res.data.data;
 			let langArr = langNum.map(id => {
 				return {
@@ -52,14 +52,14 @@ const Profile = () => {
 			setUserLanValue(idx);
 
 			if (userInfo.isLogin) {
-				SetLanguage(langId).then(res => {
-					GetTranslationData(langId).then(res => {
+				api_SetLanguage(langId).then(res => {
+					api_GetTranslationData(langId).then(res => {
 						let data = res.data.data;
 						seti18n(data);
 					});
 				});
 			} else {
-				GetTranslationData(langId).then(res => {
+				api_GetTranslationData(langId).then(res => {
 					let data = res.data.data;
 					seti18n(data);
 				});
@@ -71,7 +71,7 @@ const Profile = () => {
 		<div className="info">
 			<div className="Avatar"></div>
 			<div className="MemberID">Welcome {userInfo?.username}</div>
-			<div className="Balance">THB 0.00</div>
+			<Balance isLogin={userInfo.isLogin} />
 			<div className="Country">
 				<i className="icon icon-sphere"></i>
 				<LangDropdown
@@ -83,6 +83,11 @@ const Profile = () => {
 			</div>
 		</div>
 	);
+};
+
+const Balance = ({ isLogin, currency, amount }) => {
+	let displayText = isLogin ? `${currency} ${amount}` : "";
+	return <div className="Balance">{displayText}</div>;
 };
 
 export default Profile;

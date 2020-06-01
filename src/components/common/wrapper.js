@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { i18nContext } from "../context/i18n";
 import { userInfoContext } from "../context/userInfo";
 import { popBoxContext } from "../context/popBox";
-import { GetTranslationData } from "../../service/api/site";
+import { api_GetTranslationData } from "../../service/api/site";
 import { isLoggedIn } from "../../service/auth";
+import { OnlineCheck } from "../../service/auth";
 import { navigate } from "@reach/router";
 
-export const Wrapper = ({ children, pageLangKeys, afterLogin }) => {
+export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
 		isLogin: isLoggedIn()
 	});
@@ -20,8 +21,28 @@ export const Wrapper = ({ children, pageLangKeys, afterLogin }) => {
 	});
 
 	useEffect(() => {
+		if (userInfo.isLogin) {
+			const OnlineCheckCallBack = (errorCode, errMsg) => {
+				if (errorCode !== 0) {
+					setUserInfo(prevState => ({
+						...prevState,
+						isLogin: false
+					}));
+					if (errorCode !== 401) {
+						alert(errMsg);
+					}
+					navigate("/");
+				} else {
+					setTimeout();
+				}
+			};
+			OnlineCheck(OnlineCheckCallBack);
+		}
+	});
+
+	useEffect(() => {
 		let mounted = true;
-		GetTranslationData().then(
+		api_GetTranslationData().then(
 			res => {
 				if (mounted) {
 					seti18n(() => res.data.data);
@@ -40,12 +61,12 @@ export const Wrapper = ({ children, pageLangKeys, afterLogin }) => {
 	}, []);
 
 	return (
-		<i18nContext.Provider value={{ i18n, seti18n }}>
-			<userInfoContext.Provider value={{ userInfo, setUserInfo }}>
+		<userInfoContext.Provider value={{ userInfo, setUserInfo }}>
+			<i18nContext.Provider value={{ i18n, seti18n }}>
 				<popBoxContext.Provider value={{ popBox, setPopBox }}>
 					{children}
 				</popBoxContext.Provider>
-			</userInfoContext.Provider>
-		</i18nContext.Provider>
+			</i18nContext.Provider>
+		</userInfoContext.Provider>
 	);
 };

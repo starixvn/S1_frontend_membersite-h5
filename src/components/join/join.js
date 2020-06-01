@@ -4,10 +4,10 @@ import Dropdown from "../common/dropdown";
 import Checkbox from "../common/checkbox";
 import Tips from "./tips";
 import logo from "../../styles/Nova88/img/logo.svg";
-import { ExistsUserName } from "../../service/api/site";
-import { ExistsEmail } from "../../service/api/site";
-import { Register } from "../../service/api/site";
-import { GetSiteCurrencyList } from "../../service/api/site";
+import { api_ExistsUserName } from "../../service/api/site";
+import { api_ExistsEmail } from "../../service/api/site";
+import { api_Register } from "../../service/api/site";
+import { api_GetSiteCurrencyList } from "../../service/api/site";
 import { userInfoContext } from "../context/userInfo";
 import { getUrlParameter } from "../common/common";
 import { getCookie } from "../common/cookie";
@@ -74,7 +74,7 @@ function Join() {
 	});
 
 	useEffect(() => {
-		GetSiteCurrencyList().then(res => {
+		api_GetSiteCurrencyList().then(res => {
 			const currencyNum = res.data.data;
 			let currencyArr = currencyNum.map(id => {
 				return { id: id, displayText: i18n[`Currency_${id}`] };
@@ -136,7 +136,7 @@ function Join() {
 		const val = e.target.value;
 		let result = usernameCheck(val);
 
-		ExistsUserName({
+		api_ExistsUserName({
 			UserName: val
 		}).then(response => {
 			const res = response.data;
@@ -244,7 +244,7 @@ function Join() {
 
 		let result = emailCheck(val);
 
-		ExistsEmail({
+		api_ExistsEmail({
 			Email: val
 		}).then(response => {
 			const res = response.data;
@@ -349,7 +349,7 @@ function Join() {
 
 			regData["aff"] = getUrlParameter("aff");
 
-			Register(regData).then(response => {
+			api_Register(regData).then(response => {
 				const errorCode = response.data.errorCode;
 				const message = response.data.message;
 				if (errorCode === 0) {

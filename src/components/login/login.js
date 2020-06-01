@@ -2,10 +2,11 @@ import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
 import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
-import { login } from "../../service/auth";
-import { GetTranslationData } from "../../service/api/site";
+import { login, OnlineCheck } from "../../service/auth";
+import { api_GetTranslationData } from "../../service/api/site";
 import { userInfoContext } from "../context/userInfo";
 import { i18nContext } from "../context/i18n";
+import { navigate } from "@reach/router";
 
 const initState = {
 	UserName: "",
@@ -118,16 +119,35 @@ const LoginPage = ({ ButtonTitle }) => {
 			) => {
 				if (errorCode === 0) {
 					if (userInfo?.langCode !== langCode) {
-						GetTranslationData(langCode).then(res => {
+						api_GetTranslationData(langCode).then(res => {
 							seti18n(res.data.data);
 						});
 					}
 
 					setUserInfo(() => ({
+						...userData,
 						isLogin: isLogin,
-						langCode: langCode,
-						...userData
+						langCode: langCode
 					}));
+
+					const OnlineCheckCallBack = (errorCode, errMsg) => {
+						if (errorCode !== 0) {
+							setUserInfo(prevState => ({
+								...prevState,
+								isLogin: false
+							}));
+
+							if (errorCode !== 401) {
+								alert(errMsg);
+							}
+
+							navigate("/");
+						} else {
+							setTimeout();
+						}
+					};
+
+					OnlineCheck(OnlineCheckCallBack);
 				} else if (
 					errorCode === 1101 ||
 					errorCode === 1102 ||

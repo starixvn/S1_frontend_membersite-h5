@@ -6,8 +6,8 @@ import { Geti18n } from "../../service/language";
 import { userInfoContext } from "../context/userInfo";
 import SubMenu from "./subMenu";
 import { i18nContext } from "../context/i18n";
-import { GetTranslationData } from "../../service/api/site";
-import { SetLanguage } from "../../service/api/account";
+import { api_GetTranslationData } from "../../service/api/site";
+import { api_SetLanguage } from "../../service/api/account";
 import JoinPanel from "../join/join";
 import LoginPanel from "../login/login";
 
@@ -49,9 +49,9 @@ const TestBtn = () => {
 	const GetLang = langCode => {
 		if (userInfo?.langCode !== langCode) {
 			if (userInfo?.isLogin) {
-				SetLanguage(langCode).then(res => {
+				api_SetLanguage(langCode).then(res => {
 					if (res.data.errorCode === 0) {
-						GetTranslationData(langCode).then(res => {
+						api_GetTranslationData(langCode).then(res => {
 							seti18n(res.data.data);
 							setUserInfo(prevState => ({
 								...prevState,
@@ -61,7 +61,7 @@ const TestBtn = () => {
 					}
 				});
 			} else {
-				GetTranslationData(langCode).then(res => {
+				api_GetTranslationData(langCode).then(res => {
 					seti18n(res.data.data);
 					setUserInfo(prevState => ({
 						...prevState,

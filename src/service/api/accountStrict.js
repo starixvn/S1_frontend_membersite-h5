@@ -1,4 +1,4 @@
 import { accountStrictRequest } from "./base";
 
-export const GetCustProfile = () =>
+export const api_GetCustProfile = () =>
 	accountStrictRequest.post("/GetCustProfile");

@@ -1,5 +1,5 @@
 import React, { Component, useContext, createRef } from "react";
-import { GetAnnouncement as GetAnnouncementAPI } from "../../service/api/message";
+import { api_GetAnnouncement } from "../../service/api/message";
 import PropTypes from "prop-types";
 import { popBoxContext } from "../context/popBox";
 import { userInfoContext } from "../context/userInfo";
@@ -12,7 +12,7 @@ const Panel = () => {
 	return (
 		<Marquee
 			setPopBox={setPopBox}
-			userIsLogin={true}
+			userIsLogin={userInfo.isLogin}
 			langCode={langCode}
 			popBoxIsOpen={popBox.isOpen}
 		/>
@@ -62,7 +62,7 @@ class Marquee extends Component {
 		}
 	};
 	GetAnnouncement = () => {
-		GetAnnouncementAPI(this.props.langCode).then(res => {
+		api_GetAnnouncement(this.props.langCode).then(res => {
 			let resData = res.data.data;
 			let stateData = this.state.datas;
 			let upd = false;

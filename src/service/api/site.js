@@ -1,21 +1,21 @@
 import { siteRequest } from "./base";
 import langKeys from "../../datas/langKeys_Home";
 
-export const GetTranslationData = (langCode, data) =>
+export const api_GetTranslationData = (langCode, data) =>
 	siteRequest.post(
 		`/GetTranslationData${langCode ? `/${langCode}` : ""}`,
 		data ? data : langKeys
 	);
 
-export const ExistsUserName = ({ UserName }) =>
+export const api_ExistsUserName = ({ UserName }) =>
 	siteRequest.post(`/ExistsUserName`, { UserName: UserName });
 
-export const ExistsEmail = ({ Email }) =>
+export const api_ExistsEmail = ({ Email }) =>
 	siteRequest.post(`/ExistsEmail`, { Email: Email });
 
-export const Register = data => siteRequest.post(`/Register/`, data);
+export const api_Register = data => siteRequest.post(`/Register/`, data);
 
-export const GetSiteCurrencyList = () =>
+export const api_GetSiteCurrencyList = () =>
 	siteRequest.post(`/GetSiteCurrencyList/`);
 
-export const GetSiteLangList = () => siteRequest.post(`/GetSiteLangList/`);
+export const api_GetSiteLangList = () => siteRequest.post(`/GetSiteLangList/`);
