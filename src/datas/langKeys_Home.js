@@ -3,6 +3,7 @@ export default [
 	"lbl_VirtualSports",
 	"lbl_LiveCasino",
 	"lbl_Casino",
+	"lbl_Games",
 	"lbl_KenoAndLottery",
 	"lbl_Home",
 	"lbl_Login",

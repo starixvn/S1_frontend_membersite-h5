@@ -12,7 +12,7 @@ const pageList = {
 		displayKey: "lbl_LiveCasino"
 	},
 	casino: { iconName: "icon icon-casino", displayKey: "lbl_Casino" },
-	game: { iconName: "icon icon-game", displayKey: "lbl_Game" },
+	game: { iconName: "icon icon-game", displayKey: "lbl_Games" },
 	keno: { iconName: "icon icon-keno", displayKey: "lbl_KenoAndLottery" }
 };
 
