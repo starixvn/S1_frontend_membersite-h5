@@ -3,14 +3,25 @@ import { api_GetAnnouncement } from "../../service/api/message";
 import PropTypes from "prop-types";
 import { popBoxContext } from "../context/popBox";
 import { userInfoContext } from "../context/userInfo";
+import { navContext, defPanel } from "../context/nav";
 import { GetLangId } from "../../service/language";
 
 const Panel = () => {
+	const { nav, setNav } = useContext(navContext);
+
+	const OpenLoginPanel = () => {
+		setNav(() => {
+			return defPanel.login;
+		});
+	};
+
 	const { popBox, setPopBox } = useContext(popBoxContext);
 	const { userInfo } = useContext(userInfoContext);
 	let langCode = GetLangId(userInfo.langCode);
 	return (
 		<Marquee
+			nav={nav}
+			OpenLoginPanel={OpenLoginPanel}
 			setPopBox={setPopBox}
 			userIsLogin={userInfo.isLogin}
 			langCode={langCode}
@@ -22,7 +33,13 @@ const Panel = () => {
 class Marquee extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { datas: [], hover: false, pos: null, initWidth: 0 };
+		this.state = {
+			datas: [],
+			hover: false,
+			pos: null,
+			initWidth: 0,
+			nav: this.props.nav
+		};
 		this.unmounted = false;
 		this.marquee = createRef();
 		this.content = createRef();
@@ -111,7 +128,7 @@ class Marquee extends Component {
 				content: content
 			});
 		} else {
-			console.log("show login");
+			this.props.OpenLoginPanel();
 		}
 	};
 	render() {

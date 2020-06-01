@@ -8,10 +8,11 @@ import { api_ExistsUserName } from "../../service/api/site";
 import { api_ExistsEmail } from "../../service/api/site";
 import { api_Register } from "../../service/api/site";
 import { api_GetSiteCurrencyList } from "../../service/api/site";
-import { userInfoContext } from "../context/userInfo";
 import { getUrlParameter } from "../common/common";
 import { getCookie } from "../common/cookie";
+import { userInfoContext } from "../context/userInfo";
 import { i18nContext } from "../context/i18n";
+import { navContext, defPanel } from "../context/nav";
 import { GetLangId } from "../../service/language";
 import TandC from "../../service//t_and_c";
 
@@ -358,7 +359,7 @@ function Join() {
 						langCode: defaultLangId,
 						username: userValueState.UserName
 					}));
-					handlePanel(false);
+					setNav(null);
 				} else if (
 					errorCode === -2 ||
 					errorCode === -5 ||
@@ -385,9 +386,9 @@ function Join() {
 		}
 	};
 
-	const [showJoinPanel, handlePanel] = useState(false);
-	const handleJoinPanel = show => {
-		if (!show) {
+	const { nav, setNav } = useContext(navContext);
+	const handleJoinPanel = (show, reset) => {
+		if (reset) {
 			setUserValueState({
 				...initState,
 				Currency: siteCurrencyState[currencyDefaultSelectIdx]
@@ -397,18 +398,23 @@ function Join() {
 			setCheckboxState(false);
 		}
 
-		handlePanel(prevState => show);
+		setNav(() => {
+			let newState = show ? null : defPanel.join;
+			return newState;
+		});
 	};
+
+	let openPanel = nav === defPanel.join;
 
 	return (
 		<>
-			<button onClick={handleJoinPanel.bind(null, !showJoinPanel)}>
+			<button onClick={handleJoinPanel.bind(this, openPanel)}>
 				JOIN
 			</button>
-			<div className={`Join${showJoinPanel ? " open" : ""}`}>
+			<div className={`Join${openPanel ? " open" : ""}`}>
 				<div
-					className={`close${showJoinPanel ? " open" : ""}`}
-					onClick={handleJoinPanel.bind(null, !showJoinPanel)}>
+					className={`close${openPanel ? " open" : ""}`}
+					onClick={handleJoinPanel.bind(this, openPanel, true)}>
 					<span></span>
 					<span></span>
 					<span></span>
