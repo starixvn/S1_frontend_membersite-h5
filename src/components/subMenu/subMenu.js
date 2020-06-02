@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Profile from "./subMenu.profile";
 import { navContext, defPanel } from "../context/nav";
 import { i18nContext } from "../context/i18n";
-import SubGameList from "../subMenu.gameList/subGameList";
+import SubGameList from "./subMenu.gameList";
 
 const SubMenu = () => {
 	const { nav, setNav } = useContext(navContext);

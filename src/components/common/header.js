@@ -4,7 +4,7 @@ import { logout } from "../../service/auth";
 import { navigate } from "@reach/router";
 import { Geti18n } from "../../service/language";
 import { userInfoContext } from "../context/userInfo";
-import SubMenu from "./subMenu";
+import SubMenu from "../subMenu/subMenu";
 import { i18nContext } from "../context/i18n";
 import { navContext } from "../context/nav";
 import { api_GetTranslationData } from "../../service/api/site";
