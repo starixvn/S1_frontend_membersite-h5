@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "@reach/router";
-import { Geti18n } from "../../service/language";
 import { userInfoContext } from "../context/userInfo";
+import { i18nContext } from "../context/i18n";
 
 const NavLink = props => (
 	<Link
@@ -16,6 +16,7 @@ const NavLink = props => (
 
 const Footer = () => {
 	const { userInfo } = useContext(userInfoContext);
+	const { i18n } = useContext(i18nContext);
 	if (userInfo?.isLogin) {
 		return (
 			<footer>
@@ -23,7 +24,7 @@ const Footer = () => {
 					<div className="circleAnimation">
 						<div className="icon icon-home"></div>
 					</div>
-					<span>{Geti18n("lbl_Home")}</span>
+					<span>{i18n.lbl_Home}</span>
 				</NavLink>
 
 				<NavLink to="/promotion/">
@@ -62,7 +63,7 @@ const Footer = () => {
 					<div className="circleAnimation">
 						<div className="icon icon-home"></div>
 					</div>
-					<span>{Geti18n("lbl_Home")}</span>
+					<span>{i18n.lbl_Home}</span>
 				</NavLink>
 
 				<NavLink to="/promotion/">

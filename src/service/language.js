@@ -1,26 +1,21 @@
-import { i18nContext } from "../components/context/i18n";
-import { useContext } from "react";
-
-export const Geti18n = (key) => {
-	const { i18n } = useContext(i18nContext);
-	return i18n?.[key] ? i18n[key] : '';
-};
-
 const GetCookie = name => {
-	if(typeof document !== `undefined`){
-		let match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+	if (typeof document !== `undefined`) {
+		let match = document.cookie.match(
+			new RegExp("(^| )" + name + "=([^;]+)")
+		);
 		return match ? match[2] : null;
-	}else{
+	} else {
 		return null;
 	}
 };
 
 export const GET_LANG_ID = userLangId => {
-	let siteDefLangId = 'en';
+	let siteDefLangId = "en";
 	let siteLangList = ["en", "cs", "ch", "th", "id"];
 
 	let langId = userLangId ? userLangId : GetCookie("LangId");
-	let browserDefLang = typeof window !== `undefined` ? navigator.language.toLowerCase() : null;
+	let browserDefLang =
+		typeof window !== `undefined` ? navigator.language.toLowerCase() : null;
 
 	if (!langId && browserDefLang) {
 		if (

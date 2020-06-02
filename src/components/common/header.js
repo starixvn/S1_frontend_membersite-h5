@@ -2,9 +2,8 @@ import React, { useContext } from "react";
 import logoItem from "../../styles/Nova88/img/logo.svg";
 import { LOGOUT } from "../../service/auth";
 import { navigate } from "@reach/router";
-import { Geti18n } from "../../service/language";
 import { userInfoContext } from "../context/userInfo";
-import SubMenu from "./subMenu";
+import SubMenu from "../subMenu/subMenu";
 import { i18nContext } from "../context/i18n";
 import { navContext } from "../context/nav";
 import { api_GetTranslationData } from "../../service/api/site";
@@ -23,6 +22,7 @@ const Header = () => (
 );
 
 const HeaderBtn = () => {
+	const { i18n } = useContext(i18nContext);
 	const { setNav } = useContext(navContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const handleLogout = () => {
@@ -38,12 +38,12 @@ const HeaderBtn = () => {
 
 	return userInfo?.isLogin ? (
 		<div className="headerButton">
-			<button onClick={handleLogout}>{Geti18n("lbl_Logout")}</button>
+			<button onClick={handleLogout}>{i18n.lbl_Logout}</button>
 		</div>
 	) : (
 		<div className="headerButton">
 			<JoinPanel />
-			<LoginPanel ButtonTitle={Geti18n("lbl_Login")} />
+			<LoginPanel ButtonTitle={i18n.lbl_Login} />
 		</div>
 	);
 };

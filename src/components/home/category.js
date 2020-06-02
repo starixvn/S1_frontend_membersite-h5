@@ -1,60 +1,58 @@
-import React, { useState } from "react";
-import { Geti18n } from "../../service/language";
-
-const pageList = {
-	sports: { iconName: "icon icon-sports", displayKey: "lbl_Sports" },
-	virtualsports: {
-		iconName: "icon icon-virtualsports",
-		displayKey: "lbl_VirtualSports"
-	},
-	livecasino: {
-		iconName: "icon icon-livecasino",
-		displayKey: "lbl_LiveCasino"
-	},
-	casino: { iconName: "icon icon-casino", displayKey: "lbl_Casino" },
-	game: { iconName: "icon icon-game", displayKey: "lbl_Games" },
-	keno: { iconName: "icon icon-keno", displayKey: "lbl_KenoAndLottery" }
-};
-
-const CategoryItem = ({ displayText, iconName, onClick }) => (
-	<button className={iconName} onClick={onClick}>
-		<div>{displayText}</div>
-	</button>
-);
+import React, { useState, useContext } from "react";
+import { i18nContext } from "../context/i18n";
+import gameList from "../../datas/gameList";
 
 const Category = () => {
-	const [page, setPage] = useState("sports");
+	const { i18n } = useContext(i18nContext);
+	const [category, setCategory] = useState("sports");
 
-	const handlePage = pageKey => {
-		setPage(() => pageKey);
+	const selectCategory = _category => {
+		if (category === _category) {
+			setCategory(null);
+		} else {
+			setCategory(_category);
+		}
 	};
 
-	let items = Object.keys(pageList).map(key => {
-		let isOpen = page === key;
+	let listArr = gameList.map(item => {
+		let _open = category === item.category;
 		return (
-			<CategoryItem
-				key={`home-category-${key}`}
-				iconName={`${pageList[key].iconName}${isOpen ? " open" : ""}`}
-				displayText={Geti18n(pageList[key].displayKey)}
-				onClick={handlePage.bind(null, key)}
+			<CategoryItems
+				key={`category-${item.category}`}
+				category={item.category}
+				onClick={selectCategory.bind(null, item.category)}
+				isOpen={`${_open ? " open" : ""}`}
+				translation={i18n[item.translation]}
+				items={item.items}
 			/>
 		);
 	});
+
+	let itemArr = gameList.map(x =>
+		x.items.map(_item => {
+			return <Item key={`categoryItem-${_item}`} colName={_item} />;
+		})
+	);
+
 	return (
-		<div id="content">
-			<div className="sideBar">{items}</div>
-			<div className="gameList">
-				<a className="icon icon-soccer"></a>
-				<a className="icon icon-baseball"></a>
-				<a className="icon icon-basketball"></a>
-				<a className="icon icon-badminton"></a>
-				<a className="icon icon-esport"></a>
-				<a className="icon icon-tennis"></a>
-				<a className="icon icon-football"></a>
-				<a className="icon icon-F1"></a>
-			</div>
+		<div className="content">
+			<div className="sideBar">{listArr}</div>
+			<div className="gameList">{itemArr}</div>
 		</div>
 	);
 };
 
+const CategoryItems = props => {
+	return (
+		<button
+			className={`icon icon-${props.category} ${props.isOpen}`}
+			onClick={props.onClick}>
+			<div>{props.translation}</div>
+		</button>
+	);
+};
+
+const Item = props => {
+	return <a className={`icon icon-${props.colName}`}></a>;
+};
 export default Category;

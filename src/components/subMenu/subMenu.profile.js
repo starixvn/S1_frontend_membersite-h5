@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userInfoContext } from "../context/userInfo";
-import LangDropdown from "./dropdown.icon";
+import LangDropdown from "../common/dropdown.icon";
 import {
 	api_GetSiteLangList,
 	api_GetTranslationData
