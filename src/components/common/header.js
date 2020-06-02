@@ -11,15 +11,19 @@ import { api_SetLanguage } from "../../service/api/account";
 import JoinPanel from "../join/join";
 import LoginPanel from "../login/login";
 
-const Header = () => (
-	<header>
-		<a href="#">
-			<img src={logoItem} alt="logo" />
-		</a>
-		<HeaderBtn />
-		<SubMenu />
-	</header>
-);
+const HeaderTitle = ({ title }) => <div className="title">{title}</div>;
+
+const Header = ({ title }) => {
+	return (
+		<header>
+			<a href="#">
+				<img src={logoItem} alt="logo" />
+			</a>
+			{title === null ? <HeaderBtn /> : <HeaderTitle title={title} />}
+			<SubMenu />
+		</header>
+	);
+};
 
 const HeaderBtn = () => {
 	const { i18n } = useContext(i18nContext);
