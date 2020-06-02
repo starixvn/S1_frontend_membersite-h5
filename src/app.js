@@ -8,6 +8,7 @@ import Promotion from "./pages/promotion";
 import Wallet from "./pages/wallet";
 import LiveChat from "./pages/livechat";
 import Layout from "./components/common/layout";
+import Member from "./pages/member";
 
 const Index = () => {
 	return (
@@ -18,6 +19,7 @@ const Index = () => {
 					<Promotion path="promotion" />
 					<Wallet path="wallet" />
 					<LiveChat path="livechat" />
+					<Member path="member" />
 				</Router>
 			</Layout>
 			<PopBox />
