@@ -16,13 +16,15 @@ const Layout = ({ children }) => {
 
 	let pageInfo = {
 		title: null,
-		className: ""
+		className: "",
+		hideLogo: false
 	};
 
 	if (useMatch("/member")) {
 		if (userInfo.isLogin) {
-			pageInfo.title = "member";
+			pageInfo.title = "Member";
 			pageInfo.className = "main";
+			pageInfo.hideLogo = true;
 		} else {
 			window.location.href = "/";
 		}
@@ -30,7 +32,7 @@ const Layout = ({ children }) => {
 
 	return (
 		<div>
-			<Header title={pageInfo.title} />
+			<Header title={pageInfo.title} hideLogo={pageInfo.hideLogo} />
 			<main style={position} className={pageInfo.className}>
 				{children}
 			</main>

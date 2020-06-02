@@ -13,12 +13,14 @@ import LoginPanel from "../login/login";
 
 const HeaderTitle = ({ title }) => <div className="title">{title}</div>;
 
-const Header = ({ title }) => {
+const Header = ({ title, hideLogo }) => {
 	return (
 		<header>
-			<a href="#">
-				<img src={logoItem} alt="logo" />
-			</a>
+			{hideLogo ? null : (
+				<a href="#">
+					<img src={logoItem} alt="logo" />
+				</a>
+			)}
 			{title === null ? <HeaderBtn /> : <HeaderTitle title={title} />}
 			<SubMenu />
 		</header>
