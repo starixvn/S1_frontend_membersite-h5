@@ -19,11 +19,11 @@ const gameList = [
 			"soccer",
 			"baseball",
 			"basketball",
-			"badminton",
-			"esport",
-			"tennis",
-			"football",
-			"F1"
+			"badminton"
+			// "esport",
+			// "tennis",
+			// "football",
+			// "F1"
 		],
 		_blank: true,
 		translation: "lbl_VirtualSports"

@@ -7,11 +7,7 @@ const Category = () => {
 	const [category, setCategory] = useState("sports");
 
 	const selectCategory = _category => {
-		if (category === _category) {
-			setCategory(null);
-		} else {
-			setCategory(_category);
-		}
+		setCategory(_category);
 	};
 
 	let listArr = gameList.map(item => {
@@ -30,7 +26,9 @@ const Category = () => {
 
 	let itemArr = gameList.map(x =>
 		x.items.map(_item => {
-			return <Item key={`categoryItem-${_item}`} colName={_item} />;
+			if (x.category === category) {
+				return <Item key={`categoryItem-${_item}`} colName={_item} />;
+			}
 		})
 	);
 
