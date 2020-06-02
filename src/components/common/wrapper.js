@@ -4,6 +4,7 @@ import { userInfoContext } from "../context/userInfo";
 import { popBoxContext } from "../context/popBox";
 import { navContext } from "../context/nav";
 import { api_GetTranslationData } from "../../service/api/site";
+import { api_GetCustProfile } from "../../service/api/accountStrict";
 import { IS_LOGGED_IN, ONLINE_CHECK } from "../../service/auth";
 import { navigate } from "@reach/router";
 import { GET_LANG_ID } from "../../service/language";
@@ -11,7 +12,8 @@ import { GET_LANG_ID } from "../../service/language";
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
 		isLogin: IS_LOGGED_IN(),
-		langId: GET_LANG_ID()
+		langId: GET_LANG_ID(),
+		userName: "guest"
 	});
 
 	const [i18n, seti18n] = useState({});
@@ -36,11 +38,21 @@ export const Wrapper = ({ children }) => {
 						alert(errMsg);
 					}
 					navigate("/");
-				} else {
-					setTimeout();
 				}
 			};
 			ONLINE_CHECK(OnlineCheckCallBack);
+
+			if (!userInfo.regTime) {
+				api_GetCustProfile().then(res_custInfo => {
+					if (res_custInfo.data.errorCode === 0) {
+						let data = res_custInfo.data.data;
+						setUserInfo(prevState => ({
+							...prevState,
+							...data
+						}));
+					}
+				});
+			}
 		}
 	});
 

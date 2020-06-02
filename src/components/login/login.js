@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
 import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
-import { LOGIN, ONLINE_CHECK } from "../../service/auth";
+import { LOGIN } from "../../service/auth";
 import { api_GetTranslationData } from "../../service/api/site";
 import { userInfoContext } from "../context/userInfo";
 import { i18nContext } from "../context/i18n";
@@ -111,14 +111,24 @@ const LoginPage = ({ ButtonTitle }) => {
 		});
 
 		if (checked) {
-			const callbackFunc = (
-				errorCode,
-				message,
-				isLogin,
-				userData,
-				langId
-			) => {
+			const CallBackOnlineCheck = (errorCode, errMsg) => {
+				if (errorCode !== 0) {
+					setUserInfo(prevState => ({
+						...prevState,
+						isLogin: false
+					}));
+
+					if (errorCode !== 401) {
+						alert(errMsg);
+					}
+
+					navigate("/");
+				}
+			};
+
+			const CallBackLogin = (errorCode, message, isLogin, userData) => {
 				if (errorCode === 0) {
+					let langId = userData.langId;
 					if (userInfo?.langId !== langId) {
 						api_GetTranslationData(langId).then(res => {
 							seti18n(res.data.data);
@@ -127,28 +137,8 @@ const LoginPage = ({ ButtonTitle }) => {
 
 					setUserInfo(() => ({
 						...userData,
-						isLogin: isLogin,
-						langId: langId
+						isLogin: isLogin
 					}));
-
-					const OnlineCheckCallBack = (errorCode, errMsg) => {
-						if (errorCode !== 0) {
-							setUserInfo(prevState => ({
-								...prevState,
-								isLogin: false
-							}));
-
-							if (errorCode !== 401) {
-								alert(errMsg);
-							}
-
-							navigate("/");
-						} else {
-							setTimeout();
-						}
-					};
-
-					ONLINE_CHECK(OnlineCheckCallBack);
 				} else if (
 					errorCode === 1101 ||
 					errorCode === 1102 ||
@@ -168,11 +158,12 @@ const LoginPage = ({ ButtonTitle }) => {
 
 			LOGIN(
 				{
-					username: userValueState.UserName,
+					userName: userValueState.UserName,
 					password: userValueState.Password,
 					isPersistent: userValueState.Checkbox
 				},
-				callbackFunc
+				CallBackLogin,
+				CallBackOnlineCheck
 			);
 		}
 	};

@@ -13,10 +13,6 @@ const Profile = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { seti18n } = useContext(i18nContext);
 
-	if (userInfo && !userInfo.isLogin) {
-		userInfo["username"] = "guest";
-	}
-
 	const [userLanValue, setUserLanValue] = useState(0);
 
 	const [langList, setLangList] = useState([]);
@@ -72,7 +68,7 @@ const Profile = () => {
 	return (
 		<div className="info">
 			<div className="Avatar"></div>
-			<div className="MemberID">Welcome {userInfo?.username}</div>
+			<div className="MemberID">Welcome {userInfo?.userName}</div>
 			<Balance isLogin={userInfo.isLogin} />
 			<div className="Country">
 				<i className="icon icon-sphere"></i>

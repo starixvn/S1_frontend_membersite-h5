@@ -10,6 +10,7 @@ import {
 	api_Register,
 	api_GetSiteCurrencyList
 } from "../../service/api/site";
+import { api_GetCustProfile } from "../../service/api/accountStrict";
 import { getUrlParameter } from "../common/common";
 import { getCookie } from "../common/cookie";
 import { userInfoContext } from "../context/userInfo";
@@ -356,11 +357,19 @@ function Join() {
 				const errorCode = response.data.errorCode;
 				const message = response.data.message;
 				if (errorCode === 0) {
-					setUserInfo(() => ({
-						isLogin: true,
-						langId: defaultLangId,
-						username: userValueState.UserName
-					}));
+					api_GetCustProfile().then(res_custInfo => {
+						let _user = {
+							isLogin: true,
+							langId: defaultLangId,
+							userName: userValueState.UserName
+						};
+
+						if (res_custInfo.data.errorCode === 0) {
+							_user = { ..._user, ...res_custInfo.data.data };
+						}
+
+						setUserInfo(_user);
+					});
 					setNav(null);
 				} else if (
 					errorCode === -2 ||

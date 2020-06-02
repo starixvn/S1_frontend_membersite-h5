@@ -2,12 +2,7 @@ import React from "react";
 import langKeys_Home from "./datas/langKeys_Home";
 import { Wrapper } from "./components/common/wrapper";
 import PopBox from "./components/common/popbox";
-import {
-	Router,
-	createMemorySource,
-	createHistory,
-	LocationProvider
-} from "@reach/router";
+import { Router, createHistory, LocationProvider } from "@reach/router";
 import Home from "./pages/home";
 import Promotion from "./pages/promotion";
 import Wallet from "./pages/wallet";

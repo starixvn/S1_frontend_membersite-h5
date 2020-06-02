@@ -3,6 +3,7 @@ import {
 	api_UserLogout,
 	api_onlineCheck
 } from "../service/api/account";
+import { api_GetCustProfile } from "../service/api/accountStrict";
 
 const isBrowser = typeof window !== `undefined`;
 
@@ -15,30 +16,48 @@ const getUser = () => {
 
 const setUser = user => (window.localStorage.loginUser = JSON.stringify(user));
 
-export const LOGIN = async ({ username, password, isPersistent }, callback) => {
+export const LOGIN = async (
+	{ userName, password, isPersistent },
+	CallbackLogin,
+	CallbackOnlineCheck
+) => {
 	if (!isBrowser) return false;
 
 	await api_UserLogin({
-		UserName: username,
+		UserName: userName,
 		Userpwd: password,
 		isPersistent: isPersistent
 	}).then(
 		res => {
 			if (res.data.errorCode === 0) {
 				let userlangId = res.data.message.replace("/", "");
-				let _loginUser = {
-					username: username,
-					langId: userlangId,
-					isLogin: true
-				};
-				callback(res.data.errorCode, "", true, _loginUser, userlangId);
-				return setUser(_loginUser);
+
+				api_GetCustProfile().then(res_custInfo => {
+					let _loginUser = {
+						userName: userName,
+						langId: userlangId,
+						isLogin: true
+					};
+
+					setUser(_loginUser);
+
+					if (res_custInfo.data.errorCode === 0) {
+						let data = res_custInfo.data.data;
+						_loginUser = {
+							..._loginUser,
+							...data
+						};
+					}
+
+					CallbackLogin(res.data.errorCode, "", true, _loginUser);
+					ONLINE_CHECK(CallbackOnlineCheck);
+				});
 			} else {
-				callback(res.data.errorCode, res.data.message, false, {});
+				CallbackLogin(res.data.errorCode, res.data.message, false, {});
 			}
 		},
 		err => {
-			callback(999, false, {});
+			CallbackLogin(999, "", false, {});
 		}
 	);
 
@@ -57,14 +76,14 @@ export const LOGOUT = callback => {
 		res => {
 			if (res.data.errorCode === 0) {
 				let loginUser = getUser();
-				setUser({ ...loginUser, username: null, isLogin: false });
+				setUser({ ...loginUser, userName: null, isLogin: false });
 				callback();
 			}
 		},
 		err => {
 			if (err.response.status === 401) {
 				let loginUser = getUser();
-				setUser({ ...loginUser, username: null, isLogin: false });
+				setUser({ ...loginUser, userName: null, isLogin: false });
 				callback();
 			}
 		}
@@ -81,7 +100,7 @@ export const ONLINE_CHECK = callback => {
 						let loginUser = getUser();
 						setUser({
 							...loginUser,
-							username: null,
+							userName: null,
 							isLogin: false
 						});
 						callback(result.errorCode, result.message);
@@ -93,7 +112,7 @@ export const ONLINE_CHECK = callback => {
 			error => {
 				if (error.response !== null && error.response.status === 401) {
 					let loginUser = getUser();
-					setUser({ ...loginUser, username: null, isLogin: false });
+					setUser({ ...loginUser, userName: null, isLogin: false });
 					callback(error.response.status);
 				} else {
 					setTimeout(ONLINE_CHECK.bind(this, callback), 10000);
