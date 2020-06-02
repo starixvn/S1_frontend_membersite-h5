@@ -2,9 +2,20 @@ import React, { useState, useContext } from "react";
 import { i18nContext } from "../context/i18n";
 import gameList from "../../datas/gameList";
 
+import { userInfoContext } from "../context/userInfo";
+import { navContext, defPanel } from "../context/nav";
+import { GET_ENTER_PAGE } from "../../service/enterPage";
+
 const SubGameList = () => {
 	const { i18n } = useContext(i18nContext);
 	const [category, setCategory] = useState(null);
+
+	const { userInfo } = useContext(userInfoContext);
+	const { setNav } = useContext(navContext);
+
+	// GET_ENTER_PAGE(userInfo.langId, 1, 43, () => {
+	// 	setNav(defPanel.login);
+	// });
 
 	const selectCategory = _category => {
 		if (category === _category) {

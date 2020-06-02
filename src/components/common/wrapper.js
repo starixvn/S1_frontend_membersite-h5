@@ -4,13 +4,14 @@ import { userInfoContext } from "../context/userInfo";
 import { popBoxContext } from "../context/popBox";
 import { navContext } from "../context/nav";
 import { api_GetTranslationData } from "../../service/api/site";
-import { isLoggedIn } from "../../service/auth";
-import { OnlineCheck } from "../../service/auth";
+import { IS_LOGGED_IN, ONLINE_CHECK } from "../../service/auth";
 import { navigate } from "@reach/router";
+import { GET_LANG_ID } from "../../service/language";
 
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
-		isLogin: isLoggedIn()
+		isLogin: IS_LOGGED_IN(),
+		langId: GET_LANG_ID()
 	});
 
 	const [i18n, seti18n] = useState({});
@@ -39,7 +40,7 @@ export const Wrapper = ({ children }) => {
 					setTimeout();
 				}
 			};
-			OnlineCheck(OnlineCheckCallBack);
+			ONLINE_CHECK(OnlineCheckCallBack);
 		}
 	});
 

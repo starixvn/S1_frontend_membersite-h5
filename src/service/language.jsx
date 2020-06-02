@@ -15,7 +15,7 @@ const GetCookie = name => {
 	}
 };
 
-export const GetLangId = userLangId => {
+export const GET_LANG_ID = userLangId => {
 	let siteDefLangId = 'en';
 	let siteLangList = ["en", "cs", "ch", "th", "id"];
 

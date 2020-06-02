@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import logoItem from "../../styles/Nova88/img/logo.svg";
-import { logout } from "../../service/auth";
+import { LOGOUT } from "../../service/auth";
 import { navigate } from "@reach/router";
 import { Geti18n } from "../../service/language";
 import { userInfoContext } from "../context/userInfo";
@@ -26,10 +26,10 @@ const HeaderBtn = () => {
 	const { setNav } = useContext(navContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const handleLogout = () => {
-		logout(() => {
+		LOGOUT(() => {
 			setUserInfo(prevState => ({
 				isLogin: false,
-				langCode: prevState.langCode
+				langId: prevState.langId
 			}));
 			setNav(() => null);
 			navigate("/");
@@ -52,26 +52,26 @@ const TestBtn = () => {
 	const { seti18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 
-	const GetLang = langCode => {
-		if (userInfo?.langCode !== langCode) {
+	const GetLang = langId => {
+		if (userInfo?.langId !== langId) {
 			if (userInfo?.isLogin) {
-				api_SetLanguage(langCode).then(res => {
+				api_SetLanguage(langId).then(res => {
 					if (res.data.errorCode === 0) {
-						api_GetTranslationData(langCode).then(res => {
+						api_GetTranslationData(langId).then(res => {
 							seti18n(res.data.data);
 							setUserInfo(prevState => ({
 								...prevState,
-								langCode: langCode
+								langId: langId
 							}));
 						});
 					}
 				});
 			} else {
-				api_GetTranslationData(langCode).then(res => {
+				api_GetTranslationData(langId).then(res => {
 					seti18n(res.data.data);
 					setUserInfo(prevState => ({
 						...prevState,
-						langCode: langCode
+						langId: langId
 					}));
 				});
 			}

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
 import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
-import { login, OnlineCheck } from "../../service/auth";
+import { LOGIN, ONLINE_CHECK } from "../../service/auth";
 import { api_GetTranslationData } from "../../service/api/site";
 import { userInfoContext } from "../context/userInfo";
 import { i18nContext } from "../context/i18n";
@@ -116,11 +116,11 @@ const LoginPage = ({ ButtonTitle }) => {
 				message,
 				isLogin,
 				userData,
-				langCode
+				langId
 			) => {
 				if (errorCode === 0) {
-					if (userInfo?.langCode !== langCode) {
-						api_GetTranslationData(langCode).then(res => {
+					if (userInfo?.langId !== langId) {
+						api_GetTranslationData(langId).then(res => {
 							seti18n(res.data.data);
 						});
 					}
@@ -128,7 +128,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					setUserInfo(() => ({
 						...userData,
 						isLogin: isLogin,
-						langCode: langCode
+						langId: langId
 					}));
 
 					const OnlineCheckCallBack = (errorCode, errMsg) => {
@@ -148,7 +148,7 @@ const LoginPage = ({ ButtonTitle }) => {
 						}
 					};
 
-					OnlineCheck(OnlineCheckCallBack);
+					ONLINE_CHECK(OnlineCheckCallBack);
 				} else if (
 					errorCode === 1101 ||
 					errorCode === 1102 ||
@@ -166,7 +166,7 @@ const LoginPage = ({ ButtonTitle }) => {
 				}
 			};
 
-			login(
+			LOGIN(
 				{
 					username: userValueState.UserName,
 					password: userValueState.Password,

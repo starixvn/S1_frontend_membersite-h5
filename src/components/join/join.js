@@ -4,17 +4,19 @@ import Dropdown from "../common/dropdown";
 import Checkbox from "../common/checkbox";
 import Tips from "./tips";
 import logo from "../../styles/Nova88/img/logo.svg";
-import { api_ExistsUserName } from "../../service/api/site";
-import { api_ExistsEmail } from "../../service/api/site";
-import { api_Register } from "../../service/api/site";
-import { api_GetSiteCurrencyList } from "../../service/api/site";
+import {
+	api_ExistsUserName,
+	api_ExistsEmail,
+	api_Register,
+	api_GetSiteCurrencyList
+} from "../../service/api/site";
 import { getUrlParameter } from "../common/common";
 import { getCookie } from "../common/cookie";
 import { userInfoContext } from "../context/userInfo";
 import { i18nContext } from "../context/i18n";
 import { navContext, defPanel } from "../context/nav";
-import { GetLangId } from "../../service/language";
-import TandC from "../../service//t_and_c";
+import { GET_LANG_ID } from "../../service/language";
+import TandC from "../../service/t_and_c";
 
 const colName = ["UserName", "Password", "Email", "Currency"];
 
@@ -47,7 +49,7 @@ const initWarningState = {
 	}
 };
 
-const defaultLangId = GetLangId();
+const defaultLangId = GET_LANG_ID();
 const currencyDefaultSelectIdx = 0;
 
 function Join() {
@@ -356,7 +358,7 @@ function Join() {
 				if (errorCode === 0) {
 					setUserInfo(() => ({
 						isLogin: true,
-						langCode: defaultLangId,
+						langId: defaultLangId,
 						username: userValueState.UserName
 					}));
 					setNav(null);

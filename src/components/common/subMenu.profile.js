@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { userInfoContext } from "../context/userInfo";
 import LangDropdown from "./dropdown.icon";
-import { api_GetSiteLangList } from "../../service/api/site";
-import { GetLangId } from "../../service/language";
+import {
+	api_GetSiteLangList,
+	api_GetTranslationData
+} from "../../service/api/site";
+import { GET_LANG_ID } from "../../service/language";
 import { api_SetLanguage } from "../../service/api/account";
-import { api_GetTranslationData } from "../../service/api/site";
 import { i18nContext } from "../context/i18n";
 
 const Profile = () => {
@@ -34,19 +36,19 @@ const Profile = () => {
 	}, []);
 
 	useEffect(() => {
-		let langCode = userInfo.langCode ?? GetLangId();
-		let idx = langList.findIndex(x => x.langId === langCode);
+		let langId = userInfo.langId ?? GET_LANG_ID();
+		let idx = langList.findIndex(x => x.langId === langId);
 		if (idx !== -1) {
 			setUserLanValue(idx);
 		}
-	}, [langList, userInfo.langCode]);
+	}, [langList, userInfo.langId]);
 
 	const selectItemHandler = idx => {
 		if (idx !== userLanValue) {
 			let langId = langList[idx].langId;
 			setUserInfo(prevState => ({
 				...prevState,
-				langCode: langId
+				langId: langId
 			}));
 
 			setUserLanValue(idx);

@@ -1,7 +1,7 @@
 import axios from "axios";
+import config from "../../config";
 
-//const rootURL = "http://localhost:60930";
-const rootURL = "http://m.n88dev.com";
+const rootURL = config.apiURL;
 
 export const loginRequest = axios.create({
 	withCredentials: true,
@@ -26,4 +26,9 @@ export const accountRequest = axios.create({
 export const messageRequest = axios.create({
 	withCredentials: true,
 	baseURL: `${rootURL}/api/Message`
+});
+
+export const entPageRequest = axios.create({
+	withCredentials: true,
+	baseURL: `${rootURL}/api/entPage`
 });

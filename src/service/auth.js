@@ -15,7 +15,7 @@ const getUser = () => {
 
 const setUser = user => (window.localStorage.loginUser = JSON.stringify(user));
 
-export const login = async ({ username, password }, callback) => {
+export const LOGIN = async ({ username, password }, callback) => {
 	if (!isBrowser) return false;
 
 	await api_UserLogin({
@@ -24,19 +24,13 @@ export const login = async ({ username, password }, callback) => {
 	}).then(
 		res => {
 			if (res.data.errorCode === 0) {
-				let userLangCode = res.data.message.replace("/", "");
+				let userlangId = res.data.message.replace("/", "");
 				let _loginUser = {
 					username: username,
-					langCode: userLangCode,
+					langId: userlangId,
 					isLogin: true
 				};
-				callback(
-					res.data.errorCode,
-					"",
-					true,
-					_loginUser,
-					userLangCode
-				);
+				callback(res.data.errorCode, "", true, _loginUser, userlangId);
 				return setUser(_loginUser);
 			} else {
 				callback(res.data.errorCode, res.data.message, false, {});
@@ -50,13 +44,13 @@ export const login = async ({ username, password }, callback) => {
 	return false;
 };
 
-export const isLoggedIn = () => {
+export const IS_LOGGED_IN = () => {
 	if (!isBrowser) return false;
 	const user = getUser();
 	return user && user.isLogin === true;
 };
 
-export const logout = callback => {
+export const LOGOUT = callback => {
 	if (!isBrowser) return;
 	api_UserLogout().then(
 		res => {
@@ -76,13 +70,13 @@ export const logout = callback => {
 	);
 };
 
-export const OnlineCheck = callback => {
-	if (isLoggedIn()) {
+export const ONLINE_CHECK = callback => {
+	if (IS_LOGGED_IN()) {
 		api_onlineCheck().then(
 			res => {
 				var result = res.data;
 				if (result.errorCode !== null && result.errorCode !== 0) {
-					if (isLoggedIn()) {
+					if (IS_LOGGED_IN()) {
 						let loginUser = getUser();
 						setUser({
 							...loginUser,
@@ -92,7 +86,7 @@ export const OnlineCheck = callback => {
 						callback(result.errorCode, result.message);
 					}
 				} else {
-					setTimeout(OnlineCheck.bind(this, callback), 10000);
+					setTimeout(ONLINE_CHECK.bind(this, callback), 10000);
 				}
 			},
 			error => {
@@ -101,7 +95,7 @@ export const OnlineCheck = callback => {
 					setUser({ ...loginUser, username: null, isLogin: false });
 					callback(error.response.status);
 				} else {
-					setTimeout(OnlineCheck.bind(this, callback), 10000);
+					setTimeout(ONLINE_CHECK.bind(this, callback), 10000);
 				}
 			}
 		);

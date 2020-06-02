@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { popBoxContext } from "../context/popBox";
 import { userInfoContext } from "../context/userInfo";
 import { navContext, defPanel } from "../context/nav";
-import { GetLangId } from "../../service/language";
+import { GET_LANG_ID } from "../../service/language";
 
 const Panel = () => {
 	const { nav, setNav } = useContext(navContext);
@@ -17,14 +17,14 @@ const Panel = () => {
 
 	const { popBox, setPopBox } = useContext(popBoxContext);
 	const { userInfo } = useContext(userInfoContext);
-	let langCode = GetLangId(userInfo.langCode);
+	let langId = GET_LANG_ID(userInfo.langId);
 	return (
 		<Marquee
 			nav={nav}
 			OpenLoginPanel={OpenLoginPanel}
 			setPopBox={setPopBox}
 			userIsLogin={userInfo.isLogin}
-			langCode={langCode}
+			langId={langId}
 			popBoxIsOpen={popBox.isOpen}
 		/>
 	);
@@ -79,7 +79,7 @@ class Marquee extends Component {
 		}
 	};
 	GetAnnouncement = () => {
-		api_GetAnnouncement(this.props.langCode).then(res => {
+		api_GetAnnouncement(this.props.langId).then(res => {
 			let resData = res.data.data;
 			let stateData = this.state.datas;
 			let upd = false;
@@ -161,12 +161,12 @@ class Marquee extends Component {
 }
 
 Marquee.defaultProps = {
-	langCode: `en`,
+	langId: `en`,
 	userIsLogin: true
 };
 
 Marquee.propTypes = {
-	langCode: PropTypes.string,
+	langId: PropTypes.string,
 	userIsLogin: PropTypes.bool,
 	setPopBox: PropTypes.func,
 	popBoxIsOpen: PropTypes.bool
