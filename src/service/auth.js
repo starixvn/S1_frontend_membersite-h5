@@ -15,12 +15,13 @@ const getUser = () => {
 
 const setUser = user => (window.localStorage.loginUser = JSON.stringify(user));
 
-export const LOGIN = async ({ username, password }, callback) => {
+export const LOGIN = async ({ username, password, isPersistent }, callback) => {
 	if (!isBrowser) return false;
 
 	await api_UserLogin({
 		UserName: username,
-		Userpwd: password
+		Userpwd: password,
+		isPersistent: isPersistent
 	}).then(
 		res => {
 			if (res.data.errorCode === 0) {
