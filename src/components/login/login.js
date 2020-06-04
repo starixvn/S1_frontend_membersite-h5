@@ -139,6 +139,7 @@ const LoginPage = ({ ButtonTitle }) => {
 						...userData,
 						isLogin: isLogin
 					}));
+					setNav(null);
 				} else if (
 					errorCode === 1101 ||
 					errorCode === 1102 ||
