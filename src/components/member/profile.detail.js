@@ -4,7 +4,6 @@ import Dropdown from "../common/dropdown";
 import { i18nContext, userInfoContext } from "../common/context";
 import areaCode from "../../datas/areaCode";
 import moment from "moment";
-import Profile from "./profile";
 import ThemeMode from "./profile.themeMode";
 
 const country = "CS";
@@ -225,7 +224,6 @@ const Panel = () => {
 
 	return (
 		<>
-			<Profile />
 			{status !== 4 ? (
 				<Inputbox
 					icon="icon-member"

@@ -5,6 +5,7 @@ import {
 	walletInfoContext
 } from "../common/context";
 import { number_format, isConvert } from "../common/common";
+import ProfileDetail from "./profile.detail";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -17,14 +18,11 @@ const Panel = () => {
 	);
 	return (
 		<>
-			<div className="tag">
-				<button className="open">{i18n.lbl_Profile}</button>
-				<button>{i18n.lbl_BankInfo}</button>
-			</div>
 			<div className="avatar"></div>
 			<div className="balance">
 				{i18n[`Currency_${userInfo.currencyId}`]} {balance}
 			</div>
+			<ProfileDetail />
 		</>
 	);
 };
