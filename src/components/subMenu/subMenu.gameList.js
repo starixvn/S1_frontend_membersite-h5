@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
-import { i18nContext } from "../context/i18n";
+import {
+	i18nContext,
+	navContext,
+	defPanel,
+	userInfoContext
+} from "../common/context";
 import gameList from "../../datas/gameList";
-
-import { userInfoContext } from "../context/userInfo";
-import { navContext, defPanel } from "../context/nav";
 import { GET_ENTER_PAGE } from "../../service/enterPage";
 
 const SubGameList = () => {

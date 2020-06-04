@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { popBoxContext } from "../context/popBox";
+import { popBoxContext } from "../common/context";
 
 const PopUp = () => {
 	const { popBox, setPopBox } = useContext(popBoxContext);

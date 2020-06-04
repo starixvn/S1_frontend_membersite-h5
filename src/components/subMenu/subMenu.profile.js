@@ -1,5 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { userInfoContext } from "../context/userInfo";
+import {
+	userInfoContext,
+	i18nContext,
+	walletInfoContext
+} from "../common/context";
 import LangDropdown from "../common/dropdown.icon";
 import {
 	api_GetSiteLangList,
@@ -7,11 +11,11 @@ import {
 } from "../../service/api/site";
 import { GET_LANG_ID } from "../../service/language";
 import { api_SetLanguage } from "../../service/api/account";
-import { i18nContext } from "../context/i18n";
+import { number_format, isConvert } from "../common/common";
 
 const Profile = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
-	const { seti18n } = useContext(i18nContext);
+	const { i18n, seti18n } = useContext(i18nContext);
 
 	const [userLanValue, setUserLanValue] = useState(0);
 
@@ -65,11 +69,21 @@ const Profile = () => {
 		}
 	};
 
+	const { walletInfo } = useContext(walletInfoContext);
+
+	let balance = number_format(
+		walletInfo.main,
+		isConvert(userInfo.currencyId)
+	);
 	return (
 		<div className="info">
 			<div className="Avatar"></div>
 			<div className="MemberID">Welcome {userInfo?.userName}</div>
-			<Balance isLogin={userInfo.isLogin} />
+			<Balance
+				isLogin={userInfo.isLogin}
+				currency={i18n[`Currency_${userInfo.currencyId}`]}
+				amount={balance}
+			/>
 			<div className="Country">
 				<i className="icon icon-sphere"></i>
 				<LangDropdown

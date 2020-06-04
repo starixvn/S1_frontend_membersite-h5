@@ -4,10 +4,12 @@ import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
 import { LOGIN } from "../../service/auth";
 import { api_GetTranslationData } from "../../service/api/site";
-import { userInfoContext } from "../context/userInfo";
-import { i18nContext } from "../context/i18n";
-import { navContext, defPanel } from "../context/nav";
-import { navigate } from "@reach/router";
+import {
+	userInfoContext,
+	i18nContext,
+	navContext,
+	defPanel
+} from "../common/context";
 
 const initState = {
 	UserName: "",
@@ -111,21 +113,6 @@ const LoginPage = ({ ButtonTitle }) => {
 		});
 
 		if (checked) {
-			const CallBackOnlineCheck = (errorCode, errMsg) => {
-				if (errorCode !== 0) {
-					setUserInfo(prevState => ({
-						...prevState,
-						isLogin: false
-					}));
-
-					if (errorCode !== 401) {
-						alert(errMsg);
-					}
-
-					navigate("/");
-				}
-			};
-
 			const CallBackLogin = (errorCode, message, isLogin, userData) => {
 				if (errorCode === 0) {
 					let langId = userData.langId;
@@ -163,8 +150,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					password: userValueState.Password,
 					isPersistent: userValueState.Checkbox
 				},
-				CallBackLogin,
-				CallBackOnlineCheck
+				CallBackLogin
 			);
 		}
 	};

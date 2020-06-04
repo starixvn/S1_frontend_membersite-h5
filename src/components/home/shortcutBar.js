@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { i18nContext } from "../context/i18n";
+import { i18nContext } from "../common/context";
 
 const ShortcutBar = () => {
 	const { i18n } = useContext(i18nContext);

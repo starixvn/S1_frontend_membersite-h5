@@ -65,5 +65,7 @@ export default [
 	"lbl_RealName",
 	"lbl_Phone",
 	"lbl_Submit",
-	"msg_SelectBirthDay"
+	"msg_SelectBirthDay",
+	"lbl_Profile",
+	"lbl_BankInfo"
 ];

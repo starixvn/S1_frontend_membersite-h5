@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "@reach/router";
-import { userInfoContext } from "../context/userInfo";
-import { i18nContext } from "../context/i18n";
+import { userInfoContext, i18nContext } from "../common/context";
 
 const NavLink = props => (
 	<Link

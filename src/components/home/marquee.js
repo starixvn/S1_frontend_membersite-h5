@@ -1,9 +1,12 @@
 import React, { Component, useContext, createRef } from "react";
 import { api_GetAnnouncement } from "../../service/api/message";
 import PropTypes from "prop-types";
-import { popBoxContext } from "../context/popBox";
-import { userInfoContext } from "../context/userInfo";
-import { navContext, defPanel } from "../context/nav";
+import {
+	popBoxContext,
+	userInfoContext,
+	navContext,
+	defPanel
+} from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 
 const Panel = () => {
@@ -71,7 +74,7 @@ class Marquee extends Component {
 		clearInterval(this.intervalId_Pos);
 	};
 	componentDidUpdate = () => {
-		if (this.state.pos === null) {
+		if (this.state.pos === null && !this.unmounted) {
 			let style = window.getComputedStyle(this.marquee.current, null);
 			let pos = parseFloat(style.width);
 
@@ -106,15 +109,17 @@ class Marquee extends Component {
 					this.intervalId_Pos = setInterval(this.SetPos, 25);
 				}
 
-				this.setState({
-					datas: res.data.data.map(item => {
-						return {
-							...item,
-							subject: item.subject,
-							content: item.content
-						};
-					})
-				});
+				if (!this.unmounted) {
+					this.setState({
+						datas: res.data.data.map(item => {
+							return {
+								...item,
+								subject: item.subject,
+								content: item.content
+							};
+						})
+					});
+				}
 			}
 		});
 	};
