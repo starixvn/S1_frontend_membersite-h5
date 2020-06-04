@@ -7,14 +7,10 @@ import areaCode from "../../datas/areaCode";
 import moment from "moment";
 import Profile from "./profile";
 
-const country = "CS";
+import { api_SetProfile } from "../../service/api/accountStrict";
 
 const initWarningState = {
 	RealName: {
-		status: false,
-		msg: ""
-	},
-	Birthday: {
 		status: false,
 		msg: ""
 	},
@@ -31,11 +27,17 @@ const Panel = () => {
 	const [userValueState, setUserValueState] = useState({});
 	const [warningState, setWarningState] = useState(initWarningState);
 
-	const [yearSelectedIdx, setYearSelectedIdx] = useState();
-	const [monthSelectedIdx, setMonthSelectedIdx] = useState();
-	const [daySelectedIdx, setDaySelectedIdx] = useState();
+	const [yearSelectedIdx, setYearSelectedIdx] = useState(0);
+	const [monthSelectedIdx, setMonthSelectedIdx] = useState(0);
+	const [daySelectedIdx, setDaySelectedIdx] = useState(0);
 
-	let aCode = areaCode[country].AreaCode;
+	const [checklistState, setChecklistState] = useState({
+		RealName: false,
+		Phone: false
+	});
+
+	const country = userInfo.country ? userInfo.country : userInfo.perCountry;
+	let aCode = country ? areaCode[country].AreaCode : "";
 
 	let status = 4;
 	if (!userInfo.accountName && !userInfo.phoneNo && !userInfo.birth_d) {
@@ -128,28 +130,15 @@ const Panel = () => {
 
 	const dropdownStateHandler = (i, col) => {
 		if (col === "bday_year") {
-			let year = yearOptions[i].value;
-			setUserValueState(prevState => ({
-				...prevState,
-				[col]: year
-			}));
 			setYearSelectedIdx(i);
 		} else if (col === "bday_month") {
-			let month = monthOptions[i].value;
-			setUserValueState(prevState => ({
-				...prevState,
-				[col]: month
-			}));
 			setMonthSelectedIdx(i);
 		} else {
-			setUserValueState(prevState => ({
-				...prevState,
-				[col]: i
-			}));
 			setDaySelectedIdx(i);
 		}
 	};
 
+	console.log(checklistState);
 	const checkInputboxHandler = (col, e) => {
 		const val = e.target.value;
 		let checked = true;
@@ -168,6 +157,7 @@ const Panel = () => {
 				message = i18n["msg_EnterPhoneNumber"];
 			}
 		}
+
 		setWarningState(prevState => {
 			return {
 				...prevState,
@@ -176,6 +166,9 @@ const Panel = () => {
 					msg: message
 				}
 			};
+		});
+		setChecklistState(prevState => {
+			return { ...prevState, [col]: checked };
 		});
 	};
 
@@ -189,20 +182,44 @@ const Panel = () => {
 
 	const checkSubmitHandler = () => {
 		let checked = true;
-		if (
-			status === 3 &&
-			(!userValueState.RealName ||
-				!userValueState.bd_day ||
-				!userValueState.Phone)
-		) {
-			checked = false;
-		} else if (
-			status === 1 &&
-			(!userValueState.RealName || !userValueState.Phone)
-		) {
-			checked = false;
-		} else if (status === 2 && !userValueState.RealName) {
-			checked = false;
+		let year = yearOptions[yearSelectedIdx]?.value;
+		let month = monthOptions[monthSelectedIdx]?.value;
+		let day = daySelectedIdx;
+
+		setUserValueState(prevState => ({
+			...prevState,
+			Birth: year / month / day
+		}));
+
+		for (let i in checklistState) {
+			if (checklistState[i] === false) {
+				checked = false;
+				console.log(i);
+				let message = "";
+				setWarningState(prevState => {
+					if (i === "RealName") {
+						message = i18n["msg_EnterRealName"];
+					} else {
+						message = i18n["msg_EnterPhoneNumber"];
+					}
+					return {
+						...prevState,
+						[i]: {
+							status: true,
+							msg: message
+						}
+					};
+				});
+			}
+		}
+
+		if (checked) {
+			console.log("ok");
+			console.log(userValueState);
+
+			// api_SetProfile(data).then(res => {
+			// 	console.log(res);
+			// });
 		}
 	};
 
@@ -246,8 +263,8 @@ const Panel = () => {
 					yearSelectedIdx={yearSelectedIdx}
 					monthSelectedIdx={monthSelectedIdx}
 					// clickDropdown={clickDropdown}
-					dropdownStateHandler={dropdownStateHandler}
-				/>
+					daySelectedIdx={daySelectedIdx}
+					dropdownStateHandler={dropdownStateHandler}></Birthday>
 			) : null}
 
 			{status === 2 || status === 3 ? (
@@ -308,7 +325,7 @@ const Birthday = props => {
 				colName="bday_day"
 				// clickDropdown={props.clickDropdown}
 				onSelectItem={props.dropdownStateHandler}
-				selectedIdx={props.userValueState?.bday_day}
+				selectedIdx={props.daySelectedIdx}
 			/>
 			<Dropdown
 				mainKey="profile-year"
