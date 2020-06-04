@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { i18nContext } from "../context/i18n";
+import { i18nContext } from "../common/context";
 import gameList from "../../datas/gameList";
 
 const Category = () => {

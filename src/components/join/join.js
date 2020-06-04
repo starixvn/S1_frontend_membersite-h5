@@ -13,9 +13,12 @@ import {
 import { api_GetCustProfile } from "../../service/api/accountStrict";
 import { getUrlParameter } from "../common/common";
 import { getCookie } from "../common/cookie";
-import { userInfoContext } from "../context/userInfo";
-import { i18nContext } from "../context/i18n";
-import { navContext, defPanel } from "../context/nav";
+import {
+	userInfoContext,
+	i18nContext,
+	navContext,
+	defPanel
+} from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
 

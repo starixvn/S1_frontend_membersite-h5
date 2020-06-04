@@ -18,8 +18,7 @@ const setUser = user => (window.localStorage.loginUser = JSON.stringify(user));
 
 export const LOGIN = async (
 	{ userName, password, isPersistent },
-	CallbackLogin,
-	CallbackOnlineCheck
+	CallbackLogin
 ) => {
 	if (!isBrowser) return false;
 
@@ -50,7 +49,6 @@ export const LOGIN = async (
 					}
 
 					CallbackLogin(res.data.errorCode, "", true, _loginUser);
-					ONLINE_CHECK(CallbackOnlineCheck);
 				});
 			} else {
 				CallbackLogin(res.data.errorCode, res.data.message, false, {});

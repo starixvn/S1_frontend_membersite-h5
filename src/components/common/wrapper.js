@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { i18nContext } from "../context/i18n";
-import { userInfoContext } from "../context/userInfo";
-import { popBoxContext } from "../context/popBox";
-import { navContext } from "../context/nav";
+import * as ct from "../common/context";
 import { api_GetTranslationData } from "../../service/api/site";
 import { api_GetCustProfile } from "../../service/api/accountStrict";
+import { api_GetBalnace } from "../../service/api/account";
 import { IS_LOGGED_IN, ONLINE_CHECK } from "../../service/auth";
 import { navigate } from "@reach/router";
 import { GET_LANG_ID } from "../../service/language";
+import themeList from "../../datas/theme";
 
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
@@ -25,6 +24,11 @@ export const Wrapper = ({ children }) => {
 	});
 
 	const [nav, setNav] = useState(null);
+	const [walletInfo, setWalletInfo] = useState({
+		main: 0
+	});
+
+	const [theme, setTheme] = useState(themeList.default);
 
 	useEffect(() => {
 		if (userInfo.isLogin) {
@@ -41,7 +45,6 @@ export const Wrapper = ({ children }) => {
 				}
 			};
 			ONLINE_CHECK(OnlineCheckCallBack);
-
 			if (!userInfo.regTime) {
 				api_GetCustProfile().then(res_custInfo => {
 					if (res_custInfo.data.errorCode === 0) {
@@ -53,8 +56,17 @@ export const Wrapper = ({ children }) => {
 					}
 				});
 			}
+
+			api_GetBalnace().then(res => {
+				if (res.data.errorCode === 0) {
+					setWalletInfo(prevState => ({
+						...prevState,
+						main: res.data.data
+					}));
+				}
+			});
 		}
-	});
+	}, [userInfo.isLogin, userInfo.regTime]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -77,14 +89,20 @@ export const Wrapper = ({ children }) => {
 	}, []);
 
 	return (
-		<userInfoContext.Provider value={{ userInfo, setUserInfo }}>
-			<i18nContext.Provider value={{ i18n, seti18n }}>
-				<popBoxContext.Provider value={{ popBox, setPopBox }}>
-					<navContext.Provider value={{ nav, setNav }}>
-						{children}
-					</navContext.Provider>
-				</popBoxContext.Provider>
-			</i18nContext.Provider>
-		</userInfoContext.Provider>
+		<ct.userInfoContext.Provider value={{ userInfo, setUserInfo }}>
+			<ct.i18nContext.Provider value={{ i18n, seti18n }}>
+				<ct.walletInfoContext.Provider
+					value={{ walletInfo, setWalletInfo }}>
+					<ct.themeContext.Provider value={{ theme, setTheme }}>
+						<ct.popBoxContext.Provider
+							value={{ popBox, setPopBox }}>
+							<ct.navContext.Provider value={{ nav, setNav }}>
+								{children}
+							</ct.navContext.Provider>
+						</ct.popBoxContext.Provider>
+					</ct.themeContext.Provider>
+				</ct.walletInfoContext.Provider>
+			</ct.i18nContext.Provider>
+		</ct.userInfoContext.Provider>
 	);
 };

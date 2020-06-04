@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import Inputbox from "./inputbox";
 import Dropdown from "../common/dropdown";
-import { i18nContext } from "../context/i18n";
-import { userInfoContext } from "../context/userInfo";
+import { i18nContext, userInfoContext } from "../common/context";
 import areaCode from "../../datas/areaCode";
 import moment from "moment";
 import Profile from "./profile";
+import ThemeMode from "./profile.themeMode";
 
 const country = "CS";
 
@@ -277,12 +277,7 @@ const Panel = () => {
 				</div>
 			) : null}
 
-			{status === 4 ? (
-				<div className="mode">
-					<button className="icon icon-sun"></button>
-					<button className="icon icon-moon open"></button>
-				</div>
-			) : null}
+			{status === 4 ? <ThemeMode /> : null}
 
 			<div className="info">
 				<ul>{arr}</ul>
