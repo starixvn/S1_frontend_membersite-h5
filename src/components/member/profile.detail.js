@@ -14,6 +14,10 @@ const initWarningState = {
 		status: false,
 		msg: ""
 	},
+	Birthday: {
+		status: false,
+		msg: ""
+	},
 	Phone: {
 		status: false,
 		msg: ""
@@ -27,9 +31,9 @@ const Panel = () => {
 	const [userValueState, setUserValueState] = useState({});
 	const [warningState, setWarningState] = useState(initWarningState);
 
-	const [yearSelectedIdx, setYearSelectedIdx] = useState(0);
-	const [monthSelectedIdx, setMonthSelectedIdx] = useState(0);
-	const [daySelectedIdx, setDaySelectedIdx] = useState(0);
+	const [yearSelectedIdx, setYearSelectedIdx] = useState();
+	const [monthSelectedIdx, setMonthSelectedIdx] = useState();
+	const [daySelectedIdx, setDaySelectedIdx] = useState();
 
 	const [checklistState, setChecklistState] = useState({
 		RealName: false,
@@ -138,7 +142,6 @@ const Panel = () => {
 		}
 	};
 
-	console.log(checklistState);
 	const checkInputboxHandler = (col, e) => {
 		const val = e.target.value;
 		let checked = true;
@@ -193,8 +196,6 @@ const Panel = () => {
 
 		for (let i in checklistState) {
 			if (checklistState[i] === false) {
-				checked = false;
-				console.log(i);
 				let message = "";
 				setWarningState(prevState => {
 					if (i === "RealName") {
@@ -214,12 +215,20 @@ const Panel = () => {
 		}
 
 		if (checked) {
-			console.log("ok");
-			console.log(userValueState);
+			let profileData = {
+				AccountName: userValueState.RealName,
+				Birth_d: `${day}`,
+				Birth_m: `${month}`,
+				Birth_y: `${year}`,
+				CountryCode: country,
+				AreaCode: aCode,
+				PhoneNo: userValueState.Phone
+			};
 
-			// api_SetProfile(data).then(res => {
-			// 	console.log(res);
-			// });
+			console.log(profileData);
+			api_SetProfile(profileData).then(res => {
+				console.log(res);
+			});
 		}
 	};
 
@@ -262,7 +271,6 @@ const Panel = () => {
 					yearOptions={yearOptions}
 					yearSelectedIdx={yearSelectedIdx}
 					monthSelectedIdx={monthSelectedIdx}
-					// clickDropdown={clickDropdown}
 					daySelectedIdx={daySelectedIdx}
 					dropdownStateHandler={dropdownStateHandler}></Birthday>
 			) : null}
@@ -318,7 +326,6 @@ const Birthday = props => {
 				mainKey="profile-day"
 				options={props.dateOptions}
 				colName="bday_day"
-				// clickDropdown={props.clickDropdown}
 				onSelectItem={props.dropdownStateHandler}
 				selectedIdx={props.daySelectedIdx}
 			/>
