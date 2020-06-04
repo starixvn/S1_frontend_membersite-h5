@@ -8,6 +8,18 @@
   font-size: 5vw;
 }
 
+.icon-moon:before {
+  font-size: 14vw;
+}
+
+.icon-cake:before {
+  content: "\e91e";
+}
+
+.icon-moon:before {
+  content: "\e91d";
+}
+
 .icon-member:before {
   content: "\e90a";
 }
@@ -128,12 +140,24 @@
   content: "\e921";
 }
 
+.icon-files-empty:before {
+  content: "\e925";
+}
+
+.icon-folder-upload:before {
+  content: "\e934";
+}
+
 .icon-coin-dollar:before {
   content: "\e93b";
 }
 
 .icon-credit-card:before {
   content: "\e93f";
+}
+
+.icon-phone:before {
+  content: "\e942";
 }
 
 .icon-calendar:before {
@@ -180,6 +204,10 @@
   content: "\e9d1";
 }
 
+.icon-sun:before {
+  content: "\e9d4";
+}
+
 .icon-warning:before {
   content: "\ea07";
 }
@@ -198,5 +226,13 @@
 
 .icon-radio-unchecked:before {
   content: "\ea56";
+}
+
+.icon-new-tab:before {
+  content: "\ea7e";
+}
+
+.icon-IcoMoon:before {
+  content: "\eaea";
 }
 /*# sourceMappingURL=font.css.map */

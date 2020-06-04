@@ -1,5 +1,6 @@
 import React from "react";
+import Member from "../components/member/profile.detail";
 
-const IndexPage = () => <h1>Member</h1>;
+const IndexPage = () => <Member />;
 
 export default IndexPage;

@@ -11,13 +11,14 @@ html.dark header .subMenu {
   background: rgba(25, 25, 25, 0.95);
 }
 
-html.dark main .marquee {
-  color: #f3f3f3;
+html.dark main #Marquee {
+  color: #fff;
   background: #000;
 }
 
-html.dark main .marquee .icon {
-  color: #ff5d00;
+html.dark main #Marquee .icon {
+  color: #fff;
+  background: #000;
 }
 
 html.dark main .sideBar {

@@ -197,11 +197,11 @@ header .Join .dropdown, header .Login .dropdown {
 }
 
 header .Join .dropdown .btn, header .Login .dropdown .btn {
-  padding-bottom: 0;
+  padding: 0 3vw;
 }
 
 header .Join .dropdown .dropdown-item, header .Login .dropdown .dropdown-item {
-  padding: 3vw 3vw 0;
+  padding: 3vw;
 }
 
 header .Join > .close, header .Login > .close {
@@ -251,13 +251,13 @@ header .Join .inputBox > input::placeholder, header .Login .inputBox > input::pl
   color: #fff;
 }
 
-header .Join .inputBox .JoinRule, header .Join .inputBox .LoginRule, header .Login .inputBox .JoinRule, header .Login .inputBox .LoginRule {
+header .Join .inputBox .JoinRule, header .Login .inputBox .JoinRule {
   height: 0;
   visibility: hidden;
   opacity: 0;
 }
 
-header .Join .inputBox .JoinRule.open, header .Join .inputBox .LoginRule.open, header .Login .inputBox .JoinRule.open, header .Login .inputBox .LoginRule.open {
+header .Join .inputBox .JoinRule.open, header .Login .inputBox .JoinRule.open {
   height: auto;
   visibility: visible;
   -webkit-transition: 0.7s;
@@ -448,7 +448,8 @@ header .subMenu > div.info .Balance {
 }
 
 header .subMenu > div.info .Country > .icon:before {
-  margin-top: 3vw;
+  margin-top: 2vw;
+  margin-right: 2vw;
 }
 
 header .subMenu > div.info .Country :before {
@@ -463,7 +464,7 @@ header .subMenu > div.info .Country .dropdown {
 }
 
 header .subMenu > div.info .Country .dropdown > .btn {
-  padding-bottom: 1.5vw;
+  padding-bottom: 3vw;
 }
 
 header .subMenu > div.subThBar a, header .subMenu > div.memberFunction a {
@@ -701,7 +702,7 @@ main .sideBar button {
   transition: 0.7s;
   color: #fff;
   padding: 1vw 0;
-  width: calc(100%);
+  width: 100%;
   font-size: 3vw;
   min-height: 15vw;
 }
@@ -865,6 +866,7 @@ footer {
   display: -ms-flexbox;
   display: flex;
   height: 12.8vw;
+  border-radius: 5px 5px 0 0;
 }
 
 footer > a {
@@ -1126,8 +1128,13 @@ footer > a.open .circleAnimation + span {
   margin: 1vw 0 0 1vw;
   width: 100%;
   position: relative;
-  padding: 3vw 0 0;
-  float: left;
+  padding: 2vw 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .dropdown:before {
@@ -1139,8 +1146,6 @@ footer > a.open .circleAnimation + span {
   border-color: #fff transparent transparent transparent;
   position: absolute;
   right: 3vw;
-  -webkit-transform: translateY(100%);
-          transform: translateY(100%);
 }
 
 .dropdown i {
@@ -1153,16 +1158,33 @@ footer > a.open .circleAnimation + span {
 
 .dropdown > .dropdown-container {
   display: none;
+  position: absolute;
+  background: #001942;
+  z-index: 1;
+  border: 1px solid #ff5d00;
+  border-top: 0;
+  width: 100%;
+  margin-left: -1px;
+  left: 0;
+  top: 10vw;
 }
 
 .dropdown > .dropdown-container .dropdown-item {
-  padding: 3vw;
+  padding: 2vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .dropdown > .btn {
   width: calc(100% - 6vw);
-  display: block;
-  padding: 0 3vw 3vw;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 3vw 2vw 2vw;
 }
 
 #popup {
@@ -1252,5 +1274,406 @@ footer > a.open .circleAnimation + span {
 
 .flag.vn:before {
   background-image: url(../img/flag/vn.png);
+}
+
+.header {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-bottom: 0;
+  -webkit-box-shadow: 0px 0px 10px 0px black;
+          box-shadow: 0px 0px 10px 0px black;
+}
+
+.title {
+  color: #fff;
+  font-size: 4vw;
+}
+
+.tag {
+  position: absolute;
+  top: 12vw;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #ff5d00;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #001942;
+  left: 0;
+  z-index: 1;
+}
+
+.tag button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 12vw;
+  border-bottom: 3px solid transparent;
+  color: #fff;
+  font-size: 3vw;
+}
+
+.tag button.open {
+  color: #ff5d00;
+  border-color: #ff5d00;
+  font-weight: bold;
+}
+
+.main {
+  width: calc(100% - 16vw);
+  height: auto;
+  min-height: calc(100% - 48vw);
+  background: #001942;
+  padding: 24vw 8vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.avatar {
+  width: 24vw;
+  height: 24vw;
+  border-radius: 100%;
+  border: 2px solid #ff5d00;
+  margin: 5vw auto 2vw;
+  color: #fff;
+  position: relative;
+  background: url(../img/avatar.jpg) no-repeat top center/cover;
+}
+
+.avatar a {
+  width: 5vw;
+  height: 5vw;
+  background: #ff5d00;
+  border-radius: 100%;
+  padding: 1vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.avatar a:before {
+  font-size: 4vw;
+}
+
+.viplv {
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.viplv i {
+  margin-right: 1vw;
+}
+
+.balance, .name {
+  font-size: 5vw;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 1vw;
+}
+
+.mode {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.mode > button {
+  width: 19vw;
+  height: 19vw;
+  border-radius: 100%;
+  margin: 2vw;
+  color: #fff;
+  background: #fff;
+  color: #ff5d00;
+}
+
+.mode > button.open {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.info {
+  color: #fff;
+  margin-top: 1vw;
+}
+
+.info ul li {
+  float: left;
+  width: 50%;
+}
+
+.info ul li span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.info ul li span.title {
+  color: #ff5d00;
+}
+
+.inputBox {
+  position: relative;
+  color: #fff;
+  margin-top: 0.5vw;
+  margin-bottom: 0.5vw;
+}
+
+.inputBox.parts {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: calc(100% + 2px);
+}
+
+.inputBox.parts .dropdown {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  max-width: calc(33.33% - 2px);
+}
+
+.inputBox.parts .dropdown:first-child {
+  margin-right: 1vw;
+}
+
+.inputBox.parts .dropdown:last-child {
+  margin-left: 1vw;
+}
+
+.inputBox.parts .dropdown + .inputBox input {
+  width: calc(100% - 8vw - 2px);
+}
+
+.inputBox.parts .inputBox {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+}
+
+.inputBox .dropdown {
+  margin: 0.5vw 0;
+}
+
+.inputBox .dropdown i.icon {
+  position: initial;
+  margin-right: 0;
+}
+
+.inputBox i.icon {
+  position: absolute;
+  -webkit-transform: translateY(60%);
+          transform: translateY(60%);
+  left: 2vw;
+  top: 0;
+}
+
+.inputBox i.icon.icon-cake {
+  -webkit-transform: translateY(0%);
+          transform: translateY(0%);
+  margin-right: 1vw;
+}
+
+.inputBox i.icon.icon-warning {
+  position: initial;
+  margin-right: 2vw;
+  display: inline-block;
+}
+
+.inputBox > input {
+  background: transparent;
+  border: 1px solid #ff5d00;
+  border-radius: 3px;
+  padding: 3vw 0 3vw 8vw;
+  width: calc(100% - 8vw);
+  color: #fff;
+}
+
+.inputBox > input::-webkit-input-placeholder {
+  color: #fff;
+}
+
+.inputBox > input:-ms-input-placeholder {
+  color: #fff;
+}
+
+.inputBox > input::-ms-input-placeholder {
+  color: #fff;
+}
+
+.inputBox > input::placeholder {
+  color: #fff;
+}
+
+.inputBox > .icon-module {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.LoginRule {
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.LoginRule.open {
+  height: auto;
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+}
+
+.text-org {
+  color: #ff5d00;
+  text-align: center;
+}
+
+.btn-group {
+  margin: 2vw 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.btn-group button {
+  width: 100%;
+  color: #fff;
+  border-radius: 3px;
+  padding: 3vw;
+}
+
+.btn-group button i {
+  margin-right: 1vw;
+}
+
+.btn-group button:first-child {
+  margin-right: 0.5vw;
+}
+
+.btn-group button:last-child {
+  margin-left: 0.5vw;
+}
+
+.btn-group button.orange {
+  background: #ff5d00;
+}
+
+.btn-group button.blue {
+  background: #1a3055;
+}
+
+.bankAccount {
+  margin: 2vw 0;
+}
+
+.bankAccount > .title {
+  margin-left: 2vw;
+}
+
+.bankAccount i {
+  margin-right: 1vw;
+}
+
+.bankAccount .account {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  margin: 2vw 0;
+  padding: 4vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.bankAccount .info {
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+  margin: 0;
+}
+
+.bankAccount .info li {
+  width: 100%;
+}
+
+.bankAccount a {
+  width: 8vw;
+  height: 8vw;
+  background: #ff5d00;
+  border-radius: 100%;
+  padding: 1vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+}
+
+.bankAccount a:before {
+  font-size: 6vw;
+}
+
+.bankLogo {
+  background: #fff;
+  border-radius: 5px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 2vw;
+  height: 8vw;
+  max-width: 13vw;
+}
+
+.bankLogo.acb {
+  background: url(../img/banklogo/ACB.png) no-repeat top center/cover;
 }
 /*# sourceMappingURL=style.css.map */

@@ -15,7 +15,9 @@ export class DropdownBox extends Component {
 	};
 	ClickDropdown = () => {
 		this.setState({ isOpen: !this.state.isOpen });
-		this.props.clickDropdown(this.props.colName);
+		if (this.props.clickDropdown) {
+			this.props.clickDropdown(this.props.colName);
+		}
 	};
 	SelectItem = value => {
 		this.setState({ isOpen: false });
@@ -38,6 +40,7 @@ export class DropdownBox extends Component {
 				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
 				<a className="btn">
+					<i className={`${this.props.icon}`}></i>
 					<span className="text">
 						{
 							this.props.options[this.props.selectedIdx]

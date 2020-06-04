@@ -30,7 +30,7 @@ const Autoplay = () => {
 					className="banner"
 				/>
 			</a>
-			<a href="#">
+			{/* <a href="#">
 				<img
 					src="https://www.nova88.net/CMS/Nova88/Promotion/ch/banner-fishing.jpg?v=CxJQvOjoJxEgsz72zxvB8QAH9TUJA2_kRtxbxAyL3wA"
 					className="banner"
@@ -47,7 +47,7 @@ const Autoplay = () => {
 					src="https://www.nova88.net/CMS/Nova88/Promotion/ch/banner-PPT.jpg?v=R7KSZrm657eklziww2wD-Gt2jWqCzVutL0d8Wp4e76M"
 					className="banner"
 				/>
-			</a>
+			</a> */}
 		</Swiper>
 	);
 };

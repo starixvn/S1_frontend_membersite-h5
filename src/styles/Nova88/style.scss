@@ -116,10 +116,10 @@ header {
       margin-left: 0;
       width: calc(100% - 5vw);
       .btn{
-        padding-bottom: 0;
+        padding: 0 3vw;
       }
       .dropdown-item{
-        padding: 3vw 3vw 0;
+        padding: 3vw;
       }
     }
     >.close{
@@ -150,7 +150,7 @@ header {
           color: $White;
         }
       }
-      .JoinRule,.LoginRule{
+      .JoinRule{
         height: 0;
         visibility: hidden;
         opacity: 0;
@@ -305,7 +305,8 @@ header {
         }
         .Country{
           >.icon:before{
-            margin-top: 3vw;
+            margin-top: 2vw;
+            margin-right: 2vw;
           }
           :before{
             font-size: 5vw;
@@ -316,7 +317,7 @@ header {
             margin-left: 2vw;
             padding-top: 2vw;
             >.btn{
-              padding-bottom: 1.5vw;
+              padding-bottom: 3vw;
             }
           }
         }
@@ -481,7 +482,7 @@ main {
       transition: $transition;
       color: $White;
       padding: 1vw 0;
-      width: calc(100%);
+      width: $width;
       font-size: 3vw;
       min-height: 15vw;
       &.open {
@@ -591,6 +592,7 @@ footer {
   background: $White;
   display: flex;
   height: 12.8vw;
+  border-radius: 5px 5px 0 0;
   >a {
     flex: 1 1 0;
     text-align: center;
@@ -741,8 +743,9 @@ footer {
   margin: 1vw 0 0 1vw;
   width: $width;
   position: relative;
-  padding: 3vw 0 0;
-  float: left;
+  padding: 2vw 0 0;
+  display: flex;
+  align-items: center;
   &:before{
     content: '';
     width: 0;
@@ -752,7 +755,6 @@ footer {
     border-color: #fff transparent transparent transparent;
     position: absolute;
     right: 3vw;
-    transform: translateY(100%);
   }
   i{
     margin-right: 1vw;
@@ -762,14 +764,25 @@ footer {
   }
   >.dropdown-container{
     display: none;
+    position: absolute;
+    background: #001942;
+    z-index: 1;
+    border: 1px solid #ff5d00;
+    border-top: 0;
+    width: 100%;
+    margin-left: -1px;
+    left: 0;
+    top: 10vw;
     .dropdown-item{
-      padding: 3vw;
+      padding: 2vw;
+      display: flex;
     }
   }
   >.btn{
     width: calc(100% - 6vw);
-    display: block;
-    padding: 0 3vw 3vw;
+    align-items: center;
+    display: flex;
+    padding: 0 3vw 2vw 2vw;
   }
 }
 #popup{
@@ -839,5 +852,280 @@ footer {
   }
   &.vn:before{
     background-image: url(../img/flag/vn.png);
+  }
+}
+.header{
+  justify-content: center;
+  border-bottom: 0;
+  box-shadow: 0px 0px 10px 0px rgba($Black, 1);
+}
+.title{
+  color: $White;
+  font-size: 4vw;
+}
+.tag{
+  position: absolute;
+  top: 12vw;
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid $Orange;
+  align-items: center;
+  background: $Blue;
+  left: 0;
+  z-index: 1;
+  button{
+    flex: 1;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 12vw;
+    border-bottom: 3px solid transparent;
+    color: $White;
+    font-size: 3vw;
+    &.open{
+      color: $Orange;
+      border-color: $Orange;
+      font-weight: bold;
+    }
+  }
+}
+.main{
+  width: calc(#{$width} - 16vw);
+  height: auto;
+  min-height: calc(100% - 48vw);
+  background: $Blue;
+  padding: 24vw 8vw;
+  display: flex;
+  flex-direction: column;
+}
+.avatar{
+  width: 24vw;
+  height: 24vw;
+  border-radius: 100%;
+  border: 2px solid $Orange;
+  margin: 5vw auto 2vw;
+  color: #fff;
+  position: relative;
+  background: url(../img/avatar.jpg)no-repeat top center / cover;
+  a{
+    width: 5vw;
+    height: 5vw;
+    background: $Orange;
+    border-radius: 100%;
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    &:before{
+      font-size: 4vw;
+    }
+  }
+}
+.viplv{
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  i{
+    margin-right: 1vw;
+  }
+}
+.balance,.name{
+  font-size: 5vw;
+  font-weight: bold;
+  color: $White;
+  text-align: center;
+  margin-bottom: 1vw;
+}
+.mode{
+  display: flex;
+  justify-content: center;
+  >button{
+    width: 19vw;
+    height: 19vw;
+    border-radius: 100%;
+    margin: 2vw;
+    color: $White;
+    background: $White;
+    color: $Orange;
+    &.open{
+      background: rgba($White, 0.1);
+      color: $White;
+    }
+  }
+}
+.info{
+  color: $White;
+  margin-top: 1vw;
+  ul{
+    li{
+      float: left;
+      width: 50%;
+      span{
+        display: flex;
+        &.title{
+          color: $Orange;
+        }
+      }
+    }
+  }
+}
+.inputBox{
+  position: relative;
+  color: $White;
+  margin-top: 0.5vw;
+  margin-bottom: 0.5vw;
+  &.parts{
+    display: flex;
+    width: calc(#{$width} + 2px);
+    .dropdown{
+      flex: 1;
+      max-width: calc(33.33% - 2px);
+      &:first-child{
+        margin-right: 1vw;
+      }
+      &:last-child{
+        margin-left: 1vw;
+      }
+      + .inputBox input{
+        width: calc(#{$width} - 8vw - 2px);
+      }
+    }
+    .inputBox{
+      flex: 2;
+    }
+  }
+  .dropdown{
+    margin: 0.5vw 0;
+    i.icon{
+      position: initial;
+      margin-right: 0;
+    }
+  }
+  i.icon{
+    position: absolute;
+    transform: translateY(60%);
+    left: 2vw;
+    top: 0;
+    &.icon-cake{
+      transform: translateY(0%);
+      margin-right: 1vw;
+    }
+    &.icon-warning {
+      position: initial;
+      margin-right: 2vw;
+      display: inline-block;
+    }
+  }
+  >input{
+    background: transparent;
+    border: 1px solid $Orange;
+    border-radius: 3px;
+    padding: 3vw 0 3vw 8vw;
+    width: calc(100% - 8vw);
+    color: $White;
+    &::placeholder {
+      color: $White;
+    }
+  }
+  >.icon-module {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+.LoginRule {
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+.LoginRule.open {
+  height: auto;
+  visibility: visible;
+  transition: 0.7s;
+  opacity: 1;
+}
+.text-org{
+  color: $Orange;
+  text-align: center;
+}
+.btn-group{
+  margin: 2vw 0;
+  display: flex;
+  button{
+    width: $width;
+    color: #fff;
+    border-radius: 3px;
+    padding: 3vw;
+    i{
+      margin-right: 1vw;
+    }
+    &:first-child{
+      margin-right: 0.5vw;
+    }
+    &:last-child{
+      margin-left: 0.5vw;
+    }
+    &.orange{
+      background: $Orange;
+    }
+    &.blue{
+      background: #1a3055;
+    }
+  }
+}
+.bankAccount{
+  margin: 2vw 0;
+  >.title{
+    margin-left: 2vw;
+  }
+  i{
+    margin-right: 1vw;
+  }
+  .account{
+    background: rgba($Black,0.3);
+    border-radius: 5px;
+    margin: 2vw 0;
+    padding: 4vw;
+    display: flex;
+    align-items: center;
+  }
+  
+  .info{
+    flex: 4;
+    margin: 0;
+    li{
+      width: $width;
+    }
+  }
+  a{
+    width: 8vw;
+    height: 8vw;
+    background: $Orange;
+    border-radius: 100%;
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+    right: 0;
+    color: $White;
+    &:before{
+      font-size: 6vw;
+    }
+  }
+}
+.bankLogo{
+  background: $White;
+  border-radius: 5px;
+  flex: 1;
+  margin-right: 2vw;
+  height: 8vw;
+  max-width: 13vw;
+  &.acb{
+    background: url(../img/banklogo/ACB.png)no-repeat top center / cover;
   }
 }

@@ -12,13 +12,13 @@ html.dark{
       background: rgba($Dark,.95);
     }
   }
-
   main {
-    .marquee {
-      color: $Gray;
+    #Marquee {
+      color: $White;
       background: $Black;
       .icon {
-        color: $Orange;
+        color: $White;
+        background: $Black;
       }
     }
     .sideBar{
