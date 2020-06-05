@@ -67,5 +67,11 @@ export default [
 	"lbl_Submit",
 	"msg_SelectBirthDay",
 	"lbl_Profile",
-	"lbl_BankInfo"
+	"lbl_BankInfo",
+	"lbl_ContactCSD",
+	"lbl_AddNewAccount",
+	"lbl_Birthday",
+	"lbl_Country",
+	"lbl_RegisterTime",
+	"lbl_LastLogin"
 ];

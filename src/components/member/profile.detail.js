@@ -1,12 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Inputbox from "./inputbox";
 import Dropdown from "../common/dropdown";
 import { i18nContext, userInfoContext } from "../common/context";
 import areaCode from "../../datas/areaCode";
 import moment from "moment";
 import ThemeMode from "./profile.themeMode";
+import {
+	api_SetProfile,
+	api_GetCustProfile
+} from "../../service/api/accountStrict";
 
-import { api_SetProfile } from "../../service/api/accountStrict";
+const defStatus = {
+	LockAll: "LockAll",
+	RealName: "RealName",
+	Phone_BDay: "Phone_BDay",
+	RealName_Phone_BDay: "RealName_Phone_BDay"
+};
 
 const initWarningState = {
 	RealName: {
@@ -24,7 +33,7 @@ const initWarningState = {
 };
 
 const Panel = () => {
-	const { userInfo } = useContext(userInfoContext);
+	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
 
 	const [userValueState, setUserValueState] = useState({});
@@ -36,30 +45,31 @@ const Panel = () => {
 
 	const [checklistState, setChecklistState] = useState({
 		RealName: false,
+		Birthday: false,
 		Phone: false
 	});
 
 	const country = userInfo.country ? userInfo.country : userInfo.perCountry;
 	let aCode = country ? areaCode[country].AreaCode : "";
 
-	let status = 4;
-	if (!userInfo.accountName && !userInfo.phoneNo && !userInfo.birth_d) {
-		status = 3;
+	let status = defStatus.LockAll;
+	if (userInfo.accountName && !userInfo.phoneNo) {
+		status = defStatus.Phone_BDay;
 	} else if (!userInfo.accountName && !userInfo.phoneNo) {
-		status = 1;
+		status = defStatus.RealName_Phone_BDay;
 	} else if (!userInfo.accountName) {
-		status = 2;
+		status = defStatus.RealName;
 	}
 
 	let infoList = [
 		{
 			infoTitle: "accountName",
-			colTitle: "Real Name",
+			colTitle: i18n["lbl_RealName"],
 			content: userInfo.accountName
 		},
 		{
 			infoTitle: "birth",
-			colTitle: "Birthday",
+			colTitle: i18n["lbl_Birthday"],
 			content: `${userInfo.birth_m}/${userInfo.birth_d}/${userInfo.birth_y}`,
 			birth_d: userInfo.birth_d,
 			birth_m: userInfo.birth_m,
@@ -67,32 +77,32 @@ const Panel = () => {
 		},
 		{
 			infoTitle: "phoneNo",
-			colTitle: "Phone",
+			colTitle: i18n["lbl_Phone"],
 			content: `(${aCode})${userInfo.phoneNo}`
 		},
 		{
 			infoTitle: "userName",
-			colTitle: "Username",
+			colTitle: i18n["lbl_Username"],
 			content: userInfo.userName
 		},
 		{
 			infoTitle: "country",
-			colTitle: "Country",
+			colTitle: i18n["lbl_Country"],
 			content: userInfo.country
 		},
 		{
 			infoTitle: "email",
-			colTitle: "Email",
+			colTitle: i18n["lbl_Email"],
 			content: userInfo.email
 		},
 		{
 			infoTitle: "regTime",
-			colTitle: "Register Time",
+			colTitle: i18n["lbl_RegisterTime"],
 			content: date_format(userInfo.regTime)
 		},
 		{
 			infoTitle: "lastLogin",
-			colTitle: "Last Login",
+			colTitle: i18n["lbl_LastLogin"],
 			content: date_format(userInfo.lastLogin)
 		}
 	];
@@ -120,7 +130,9 @@ const Panel = () => {
 		monthSelectedIdx === undefined
 			? ""
 			: monthOptions[monthSelectedIdx].value;
-	for (let i = startYear; i >= startYear - 80; i--) {
+
+	let _startYear = startYear - 59;
+	for (let i = startYear; i >= _startYear; i--) {
 		yearOptions.push({ value: i, id: i, displayText: i });
 	}
 	let year =
@@ -224,9 +236,25 @@ const Panel = () => {
 				PhoneNo: userValueState.Phone
 			};
 
-			console.log(profileData);
-			api_SetProfile(profileData).then(res => {
-				console.log(res);
+			api_SetProfile(profileData).then(response => {
+				const errorCode = response.data.errorCode;
+				const message = response.data.message;
+
+				if (errorCode === 21) {
+					setWarningState(prevState => ({
+						...prevState,
+						Phone: { status: true, msg: message }
+					}));
+				} else {
+					api_GetCustProfile().then(res => {
+						if (res.data.errorCode === 0) {
+							setUserInfo(prevState => ({
+								...prevState,
+								...res.data.data
+							}));
+						}
+					});
+				}
 			});
 		}
 	};
@@ -250,57 +278,71 @@ const Panel = () => {
 
 	return (
 		<>
-			{status !== 4 ? (
-				<Inputbox
-					icon="icon-member"
-					inputType="text"
-					placeholder={i18n["lbl_RealName"]}
-					onBlur={checkInputboxHandler.bind(null, "RealName")}
-					onChange={EditField.bind(null, "RealName")}
-					Warning={warningState.RealName}
-				/>
+			{status !== defStatus.LockAll ? (
+				<>
+					{status === defStatus.RealName ||
+					status === defStatus.RealName_Phone_BDay ? (
+						<Inputbox
+							icon="icon-member"
+							inputType="text"
+							placeholder={i18n["lbl_RealName"]}
+							onBlur={checkInputboxHandler.bind(null, "RealName")}
+							onChange={EditField.bind(null, "RealName")}
+							Warning={warningState.RealName}
+						/>
+					) : null}
+
+					{status === defStatus.RealName_Phone_BDay ||
+					status === defStatus.Phone_BDay ? (
+						<Birthday
+							userValueState={userValueState}
+							monthOptions={monthOptions}
+							dateOptions={dateOptions}
+							yearOptions={yearOptions}
+							yearSelectedIdx={yearSelectedIdx}
+							monthSelectedIdx={monthSelectedIdx}
+							daySelectedIdx={daySelectedIdx}
+							dropdownStateHandler={
+								dropdownStateHandler
+							}></Birthday>
+					) : null}
+
+					{status === defStatus.RealName_Phone_BDay ||
+					status === defStatus.Phone_BDay ? (
+						<div className="inputBox parts">
+							<div className="dropdown">
+								<a className="btn">
+									<span className="text">{aCode}</span>
+								</a>
+							</div>
+
+							<Inputbox
+								icon="icon-phone"
+								inputType="tel"
+								placeholder={i18n["lbl_Phone"]}
+								onBlur={checkInputboxHandler.bind(
+									null,
+									"Phone"
+								)}
+								onChange={EditField.bind(null, "Phone")}
+								Warning={warningState.Phone}
+							/>
+						</div>
+					) : null}
+
+					{status !== 4 ? (
+						<div className="btn-group">
+							<button
+								className="orange"
+								onClick={checkSubmitHandler}>
+								{i18n["lbl_Submit"]}
+							</button>
+						</div>
+					) : null}
+				</>
 			) : null}
 
-			{status === 3 ? (
-				<Birthday
-					userValueState={userValueState}
-					monthOptions={monthOptions}
-					dateOptions={dateOptions}
-					yearOptions={yearOptions}
-					yearSelectedIdx={yearSelectedIdx}
-					monthSelectedIdx={monthSelectedIdx}
-					daySelectedIdx={daySelectedIdx}
-					dropdownStateHandler={dropdownStateHandler}></Birthday>
-			) : null}
-
-			{status === 2 || status === 3 ? (
-				<div className="inputBox parts">
-					<div className="dropdown">
-						<a className="btn">
-							<span className="text">{aCode}</span>
-						</a>
-					</div>
-
-					<Inputbox
-						icon="icon-phone"
-						inputType="tel"
-						placeholder={i18n["lbl_Phone"]}
-						onBlur={checkInputboxHandler.bind(null, "Phone")}
-						onChange={EditField.bind(null, "Phone")}
-						Warning={warningState.Phone}
-					/>
-				</div>
-			) : null}
-
-			{status !== 4 ? (
-				<div className="btn-group">
-					<button className="orange" onClick={checkSubmitHandler}>
-						{i18n["lbl_Submit"]}
-					</button>
-				</div>
-			) : null}
-
-			{status === 4 ? <ThemeMode /> : null}
+			{status === defStatus.LockAll ? <ThemeMode /> : null}
 
 			<div className="info">
 				<ul>{arr}</ul>
