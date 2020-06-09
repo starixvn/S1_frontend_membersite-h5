@@ -38,9 +38,11 @@ export const Wrapper = ({ children }) => {
 						...prevState,
 						isLogin: false
 					}));
-					if (errorCode !== 401) {
-						alert(errMsg);
-					}
+					setPopBox({
+						isOpen: true,
+						title: "Warning",
+						content: errMsg
+					});
 					navigate("/");
 				}
 			};
