@@ -5,10 +5,13 @@ $transition:.7s;
 body, html {
   width: $width;
   overflow-x: hidden;
-  background: $Gray;
+  background: $gray;
   height: 100%;
   font-size: 3vw;
   font-family: 'Microsoft YaHei',sans-serif;
+}
+#root{
+  height: 100%;
 }
 .close {
   width: 6vw;
@@ -21,7 +24,7 @@ body, html {
     position: absolute;
     height: 2px;
     width: $width/2;
-    background: $White;
+    background: $white;
     opacity: 1;
     transition: .25s ease-in-out;
     &:nth-child(even) {
@@ -77,8 +80,8 @@ header {
   width: calc(#{$width} - 8vw);
   position: fixed;
   top: 0;
-  background: $Blue;
-  border-bottom: 1px solid $Orange;
+  background: $blue;
+  border-bottom: 1px solid $orange;
   height: 12vw;
   display: flex;
   align-items: center;
@@ -90,14 +93,13 @@ header {
   .Join,.Login{    
     display: flex;
     flex-direction: column;
-    width: calc(#{$width} - 16vw) !important;
-    padding: 4vw 8vw !important;
+    width: calc(#{$width} - 16vw);
+    padding: 4vw 8vw;
     height: calc(100% - 8vw);
     position: fixed;
     top: 0;
     left: 0;
-    color: #fff;
-    padding: 4vw 0;
+    color: $white;
     z-index: 2;
     background: rgba(0, 25, 66, 0.95);
     visibility: hidden;
@@ -114,9 +116,9 @@ header {
     .dropdown{
       padding: 3vw 0 3vw 5vw;
       margin-left: 0;
-      width: calc(100% - 5vw);
       .btn{
         padding: 0 3vw;
+        background: transparent;
       }
       .dropdown-item{
         padding: 3vw;
@@ -138,16 +140,9 @@ header {
     .inputBox{
       position: relative;
       >input{
-        background: transparent;
-        border: 1px solid $Orange;
-        border-radius: 3px;
-        color: $White;
-        padding: 3vw 0 3vw 8vw;
-        margin-top: 1vw;
-        margin-bottom: 1vw;
-        width: calc(#{$width} - 8vw);
+        margin: 1vw 0;
         &::placeholder {
-          color: $White;
+          color: $white;
         }
       }
       .JoinRule{
@@ -195,16 +190,16 @@ header {
       }
     }
     button{
-      background: $Orange;
+      background: $orange;
       border-radius: 3px;
-      color: $White;
+      color: $white;
       padding: 3vw;
     }
     .Terms{
       margin: 3vw auto;
       line-height: 26px;
       a{
-        color: $Orange;
+        color: $orange;
         text-decoration: none;
       }
       input[type="checkbox"] {
@@ -212,7 +207,7 @@ header {
       }      
       input[type="checkbox"] + label {
         margin: 0vw 1vw 0 0;
-        border: 1px solid $Orange;
+        border: 1px solid $orange;
         border-radius: 100%;        
         width:4vw;
         height:4vw;        
@@ -228,7 +223,7 @@ header {
         border-radius: 100%;
       }      
       input[type="checkbox"]:checked + label > div {
-        background: $Orange;
+        background: $orange;
       }
     }
   }
@@ -239,15 +234,15 @@ header {
     padding-right: 7vw;
     >button {
       border-radius: 3px;
-      color: $Orange;
+      color: $orange;
       height: 6.5vw;
       width: 15vw;
-      background: $White;
+      background: $white;
       margin: 0 5px;
       font-size: 3vw;
       &:nth-child(3) {
-        background: $Orange;
-        color: $White;
+        background: $orange;
+        color: $white;
       }
     }
   }
@@ -257,11 +252,11 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    color: $White;
+    color: $white;
     padding: 4vw 0;
     z-index: 0;
     overflow-y: scroll;
-    background: rgba($Blue,.95);
+    background: rgba($blue,.95);
     visibility: hidden;
     transition: $transition;
     opacity: 0;
@@ -277,7 +272,7 @@ header {
     }
     > div{
       width: calc(#{$width} - 8vw);
-      border-bottom: 1px solid $Orange;
+      border-bottom: 1px solid $orange;
       padding: 4vw;
       display: flex;
       &:last-child{
@@ -291,19 +286,29 @@ header {
           width: 23vw;
           height: 23vw;
           border-radius: 100%;
-          border: 1px solid #ff5d00;
+          border: 1px solid $orange;
           float: left;
           margin-right: 3vw;
         }
         .MemberID{
           font-size: 5vw;
-          color: $Orange;
+          color: $orange;
+          font-weight: bold;
         }
         .Balance{
           font-size: 5vw;
           font-weight: bold;
+          button.clickBtn{
+            display: inline-flex;
+            width: 7vw;
+            height: 7vw;
+            &::before{
+              font-size: 4vw;
+            }
+          }
         }
         .Country{
+          margin-top: 2vw;
           >.icon:before{
             margin-top: 2vw;
             margin-right: 2vw;
@@ -313,12 +318,9 @@ header {
             float: left;
           }
           .dropdown{
-            width: 30vw;
+            max-width: 40vw;
             margin-left: 2vw;
             padding-top: 2vw;
-            >.btn{
-              padding-bottom: 3vw;
-            }
           }
         }
       }
@@ -335,7 +337,7 @@ header {
               content: "100";
               width: 7vw;
               height: 7vw;
-              background: $Orange;
+              background: $orange;
               position: absolute;
               border-radius: 100%;
               margin-top: -3vw;
@@ -354,11 +356,11 @@ header {
           display: flex;
           align-items: center;
           margin: 1vw 0;
-          color: $White;
+          color: $white;
           transition: $transition;
           &.open{
             font-size: 4vw;
-            background: rgba($Orange, 0.7);
+            background: rgba($orange, 0.7);
             border-radius: 10px;
             padding: 1vw;
             width: calc(#{$width} - 2vw);
@@ -366,7 +368,7 @@ header {
           }
           >span{
             margin-left: 2vw;
-            border-left: 2px solid $Orange;
+            border-left: 2px solid $orange;
             padding-left: 2vw;
           }
           & + div{
@@ -385,7 +387,7 @@ header {
               width: calc(20vw - 2px);
               height: calc(20vw - 2px);
               float: left;
-              border: 1px solid $Orange;
+              border: 1px solid $orange;
               justify-content: center;
               border-radius: 100%;
               margin: -20vw 0 0 -30vw;
@@ -420,20 +422,19 @@ main {
     z-index: 3;
   }
   .banner {
-    background: $White;
+    background: $white;
     width: $width;
     height: auto;
     display: block;
-    // position: fixed;
     top: 12vw;
     z-index: 3;
   }
   #Marquee {
-    background: $White;
+    background: $white;
     height: 5.6vw;
     display: flex;
     align-items: center;
-    box-shadow: 1px 1px 5px 0px rgba($Black, 0.3);
+    box-shadow: 1px 1px 5px 0px rgba($black, 0.3);
     position: fixed;
     z-index: 3;
     width: $width;
@@ -443,10 +444,10 @@ main {
       font-size: 3vw;
     }
     .icon {
-      color: $Orange;
+      color: $orange;
       display: flex;
       width: 5vw;
-      background: $White;
+      background: $white;
     }
     .marquee-box {
       white-space: nowrap;
@@ -468,11 +469,11 @@ main {
     }
   }
   .sideBar{
-    background: $Blue;
+    background: $blue;
     width: 19vw;
     height: calc(100% - 75vw);
-    border-right: 2px solid $Orange;
-    box-shadow: 0px 2px 2px 2px rgba($Black, 0.5);
+    border-right: 2px solid $orange;
+    box-shadow: 0px 2px 2px 2px rgba($black, 0.5);
     position: fixed;
     top: 0;
     z-index: 2;
@@ -480,7 +481,7 @@ main {
     overflow-y: scroll; 
     button {
       transition: $transition;
-      color: $White;
+      color: $white;
       padding: 1vw 0;
       width: $width;
       font-size: 3vw;
@@ -488,7 +489,7 @@ main {
       &.open {
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-        background: $Orange;
+        background: $orange;
         transition: $transition;
       }
       &.icon{
@@ -514,7 +515,7 @@ main {
     a {
       flex: 1;
       margin: 1vw 0 1vw 2vw;
-      background: $White;
+      background: $white;
       border-radius: 10px;
       width: calc(50% - 3vw);
       height: 25vw;
@@ -533,18 +534,18 @@ main {
         position: absolute;
         right: 1vw;
         bottom: 1vw;
-        color: $White;
+        color: $white;
       }
       &:after {
         content: '';
         border-style: solid;
         border-width: 20px 20px 20px 20px;
-        border-color: transparent $Blue $Blue transparent;
+        border-color: transparent $blue $blue transparent;
         border-bottom-right-radius: 10px;
       }
       &:nth-child(1) {
         &:after{
-          border-color: transparent $Orange $Orange transparent;
+          border-color: transparent $orange $orange transparent;
         }
       }
     }
@@ -556,13 +557,13 @@ main {
     top: 55vw;
     right: 0;
     z-index: 1;
-    background: $White;
-    box-shadow: 1px 1px 5px 0px rgba($Black, 0.2);
+    background: $white;
+    box-shadow: 1px 1px 5px 0px rgba($black, 0.2);
     display: flex;
     a {
       flex: 1;
-      color: $Blue;
-      border-right: 1px solid $Gray;
+      color: $blue;
+      border-right: 1px solid $gray;
       height: 100%;
       display: flex;
       justify-content: center;
@@ -573,11 +574,10 @@ main {
           width: $width;
           font-size: 8vw;
           text-align: center;
-          color: $Orange;
+          color: $orange;
         }
       }
       span {
-        // transform: scale(0.9);
         font-size: 3vw;
         white-space: nowrap;
       }
@@ -589,18 +589,18 @@ footer {
   position: fixed;
   bottom: 0;
   z-index: 2;
-  background: $White;
+  background: $white;
   display: flex;
   height: 12.8vw;
   border-radius: 5px 5px 0 0;
   >a {
     flex: 1 1 0;
     text-align: center;
-    border-right: 1px solid $Gray;
+    border-right: 1px solid $gray;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 2px solid $White;
+    border-bottom: 2px solid $white;
     transition: $transition;
     position: relative;
     .circleAnimation {
@@ -610,7 +610,7 @@ footer {
       height: 10vw;
       justify-content: center;
       align-items: center;
-      color: $Blue;
+      color: $blue;
       > div {
         position: relative;
         bottom: -11vw;
@@ -626,18 +626,18 @@ footer {
       display: none;
     }
     &.open {
-      border-bottom: 2px solid $Orange;
-      color: $Orange;
+      border-bottom: 2px solid $orange;
+      color: $orange;
       transition: $transition;
       .circleAnimation {
         background: url(../img/footerActive.svg) no-repeat top center/100% 100%;
         display: flex;
-        color: $White;
+        color: $white;
         padding-top: 3.9vw;
         &:before {
           content: '';
           border-radius: 100%;
-          background: rgba($Orange, 0.33);
+          background: rgba($orange, 0.33);
           width: 11.73vw;
           height: 11.73vw;
           animation-name: zoom1;
@@ -652,14 +652,13 @@ footer {
         &:after {
           content: '';
           border-radius: 100%;
-          background: rgba($Orange, 0.66);
+          background: rgba($orange, 0.66);
           width: 9.6vw;
           height: 9.6vw;
           animation-name: zoom2;
           animation-duration: 4s;
           animation-iteration-count: infinite;
           position: absolute;
-          // margin-top: 0.7vw;
           top: 50%;
           left: 50%;
           margin-top: -2.9vw;
@@ -667,15 +666,14 @@ footer {
         }
         > div {
           border-radius: 100%;
-          background: $Orange;
+          background: $orange;
           width: 7.47vw;
           height: 7.47vw;
-          // margin-top: 1.4vw;
           display: flex;
           z-index: 1;
           justify-content: center;
           align-items: center;
-          color: #fff;
+          color: $white;
           position: initial;
           &:before{
             font-size: 5vw;
@@ -684,7 +682,7 @@ footer {
         + span {
           transform: scale(0.9);
           font-size: 3vw;
-          color: $Orange;
+          color: $orange;
           display: block;
         }
       }
@@ -735,24 +733,25 @@ footer {
     opacity: 1;
   }
 }
+//dropdown
 .dropdown{
   background: transparent;
-  border: 1px solid $Orange;
+  border: 1px solid $orange;
   border-radius: 3px;
-  color: $White;
-  margin: 1vw 0 0 1vw;
+  color: $white;
   width: $width;
   position: relative;
-  padding: 2vw 0 0;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
+  padding: 2vw;
   &:before{
     content: '';
     width: 0;
     height: 0;
     border-style: solid;
     border-width: 5px 5px 0 5px;
-    border-color: #fff transparent transparent transparent;
+    border-color: $white transparent transparent transparent;
     position: absolute;
     right: 3vw;
   }
@@ -767,24 +766,27 @@ footer {
     position: absolute;
     background: #001942;
     z-index: 1;
-    border: 1px solid #ff5d00;
+    border: 1px solid $orange;
     border-top: 0;
     width: 100%;
     margin-left: -1px;
     left: 0;
     top: 10vw;
+    max-height: 45vw;
+    overflow-y: scroll;
     .dropdown-item{
       padding: 2vw;
       display: flex;
     }
   }
   >.btn{
-    width: calc(100% - 6vw);
+    width: $width;
     align-items: center;
     display: flex;
-    padding: 0 3vw 2vw 2vw;
+    color: $white;
   }
 }
+//popup
 #popup{
   width: calc(100% - 16vw);
   height: calc(100% - 16vw);
@@ -795,15 +797,15 @@ footer {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: $White;
-  background: rgba($Blue, 0.95);
+  color: $white;
+  background: rgba($blue, 0.95);
   padding: 8vw;
   display: none;
   &.show{
     display: flex;
   }
   >div{
-    border: 1px solid  $Orange;
+    border: 1px solid  $orange;
     padding: 2vw 4vw;
   }
   .close{
@@ -811,7 +813,7 @@ footer {
     right: 2vw;
   }
   .popTit{
-    background: $Orange;
+    background: $orange;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     position: relative;
@@ -826,6 +828,7 @@ footer {
     width: calc(100% - 8vw - 2px);
   }
 }
+//flag
 .flag{
   &:before{
     content: "";
@@ -854,25 +857,29 @@ footer {
     background-image: url(../img/flag/vn.png);
   }
 }
+//header
 .header{
   justify-content: center;
   border-bottom: 0;
-  box-shadow: 0px 0px 10px 0px rgba($Black, 1);
+  box-shadow: 0px 0px 10px 0px rgba($black, 1);
 }
+//title
 .title{
-  color: $White;
-  font-size: 4vw;
+  color: $white;
+  font-size: 4vw;  
+  font-weight: bold;
 }
+//tag
 .tag{
   position: absolute;
   top: 12vw;
   width: 100%;
   display: flex;
-  border-bottom: 1px solid $Orange;
+  border-bottom: 1px solid $orange;
   align-items: center;
-  background: $Blue;
+  background: $blue;
   left: 0;
-  z-index: 1;
+  z-index: 2;
   button{
     flex: 1;
     align-items: center;
@@ -880,37 +887,39 @@ footer {
     justify-content: center;
     height: 12vw;
     border-bottom: 3px solid transparent;
-    color: $White;
+    color: $white;
     font-size: 3vw;
     &.open{
-      color: $Orange;
-      border-color: $Orange;
+      color: $orange;
+      border-color: $orange;
       font-weight: bold;
     }
   }
 }
+//main
 .main{
   width: calc(#{$width} - 16vw);
   height: auto;
-  min-height: calc(100% - 48vw);
-  background: $Blue;
-  padding: 24vw 8vw;
+  min-height: calc(100% - 50vw);
+  background: $blue;
+  padding: 26vw 8vw 24vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 .avatar{
   width: 24vw;
   height: 24vw;
   border-radius: 100%;
-  border: 2px solid $Orange;
+  border: 2px solid $orange;
   margin: 5vw auto 2vw;
-  color: #fff;
+  color: $white;
   position: relative;
   background: url(../img/avatar.jpg)no-repeat top center / cover;
-  a{
-    width: 5vw;
-    height: 5vw;
-    background: $Orange;
+  button{
+    width: 7vw;
+    height: 7vw;
+    background: $orange;
     border-radius: 100%;
     padding: 1vw;
     display: flex;
@@ -919,13 +928,15 @@ footer {
     position: absolute;
     bottom: 0;
     right: 0;
+    color: $white;
     &:before{
       font-size: 4vw;
     }
   }
 }
+//viplv
 .viplv{
-  color: #fff;
+  color: $white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -933,13 +944,30 @@ footer {
     margin-right: 1vw;
   }
 }
-.balance,.name{
+//balance
+.balance{
   font-size: 5vw;
   font-weight: bold;
-  color: $White;
+  color: $white;
+  text-align: center;
+  margin-bottom: 1vw;
+  button.clickBtn{
+    display: inline-flex;
+    width: 7vw;
+    height: 7vw;
+    &::before{
+      font-size: 4vw;
+    }
+  }
+}
+.name{
+  font-size: 5vw;
+  font-weight: bold;
+  color: $white;
   text-align: center;
   margin-bottom: 1vw;
 }
+//mode
 .mode{
   display: flex;
   justify-content: center;
@@ -948,61 +976,103 @@ footer {
     height: 19vw;
     border-radius: 100%;
     margin: 2vw;
-    color: $White;
-    background: $White;
-    color: $Orange;
+    color: $white;
+    background: $white;
+    color: $orange;
+    &.icon-moon{
+      background: rgba($white, 0.1);
+      color: $white;
+    }
     &.open{
-      background: rgba($White, 0.1);
-      color: $White;
+      border: 2px solid $orange;
     }
   }
 }
+//infoList
+.infoList{
+  .info{
+    border-radius: 5px;
+    padding: 4vw;
+  }
+  >.info:nth-child(odd){
+    background: rgba($black, 0.3);
+  }
+  >.info:nth-child(even){
+    background: rgba($orange, 0.3);
+  }
+}
+//info
 .info{
-  color: $White;
-  margin-top: 1vw;
+  color: $white;
+  margin: 2vw 0;
   ul{
+    display: inline-block;
     li{
       float: left;
       width: 50%;
       span{
         display: flex;
         &.title{
-          color: $Orange;
+          color: $orange;
         }
       }
     }
   }
+  &.infoBlack{
+    background: rgba($black, 0.3);
+    border-radius: 5px;
+    padding: 4vw;
+  }
+  &.infoAccount{
+    li{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1vw 0;
+      &:first-child{
+        margin-bottom: 2vw;
+        .bankLogo{
+          margin-bottom: 2vw;
+          +span{
+            font-weight: bold;
+          }
+        }
+      }
+      .title{
+        font-weight: bold;
+      }
+    }
+  }
 }
+//inputBox
 .inputBox{
   position: relative;
-  color: $White;
-  margin-top: 0.5vw;
-  margin-bottom: 0.5vw;
+  color: $white;
+  margin: 2vw 0;
+  flex-wrap: wrap;
   &.parts{
     display: flex;
-    width: calc(#{$width} + 2px);
     .dropdown{
       flex: 1;
-      max-width: calc(33.33% - 2px);
+      margin-left: 1vw;
+      // &:first-child{
+      //   margin-right: 1vw;
+      // }
       &:first-child{
-        margin-right: 1vw;
-      }
-      &:last-child{
-        margin-left: 1vw;
-      }
-      + .inputBox input{
-        width: calc(#{$width} - 8vw - 2px);
+        margin-left: 0vw;
       }
     }
     .inputBox{
-      flex: 2;
+      width: $width;
+      margin: 0;
+      flex: 2.5;
     }
   }
   .dropdown{
-    margin: 0.5vw 0;
     i.icon{
       position: initial;
-      margin-right: 0;
+      transform: translateY(0);
     }
   }
   i.icon{
@@ -1020,46 +1090,35 @@ footer {
       display: inline-block;
     }
   }
-  >input{
-    background: transparent;
-    border: 1px solid $Orange;
-    border-radius: 3px;
-    padding: 3vw 0 3vw 8vw;
-    width: calc(100% - 8vw);
-    color: $White;
-    &::placeholder {
-      color: $White;
-    }
-  }
+  
   >.icon-module {
     position: absolute;
     right: 0;
     top: 0;
   }
 }
-.LoginRule {
+//LoginRule
+.LoginRule{
   height: 0;
   visibility: hidden;
   opacity: 0;
+  &.open {
+    height: auto;
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+  }
 }
-.LoginRule.open {
-  height: auto;
-  visibility: visible;
-  transition: 0.7s;
-  opacity: 1;
-}
-.text-org{
-  color: $Orange;
-  text-align: center;
-}
+//btn-group
 .btn-group{
   margin: 2vw 0;
   display: flex;
   button{
     width: $width;
-    color: #fff;
+    color: $white;
     border-radius: 3px;
-    padding: 3vw;
+    padding: 2vw 3vw;
+    font-size: 4vw;
     i{
       margin-right: 1vw;
     }
@@ -1070,62 +1129,361 @@ footer {
       margin-left: 0.5vw;
     }
     &.orange{
-      background: $Orange;
+      background: $orange;
     }
     &.blue{
       background: #1a3055;
     }
+    &.white{
+      background: $white;
+      color: $orange;
+    }
   }
 }
+//bankAccount
 .bankAccount{
-  margin: 2vw 0;
-  >.title{
-    margin-left: 2vw;
+  margin: 1vw 0;
+}
+//bankLogo
+.bankLogo{
+  background: $white;
+  border-radius: 5px;
+  margin-right: 2vw;
+  height: 7vw;
+  width: 13vw;
+  padding: 0 1vw;
+  &.acb{
+    background: url(http://www.n88dev.com/common/images/BankLogo/ACB.png)no-repeat center / cover;
   }
-  i{
+}
+//step
+.step{
+  display: flex;
+  justify-content: space-between;
+  margin: 3vw 0;
+  color: $white;
+  align-items: center;
+  position: relative;
+  .stepLine{
+    background: rgba($black, 0.6);
+    position: absolute;
+    width: calc(100% - 4vw);
+    height: 2vw;
+    left: 2vw;
+    display: flex;
+    align-items: center;
+    .stepBar50{
+      background: $orange;
+      width: 50%;
+      height: 1vw;
+    }
+    .stepBar100{
+      background: $orange;
+      width: $width;
+      height: 1vw;
+    }
+    ~div{
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  //circle
+  .circle{
+    background: rgba($orange, 0.33);
+    width: 12vw;
+    height: 12vw;
+    z-index: 1;
+    div{
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    >div{
+      background: rgba($orange, 0.33);
+      width: 10vw;
+      height: 10vw;
+      >div{
+        width: 8vw;
+        height: 8vw;
+        background: $orange;
+        font-size: 4vw;
+        font-weight: bold;
+      }
+    }
+  }
+}
+//depositType
+.depositType{
+  .icon:before{
+    font-size: 10vw;
+  }
+  .localBank{
+    width: 100%;
+    margin: auto;
+  }
+  div{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: $white;
+    float: left;
+    width: calc(#{$width} / 3);
+    margin: 2vw 0;    
+    a{
+      border-radius: 100%;
+      border: 1px solid $orange;
+      width: 20vw;
+      height: 20vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button{
+      border-radius: 100%;
+      border: 1px solid $orange;
+      width: 20vw;
+      height: 20vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+      &.open{
+        background: $orange;
+      }
+    }
+    span{
+      margin-top: 1vw;
+    }
+    .title{
+      color: $orange;
+      font-size: 3vw;
+    }
+    .creditTime{
+      background: rgba($black, 0.5);
+      border-radius: 5px;
+      padding: 1vw 2vw;
+    }
+  }
+}
+//recentTransactions
+.recent{
+  visibility: hidden;
+  transition: $transition;
+  opacity: 0;
+  height: 0;
+  .recentTransactions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &.open{
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+    height: auto;
+  }
+}
+//account
+.account{
+  background: rgba($black,0.3);
+  border-radius: 5px;
+  margin: 2vw 0;
+  padding: 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .info{
+    margin: 0;
+  }
+  .info ul li{
+    width: $width;
+  }
+  .info ul li span{
+    display: initial;
+  }
+}
+//smallTitle
+.smallTitle{
+  margin: 2vw 0;
+  padding-left: 2vw;
+  color: $white;
+  display: flex;
+  i.icon:before{
     margin-right: 1vw;
   }
-  .account{
-    background: rgba($Black,0.3);
-    border-radius: 5px;
-    margin: 2vw 0;
-    padding: 4vw;
-    display: flex;
-    align-items: center;
+}
+//countryCode
+.countryCode{
+  display: flex;
+  align-items: center;
+  margin-right: 1vw;
+  padding: 2vw;
+  border-radius: 3px;
+  border: 1px solid $orange;
+  flex: 1;
+}
+//text
+.text{
+  color: $white;
+}
+.text-org{
+  color: $orange;
+  text-align: center;
+}
+.bankSlip{
+  position: fixed;
+  background: rgba($blue,.95);
+  top: 0;
+  left: 0;
+  padding: 0 8vw;
+  height: 100%;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+//input
+input{
+  background: transparent;
+  border: 1px solid $orange;
+  border-radius: 3px;
+  padding: 3vw 0 3vw 8vw;
+  width: $width;
+  color: $white;
+  box-sizing: border-box;
+  &::placeholder {
+    color: $white;
   }
-  
-  .info{
-    flex: 4;
-    margin: 0;
-    li{
-      width: $width;
+}
+//
+input[type="file"] {
+  display: none;
+}
+.fileUpload{
+  border: 1px solid $orange;
+  padding: 2vw;
+  cursor: pointer;
+  color: $white;
+  margin-right: 0.5vw;
+  border-radius: 3px;
+  flex: 2;
+  &+button{
+    flex: 1;
+  }
+}
+
+button.clickBtn{
+  background: $orange;
+  border-radius: 100%;
+  padding: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  margin-left: 2vw;
+  width: 7vw;
+  height: 7vw;
+  &:before{
+    font-size: 4vw;
+  }
+}
+.infoStates{
+  padding: 2vw;
+  border-radius: 3px;
+  // border: 1px solid $orange;
+  color: $white;
+  text-align: center;
+  font-weight: bold;
+}
+.buttonBox{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 3vw 0;
+  button{
+    flex: 0 0 calc(#{$width} / 3 - 2vw);
+    border-radius: 3px;
+    color: $white;
+    padding: 2vw ;
+    margin: 1vw;
+    border: 1px solid #1a3055;
+    box-sizing: border-box;
+    box-shadow: 0px 3px #1a3055;
+    position: relative;
+    font-size: 3vw;
+    background: #213e6f;
+    .icon{
+      display: none;
+      position: absolute;
+      right: -1vw;
+      background: #ff5d00;
+      border-radius: 100%;
+      width: 5vw;
+      height: 5vw;
+      justify-content: center;
+      align-items: center;
+      transform: translateY(40%);
+      &::before{
+        font-size: 3vw;
+      }
     }
-  }
-  a{
-    width: 8vw;
-    height: 8vw;
-    background: $Orange;
-    border-radius: 100%;
-    padding: 1vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 0;
-    right: 0;
-    color: $White;
-    &:before{
-      font-size: 6vw;
+    &.open{
+      background: none;
+      box-shadow: 0px 0px #883200;
+      border: 1px solid $orange;
+      top: 1px;
+      .icon{
+        display: flex;
+      }
     }
   }
 }
-.bankLogo{
-  background: $White;
-  border-radius: 5px;
-  flex: 1;
-  margin-right: 2vw;
-  height: 8vw;
-  max-width: 13vw;
-  &.acb{
-    background: url(../img/banklogo/ACB.png)no-repeat top center / cover;
+//tip
+.tip{
+  margin-top: 1vw;
+}
+//errortip
+.errortip{
+  display: none;
+  margin-top: 1vw;
+  width: 100%;
+  &.open{
+    display: block;
+  }
+}
+.transactionHistory{
+  visibility: hidden;
+  transition: $transition;
+  opacity: 0;
+  height: 0;
+  &.open{
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+    height: auto;
+  }
+}
+.popUp{
+  visibility: hidden;
+  transition: $transition;
+  opacity: 0;
+  &.open{
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+  }
+}
+.channel{
+  visibility: hidden;
+  transition: $transition;
+  opacity: 0;
+  height: 0;
+  &.open{
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+    height: auto;
   }
 }

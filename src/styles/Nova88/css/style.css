@@ -55,6 +55,10 @@ body, html {
   font-family: 'Microsoft YaHei',sans-serif;
 }
 
+#root {
+  height: 100%;
+}
+
 .close {
   width: 6vw;
   height: 4.5vw;
@@ -162,14 +166,13 @@ header .Join, header .Login {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: calc(100% - 16vw) !important;
-  padding: 4vw 8vw !important;
+  width: calc(100% - 16vw);
+  padding: 4vw 8vw;
   height: calc(100% - 8vw);
   position: fixed;
   top: 0;
   left: 0;
   color: #fff;
-  padding: 4vw 0;
   z-index: 2;
   background: rgba(0, 25, 66, 0.95);
   visibility: hidden;
@@ -193,11 +196,11 @@ header .Join.open, header .Login.open {
 header .Join .dropdown, header .Login .dropdown {
   padding: 3vw 0 3vw 5vw;
   margin-left: 0;
-  width: calc(100% - 5vw);
 }
 
 header .Join .dropdown .btn, header .Login .dropdown .btn {
   padding: 0 3vw;
+  background: transparent;
 }
 
 header .Join .dropdown .dropdown-item, header .Login .dropdown .dropdown-item {
@@ -225,14 +228,7 @@ header .Join .inputBox, header .Login .inputBox {
 }
 
 header .Join .inputBox > input, header .Login .inputBox > input {
-  background: transparent;
-  border: 1px solid #ff5d00;
-  border-radius: 3px;
-  color: #fff;
-  padding: 3vw 0 3vw 8vw;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  width: calc(100% - 8vw);
+  margin: 1vw 0;
 }
 
 header .Join .inputBox > input::-webkit-input-placeholder, header .Login .inputBox > input::-webkit-input-placeholder {
@@ -440,11 +436,28 @@ header .subMenu > div.info .Avatar {
 header .subMenu > div.info .MemberID {
   font-size: 5vw;
   color: #ff5d00;
+  font-weight: bold;
 }
 
 header .subMenu > div.info .Balance {
   font-size: 5vw;
   font-weight: bold;
+}
+
+header .subMenu > div.info .Balance button.clickBtn {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 7vw;
+  height: 7vw;
+}
+
+header .subMenu > div.info .Balance button.clickBtn::before {
+  font-size: 4vw;
+}
+
+header .subMenu > div.info .Country {
+  margin-top: 2vw;
 }
 
 header .subMenu > div.info .Country > .icon:before {
@@ -458,13 +471,9 @@ header .subMenu > div.info .Country :before {
 }
 
 header .subMenu > div.info .Country .dropdown {
-  width: 30vw;
+  max-width: 40vw;
   margin-left: 2vw;
   padding-top: 2vw;
-}
-
-header .subMenu > div.info .Country .dropdown > .btn {
-  padding-bottom: 3vw;
 }
 
 header .subMenu > div.subThBar a, header .subMenu > div.memberFunction a {
@@ -1125,16 +1134,17 @@ footer > a.open .circleAnimation + span {
   border: 1px solid #ff5d00;
   border-radius: 3px;
   color: #fff;
-  margin: 1vw 0 0 1vw;
   width: 100%;
   position: relative;
-  padding: 2vw 0 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 2vw;
 }
 
 .dropdown:before {
@@ -1167,6 +1177,8 @@ footer > a.open .circleAnimation + span {
   margin-left: -1px;
   left: 0;
   top: 10vw;
+  max-height: 45vw;
+  overflow-y: scroll;
 }
 
 .dropdown > .dropdown-container .dropdown-item {
@@ -1177,14 +1189,14 @@ footer > a.open .circleAnimation + span {
 }
 
 .dropdown > .btn {
-  width: calc(100% - 6vw);
+  width: 100%;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 0 3vw 2vw 2vw;
+  color: #fff;
 }
 
 #popup {
@@ -1288,6 +1300,7 @@ footer > a.open .circleAnimation + span {
 .title {
   color: #fff;
   font-size: 4vw;
+  font-weight: bold;
 }
 
 .tag {
@@ -1303,7 +1316,7 @@ footer > a.open .circleAnimation + span {
           align-items: center;
   background: #001942;
   left: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .tag button {
@@ -1334,9 +1347,9 @@ footer > a.open .circleAnimation + span {
 .main {
   width: calc(100% - 16vw);
   height: auto;
-  min-height: calc(100% - 48vw);
+  min-height: calc(100% - 50vw);
   background: #001942;
-  padding: 24vw 8vw;
+  padding: 26vw 8vw 24vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1344,6 +1357,9 @@ footer > a.open .circleAnimation + span {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .avatar {
@@ -1357,9 +1373,9 @@ footer > a.open .circleAnimation + span {
   background: url(../img/avatar.jpg) no-repeat top center/cover;
 }
 
-.avatar a {
-  width: 5vw;
-  height: 5vw;
+.avatar button {
+  width: 7vw;
+  height: 7vw;
   background: #ff5d00;
   border-radius: 100%;
   padding: 1vw;
@@ -1375,9 +1391,10 @@ footer > a.open .circleAnimation + span {
   position: absolute;
   bottom: 0;
   right: 0;
+  color: #fff;
 }
 
-.avatar a:before {
+.avatar button:before {
   font-size: 4vw;
 }
 
@@ -1398,7 +1415,27 @@ footer > a.open .circleAnimation + span {
   margin-right: 1vw;
 }
 
-.balance, .name {
+.balance {
+  font-size: 5vw;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 1vw;
+}
+
+.balance button.clickBtn {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 7vw;
+  height: 7vw;
+}
+
+.balance button.clickBtn::before {
+  font-size: 4vw;
+}
+
+.name {
   font-size: 5vw;
   font-weight: bold;
   color: #fff;
@@ -1425,14 +1462,35 @@ footer > a.open .circleAnimation + span {
   color: #ff5d00;
 }
 
-.mode > button.open {
+.mode > button.icon-moon {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
+.mode > button.open {
+  border: 2px solid #ff5d00;
+}
+
+.infoList .info {
+  border-radius: 5px;
+  padding: 4vw;
+}
+
+.infoList > .info:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.infoList > .info:nth-child(even) {
+  background: rgba(255, 93, 0, 0.3);
+}
+
 .info {
   color: #fff;
-  margin-top: 1vw;
+  margin: 2vw 0;
+}
+
+.info ul {
+  display: inline-block;
 }
 
 .info ul li {
@@ -1450,52 +1508,79 @@ footer > a.open .circleAnimation + span {
   color: #ff5d00;
 }
 
+.info.infoBlack {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 4vw;
+}
+
+.info.infoAccount li {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1vw 0;
+}
+
+.info.infoAccount li:first-child {
+  margin-bottom: 2vw;
+}
+
+.info.infoAccount li:first-child .bankLogo {
+  margin-bottom: 2vw;
+}
+
+.info.infoAccount li:first-child .bankLogo + span {
+  font-weight: bold;
+}
+
+.info.infoAccount li .title {
+  font-weight: bold;
+}
+
 .inputBox {
   position: relative;
   color: #fff;
-  margin-top: 0.5vw;
-  margin-bottom: 0.5vw;
+  margin: 2vw 0;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .inputBox.parts {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: calc(100% + 2px);
 }
 
 .inputBox.parts .dropdown {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  max-width: calc(33.33% - 2px);
-}
-
-.inputBox.parts .dropdown:first-child {
-  margin-right: 1vw;
-}
-
-.inputBox.parts .dropdown:last-child {
   margin-left: 1vw;
 }
 
-.inputBox.parts .dropdown + .inputBox input {
-  width: calc(100% - 8vw - 2px);
+.inputBox.parts .dropdown:first-child {
+  margin-left: 0vw;
 }
 
 .inputBox.parts .inputBox {
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
-}
-
-.inputBox .dropdown {
-  margin: 0.5vw 0;
+  width: 100%;
+  margin: 0;
+  -webkit-box-flex: 2.5;
+      -ms-flex: 2.5;
+          flex: 2.5;
 }
 
 .inputBox .dropdown i.icon {
   position: initial;
-  margin-right: 0;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
 }
 
 .inputBox i.icon {
@@ -1518,31 +1603,6 @@ footer > a.open .circleAnimation + span {
   display: inline-block;
 }
 
-.inputBox > input {
-  background: transparent;
-  border: 1px solid #ff5d00;
-  border-radius: 3px;
-  padding: 3vw 0 3vw 8vw;
-  width: calc(100% - 8vw);
-  color: #fff;
-}
-
-.inputBox > input::-webkit-input-placeholder {
-  color: #fff;
-}
-
-.inputBox > input:-ms-input-placeholder {
-  color: #fff;
-}
-
-.inputBox > input::-ms-input-placeholder {
-  color: #fff;
-}
-
-.inputBox > input::placeholder {
-  color: #fff;
-}
-
 .inputBox > .icon-module {
   position: absolute;
   right: 0;
@@ -1563,11 +1623,6 @@ footer > a.open .circleAnimation + span {
   opacity: 1;
 }
 
-.text-org {
-  color: #ff5d00;
-  text-align: center;
-}
-
 .btn-group {
   margin: 2vw 0;
   display: -webkit-box;
@@ -1579,7 +1634,8 @@ footer > a.open .circleAnimation + span {
   width: 100%;
   color: #fff;
   border-radius: 3px;
-  padding: 3vw;
+  padding: 2vw 3vw;
+  font-size: 4vw;
 }
 
 .btn-group button i {
@@ -1602,19 +1658,223 @@ footer > a.open .circleAnimation + span {
   background: #1a3055;
 }
 
+.btn-group button.white {
+  background: #fff;
+  color: #ff5d00;
+}
+
 .bankAccount {
+  margin: 1vw 0;
+}
+
+.bankLogo {
+  background: #fff;
+  border-radius: 5px;
+  margin-right: 2vw;
+  height: 7vw;
+  width: 13vw;
+  padding: 0 1vw;
+}
+
+.bankLogo.acb {
+  background: url(http://www.n88dev.com/common/images/BankLogo/ACB.png) no-repeat center/cover;
+}
+
+.step {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 3vw 0;
+  color: #fff;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.step .stepLine {
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  width: calc(100% - 4vw);
+  height: 2vw;
+  left: 2vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.step .stepLine .stepBar50 {
+  background: #ff5d00;
+  width: 50%;
+  height: 1vw;
+}
+
+.step .stepLine .stepBar100 {
+  background: #ff5d00;
+  width: 100%;
+  height: 1vw;
+}
+
+.step .stepLine ~ div {
+  border-radius: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.step .circle {
+  background: rgba(255, 93, 0, 0.33);
+  width: 12vw;
+  height: 12vw;
+  z-index: 1;
+}
+
+.step .circle div {
+  border-radius: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.step .circle > div {
+  background: rgba(255, 93, 0, 0.33);
+  width: 10vw;
+  height: 10vw;
+}
+
+.step .circle > div > div {
+  width: 8vw;
+  height: 8vw;
+  background: #ff5d00;
+  font-size: 4vw;
+  font-weight: bold;
+}
+
+.depositType .icon:before {
+  font-size: 10vw;
+}
+
+.depositType .localBank {
+  width: 100%;
+  margin: auto;
+}
+
+.depositType div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #fff;
+  float: left;
+  width: calc(100% / 3);
   margin: 2vw 0;
 }
 
-.bankAccount > .title {
-  margin-left: 2vw;
+.depositType div a {
+  border-radius: 100%;
+  border: 1px solid #ff5d00;
+  width: 20vw;
+  height: 20vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-.bankAccount i {
-  margin-right: 1vw;
+.depositType div button {
+  border-radius: 100%;
+  border: 1px solid #ff5d00;
+  width: 20vw;
+  height: 20vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #fff;
 }
 
-.bankAccount .account {
+.depositType div button.open {
+  background: #ff5d00;
+}
+
+.depositType div span {
+  margin-top: 1vw;
+}
+
+.depositType div .title {
+  color: #ff5d00;
+  font-size: 3vw;
+}
+
+.depositType div .creditTime {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 1vw 2vw;
+}
+
+.recent {
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+  height: 0;
+}
+
+.recent .recentTransactions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.recent.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+  height: auto;
+}
+
+.account {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   margin: 2vw 0;
@@ -1625,25 +1885,134 @@ footer > a.open .circleAnimation + span {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
-.bankAccount .info {
-  -webkit-box-flex: 4;
-      -ms-flex: 4;
-          flex: 4;
+.account .info {
   margin: 0;
 }
 
-.bankAccount .info li {
+.account .info ul li {
   width: 100%;
 }
 
-.bankAccount a {
-  width: 8vw;
-  height: 8vw;
+.account .info ul li span {
+  display: initial;
+}
+
+.smallTitle {
+  margin: 2vw 0;
+  padding-left: 2vw;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.smallTitle i.icon:before {
+  margin-right: 1vw;
+}
+
+.countryCode {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 1vw;
+  padding: 2vw;
+  border-radius: 3px;
+  border: 1px solid #ff5d00;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.text {
+  color: #fff;
+}
+
+.text-org {
+  color: #ff5d00;
+  text-align: center;
+}
+
+.bankSlip {
+  position: fixed;
+  background: rgba(0, 25, 66, 0.95);
+  top: 0;
+  left: 0;
+  padding: 0 8vw;
+  height: 100%;
+  z-index: 4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+input {
+  background: transparent;
+  border: 1px solid #ff5d00;
+  border-radius: 3px;
+  padding: 3vw 0 3vw 8vw;
+  width: 100%;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+input::-webkit-input-placeholder {
+  color: #fff;
+}
+
+input:-ms-input-placeholder {
+  color: #fff;
+}
+
+input::-ms-input-placeholder {
+  color: #fff;
+}
+
+input::placeholder {
+  color: #fff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.fileUpload {
+  border: 1px solid #ff5d00;
+  padding: 2vw;
+  cursor: pointer;
+  color: #fff;
+  margin-right: 0.5vw;
+  border-radius: 3px;
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+}
+
+.fileUpload + button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+button.clickBtn {
   background: #ff5d00;
   border-radius: 100%;
-  padding: 1vw;
+  padding: 2vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1653,27 +2022,144 @@ footer > a.open .circleAnimation + span {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  bottom: 0;
-  right: 0;
   color: #fff;
+  margin-left: 2vw;
+  width: 7vw;
+  height: 7vw;
 }
 
-.bankAccount a:before {
-  font-size: 6vw;
+button.clickBtn:before {
+  font-size: 4vw;
 }
 
-.bankLogo {
-  background: #fff;
-  border-radius: 5px;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  margin-right: 2vw;
-  height: 8vw;
-  max-width: 13vw;
+.infoStates {
+  padding: 2vw;
+  border-radius: 3px;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
 }
 
-.bankLogo.acb {
-  background: url(../img/banklogo/ACB.png) no-repeat top center/cover;
+.buttonBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 3vw 0;
+}
+
+.buttonBox button {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(100% / 3 - 2vw);
+          flex: 0 0 calc(100% / 3 - 2vw);
+  border-radius: 3px;
+  color: #fff;
+  padding: 2vw;
+  margin: 1vw;
+  border: 1px solid #1a3055;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-shadow: 0px 3px #1a3055;
+          box-shadow: 0px 3px #1a3055;
+  position: relative;
+  font-size: 3vw;
+  background: #213e6f;
+}
+
+.buttonBox button .icon {
+  display: none;
+  position: absolute;
+  right: -1vw;
+  background: #ff5d00;
+  border-radius: 100%;
+  width: 5vw;
+  height: 5vw;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: translateY(40%);
+          transform: translateY(40%);
+}
+
+.buttonBox button .icon::before {
+  font-size: 3vw;
+}
+
+.buttonBox button.open {
+  background: none;
+  -webkit-box-shadow: 0px 0px #883200;
+          box-shadow: 0px 0px #883200;
+  border: 1px solid #ff5d00;
+  top: 1px;
+}
+
+.buttonBox button.open .icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tip {
+  margin-top: 1vw;
+}
+
+.errortip {
+  display: none;
+  margin-top: 1vw;
+  width: 100%;
+}
+
+.errortip.open {
+  display: block;
+}
+
+.transactionHistory {
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+  height: 0;
+}
+
+.transactionHistory.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+  height: auto;
+}
+
+.popUp {
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+}
+
+.popUp.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+}
+
+.channel {
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+  height: 0;
+}
+
+.channel.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+  height: auto;
 }
 /*# sourceMappingURL=style.css.map */

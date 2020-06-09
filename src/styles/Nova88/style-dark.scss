@@ -1,45 +1,47 @@
 @import "color-group.scss";
 html.dark{
   header {
-    background: $Dark;
-    border-bottom: 1px solid $Orange;
+    background: $dark;
+    border-bottom: 1px solid $orange;
     button {
       &:nth-child(2) {
-        background: $Orange;
+        background: $orange;
       }
     }
     .subMenu{
-      background: rgba($Dark,.95);
+      background: rgba($dark,.95);
     }
   }
   main {
+    background: $lightBlack;
     #Marquee {
-      color: $White;
-      background: $Black;
+      color: $white;
+      background: $black;
       .icon {
-        color: $White;
-        background: $Black;
+        color: $white;
+        background: $black;
       }
     }
     .sideBar{
-      background: $Dark;
+      background: $dark;
     }
     .thBar {
-      background: $Dark;
+      background: $dark;
       a {
-        color: $Orange;
+        color: $orange;
         border-right: 1px solid $lightBlack;
         &.icon {
           &:before{
-            color: $White;
+            color: $white;
           }
         }
       }
     }
     .gameList {
       a {
+        box-shadow: 1px 2px 4px 0px $dark;
         &:after {
-          border-color: transparent $Dark $Dark transparent;
+          border-color: transparent $dark $dark transparent;
         }
       }
     }
@@ -48,17 +50,17 @@ html.dark{
   footer {
     background: $lightBlack;
     a {
-      border-right: 1px solid $Dark;
-      border-bottom: 2px solid $Dark;
+      border-right: 1px solid $dark;
+      border-bottom: 2px solid $dark;
       .circleAnimation {
         color: #6f6f6f;
       }
       &.open {
-        border-bottom: 2px solid $Orange;
+        border-bottom: 2px solid $orange;
         .circleAnimation {
           background: url(../img/footerActiveDark.svg) no-repeat top center/100% 100%;
           + span {
-            color: $White;
+            color: $white;
           }
         }
       }

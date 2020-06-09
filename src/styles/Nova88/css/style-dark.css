@@ -11,6 +11,10 @@ html.dark header .subMenu {
   background: rgba(25, 25, 25, 0.95);
 }
 
+html.dark main {
+  background: #333;
+}
+
 html.dark main #Marquee {
   color: #fff;
   background: #000;
@@ -36,6 +40,11 @@ html.dark main .thBar a {
 
 html.dark main .thBar a.icon:before {
   color: #fff;
+}
+
+html.dark main .gameList a {
+  -webkit-box-shadow: 1px 2px 4px 0px #191919;
+          box-shadow: 1px 2px 4px 0px #191919;
 }
 
 html.dark main .gameList a:after {

@@ -13,7 +13,7 @@
 </head>
 <body>
     <header class="header">
-        <div class="title">PROFILE</div>
+        <div class="title">Profile</div>
         <div class="close "><!--class="close open"-->
             <span></span>
             <span></span>
@@ -31,13 +31,13 @@
         </div>
         <div class="avatar">            
             <!--編輯頭像-暫無此功能隱藏-->
-            <a class="icon icon-camera"></a>
+            <button class="icon icon-camera"></button>
         </div>
         <!--vip等級-暫無此功能隱藏-->
         <div class="viplv">
             <i class="icon icon-vip"></i>VIP Lv100
         </div>
-        <div class="balance">THB 000,000,000,000.00</div>
+        <div class="balance">THB 000,000,000,000.00<button class="icon icon-spinner11 clickBtn"></button></div>
         <div class="inputBox">
             <i class="icon icon-member"></i>
             <input placeholder="RealName">
@@ -47,10 +47,10 @@
         </div>
         <div class="inputBox parts">
             <div class="dropdown ">
-                <a class="btn">
+                <button class="btn">
                     <i class="icon icon-cake"></i>
                     <span class="text">JAN</span>
-                </a>
+                </button>
                 <div class="dropdown-container">
                     <div class="dropdown-item">
                         <span class="text">JAN</span>
@@ -67,12 +67,33 @@
                     <div class="dropdown-item">
                         <span class="text">MAY</span>
                     </div>
+                    <div class="dropdown-item">
+                        <span class="text">Jun</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="text">Jul</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="text">Aug</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="text">Sep</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="text">Oct</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="text">Nov</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="text">Dec</span>
+                    </div>
                 </div>
             </div>
             <div class="dropdown ">
-                <a class="btn">
+                <button class="btn">
                     <span class="text">1</span>
-                </a>
+                </button>
                 <div class="dropdown-container">
                     <div class="dropdown-item">
                         <span class="text">2</span>
@@ -89,9 +110,9 @@
                 </div>
             </div>
             <div class="dropdown ">
-                <a class="btn">
+                <button class="btn">
                     <span class="text">2002</span>
-                </a>
+                </button>
                 <div class="dropdown-container">
                     <div class="dropdown-item">
                         <span class="text">2002</span>
@@ -110,21 +131,10 @@
                     </div>
                 </div>
             </div>
+            <div class="errortip open">Amount can not be less than 0.</div>
         </div>
         <div class="inputBox parts">
-            <div class="dropdown ">
-                <a class="btn">
-                    <span class="text">+86</span>
-                </a>
-                <div class="dropdown-container">
-                    <div class="dropdown-item">
-                        <span class="text">+86</span>
-                    </div>
-                    <div class="dropdown-item">
-                        <span class="text">+866</span>
-                    </div>
-                </div>
-            </div>
+            <span class="countryCode">+866</span>
             <div class="inputBox">
                 <i class="icon icon-phone"></i>
                 <input placeholder="Phone">
@@ -132,9 +142,9 @@
                     <i class="icon icon-warning"></i>
                 </div>
             </div>
+            <div class="errortip open">Amount can not be less than 0.</div>
         </div>
-        <div class="btn-grop">
-            <button class="blue">Cancel</button>
+        <div class="btn-group">
             <button class="orange">Submit</button>
         </div>
         <div class="info">
