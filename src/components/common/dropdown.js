@@ -31,6 +31,7 @@ export class DropdownBox extends Component {
 					value={i}
 					displayText={item.displayText}
 					onClick={this.SelectItem.bind(null, i)}
+					bankLogoList={`${this.props.bankLogoList}${item.bankLogo}`}
 				/>
 			);
 		});
@@ -39,15 +40,23 @@ export class DropdownBox extends Component {
 				ref={this.wrapper}
 				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
-				<a className="btn">
-					<i className={`${this.props.icon}`}></i>
+				<button className="btn">
+					<i
+						className={`${
+							this.props.icon ? this.props.icon : ""
+						} `}></i>
+					<img
+						src={`${
+							this.props.bankLogo ? this.props.bankLogo : ""
+						}`}
+					/>
 					<span className="text">
 						{
 							this.props.options[this.props.selectedIdx]
 								?.displayText
 						}
 					</span>
-				</a>
+				</button>
 
 				<div
 					className={`dropdown-container${
@@ -63,6 +72,7 @@ export class DropdownBox extends Component {
 const Item = props => {
 	return (
 		<div className="dropdown-item" onClick={props.onClick}>
+			<img src={`${props.bankLogoList ? props.bankLogoList : ""}`} />
 			<span className="text">{props.displayText}</span>
 		</div>
 	);

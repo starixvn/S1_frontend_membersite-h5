@@ -73,5 +73,14 @@ export default [
 	"lbl_Birthday",
 	"lbl_Country",
 	"lbl_RegisterTime",
-	"lbl_LastLogin"
+	"lbl_LastLogin",
+	"lbl_BankNumber",
+	"msg_NeedAccountName",
+	"msg_NeedAccountNo",
+	"lbl_Cancel",
+	"lbl_BankAccount",
+	"lbl_CheckConfirm",
+	"msg_Updatesuccessful",
+	"lbl_Confirm",
+	"lbl_CountryTH"
 ];

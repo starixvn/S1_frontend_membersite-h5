@@ -21,3 +21,18 @@ export const api_SetProfile = ({
 		AreaCode,
 		PhoneNo
 	});
+
+export const api_SetCustBankInfo = ({ AccountName, AccountNo, SysId }) =>
+	accountStrictRequest.post("/SetCustBankInfo", {
+		AccountName,
+		AccountNo,
+		SysId
+	});
+
+export const api_DelCustBankInfo = ({ AccountName, AccountNo, SysId }) => {
+	accountStrictRequest.post("/DelCustBankInfo", {
+		AccountName,
+		AccountNo,
+		SysId
+	});
+};

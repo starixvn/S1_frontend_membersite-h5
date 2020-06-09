@@ -32,3 +32,8 @@ export const entPageRequest = axios.create({
 	withCredentials: true,
 	baseURL: `${rootURL}/api/entPage`
 });
+
+export const paymentRequest = axios.create({
+	withCredentials: true,
+	baseURL: `${rootURL}/api/Payment`
+});

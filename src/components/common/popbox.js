@@ -21,6 +21,7 @@ const PopUp = () => {
 				{popBox.title}
 			</div>
 			<div className="popTxt">{popBox.content}</div>
+			{popBox.hasBtn === true ? popBox.btnBar : <></>}
 		</div>
 	);
 };
