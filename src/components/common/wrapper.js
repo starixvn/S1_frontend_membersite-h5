@@ -10,7 +10,7 @@ import themeList from "../../datas/theme";
 
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
-		isLogin: IS_LOGGED_IN(),
+		isLogin: false,
 		langId: GET_LANG_ID(),
 		userName: "guest"
 	});
@@ -31,6 +31,17 @@ export const Wrapper = ({ children }) => {
 	});
 
 	const [theme, setTheme] = useState(themeList.default);
+
+	useEffect(() => {
+		IS_LOGGED_IN().then(isLogin => {
+			if (isLogin !== userInfo.isLogin) {
+				setUserInfo(prevState => ({
+					...prevState,
+					isLogin: isLogin
+				}));
+			}
+		});
+	}, []);
 
 	useEffect(() => {
 		if (userInfo.isLogin) {

@@ -19,3 +19,5 @@ export const api_GetSiteCurrencyList = () =>
 	siteRequest.post(`/GetSiteCurrencyList/`);
 
 export const api_GetSiteLangList = () => siteRequest.post(`/GetSiteLangList/`);
+
+export const api_CheckSignIn = () => siteRequest.post(`/CheckSignIn/`);

@@ -81,18 +81,25 @@ function Join() {
 	});
 
 	useEffect(() => {
+		let mounted = true;
 		api_GetSiteCurrencyList().then(res => {
-			const currencyNum = res.data.data;
-			let currencyArr = currencyNum.map(id => {
-				return { id: id, displayText: i18n[`Currency_${id}`] };
-			});
+			if (mounted) {
+				const currencyNum = res.data.data;
+				let currencyArr = currencyNum.map(id => {
+					return { id: id, displayText: i18n[`Currency_${id}`] };
+				});
 
-			setUserValueState(prevState => ({
-				...prevState,
-				Currency: currencyArr[currencyDefaultSelectIdx]
-			}));
-			setSiteCurrencyState(prevS => currencyArr);
+				setUserValueState(prevState => ({
+					...prevState,
+					Currency: currencyArr[currencyDefaultSelectIdx]
+				}));
+				setSiteCurrencyState(() => currencyArr);
+			}
 		});
+
+		return () => {
+			mounted = false;
+		};
 	}, [i18n]);
 
 	const showPswHandler = () => {
