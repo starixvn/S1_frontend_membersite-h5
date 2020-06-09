@@ -12,12 +12,6 @@ import Inputbox from "./inputbox";
 import Dropdown from "../common/dropdown";
 import config from "../../config";
 
-const defStatus = {
-	default: "default",
-	edit: "edit",
-	inputRealName: "inputRealName"
-};
-
 const initWarningState = {
 	status: false,
 	msg: ""
@@ -27,10 +21,9 @@ const BankInfo = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
 	const { i18n } = useContext(i18nContext);
-	//config.apiURL
 	const [siteBankInfoState, setSiteBankInfoState] = useState([]);
 	const [getBankInfo, setGetBankInfo] = useState([]);
-	const [status, setStatus] = useState(defStatus.default);
+	const [status, setStatus] = useState(true);
 	const [userValueState, setUserValueState] = useState({});
 	const [bankSelectedIdx, setBankSelectedIdx] = useState(0);
 	const [warningState, setWarningState] = useState(initWarningState);
@@ -74,18 +67,20 @@ const BankInfo = () => {
 
 	useEffect(() => {
 		if (!userInfo.accountName) {
-			setStatus(defStatus.inputRealName);
+			setStatus(true);
 		}
 	}, [userInfo.accountName]);
 
 	const toAddBankAccount = () => {
-		setStatus(defStatus.edit);
+		setStatus(false);
 		setBankSelectedIdx(0);
 		setWarningState(initWarningState);
+		setUserValueState({});
+		setChecklistState(false);
 	};
 
 	const toShowBankAccount = () => {
-		setStatus(defStatus.default);
+		setStatus(true);
 		setPopBox({ isOpen: false });
 	};
 
@@ -163,7 +158,7 @@ const BankInfo = () => {
 	const checkSubmitHandler = () => {
 		let checked = true;
 
-		if (status === defStatus.inputRealName) {
+		if (status === true && !userInfo.accountName) {
 			if (checklistState === false) {
 				checked = false;
 				setWarningState(prevState => {
@@ -175,7 +170,7 @@ const BankInfo = () => {
 			} else {
 				checked = true;
 			}
-		} else if (status === defStatus.edit) {
+		} else if (status === false) {
 			if (checklistState === false) {
 				checked = false;
 
@@ -191,7 +186,7 @@ const BankInfo = () => {
 		}
 
 		if (checked) {
-			if (status === defStatus.inputRealName) {
+			if (status === true && !userInfo.accountName) {
 				let profileData = {
 					AccountName: userValueState.RealName
 				};
@@ -205,8 +200,8 @@ const BankInfo = () => {
 						}
 					});
 				});
-				setStatus(defStatus.default);
-			} else if (status === defStatus.edit) {
+				setStatus(true);
+			} else if (status === false) {
 				let bankInfoData = {
 					AccountName: userInfo.accountName,
 					AccountNo: userValueState.BankAccount,
@@ -232,7 +227,7 @@ const BankInfo = () => {
 						});
 					}
 				});
-				setStatus(defStatus.default);
+				setStatus(true);
 			}
 		}
 	};
@@ -254,7 +249,7 @@ const BankInfo = () => {
 			<div className="avatar"></div>
 			<div className="name">{userInfo.accountName}</div>
 
-			{status === defStatus.inputRealName ? (
+			{status === true && !userInfo.accountName ? (
 				<>
 					<Inputbox
 						icon="icon-member"
@@ -273,11 +268,11 @@ const BankInfo = () => {
 				</>
 			) : null}
 
-			{status === defStatus.default ? (
+			{status === true && userInfo.accountName ? (
 				<div className="text-org">{i18n["lbl_ContactCSD"]}</div>
 			) : null}
 
-			{status === defStatus.default ? (
+			{status === true && userInfo.accountName ? (
 				<>
 					{" "}
 					{getBankInfo && getBankInfo.length < 3 ? (
@@ -293,7 +288,7 @@ const BankInfo = () => {
 				</>
 			) : null}
 
-			{status === defStatus.edit ? (
+			{status === false ? (
 				<>
 					{" "}
 					<div className="inputBox">
@@ -326,7 +321,7 @@ const BankInfo = () => {
 				</>
 			) : null}
 
-			{status === defStatus.default ? (
+			{status === true ? (
 				<>
 					{getBankInfo && getBankInfo.length > 0 ? (
 						<div className="smallTitle">
