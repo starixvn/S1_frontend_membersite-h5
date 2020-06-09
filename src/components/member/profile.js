@@ -21,6 +21,7 @@ const Panel = () => {
 			<div className="avatar"></div>
 			<div className="balance">
 				{i18n[`Currency_${userInfo.currencyId}`]} {balance}
+				<button className="icon icon-spinner11 clickBtn"></button>
 			</div>
 			<ProfileDetail />
 		</>

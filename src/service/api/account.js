@@ -11,3 +11,6 @@ export const api_UserLogin = data => loginRequest.post("/SignIn", data);
 export const api_onlineCheck = () => accountRequest.post("/onlineCheck");
 
 export const api_GetBalnace = () => accountRequest.post("/GetBalance");
+
+export const api_GetCustBankInfo = () =>
+	accountRequest.post("/GetCustBankInfo");

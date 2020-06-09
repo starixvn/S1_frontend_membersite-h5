@@ -88,7 +88,7 @@ const Panel = () => {
 		{
 			infoTitle: "country",
 			colTitle: i18n["lbl_Country"],
-			content: userInfo.country
+			content: i18n[`lbl_Country${userInfo.country}`]
 		},
 		{
 			infoTitle: "email",
@@ -198,21 +198,39 @@ const Panel = () => {
 		let checked = true;
 		let year = yearOptions[yearSelectedIdx]?.value;
 		let month = monthOptions[monthSelectedIdx]?.value;
-		let day = daySelectedIdx;
+		let day = daySelectedIdx + 1;
 
 		setUserValueState(prevState => ({
 			...prevState,
-			Birth: year / month / day
+			Birth: `${year} / ${month} / ${day}`
 		}));
+
+		if (year !== undefined && month !== undefined && day !== undefined) {
+			setWarningState(prevState => {
+				return {
+					...prevState,
+					Birthday: {
+						status: false,
+						msg: ""
+					}
+				};
+			});
+			setChecklistState(prevState => {
+				return { ...prevState, Birthday: true };
+			});
+		}
 
 		for (let i in checklistState) {
 			if (checklistState[i] === false) {
 				let message = "";
+				checked = false;
 				setWarningState(prevState => {
 					if (i === "RealName") {
 						message = i18n["msg_EnterRealName"];
-					} else {
+					} else if (i === "Phone") {
 						message = i18n["msg_EnterPhoneNumber"];
+					} else if (i === "Birthday") {
+						message = i18n["msg_SelectBirthDay"];
 					}
 					return {
 						...prevState,
@@ -222,6 +240,8 @@ const Panel = () => {
 						}
 					};
 				});
+			} else {
+				checked = true;
 			}
 		}
 
@@ -302,6 +322,7 @@ const Panel = () => {
 							yearSelectedIdx={yearSelectedIdx}
 							monthSelectedIdx={monthSelectedIdx}
 							daySelectedIdx={daySelectedIdx}
+							Warning={warningState.Birthday}
 							dropdownStateHandler={
 								dropdownStateHandler
 							}></Birthday>
@@ -310,11 +331,7 @@ const Panel = () => {
 					{status === defStatus.RealName_Phone_BDay ||
 					status === defStatus.Phone_BDay ? (
 						<div className="inputBox parts">
-							<div className="dropdown">
-								<a className="btn">
-									<span className="text">{aCode}</span>
-								</a>
-							</div>
+							<span className="countryCode">{aCode}</span>
 
 							<Inputbox
 								icon="icon-phone"
@@ -325,8 +342,14 @@ const Panel = () => {
 									"Phone"
 								)}
 								onChange={EditField.bind(null, "Phone")}
-								Warning={warningState.Phone}
+								Warning={(status = false)}
 							/>
+							<div
+								className={`errortip ${
+									warningState.Phone.status ? "open" : ""
+								}`}>
+								{warningState.Phone.msg}
+							</div>
 						</div>
 					) : null}
 
@@ -376,6 +399,9 @@ const Birthday = props => {
 				onSelectItem={props.dropdownStateHandler}
 				selectedIdx={props.yearSelectedIdx}
 			/>
+			<div className={`errortip ${props.Warning.status ? "open" : ""}`}>
+				{props.Warning.msg}
+			</div>
 		</div>
 	);
 };

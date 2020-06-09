@@ -20,7 +20,9 @@ export const Wrapper = ({ children }) => {
 	const [popBox, setPopBox] = useState({
 		isOpen: false,
 		title: "",
-		content: ""
+		content: "",
+		hasBtn: false,
+		btnBar: null
 	});
 
 	const [nav, setNav] = useState(null);
