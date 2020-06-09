@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Profile from "./subMenu.profile";
 import { navContext, defPanel, i18nContext } from "../common/context";
 import SubGameList from "./subMenu.gameList";
@@ -32,9 +32,8 @@ const SubMenu = () => {
 
 			<div className={`subMenu${isOpen ? " open" : ""}`}>
 				<Profile />
-
 				<div className="subThBar">
-					<a className="icon icon-deposit">
+					<a className="icon icon-deposit" href="/deposit">
 						<span>{i18n["lbl_Deposit"]}</span>
 					</a>
 					<a className="icon icon-transfer">

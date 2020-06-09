@@ -9,6 +9,7 @@ import Wallet from "./pages/wallet";
 import LiveChat from "./pages/livechat";
 import Layout from "./components/common/layout";
 import Member from "./pages/member";
+import Deposit from "./pages/deposit";
 
 const Index = () => {
 	let history = createHistory(window);
@@ -23,6 +24,7 @@ const Index = () => {
 						<Wallet path="wallet" />
 						<LiveChat path="livechat" />
 						<Member path="member" />
+						<Deposit path="/deposit" />
 					</Router>
 				</Layout>
 			</LocationProvider>
