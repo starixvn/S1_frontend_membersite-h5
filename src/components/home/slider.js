@@ -1,6 +1,7 @@
 import React from "react";
 import Swiper from "react-id-swiper";
 import "../../styles/Nova88/css/swiper.css";
+import config from "../../config";
 
 const Autoplay = () => {
 	const params = {
@@ -20,13 +21,13 @@ const Autoplay = () => {
 		<Swiper {...params}>
 			<a href="#">
 				<img
-					src="https://www.nova88.net/CMS/Nova88/Promotion/ch/banner-covid.jpg?v=Ran12ZQN84OeDyBG7pEzAHcLKtsSI5jf5CMWxIXks_k"
+					src={`${config.apiURL}/CMS/Nova88/Promotion/ch/banner-covid.jpg?v=Ran12ZQN84OeDyBG7pEzAHcLKtsSI5jf5CMWxIXks_k`}
 					className="banner"
 				/>
 			</a>
 			<a href="#">
 				<img
-					src="https://www.nova88.net/CMS/Nova88/Promotion/ch/banner-FTDP.jpg?v=gEAZpv-4rdevGxrPXrxva6pbRaAc-U4rATMtb-UbvqA"
+					src={`${config.apiURL}/CMS/Nova88/Promotion/ch/banner-FTDP.jpg?v=gEAZpv-4rdevGxrPXrxva6pbRaAc-U4rATMtb-UbvqA`}
 					className="banner"
 				/>
 			</a>
