@@ -19,7 +19,9 @@ const Layout = ({ children }) => {
 		hideLogo: false
 	};
 
-	if (useMatch("/member")) {
+	let _match = useMatch("/member") !== null;
+	let _match2 = useMatch("/deposit") !== null;
+	if (_match || _match2) {
 		if (userInfo.isLogin) {
 			pageInfo.title = "Member";
 			pageInfo.className = "main";
