@@ -1,11 +1,6 @@
 import React, { useState, useContext } from "react";
 import Member from "../components/member/profile";
-import {
-	i18nContext,
-	userInfoContext,
-	navContext,
-	defPanel
-} from "../components/common/context";
+import { i18nContext, userInfoContext } from "../components/common/context";
 import BankInfo from "../components/member/bankInfo";
 import { Redirect } from "@reach/router";
 
