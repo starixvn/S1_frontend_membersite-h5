@@ -11,7 +11,7 @@ const HeaderTitle = ({ title }) => <div className="title">{title}</div>;
 
 const Header = ({ title, hideLogo }) => {
 	return (
-		<header>
+		<header className={title ? "header" : ""}>
 			{hideLogo ? null : (
 				<a href="#">
 					<img src={logoItem} alt="logo" />

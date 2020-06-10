@@ -83,6 +83,7 @@ export default [
 	"msg_Updatesuccessful",
 	"lbl_Confirm",
 	"lbl_CountryTH",
+	"lbl_DepositHistory",
 	"lbl_Today",
 	"lbl_YesterDay",
 	"lbl_ThisWeek",
@@ -91,5 +92,11 @@ export default [
 	"lbl_LastMonth",
 	"lbl_QuickPick",
 	"lbl_From",
-	"lbl_To"
+	"lbl_To",
+	"lbl_OnlineBanking",
+	"lbl_CreditTime",
+	"lbl_Instant",
+	"lbl_WireTransfers",
+	"lbl_5mins",
+	"lbl_MobileDeposit"
 ];
