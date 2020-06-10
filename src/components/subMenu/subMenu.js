@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
 import Profile from "./subMenu.profile";
-import { navContext, defPanel, i18nContext } from "../common/context";
+import {
+	navContext,
+	defPanel,
+	i18nContext,
+	userInfoContext
+} from "../common/context";
 import SubGameList from "./subMenu.gameList";
+import { Link } from "@reach/router";
 
 const SubMenu = () => {
+	const { userInfo } = useContext(userInfoContext);
 	const { nav, setNav } = useContext(navContext);
 	const { i18n } = useContext(i18nContext);
 
@@ -16,6 +23,11 @@ const SubMenu = () => {
 	};
 
 	let isOpen = nav === defPanel.subMenu;
+
+	const ClickMenuItem = (needLogin, isLogin) => {
+		let panel = needLogin && !isLogin ? defPanel.login : null;
+		setNav(panel);
+	};
 
 	return (
 		<>
@@ -33,9 +45,16 @@ const SubMenu = () => {
 			<div className={`subMenu${isOpen ? " open" : ""}`}>
 				<Profile />
 				<div className="subThBar">
-					<a className="icon icon-deposit" href="/deposit">
-						<span>{i18n["lbl_Deposit"]}</span>
-					</a>
+					<Link
+						to="/deposit"
+						className="icon icon-deposit"
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
+						{i18n["lbl_Deposit"]}
+					</Link>
 					<a className="icon icon-transfer">
 						<span>{i18n["lbl_Transfer"]}</span>
 					</a>
@@ -45,9 +64,16 @@ const SubMenu = () => {
 				</div>
 				<SubGameList />
 				<div className="memberFunction">
-					<a className="icon icon-member">
-						<span>Member</span>
-					</a>
+					<Link
+						to="/member"
+						className="icon icon-member"
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
+						Member
+					</Link>
 					<a className="icon icon-email">
 						<span>Email</span>
 					</a>

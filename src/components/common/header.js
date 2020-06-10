@@ -4,8 +4,6 @@ import { LOGOUT } from "../../service/auth";
 import { navigate } from "@reach/router";
 import SubMenu from "../subMenu/subMenu";
 import { userInfoContext, i18nContext, navContext } from "../common/context";
-import { api_GetTranslationData } from "../../service/api/site";
-import { api_SetLanguage } from "../../service/api/account";
 import JoinPanel from "../join/join";
 import LoginPanel from "../login/login";
 
@@ -19,7 +17,7 @@ const Header = ({ title, hideLogo }) => {
 					<img src={logoItem} alt="logo" />
 				</a>
 			)}
-			{title === null ? <HeaderBtn /> : <HeaderTitle title={title} />}
+			{title ? <HeaderTitle title={title} /> : <HeaderBtn />}
 			<SubMenu />
 		</header>
 	);

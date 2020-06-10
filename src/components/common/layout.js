@@ -2,39 +2,52 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import Footer from "./footer";
 import Header from "./header";
-import { navContext, userInfoContext } from "../common/context";
-import { useMatch } from "@reach/router";
+import { navContext, i18nContext } from "../common/context";
 import "../../styles/Nova88/css/style-dark.css";
 import "../../styles/Nova88/css/style.css";
 import "../../styles/Nova88/css/font.css";
+import { useMatch } from "@reach/router";
+
+const _PageInfo = {
+	default: {
+		titleKey: "",
+		className: "",
+		hideLogo: false
+	},
+	member: {
+		titleKey: "lbl_Member",
+		className: "main",
+		hideLogo: true
+	},
+
+	deposit: {
+		titleKey: "lbl_Deposit",
+		className: "main",
+		hideLogo: true
+	}
+};
 
 const Layout = ({ children }) => {
-	const { userInfo } = useContext(userInfoContext);
+	const { i18n } = useContext(i18nContext);
 	const { nav } = useContext(navContext);
 	let position = nav === null ? {} : { position: "fixed" };
 
-	let pageInfo = {
-		title: null,
-		className: "",
-		hideLogo: false
-	};
-
 	let _match = useMatch("/member") !== null;
 	let _match2 = useMatch("/deposit") !== null;
-	if (_match || _match2) {
-		if (userInfo.isLogin) {
-			pageInfo.title = "Member";
-			pageInfo.className = "main";
-			pageInfo.hideLogo = true;
-		} else {
-			window.location.href = "/";
-		}
+	let pageInfo = {};
+	if (_match) {
+		pageInfo = _PageInfo.member;
+	} else if (_match2) {
+		pageInfo = _PageInfo.deposit;
 	}
 
 	return (
 		<>
-			<Header title={pageInfo.title} hideLogo={pageInfo.hideLogo} />
-			<main style={position} className={pageInfo.className}>
+			<Header
+				title={i18n[pageInfo.titleKey] ?? pageInfo.titleKey}
+				hideLogo={pageInfo.hideLogo}
+			/>
+			<main style={position} className={pageInfo.className ?? ""}>
 				{children}
 			</main>
 			<Footer />

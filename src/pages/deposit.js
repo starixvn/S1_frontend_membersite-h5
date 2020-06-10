@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Redirect } from "@reach/router";
+import { userInfoContext } from "../components/common/context";
 
 const IndexPage = () => {
-	return <h1>Depoist</h1>;
+	const { userInfo } = useContext(userInfoContext);
+	if (!userInfo.isLogin) {
+		return <Redirect to="/" noThrow />;
+	} else {
+		return <>Hello</>;
+	}
 };
 
 export default IndexPage;
