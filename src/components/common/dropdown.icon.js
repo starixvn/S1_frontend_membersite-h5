@@ -27,17 +27,28 @@ export class IconDropdown extends Component {
 
 	render() {
 		let arr = this.props.options.map((item, i) => {
+			let displayText = item.displayText
+				? item.displayText
+				: this.props.i18n?.[item.displayKey];
 			return (
 				<Item
 					key={`${this.props.mainKey}-${i}`}
-					langId={this.props.options[i].langId}
-					language={this.props.options[i].language}
+					displayText={displayText}
 					iconClassName={this.props.options[i].iconClassName}
-					value={i}
 					onClick={this.SelectItem.bind(null, i)}
 				/>
 			);
 		});
+		let selected = null;
+		if (this.props.options[this.props.selectedIdx]) {
+			let _s = this.props.options[this.props.selectedIdx];
+			if (_s.displayText) {
+				selected = _s.displayText;
+			} else {
+				selected = this.props.i18n[_s.displayKey];
+			}
+		}
+
 		return (
 			<div
 				ref={this.wrapper}
@@ -46,12 +57,12 @@ export class IconDropdown extends Component {
 				<a className="btn">
 					<i
 						className={
-							this.props.options[this.props.userValue]
-								?.iconClassName
+							this.props.icon
+								? this.props.icon
+								: this.props.options[this.props.selectedIdx]
+										?.iconClassName
 						}></i>
-					<span className="text">
-						{this.props.options[this.props.userValue]?.language}
-					</span>
+					<span className="text">{selected}</span>
 				</a>
 				<div className="dropdown-container">{arr}</div>
 			</div>
@@ -63,7 +74,7 @@ const Item = props => {
 	return (
 		<div className="dropdown-item" onClick={props.onClick}>
 			<i className={props.iconClassName}></i>
-			<span className="text">{props.language}</span>
+			<span className="text">{props.displayText}</span>
 		</div>
 	);
 };

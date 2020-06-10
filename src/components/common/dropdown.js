@@ -23,33 +23,24 @@ export class DropdownBox extends Component {
 		this.setState({ isOpen: false });
 		this.props.onSelectItem(value, this.props.colName);
 	};
+
 	render() {
 		let arr = this.props.options.map((item, i) => {
 			return (
 				<Item
 					key={`${this.props.mainKey}-${item.id}`}
-					value={i}
 					displayText={item.displayText}
 					onClick={this.SelectItem.bind(null, i)}
-					bankLogoList={`${this.props.bankLogoList}${item.bankLogo}`}
 				/>
 			);
 		});
+
 		return (
 			<div
 				ref={this.wrapper}
 				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
 				<button className="btn">
-					<i
-						className={`${
-							this.props.icon ? this.props.icon : ""
-						} `}></i>
-					<img
-						src={`${
-							this.props.bankLogo ? this.props.bankLogo : ""
-						}`}
-					/>
 					<span className="text">
 						{
 							this.props.options[this.props.selectedIdx]
@@ -57,7 +48,6 @@ export class DropdownBox extends Component {
 						}
 					</span>
 				</button>
-
 				<div
 					className={`dropdown-container${
 						this.state.isOpen ? " open" : ""
@@ -72,7 +62,6 @@ export class DropdownBox extends Component {
 const Item = props => {
 	return (
 		<div className="dropdown-item" onClick={props.onClick}>
-			<img src={`${props.bankLogoList ? props.bankLogoList : ""}`} />
 			<span className="text">{props.displayText}</span>
 		</div>
 	);

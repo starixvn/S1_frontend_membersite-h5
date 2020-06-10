@@ -9,7 +9,7 @@ import {
 } from "../../service/api/accountStrict";
 import { api_GetCustBankInfo } from "../../service/api/account";
 import Inputbox from "./inputbox";
-import Dropdown from "../common/dropdown";
+import Dropdown from "../common/dropdown.image";
 import config from "../../config";
 
 const initWarningState = {
@@ -37,7 +37,7 @@ const BankInfo = () => {
 					id: i.sysId,
 					sysId: i.sysId,
 					bankName: i.bankName,
-					bankLogo: i.bankLogo,
+					image: i.bankLogo,
 					displayText: i.bankName
 				};
 			});
@@ -54,7 +54,7 @@ const BankInfo = () => {
 					let getBankInfoArr = bankInfoDetail.map(i => {
 						return {
 							bankName: i.bankName,
-							bankLogo: i.bankLogo,
+							image: i.bankLogo,
 							accountNo: i.accountNo,
 							SysId: i.sysId
 						};
@@ -239,7 +239,8 @@ const BankInfo = () => {
 				title={item.bankName}
 				accountNo={item.accountNo}
 				removeAccountHandler={removeAccountHandler.bind(null, item)}
-				bankLogo={`${config.apiURL}/common/images/BankLogo/${item.bankLogo}`}
+				image={`${config.apiURL}/common/images/BankLogo/${item.image}`}
+				className="bankLogo"
 			/>
 		);
 	});
@@ -296,8 +297,9 @@ const BankInfo = () => {
 							mainkey="getBankInfo"
 							options={siteBankInfoState}
 							colName="getBankInfo"
-							bankLogo={`${config.apiURL}/common/images/BankLogo/${siteBankInfoState[bankSelectedIdx]?.bankLogo}`}
-							bankLogoList={`${config.apiURL}/common/images/BankLogo/`}
+							className="bankLogo"
+							selectedImgURL={`${config.apiURL}/common/images/BankLogo/${siteBankInfoState[bankSelectedIdx]?.image}`}
+							ImgURL={`${config.apiURL}/common/images/BankLogo/`}
 							selectedIdx={bankSelectedIdx}
 							onSelectItem={dropdownStateHandler}
 						/>
@@ -339,7 +341,9 @@ const BankInfo = () => {
 const BankAccountItem = props => {
 	return (
 		<div className="account">
-			<img src={`${props.bankLogo ? props.bankLogo : ""}`} />{" "}
+			<div className={props.className}>
+				<img src={props.image} alt="" />
+			</div>
 			<div className="info">
 				<ul>
 					<li>

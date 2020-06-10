@@ -13,10 +13,12 @@ const Inputbox = props => {
 				value={props.value}
 			/>
 			<div className="icon-module">
-				<i
-					className={`icon ${
-						props.Warning.status ? "icon-warning" : ""
-					}`}></i>
+				{props.Warning ? (
+					<i
+						className={`icon ${
+							props.Warning.status ? "icon-warning" : ""
+						}`}></i>
+				) : null}
 			</div>
 			<div
 				className={`${props.ClassName}${
@@ -24,12 +26,14 @@ const Inputbox = props => {
 				}`}>
 				{props.Tips}
 			</div>
-			<div
-				className={`${props.ClassName}${
-					props.Warning.status ? " open" : ""
-				}`}>
-				{props.Warning.msg}
-			</div>
+			{props.Warning ? (
+				<div
+					className={`${props.ClassName}${
+						props.Warning.status ? " open" : ""
+					}`}>
+					{props.Warning.msg}
+				</div>
+			) : null}
 		</div>
 	);
 };
