@@ -82,5 +82,6 @@ export default [
 	"lbl_CheckConfirm",
 	"msg_Updatesuccessful",
 	"lbl_Confirm",
-	"lbl_CountryTH"
+	"lbl_CountryTH",
+	"lbl_DepositHistory"
 ];
