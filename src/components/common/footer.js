@@ -2,17 +2,6 @@ import React, { useContext } from "react";
 import { Link, Match } from "@reach/router";
 import { userInfoContext, i18nContext } from "../common/context";
 
-const NavLink = props => (
-	<Link
-		{...props}
-		getProps={({ isCurrent }) => {
-			return {
-				className: isCurrent ? "open" : ""
-			};
-		}}
-	/>
-);
-
 const Footer = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
