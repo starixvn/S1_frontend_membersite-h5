@@ -20,8 +20,10 @@ const PopUp = () => {
 				</div>
 				{popBox.title}
 			</div>
-			<div className="popTxt">{popBox.content}</div>
-			{popBox.hasBtn === true ? popBox.btnBar : <></>}
+			<div className="popTxt">
+				{popBox.content}
+				{popBox.hasBtn === true ? popBox.btnBar : <></>}
+			</div>
 		</div>
 	);
 };
