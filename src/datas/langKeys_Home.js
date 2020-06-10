@@ -88,5 +88,8 @@ export default [
 	"lbl_ThisWeek",
 	"lbl_LastWeek",
 	"lbl_ThisMonth",
-	"lbl_LastMonth"
+	"lbl_LastMonth",
+	"lbl_QuickPick",
+	"lbl_From",
+	"lbl_To"
 ];
