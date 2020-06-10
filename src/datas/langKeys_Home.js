@@ -83,5 +83,11 @@ export default [
 	"msg_Updatesuccessful",
 	"lbl_Confirm",
 	"lbl_CountryTH",
-	"lbl_DepositHistory"
+	"lbl_DepositHistory",
+	"lbl_Today",
+	"lbl_YesterDay",
+	"lbl_ThisWeek",
+	"lbl_LastWeek",
+	"lbl_ThisMonth",
+	"lbl_LastMonth"
 ];

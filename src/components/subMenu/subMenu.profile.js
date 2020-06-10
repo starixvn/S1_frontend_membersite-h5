@@ -27,7 +27,7 @@ const Profile = () => {
 			let langArr = langNum.map(id => {
 				return {
 					langId: id.langId,
-					language: id.language,
+					displayText: id.language,
 					iconClassName: `flag ${id.langId}`
 				};
 			});
@@ -84,13 +84,15 @@ const Profile = () => {
 				currency={i18n[`Currency_${userInfo.currencyId}`]}
 				amount={balance}
 			/>
+			<button className="icon icon-spinner11 clickBtn"></button>
+
 			<div className="Country">
 				<i className="icon icon-sphere"></i>
 				<LangDropdown
 					options={langList}
 					mainKey="lang"
-					userValue={userLanValue}
 					onSelectItem={selectItemHandler}
+					selectedIdx={userLanValue}
 				/>
 			</div>
 		</div>
