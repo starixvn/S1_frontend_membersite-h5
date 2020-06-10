@@ -10,6 +10,10 @@ import LiveChat from "./pages/livechat";
 import Layout from "./components/common/layout";
 import Member from "./pages/member";
 import Deposit from "./pages/deposit";
+import DepositHome from "./components/deposit/deposit";
+import OnlineBanking from "./components/deposit/deposit.onlineBanking";
+import MobilePay from "./components/deposit/deposit.mobilePay";
+import LocalBank from "./components/deposit/deposit.localBank";
 
 const Index = () => {
 	let history = createHistory(window);
@@ -24,7 +28,12 @@ const Index = () => {
 						<Wallet path="wallet" />
 						<LiveChat path="livechat" />
 						<Member path="member" />
-						<Deposit path="/deposit" />
+						<Deposit path="deposit">
+							<DepositHome path="/" />
+							<OnlineBanking path="onlineBank" />
+							<MobilePay path="mobilePay" />
+							<LocalBank path="localBank" />
+						</Deposit>
 					</Router>
 				</Layout>
 			</LocationProvider>

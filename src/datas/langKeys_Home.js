@@ -89,5 +89,11 @@ export default [
 	"lbl_ThisWeek",
 	"lbl_LastWeek",
 	"lbl_ThisMonth",
-	"lbl_LastMonth"
+	"lbl_LastMonth",
+	"lbl_OnlineBanking",
+	"lbl_CreditTime",
+	"lbl_Instant",
+	"lbl_WireTransfers",
+	"lbl_5mins",
+	"lbl_MobileDeposit"
 ];

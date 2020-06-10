@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
 	let position = nav === null ? {} : { position: "fixed" };
 
 	let _match = useMatch("/member") !== null;
-	let _match2 = useMatch("/deposit") !== null;
+	let _match2 = useMatch("/deposit/*") !== null;
 	let pageInfo = {};
 	if (_match) {
 		pageInfo = _PageInfo.member;
