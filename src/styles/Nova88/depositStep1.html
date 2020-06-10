@@ -51,34 +51,33 @@
         </div>
         <div class="depositType">
             <div>
-                <a class="icon icon-connection"></a>
+                <a href="depositStep2_Online.html" class="icon icon-connection"></a>
                 <span>Online Banking</span>
                 <span class="title">Credit Time</span>
                 <span class="creditTime">Instant</span>
             </div>
             <div>
-                <a class="icon icon-credit-card"></a>
+                <a href="depositStep3_Local.html" class="icon icon-credit-card"></a>
                 <span>Local Bank</span>
                 <span class="title">Credit Time</span>
                 <span class="creditTime">5mins</span>
             </div>
             <div>
-                <a class="icon icon-mobile"></a>
+                <a href="depositStep2_Mobile.html" class="icon icon-mobile"></a>
                 <span>Mobile Deposit</span>
                 <span class="title">Credit Time</span>
                 <span class="creditTime">5mins</span>
             </div>
         </div>
         <div class="btn-group">
-            <button class="white">Back</button>
-        </div>        
-        <div class="btn-group">
-            <button class="orange switch">Recent Transactions</button>
+            <button class="orange switch">Recent Transactions
+                <i class="icon icon-circle-right"></i>
+            </button>
         </div>
         <div class="recent">
             <div class="recentTransactions">
                 <div class="smallTitle">
-                    <i class="icon icon-library">Recent Transactions</i>
+                    <i class="icon icon-history">Recent Transactions</i>
                 </div>
                 <button class="icon icon-spinner11 clickBtn"></button>
             </div>
@@ -109,9 +108,69 @@
                         <span>Pending</span>
                     </li>
                 </ul>
+                <div class="btn-group">
+                    <button class="blue">Cancel</button>
+                    <button class="orange openPopup">Submit Bank Slip</button>
+                </div>
             </div>
             <div class="btn-group">
-                <button class="orange recentBtn">All Transactions</button>
+                <a href="deposithistory.html" class="orange recentBtn">All Transactions</a>
+            </div>
+        </div>
+        <div class="bankSlip popUp">
+            <div class="info infoAccount">
+                <ul>
+                    <li>
+                        <div>
+                            <div class="bankLogo acb"></div>
+                            <span>Asia Commercial Bank</span>
+                        </div>
+                        <button class="icon icon-new-tab clickBtn"></button>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="title">Account Name</span>
+                            <span>ZeroChou</span>
+                        </div>
+                        <button class="icon icon-files-empty clickBtn"></button>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="title">Account Number</span>
+                            <span>324567890098765432</span>
+                        </div>
+                        <button class="icon icon-files-empty clickBtn"></button>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="title">Deposit Amount</span>
+                            <span>2,000 ('000)</span>
+                        </div>
+                        <button class="icon icon-files-empty clickBtn"></button>
+                    </li>
+                </ul>
+            </div>
+            <span class="text">Please attach your bank slip here. (Optional)</span>
+            <div class="btn-group">
+                <label class="fileUpload">
+                    <input type="file"/>
+                    <i class="icon icon-folder-upload"></i> Select File
+                </label>
+                <button class="orange">Upload File</button>
+            </div>
+            <span class="text">Deposit Time <span class="text-org">(+08:00)</span></span>
+            <div class="inputBox">
+                <i class="icon icon-calendar"></i>
+                <input placeholder="Please submit your deposit time.">
+            </div>
+            <span class="text">Please submit your bank slip reference No.</span>
+            <div class="inputBox">
+                <i class="icon icon-pencil"></i>
+                <input placeholder="Reference number">
+            </div>
+            <div class="btn-group">
+                <button class="blue closePopup">Cancel</button>
+                <button class="orange closePopup">Submit</button>
             </div>
         </div>
     </main>

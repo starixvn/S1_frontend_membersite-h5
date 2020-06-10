@@ -265,6 +265,18 @@
   content: "\ea10";
 }
 
+.icon-circle-right:before {
+  content: "\ea42";
+}
+
+.icon-checkbox-checked:before {
+  content: "\ea52";
+}
+
+.icon-checkbox-unchecked:before {
+  content: "\ea53";
+}
+
 .icon-radio-unchecked:before {
   content: "\ea56";
 }

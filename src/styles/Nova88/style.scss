@@ -771,12 +771,24 @@ footer {
     width: 100%;
     margin-left: -1px;
     left: 0;
-    top: 10vw;
+    top: calc(13vw + 1px);
     max-height: 45vw;
     overflow-y: scroll;
     .dropdown-item{
       padding: 2vw;
       display: flex;
+      .bankLogo{
+        flex: 1;
+        img{
+          width: $width;
+          border-radius: 5px;
+        }
+        &+.text{
+          flex: 4;
+          text-align: left;
+          margin-left: 2vw;
+        }
+      }
     }
   }
   >.btn{
@@ -784,6 +796,18 @@ footer {
     align-items: center;
     display: flex;
     color: $white;
+    .bankLogo{
+      flex: 1;
+      img{
+        width: $width;
+        border-radius: 5px;
+      }
+      &+.text{
+        flex: 4;
+        text-align: left;
+        margin-left: 2vw;
+      }
+    }
   }
 }
 //popup
@@ -1010,6 +1034,7 @@ footer {
     li{
       float: left;
       width: 50%;
+      line-height: 20px;
       span{
         display: flex;
         &.title{
@@ -1113,14 +1138,27 @@ footer {
 .btn-group{
   margin: 2vw 0;
   display: flex;
-  button{
+  button,a{
     width: $width;
     color: $white;
     border-radius: 3px;
     padding: 2vw 3vw;
     font-size: 4vw;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    flex: 1;
     i{
-      margin-right: 1vw;
+      margin: 0 2vw;
+      &.icon-circle-right.open{
+        transform: rotate(90deg);
+        transition: $transition;
+      }
+      &.icon-circle-right{
+        pointer-events: none;
+        transform: rotate(-90deg);
+        transition: $transition;
+      }
     }
     &:first-child{
       margin-right: 0.5vw;
@@ -1144,16 +1182,37 @@ footer {
 .bankAccount{
   margin: 1vw 0;
 }
-//bankLogo
-.bankLogo{
-  background: $white;
-  border-radius: 5px;
-  margin-right: 2vw;
-  height: 7vw;
-  width: 13vw;
-  padding: 0 1vw;
-  &.acb{
-    background: url(http://www.n88dev.com/common/images/BankLogo/ACB.png)no-repeat center / cover;
+//selectBank
+.selectBank{
+    display: flex;
+    flex-wrap: wrap;
+  button{
+    flex: 0 0 calc(100% / 3 - 1vw);
+    border-radius: 3px;
+    color: #fff;
+    margin: 0.5vw;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    overflow: hidden;
+    line-height: 0;
+    &.open{
+      border: 2px solid $orange;
+    }
+  }
+  >img{
+    flex: 0 0 calc(100% / 3 - 1vw);
+    border-radius: 3px;
+    color: #fff;
+    margin: 0.5vw;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    overflow: hidden;
+    line-height: 0;
+  }
+  img{
+    width: $width;
   }
 }
 //step
@@ -1240,6 +1299,7 @@ footer {
       display: flex;
       align-items: center;
       justify-content: center;
+      color: $white;
     }
     button{
       border-radius: 100%;
@@ -1284,6 +1344,14 @@ footer {
     transition: $transition;
     opacity: 1;
     height: auto;
+    .info{
+      display: block;
+      padding: 4vw;
+      margin: 2vw 0;
+    }
+  }
+  .info{
+    display: none;
   }
 }
 //account
@@ -1295,11 +1363,24 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .bankLogo{
+    flex: 1;
+    img{
+      width: $width;
+      border-radius: 5px;
+    }
+    &+.text{
+      text-align: left;
+    }
+  }
   .info{
     margin: 0;
+    flex: 4;
+    margin-left: 2vw;
   }
   .info ul li{
     width: $width;
+    line-height: 16px;
   }
   .info ul li span{
     display: initial;
@@ -1453,18 +1534,6 @@ button.clickBtn{
     display: block;
   }
 }
-.transactionHistory{
-  visibility: hidden;
-  transition: $transition;
-  opacity: 0;
-  height: 0;
-  &.open{
-    visibility: visible;
-    transition: $transition;
-    opacity: 1;
-    height: auto;
-  }
-}
 .popUp{
   visibility: hidden;
   transition: $transition;
@@ -1480,10 +1549,160 @@ button.clickBtn{
   transition: $transition;
   opacity: 0;
   height: 0;
+  >a{
+    height: 0;
+  }
   &.open{
     visibility: visible;
     transition: $transition;
     opacity: 1;
     height: auto;
+    >a{
+      height: auto;
+    }
+  }
+}
+.transfer{
+  ul li:last-child{
+    width: 100%;
+    span {      
+      margin-top: 1vw;
+      display: flex;
+      align-items: center;
+      span{
+        border-radius: 3px;
+        padding: 1vw;
+        margin: 0 1vw;
+        background: rgba($lightBlack,0.7);
+      }
+    }
+  }
+}
+.Message{
+  padding-top: 40vw;
+}
+.Announcement{
+  .functionList{
+    padding: 0;
+    border: 0;
+  }
+}
+.functionList{
+  padding: 4vw 12vw 2vw;
+  justify-content: space-between;
+  width: calc(#{$width} - 24vw);
+  position: fixed;
+  background: $blue;
+  left: 0;
+  z-index: 2;
+  top: calc(24vw + 1px);
+  border-bottom: 1px solid $orange;
+  align-items: center;
+  display: flex;
+  &.ann{
+    border: 0;
+    padding: 0;
+  }
+  .smallBtn-group{
+    float: right;
+    button{
+      float: left;
+    }
+  }
+  &~.account:nth-child(even){
+    background: rgba($orange, 0.3);
+  }
+  &~.account{
+    flex-wrap: wrap;
+    margin: 2vw 0;
+    padding: 2vw 4vw;
+    position: relative;
+    &:before{
+      color: red;
+      content: "●";
+      position: absolute;
+      top: 1vw;
+      left: 2vw;
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2vw 0; 
+      .title{
+        color: $orange;
+        font-size: 3vw;
+      }
+    }
+    &.read{
+      &:before{
+        content: "";
+      }
+      .title{
+        font-weight: normal;
+      }
+    }
+    .icon-circle-right{
+      color: $orange;
+      transform: rotate(-90deg);
+      transition: $transition;
+      float: right;
+      &.open{
+        transform: rotate(90deg);
+        transition: $transition;
+      }
+    }
+    .content{
+      width: 100%;
+      color: $white;
+      visibility: hidden;
+      transition: $transition;
+      opacity: 0;
+      height: 0;
+      &.open{
+        visibility: visible;
+        transition: $transition;
+        opacity: 1;
+        height: auto;
+        border-top: 1px solid $orange;
+        padding-top: 2vw;
+      }
+    }
+  }
+}
+//checkbox
+.checkbox{
+  outline: none;
+  color: $white;
+  user-select: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  input{
+    display: none;
+  }
+  .icon{
+    color: $orange;
+    margin-right: 2vw;
+    &.icon-checkbox:before{
+      content: "\ea53";
+    }
+    &.open.icon-checkbox:before{
+      content: "\ea52";
+    }
+  }
+}
+//introduction
+.introduction{
+  display: flex;
+  flex-wrap: wrap;
+}
+//switch
+.switch{
+  position: relative;
+  i.icon{
+    position: absolute;
+    right: 2vw;
+    bottom: 1.5vw;
   }
 }

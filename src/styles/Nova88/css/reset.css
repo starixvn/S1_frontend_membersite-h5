@@ -45,4 +45,8 @@ button {
   padding: 0;
   outline: none;
 }
+
+pre {
+  white-space: break-spaces;
+}
 /*# sourceMappingURL=reset.css.map */

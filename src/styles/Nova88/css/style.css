@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -44,6 +45,10 @@ button {
   border: none;
   padding: 0;
   outline: none;
+}
+
+pre {
+  white-space: break-spaces;
 }
 
 body, html {
@@ -1176,7 +1181,7 @@ footer > a.open .circleAnimation + span {
   width: 100%;
   margin-left: -1px;
   left: 0;
-  top: 10vw;
+  top: calc(13vw + 1px);
   max-height: 45vw;
   overflow-y: scroll;
 }
@@ -1188,6 +1193,25 @@ footer > a.open .circleAnimation + span {
   display: flex;
 }
 
+.dropdown > .dropdown-container .dropdown-item .bankLogo {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.dropdown > .dropdown-container .dropdown-item .bankLogo img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.dropdown > .dropdown-container .dropdown-item .bankLogo + .text {
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+  text-align: left;
+  margin-left: 2vw;
+}
+
 .dropdown > .btn {
   width: 100%;
   -webkit-box-align: center;
@@ -1197,6 +1221,25 @@ footer > a.open .circleAnimation + span {
   display: -ms-flexbox;
   display: flex;
   color: #fff;
+}
+
+.dropdown > .btn .bankLogo {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.dropdown > .btn .bankLogo img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.dropdown > .btn .bankLogo + .text {
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+  text-align: left;
+  margin-left: 2vw;
 }
 
 #popup {
@@ -1246,6 +1289,7 @@ footer > a.open .circleAnimation + span {
   font-size: 4vw;
   padding-right: 9vw;
   width: calc(100% - 13vw - 2px);
+  min-height: 20px;
 }
 
 #popup .popTxt {
@@ -1496,6 +1540,7 @@ footer > a.open .circleAnimation + span {
 .info ul li {
   float: left;
   width: 50%;
+  line-height: 20px;
 }
 
 .info ul li span {
@@ -1630,35 +1675,60 @@ footer > a.open .circleAnimation + span {
   display: flex;
 }
 
-.btn-group button {
+.btn-group button, .btn-group a {
   width: 100%;
   color: #fff;
   border-radius: 3px;
   padding: 2vw 3vw;
   font-size: 4vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-decoration: none;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
-.btn-group button i {
-  margin-right: 1vw;
+.btn-group button i, .btn-group a i {
+  margin: 0 2vw;
 }
 
-.btn-group button:first-child {
+.btn-group button i.icon-circle-right.open, .btn-group a i.icon-circle-right.open {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.btn-group button i.icon-circle-right, .btn-group a i.icon-circle-right {
+  pointer-events: none;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.btn-group button:first-child, .btn-group a:first-child {
   margin-right: 0.5vw;
 }
 
-.btn-group button:last-child {
+.btn-group button:last-child, .btn-group a:last-child {
   margin-left: 0.5vw;
 }
 
-.btn-group button.orange {
+.btn-group button.orange, .btn-group a.orange {
   background: #ff5d00;
 }
 
-.btn-group button.blue {
+.btn-group button.blue, .btn-group a.blue {
   background: #1a3055;
 }
 
-.btn-group button.white {
+.btn-group button.white, .btn-group a.white {
   background: #fff;
   color: #ff5d00;
 }
@@ -1667,17 +1737,50 @@ footer > a.open .circleAnimation + span {
   margin: 1vw 0;
 }
 
-.bankLogo {
-  background: #fff;
-  border-radius: 5px;
-  margin-right: 2vw;
-  height: 7vw;
-  width: 13vw;
-  padding: 0 1vw;
+.selectBank {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.bankLogo.acb {
-  background: url(http://www.n88dev.com/common/images/BankLogo/ACB.png) no-repeat center/cover;
+.selectBank button {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(100% / 3 - 1vw);
+          flex: 0 0 calc(100% / 3 - 1vw);
+  border-radius: 3px;
+  color: #fff;
+  margin: 0.5vw;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.selectBank button.open {
+  border: 2px solid #ff5d00;
+}
+
+.selectBank > img {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(100% / 3 - 1vw);
+          flex: 0 0 calc(100% / 3 - 1vw);
+  border-radius: 3px;
+  color: #fff;
+  margin: 0.5vw;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.selectBank img {
+  width: 100%;
 }
 
 .step {
@@ -1808,6 +1911,7 @@ footer > a.open .circleAnimation + span {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  color: #fff;
 }
 
 .depositType div button {
@@ -1874,6 +1978,16 @@ footer > a.open .circleAnimation + span {
   height: auto;
 }
 
+.recent.open .info {
+  display: block;
+  padding: 4vw;
+  margin: 2vw 0;
+}
+
+.recent .info {
+  display: none;
+}
+
 .account {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -1890,12 +2004,32 @@ footer > a.open .circleAnimation + span {
           justify-content: space-between;
 }
 
+.account .bankLogo {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.account .bankLogo img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.account .bankLogo + .text {
+  text-align: left;
+}
+
 .account .info {
   margin: 0;
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+  margin-left: 2vw;
 }
 
 .account .info ul li {
   width: 100%;
+  line-height: 16px;
 }
 
 .account .info ul li span {
@@ -2117,22 +2251,6 @@ button.clickBtn:before {
   display: block;
 }
 
-.transactionHistory {
-  visibility: hidden;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  opacity: 0;
-  height: 0;
-}
-
-.transactionHistory.open {
-  visibility: visible;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  opacity: 1;
-  height: auto;
-}
-
 .popUp {
   visibility: hidden;
   -webkit-transition: 0.7s;
@@ -2155,11 +2273,217 @@ button.clickBtn:before {
   height: 0;
 }
 
+.channel > a {
+  height: 0;
+}
+
 .channel.open {
   visibility: visible;
   -webkit-transition: 0.7s;
   transition: 0.7s;
   opacity: 1;
   height: auto;
+}
+
+.channel.open > a {
+  height: auto;
+}
+
+.transfer ul li:last-child {
+  width: 100%;
+}
+
+.transfer ul li:last-child span {
+  margin-top: 1vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.transfer ul li:last-child span span {
+  border-radius: 3px;
+  padding: 1vw;
+  margin: 0 1vw;
+  background: rgba(51, 51, 51, 0.7);
+}
+
+.Message {
+  padding-top: 40vw;
+}
+
+.Announcement .functionList {
+  padding: 0;
+  border: 0;
+}
+
+.functionList {
+  padding: 4vw 12vw 2vw;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: calc(100% - 24vw);
+  position: fixed;
+  background: #001942;
+  left: 0;
+  z-index: 2;
+  top: calc(24vw + 1px);
+  border-bottom: 1px solid #ff5d00;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.functionList.ann {
+  border: 0;
+  padding: 0;
+}
+
+.functionList .smallBtn-group {
+  float: right;
+}
+
+.functionList .smallBtn-group button {
+  float: left;
+}
+
+.functionList ~ .account:nth-child(even) {
+  background: rgba(255, 93, 0, 0.3);
+}
+
+.functionList ~ .account {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 2vw 0;
+  padding: 2vw 4vw;
+  position: relative;
+}
+
+.functionList ~ .account:before {
+  color: red;
+  content: "●";
+  position: absolute;
+  top: 1vw;
+  left: 2vw;
+}
+
+.functionList ~ .account .info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 2vw 0;
+}
+
+.functionList ~ .account .info .title {
+  color: #ff5d00;
+  font-size: 3vw;
+}
+
+.functionList ~ .account.read:before {
+  content: "";
+}
+
+.functionList ~ .account.read .title {
+  font-weight: normal;
+}
+
+.functionList ~ .account .icon-circle-right {
+  color: #ff5d00;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  float: right;
+}
+
+.functionList ~ .account .icon-circle-right.open {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.functionList ~ .account .content {
+  width: 100%;
+  color: #fff;
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+  height: 0;
+}
+
+.functionList ~ .account .content.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+  height: auto;
+  border-top: 1px solid #ff5d00;
+  padding-top: 2vw;
+}
+
+.checkbox {
+  outline: none;
+  color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkbox .icon {
+  color: #ff5d00;
+  margin-right: 2vw;
+}
+
+.checkbox .icon.icon-checkbox:before {
+  content: "\ea53";
+}
+
+.checkbox .icon.open.icon-checkbox:before {
+  content: "\ea52";
+}
+
+.introduction {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.switch {
+  position: relative;
+}
+
+.switch i.icon {
+  position: absolute;
+  right: 2vw;
+  bottom: 1.5vw;
 }
 /*# sourceMappingURL=style.css.map */
