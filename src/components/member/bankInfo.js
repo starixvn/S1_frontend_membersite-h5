@@ -37,7 +37,7 @@ const BankInfo = () => {
 					id: i.sysId,
 					sysId: i.sysId,
 					bankName: i.bankName,
-					image: i.bankLogo,
+					bankLogo: i.bankLogo,
 					displayText: i.bankName
 				};
 			});
@@ -54,7 +54,7 @@ const BankInfo = () => {
 					let getBankInfoArr = bankInfoDetail.map(i => {
 						return {
 							bankName: i.bankName,
-							image: i.bankLogo,
+							bankLogo: i.bankLogo,
 							accountNo: i.accountNo,
 							SysId: i.sysId
 						};
@@ -133,8 +133,28 @@ const BankInfo = () => {
 				AccountNo: val.accountNo,
 				SysId: val.SysId
 			};
-			api_DelCustBankInfo(removeAccountData);
 			setPopBox({ isOpen: false });
+			api_DelCustBankInfo(removeAccountData).then(res => {
+				if (res.data.errorCode === 0) {
+					api_GetCustBankInfo().then(res => {
+						if (res.data.errorCode === 0) {
+							let data = res.data.data;
+							if (data !== null) {
+								let bankInfoDetail = data.bankInfoDetail ?? [];
+								let getBankInfoArr = bankInfoDetail.map(i => {
+									return {
+										bankName: i.bankName,
+										bankLogo: i.bankLogo,
+										accountNo: i.accountNo,
+										SysId: i.sysId
+									};
+								});
+								setGetBankInfo(preV => getBankInfoArr);
+							}
+						}
+					});
+				}
+			});
 		};
 
 		setPopBox({
@@ -239,7 +259,7 @@ const BankInfo = () => {
 				title={item.bankName}
 				accountNo={item.accountNo}
 				removeAccountHandler={removeAccountHandler.bind(null, item)}
-				image={`${config.apiURL}/common/images/BankLogo/${item.image}`}
+				image={`${config.apiURL}/common/images/BankLogo/${item.bankLogo}`}
 				className="bankLogo"
 			/>
 		);
@@ -255,6 +275,7 @@ const BankInfo = () => {
 					<Inputbox
 						icon="icon-member"
 						inputType="text"
+						value={userValueState}
 						placeholder={i18n["lbl_RealName"]}
 						onBlur={checkInputboxHandler.bind(null, "RealName")}
 						onChange={EditField.bind(null, "RealName")}
@@ -308,6 +329,7 @@ const BankInfo = () => {
 						icon="icon-newspaper"
 						Warning={warningState}
 						inputType="tel"
+						value={userValueState.BankAccount}
 						placeholder={i18n["lbl_BankNumber"]}
 						onBlur={checkInputboxHandler.bind(null, "BankAccount")}
 						onChange={EditField.bind(null, "BankAccount")}
