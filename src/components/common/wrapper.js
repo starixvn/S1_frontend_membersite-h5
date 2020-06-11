@@ -101,7 +101,7 @@ export const Wrapper = ({ children }) => {
 		);
 
 		return () => (mounted = false);
-	}, []);
+	}, [userInfo.langId]);
 
 	return (
 		<ct.userInfoContext.Provider value={{ userInfo, setUserInfo }}>
