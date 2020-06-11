@@ -37,7 +37,7 @@ const BankInfo = () => {
 					id: i.sysId,
 					sysId: i.sysId,
 					bankName: i.bankName,
-					bankLogo: i.bankLogo,
+					image: i.bankLogo,
 					displayText: i.bankName
 				};
 			});
@@ -54,7 +54,7 @@ const BankInfo = () => {
 					let getBankInfoArr = bankInfoDetail.map(i => {
 						return {
 							bankName: i.bankName,
-							bankLogo: i.bankLogo,
+							image: i.bankLogo,
 							accountNo: i.accountNo,
 							SysId: i.sysId
 						};
@@ -126,6 +126,26 @@ const BankInfo = () => {
 		}));
 	};
 
+	const GetCustBankInfo = () => {
+		api_GetCustBankInfo().then(res => {
+			if (res.data.errorCode === 0) {
+				let data = res.data.data;
+				if (data !== null) {
+					let bankInfoDetail = data.bankInfoDetail ?? [];
+					let getBankInfoArr = bankInfoDetail.map(i => {
+						return {
+							bankName: i.bankName,
+							image: i.bankLogo,
+							accountNo: i.accountNo,
+							SysId: i.sysId
+						};
+					});
+					setGetBankInfo(preV => getBankInfoArr);
+				}
+			}
+		});
+	};
+
 	const removeAccountHandler = val => {
 		const removeAccount = () => {
 			let removeAccountData = {
@@ -136,23 +156,7 @@ const BankInfo = () => {
 			setPopBox({ isOpen: false });
 			api_DelCustBankInfo(removeAccountData).then(res => {
 				if (res.data.errorCode === 0) {
-					api_GetCustBankInfo().then(res => {
-						if (res.data.errorCode === 0) {
-							let data = res.data.data;
-							if (data !== null) {
-								let bankInfoDetail = data.bankInfoDetail ?? [];
-								let getBankInfoArr = bankInfoDetail.map(i => {
-									return {
-										bankName: i.bankName,
-										bankLogo: i.bankLogo,
-										accountNo: i.accountNo,
-										SysId: i.sysId
-									};
-								});
-								setGetBankInfo(preV => getBankInfoArr);
-							}
-						}
-					});
+					GetCustBankInfo();
 				}
 			});
 		};
@@ -240,11 +244,7 @@ const BankInfo = () => {
 							};
 						});
 					} else {
-						api_GetCustBankInfo().then(res => {
-							if (res.data.errorCode === 0) {
-								setGetBankInfo(res.data.data.bankInfoDetail);
-							}
-						});
+						GetCustBankInfo();
 					}
 				});
 				setStatus(true);
@@ -259,7 +259,7 @@ const BankInfo = () => {
 				title={item.bankName}
 				accountNo={item.accountNo}
 				removeAccountHandler={removeAccountHandler.bind(null, item)}
-				image={`${config.apiURL}/common/images/BankLogo/${item.bankLogo}`}
+				image={`${config.apiURL}/common/images/BankLogo/${item.image}`}
 				className="bankLogo"
 			/>
 		);
