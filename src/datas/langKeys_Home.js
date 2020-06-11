@@ -98,5 +98,6 @@ export default [
 	"lbl_Instant",
 	"lbl_WireTransfers",
 	"lbl_5mins",
-	"lbl_MobileDeposit"
+	"lbl_MobileDeposit",
+	"lbl_TransactionHistory"
 ];

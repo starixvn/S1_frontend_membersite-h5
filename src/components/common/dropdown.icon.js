@@ -47,8 +47,9 @@ export class IconDropdown extends Component {
 			} else {
 				selected = this.props.i18n[_s.displayKey];
 			}
+		} else {
+			selected = this.props.placeholder;
 		}
-
 		return (
 			<div
 				ref={this.wrapper}
