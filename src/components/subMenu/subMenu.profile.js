@@ -15,7 +15,7 @@ import { number_format, isConvert } from "../common/common";
 
 const Profile = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
-	const { i18n, seti18n } = useContext(i18nContext);
+	const { i18n } = useContext(i18nContext);
 
 	const [userLanValue, setUserLanValue] = useState(0);
 
@@ -46,15 +46,21 @@ const Profile = () => {
 	const selectItemHandler = idx => {
 		if (idx !== userLanValue) {
 			let langId = langList[idx].langId;
-			setUserInfo(prevState => ({
-				...prevState,
-				langId: langId
-			}));
-
 			setUserLanValue(idx);
-
 			if (userInfo.isLogin) {
-				api_SetLanguage(langId);
+				api_SetLanguage(langId).then(res => {
+					if (res.data.errorCode === 0) {
+						setUserInfo(prevState => ({
+							...prevState,
+							langId: langId
+						}));
+					}
+				});
+			} else {
+				setUserInfo(prevState => ({
+					...prevState,
+					langId: langId
+				}));
 			}
 		}
 	};
