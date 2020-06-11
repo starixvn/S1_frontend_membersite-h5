@@ -1,26 +1,30 @@
 import React, { useState, useContext } from "react";
-import { i18nContext } from "../common/context";
+import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import { api_GetDepositInfoHistory } from "../../service/api/payment";
+import { number_format, isConvert } from "../common/common";
 import moment from "moment";
 import Dropdown from "../common/dropdown.icon";
 import Inputbox from "../member/inputbox";
 
 const quickPickList = [
-	{ id: 0, displayKey: "lbl_Today" },
-	{ id: 1, displayKey: "lbl_YesterDay" },
-	{ id: 2, displayKey: "lbl_ThisWeek" },
-	{ id: 3, displayKey: "lbl_LastWeek" },
-	{ id: 4, displayKey: "lbl_ThisMonth" },
-	{ id: 5, displayKey: "lbl_LastMonth" }
+	{ displayKey: "lbl_Today" },
+	{ displayKey: "lbl_YesterDay" },
+	{ displayKey: "lbl_ThisWeek" },
+	{ displayKey: "lbl_LastWeek" },
+	{ displayKey: "lbl_ThisMonth" },
+	{ displayKey: "lbl_LastMonth" }
 ];
 
 const Panel = () => {
+	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
+	const { setPopBox } = useContext(popBoxContext);
+
 	const [quickPickSelectedIdx, setquickPickSelectedIdx] = useState(null);
 
-	const [userValueState, setUserValueState] = useState({});
 	const [startDayState, setStartDayState] = useState({});
 	const [endDayState, setEndDatyState] = useState({});
+	const [getDepositHistoryState, setGetDepositHistoryState] = useState([]);
 
 	let startDate = "";
 	let endDate = "";
@@ -30,7 +34,6 @@ const Panel = () => {
 
 		if (i === 0) {
 			startDate = moment().format("YYYY-MM-DD");
-
 			endDate = moment().format("YYYY-MM-DD");
 		} else if (i === 1) {
 			startDate = moment().subtract(1, "days").format("YYYY-MM-DD");
@@ -63,19 +66,10 @@ const Panel = () => {
 
 		setStartDayState(startDate);
 		setEndDatyState(endDate);
-
-		setUserValueState(prevState => ({
-			startDay: startDate,
-			endDay: endDate
-		}));
 	};
 
 	const EditField = (col, e) => {
 		let val = e.target.value;
-		setUserValueState(prevState => ({
-			...prevState,
-			[col]: val
-		}));
 
 		if (col === "startDay") {
 			setStartDayState(val);
@@ -90,11 +84,54 @@ const Panel = () => {
 			EndDate: moment(endDayState).unix(),
 			PageNumber: 1
 		};
-		console.log(transactionData);
+
 		api_GetDepositInfoHistory(transactionData).then(response => {
-			console.log(response);
+			const errorCode = response.data.errorCode;
+			const message = response.data.message;
+
+			if (errorCode !== 0) {
+				setPopBox({
+					isOpen: true,
+					content: message
+				});
+			} else {
+				const data = response.data.data;
+
+				let depoHistory = data.map(item => {
+					const _isConvert = isConvert(userInfo.currencyId);
+					const _number_format = number_format(
+						item.amount,
+						_isConvert
+					);
+
+					return {
+						showDate: moment(item.createTime).format(
+							"MM/DD/YYYY(Z)"
+						),
+						showTime: moment(item.createTime).format("hh:mm:ss A"),
+						depositType: item.depositType,
+						transId: item.transId,
+						amount: _number_format,
+						status: item.status
+					};
+				});
+				setGetDepositHistoryState(depoHistory);
+			}
 		});
 	};
+	let arr = getDepositHistoryState.map(item => {
+		return (
+			<TransactionHistory
+				key={`depositHistory-${item.transId}`}
+				showDate={item.showDate}
+				showTime={item.showTime}
+				depositType={i18n[`lbl_DepositType${item.depositType}`]}
+				transId={item.transId}
+				amount={item.amount}
+				status={i18n[`lbl_DepositStatus${item.status}`]}
+			/>
+		);
+	});
 
 	return (
 		<>
@@ -116,7 +153,7 @@ const Panel = () => {
 					inputType="date"
 					onChange={EditField.bind(null, "startDay")}
 					value={startDayState}
-					placeholder={i18n["lbl_From"]}
+					max={moment().format("YYYY-MM-DD")}
 				/>
 
 				<Inputbox
@@ -124,7 +161,7 @@ const Panel = () => {
 					inputType="date"
 					onChange={EditField.bind(null, "endDay")}
 					value={endDayState}
-					placeholder={i18n["lbl_To"]}
+					max={moment().format("YYYY-MM-DD")}
 				/>
 			</div>
 
@@ -133,47 +170,52 @@ const Panel = () => {
 					{i18n["lbl_Submit"]}
 				</button>
 			</div>
-			<div className="recent open">
-				<div className="recentTransactions">
-					<div className="smallTitle">
-						<i className="icon icon-history"></i>
-						{i18n["lbl_TransactionHistory"]}
+
+			{getDepositHistoryState && getDepositHistoryState.length > 0 ? (
+				<div className="recent open">
+					<div className="recentTransactions">
+						<div className="smallTitle">
+							<i className="icon icon-history"></i>
+							{i18n["lbl_TransactionHistory"]}
+						</div>
+						{/* <button className="icon icon-spinner11 clickBtn"></button> */}
 					</div>
-					<button className="icon icon-spinner11 clickBtn"></button>
+					<div className="infoList">{arr}</div>
 				</div>
-				<div className="infoList"></div>
-			</div>
+			) : null}
 		</>
 	);
 };
 
 const TransactionHistory = props => {
+	const { i18n } = useContext(i18nContext);
+
 	return (
 		<div className="info">
 			<ul>
 				<li>
-					<span className="title">Date</span>
-					<span>3/13/2020 (+08:00)</span>
+					<span className="title">{i18n["lbl_Date"]}</span>
+					<span>{props.showDate}</span>
 				</li>
 				<li>
-					<span className="title">Time</span>
-					<span>04:26:39 PM</span>
+					<span className="title">{i18n["lbl_Time"]}</span>
+					<span>{props.showTime}</span>
 				</li>
 				<li>
-					<span className="title">ID</span>
-					<span>DD1120</span>
+					<span className="title">{i18n["lbl_ID"]}</span>
+					<span>{props.transId}</span>
 				</li>
 				<li>
-					<span className="title">Method</span>
-					<span>Online Banking</span>
+					<span className="title">{i18n["lbl_Method"]}</span>
+					<span>{props.depositType}</span>
 				</li>
 				<li>
-					<span className="title">Amount</span>
-					<span>30 ('000)</span>
+					<span className="title">{i18n["lbl_Amount"]}</span>
+					<span>{props.amount}</span>
 				</li>
 				<li>
-					<span className="title">Status</span>
-					<span>Pending</span>
+					<span className="title">{i18n["lbl_Status"]}</span>
+					<span>{props.status}</span>
 				</li>
 			</ul>
 			<div className="btn-group"></div>
