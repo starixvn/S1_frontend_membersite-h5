@@ -99,5 +99,7 @@ export default [
 	"lbl_WireTransfers",
 	"lbl_5mins",
 	"lbl_MobileDeposit",
-	"lbl_TransactionHistory"
+	"lbl_TransactionHistory",
+	"lbl_WithdrawalHistory",
+	"lbl_TransferHistory"
 ];

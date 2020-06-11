@@ -1,4 +1,5 @@
 import React from "react";
+import path from "./path";
 import langKeys_Home from "./datas/langKeys_Home";
 import { Wrapper } from "./components/common/wrapper";
 import PopBox from "./components/common/popbox";
@@ -11,6 +12,7 @@ import Layout from "./components/common/layout";
 import Profile from "./components/member/profile";
 import BankInfo from "./components/member/bankInfo";
 import Member from "./pages/member";
+
 import Deposit from "./pages/deposit";
 import DepositHome from "./components/deposit/deposit";
 import {
@@ -32,6 +34,16 @@ import {
 
 import DepositHistory from "./components/deposit/deposit.history";
 
+import Withdrawal from "./pages/withdrawal";
+import WithdrawalHome from "./components/withdrawal/withdrawal";
+import WithdrawalHistory from "./components/withdrawal/withdrawal.history";
+
+import Transfer from "./pages/transfer";
+import TransferHome from "./components/transfer/transfer";
+import TransferHistory from "./components/transfer/transfer.history";
+
+import Statement from "./pages/statement";
+
 const Index = () => {
 	let history = createHistory(window);
 	return (
@@ -39,29 +51,59 @@ const Index = () => {
 			<LocationProvider history={history}>
 				<Layout>
 					<Router>
-						<Home path="/" />
-						<Promotion path="promotion" />
-						<Wallet path="wallet" />
-						<LiveChat path="livechat" />
-						<Member path="member">
-							<Profile path="/" />
-							<BankInfo path="bankinfo" />
+						<Home path={path.home.root} />
+						<Promotion path={path.promotion.root} />
+						<Wallet path={path.wallet.root} />
+						<LiveChat path={path.livechat.root} />
+						<Member path={path.member.root}>
+							<Profile path={path.member.sub.root} />
+							<BankInfo path={path.member.sub.bankInfo.root} />
 						</Member>
-						<Deposit path="deposit">
-							<DepositHome path="/" />
-							<OnlineBanking path="onlineBank">
-								<OnlineBankingMain path="/" />
-								<SetOnlineBanking path=":sysId" />
+						<Deposit path={path.deposit.root}>
+							<DepositHome path={path.deposit.sub.root} />
+							<OnlineBanking
+								path={path.deposit.sub.onlineBank.root}>
+								<OnlineBankingMain
+									path={path.deposit.sub.onlineBank.sub.root}
+								/>
+								<SetOnlineBanking
+									path={
+										path.deposit.sub.onlineBank.sub
+											.setOnlineBanking
+									}
+								/>
 							</OnlineBanking>
-							<MobilePay path="mobilePay">
-								<MobilePayMain path="/" />
-								<SetMobilePay path=":sysId" />
+							<MobilePay path={path.deposit.sub.mobilePay.root}>
+								<MobilePayMain
+									path={path.deposit.sub.mobilePay.sub.root}
+								/>
+								<SetMobilePay
+									path={
+										path.deposit.sub.mobilePay.sub
+											.setMobilePay
+									}
+								/>
 							</MobilePay>
-							<LocalBank path="localBank">
+							<LocalBank path={path.deposit.sub.localBank.root}>
 								<LocalBankMain path="/" />
 							</LocalBank>
-							<DepositHistory path="history" />
+							<DepositHistory
+								path={path.deposit.sub.history.root}
+							/>
 						</Deposit>
+						<Withdrawal path={path.withdrawal.root}>
+							<WithdrawalHome path={path.withdrawal.sub.root} />
+							<WithdrawalHistory
+								path={path.withdrawal.sub.history.root}
+							/>
+						</Withdrawal>
+						<Transfer path={path.transfer.root}>
+							<TransferHome path={path.transfer.sub.root} />
+							<TransferHistory
+								path={path.transfer.sub.history.root}
+							/>
+						</Transfer>
+						<Statement path={path.statement.root} />
 					</Router>
 				</Layout>
 			</LocationProvider>

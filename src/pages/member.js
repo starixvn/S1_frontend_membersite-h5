@@ -1,13 +1,14 @@
 import React from "react";
 import TabPage from "../components/common/tabPage";
+import path from "../path";
 
 const defTabs = {
 	default: {
-		to: "/member",
+		to: path.member.sub.root,
 		displayKey: "lbl_Profile"
 	},
 	bankInfo: {
-		to: "bankinfo",
+		to: path.member.sub.bankInfo.root,
 		displayKey: "lbl_BankInfo"
 	}
 };

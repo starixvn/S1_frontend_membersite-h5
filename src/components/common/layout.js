@@ -7,6 +7,7 @@ import "../../styles/Nova88/css/style-dark.css";
 import "../../styles/Nova88/css/style.css";
 import "../../styles/Nova88/css/font.css";
 import { useMatch } from "@reach/router";
+import path from "../../path";
 
 const _PageInfo = {
 	default: {
@@ -19,9 +20,18 @@ const _PageInfo = {
 		className: "main",
 		hideLogo: true
 	},
-
 	deposit: {
 		titleKey: "lbl_Deposit",
+		className: "main",
+		hideLogo: true
+	},
+	withdrawal: {
+		titleKey: "lbl_Withdrawal",
+		className: "main",
+		hideLogo: true
+	},
+	transfer: {
+		titleKey: "lbl_Transfer",
 		className: "main",
 		hideLogo: true
 	}
@@ -32,13 +42,19 @@ const Layout = ({ children }) => {
 	const { nav } = useContext(navContext);
 	let position = nav === null ? {} : { position: "fixed" };
 
-	let _match = useMatch("/member/*") !== null;
-	let _match2 = useMatch("/deposit/*") !== null;
+	let _matchMember = useMatch(`/${path.member.root}/*`) !== null;
+	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
+	let _matchWithdrawal = useMatch(`/${path.withdrawal.root}/*`) !== null;
+	let _matchTransfer = useMatch(`/${path.transfer.root}/*`) !== null;
 	let pageInfo = {};
-	if (_match) {
+	if (_matchMember) {
 		pageInfo = _PageInfo.member;
-	} else if (_match2) {
+	} else if (_matchDeposit) {
 		pageInfo = _PageInfo.deposit;
+	} else if (_matchWithdrawal) {
+		pageInfo = _PageInfo.withdrawal;
+	} else if (_matchTransfer) {
+		pageInfo = _PageInfo.transfer;
 	}
 
 	return (

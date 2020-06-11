@@ -8,6 +8,7 @@ import {
 } from "../common/context";
 import SubGameList from "./subMenu.gameList";
 import { Link } from "@reach/router";
+import path from "../../path";
 
 const SubMenu = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -46,7 +47,7 @@ const SubMenu = () => {
 				<Profile />
 				<div className="subThBar">
 					<Link
-						to="/deposit"
+						to={path.deposit.root}
 						className="icon icon-deposit"
 						onClick={ClickMenuItem.bind(
 							this,
@@ -55,17 +56,21 @@ const SubMenu = () => {
 						)}>
 						{i18n["lbl_Deposit"]}
 					</Link>
-					<a className="icon icon-transfer">
+					<Link
+						to={path.transfer.root}
+						className="icon icon-transfer">
 						<span>{i18n["lbl_Transfer"]}</span>
-					</a>
-					<a className="icon icon-withdrawal">
+					</Link>
+					<Link
+						to={path.withdrawal.root}
+						className="icon icon-withdrawal">
 						<span>{i18n["lbl_Withdrawal"]}</span>
-					</a>
+					</Link>
 				</div>
 				<SubGameList />
 				<div className="memberFunction">
 					<Link
-						to="/member"
+						to={path.member.root}
 						className="icon icon-member"
 						onClick={ClickMenuItem.bind(
 							this,

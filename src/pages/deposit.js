@@ -1,13 +1,14 @@
 import React from "react";
 import TabPage from "../components/common/tabPage";
+import path from "../path";
 
 const defTabs = {
 	default: {
-		to: "/deposit",
+		to: path.deposit.sub.root,
 		displayKey: "lbl_Deposit"
 	},
-	DepositHistory: {
-		to: "history",
+	History: {
+		to: path.deposit.sub.history.root,
 		displayKey: "lbl_DepositHistory"
 	}
 };

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, Match } from "@reach/router";
 import { userInfoContext, i18nContext } from "../common/context";
+import path from "../../path";
 
 const Footer = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -8,11 +9,13 @@ const Footer = () => {
 	if (userInfo.isLogin) {
 		return (
 			<footer>
-				<Match path="/">
+				<Match path={path.home.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
-							<Link to="/" className={isMatch ? "open" : ""}>
+							<Link
+								to={path.home.root}
+								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-home"></div>
 								</div>
@@ -22,12 +25,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/promotion/">
+				<Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/promotion"
+								to={path.promotion.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-promotion"></div>
@@ -38,12 +41,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/wallet/">
+				<Match path={path.wallet.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/wallet"
+								to={path.wallet.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-balance"></div>
@@ -54,12 +57,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/livechat/">
+				<Match path={path.livechat.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/livechat"
+								to={path.livechat.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-contact"></div>
@@ -70,12 +73,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/member/">
+				<Match path={path.member.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/member"
+								to={path.member.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-member"></div>
@@ -90,11 +93,13 @@ const Footer = () => {
 	} else {
 		return (
 			<footer>
-				<Match path="/">
+				<Match path={path.home.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
-							<Link to="/" className={isMatch ? "open" : ""}>
+							<Link
+								to={path.home.root}
+								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-home"></div>
 								</div>
@@ -104,12 +109,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/promotion/">
+				<Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/promotion"
+								to={path.promotion.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-promotion"></div>
@@ -120,12 +125,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/wallet/">
+				<Match path={path.wallet.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/wallet"
+								to={path.wallet.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-balance"></div>
@@ -136,12 +141,12 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path="/livechat/">
+				<Match path={path.livechat.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
 							<Link
-								to="/livechat"
+								to={path.livechat.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-contact"></div>
