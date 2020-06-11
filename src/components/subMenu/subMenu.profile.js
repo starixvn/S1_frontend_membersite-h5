@@ -54,17 +54,7 @@ const Profile = () => {
 			setUserLanValue(idx);
 
 			if (userInfo.isLogin) {
-				api_SetLanguage(langId).then(res => {
-					api_GetTranslationData(langId).then(res => {
-						let data = res.data.data;
-						seti18n(data);
-					});
-				});
-			} else {
-				api_GetTranslationData(langId).then(res => {
-					let data = res.data.data;
-					seti18n(data);
-				});
+				api_SetLanguage(langId);
 			}
 		}
 	};

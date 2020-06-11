@@ -41,7 +41,7 @@ export const Wrapper = ({ children }) => {
 				}));
 			}
 		});
-	}, []);
+	}, [userInfo.isLogin]);
 
 	useEffect(() => {
 		if (userInfo.isLogin) {
@@ -85,7 +85,7 @@ export const Wrapper = ({ children }) => {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetTranslationData().then(
+		api_GetTranslationData(userInfo.langId).then(
 			res => {
 				if (mounted) {
 					seti18n(() => res.data.data);
