@@ -63,7 +63,7 @@ const BankInfo = () => {
 				}
 			}
 		});
-	}, [getBankInfo]);
+	}, []);
 
 	useEffect(() => {
 		if (!userInfo.accountName) {

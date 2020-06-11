@@ -29,12 +29,11 @@ const defPayment = {
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
-
 	const paymentList = Object.keys(defPayment).map(key => {
 		let item = defPayment[key];
 		return (
 			<div key={`deposit-${key}`}>
-				<Link to={`${key}`} className={item.icon} />
+				<Link to={key} className={item.icon} />
 				<span>{i18n[item.displayKey]}</span>
 				<span className="title">{i18n.lbl_CreditTime}</span>
 				<span className="creditTime">{i18n[item.creditTimeKey]}</span>

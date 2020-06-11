@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
 	const { nav } = useContext(navContext);
 	let position = nav === null ? {} : { position: "fixed" };
 
-	let _match = useMatch("/member") !== null;
+	let _match = useMatch("/member/*") !== null;
 	let _match2 = useMatch("/deposit/*") !== null;
 	let pageInfo = {};
 	if (_match) {

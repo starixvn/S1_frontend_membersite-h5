@@ -1,5 +1,6 @@
 import React from "react";
 
+const totalStep = 3;
 const Panel = ({ step }) => {
 	let processBar =
 		step === 1 ? (
@@ -10,24 +11,25 @@ const Panel = ({ step }) => {
 			<div className="stepBar100"></div>
 		);
 
+	let rows = [];
+	for (let s = 1; s <= totalStep; s++) {
+		rows.push(
+			<div key={`step-${s}`} className="circle">
+				<div>
+					{s <= step ? (
+						<div className="icon icon-checkmark"></div>
+					) : (
+						<div>{s}</div>
+					)}
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="step">
 			<div className="stepLine">{processBar}</div>
-			<div className="circle">
-				<div>
-					<div className="icon icon-checkmark"></div>
-				</div>
-			</div>
-			<div className={step >= 2 ? "icon icon-checkmark" : "circle"}>
-				<div>
-					<div>2</div>
-				</div>
-			</div>
-			<div className={step >= 3 ? "icon icon-checkmark" : "circle"}>
-				<div>
-					<div>3</div>
-				</div>
-			</div>
+			{rows}
 		</div>
 	);
 };

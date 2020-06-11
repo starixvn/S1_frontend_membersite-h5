@@ -1289,7 +1289,6 @@ footer > a.open .circleAnimation + span {
   font-size: 4vw;
   padding-right: 9vw;
   width: calc(100% - 13vw - 2px);
-  min-height: 20px;
 }
 
 #popup .popTxt {
