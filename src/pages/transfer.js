@@ -4,7 +4,7 @@ import path from "../path";
 
 const defTabs = {
 	default: {
-		to: path.transfer.sub.root,
+		to: `/${path.transfer.root}`,
 		displayKey: "lbl_Transfer"
 	},
 	History: {

@@ -4,7 +4,7 @@ import path from "../path";
 
 const defTabs = {
 	default: {
-		to: path.deposit.sub.root,
+		to: `/${path.deposit.root}`,
 		displayKey: "lbl_Deposit"
 	},
 	History: {
@@ -14,6 +14,7 @@ const defTabs = {
 };
 
 const IndexPage = props => {
+	console.log(defTabs);
 	return <TabPage defTabs={defTabs}>{props.children}</TabPage>;
 };
 

@@ -27,14 +27,14 @@ export default {
 			onlineBank: {
 				root: "onlineBank",
 				sub: {
-					root: "/",
+					root: "/onlineBank",
 					setOnlineBanking: ":sysId"
 				}
 			},
 			mobilePay: {
 				root: "mobilePay",
 				sub: {
-					root: "/",
+					root: "/mobilePay",
 					setMobilePay: ":sysId"
 				}
 			},

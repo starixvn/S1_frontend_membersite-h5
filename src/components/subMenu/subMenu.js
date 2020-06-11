@@ -58,12 +58,22 @@ const SubMenu = () => {
 					</Link>
 					<Link
 						to={path.transfer.root}
-						className="icon icon-transfer">
+						className="icon icon-transfer"
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
 						<span>{i18n["lbl_Transfer"]}</span>
 					</Link>
 					<Link
 						to={path.withdrawal.root}
-						className="icon icon-withdrawal">
+						className="icon icon-withdrawal"
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
 						<span>{i18n["lbl_Withdrawal"]}</span>
 					</Link>
 				</div>
