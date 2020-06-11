@@ -69,7 +69,7 @@ const Index = () => {
 								<SetOnlineBanking
 									path={
 										path.deposit.sub.onlineBank.sub
-											.setOnlineBanking
+											.setOnlineBanking.root
 									}
 								/>
 							</OnlineBanking>
@@ -80,7 +80,7 @@ const Index = () => {
 								<SetMobilePay
 									path={
 										path.deposit.sub.mobilePay.sub
-											.setMobilePay
+											.setMobilePay.root
 									}
 								/>
 							</MobilePay>

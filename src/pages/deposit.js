@@ -14,7 +14,6 @@ const defTabs = {
 };
 
 const IndexPage = props => {
-	console.log(defTabs);
 	return <TabPage defTabs={defTabs}>{props.children}</TabPage>;
 };
 
