@@ -3,85 +3,19 @@ import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import { api_GetDepositInfoHistory } from "../../service/api/payment";
 import { number_format, isConvert } from "../common/common";
 import moment from "moment";
-import Dropdown from "../common/dropdown.icon";
-import Inputbox from "../member/inputbox";
-
-const quickPickList = [
-	{ displayKey: "lbl_Today" },
-	{ displayKey: "lbl_YesterDay" },
-	{ displayKey: "lbl_ThisWeek" },
-	{ displayKey: "lbl_LastWeek" },
-	{ displayKey: "lbl_ThisMonth" },
-	{ displayKey: "lbl_LastMonth" }
-];
+import HistoryFilter from "../common/historyFilter";
 
 const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
 
-	const [quickPickSelectedIdx, setquickPickSelectedIdx] = useState(null);
+	const [getDepositHistoryState, setGetDepositHistoryState] = useState(null);
 
-	const [startDayState, setStartDayState] = useState({});
-	const [endDayState, setEndDatyState] = useState({});
-	const [getDepositHistoryState, setGetDepositHistoryState] = useState([]);
-
-	let startDate = "";
-	let endDate = "";
-
-	const dropdownStateHandler = i => {
-		setquickPickSelectedIdx(i);
-
-		if (i === 0) {
-			startDate = moment().format("YYYY-MM-DD");
-			endDate = moment().format("YYYY-MM-DD");
-		} else if (i === 1) {
-			startDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-			endDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-		} else if (i === 2) {
-			startDate = moment().startOf("week").format("YYYY-MM-DD");
-			endDate = moment().format("YYYY-MM-DD");
-		} else if (i === 3) {
-			startDate = moment()
-				.subtract(1, "weeks")
-				.startOf("week")
-				.format("YYYY-MM-DD");
-			endDate = moment()
-				.subtract(1, "weeks")
-				.endOf("week")
-				.format("YYYY-MM-DD");
-		} else if (i === 4) {
-			startDate = moment().startOf("month").format("YYYY-MM-DD");
-			endDate = moment().format("YYYY-MM-DD");
-		} else {
-			startDate = moment()
-				.subtract(1, "months")
-				.startOf("month")
-				.format("YYYY-MM-DD");
-			endDate = moment()
-				.subtract(1, "months")
-				.endOf("month")
-				.format("YYYY-MM-DD");
-		}
-
-		setStartDayState(startDate);
-		setEndDatyState(endDate);
-	};
-
-	const EditField = (col, e) => {
-		let val = e.target.value;
-
-		if (col === "startDay") {
-			setStartDayState(val);
-		} else {
-			setEndDatyState(val);
-		}
-	};
-
-	const submitHandler = () => {
+	const submitHandler = (startDay, endDay) => {
 		let transactionData = {
-			StartDate: moment(startDayState).unix(),
-			EndDate: moment(endDayState).unix(),
+			StartDate: moment(startDay).unix(),
+			EndDate: moment(endDay).unix(),
 			PageNumber: 1
 		};
 
@@ -119,7 +53,8 @@ const Panel = () => {
 			}
 		});
 	};
-	let arr = getDepositHistoryState.map(item => {
+
+	let arr = getDepositHistoryState?.map(item => {
 		return (
 			<TransactionHistory
 				key={`depositHistory-${item.transId}`}
@@ -135,43 +70,8 @@ const Panel = () => {
 
 	return (
 		<>
-			<div className="inputBox">
-				<Dropdown
-					i18n={i18n}
-					mainKey="deposit-history-quickPick"
-					options={quickPickList}
-					selectedIdx={quickPickSelectedIdx}
-					icon="icon icon-calendar"
-					onSelectItem={dropdownStateHandler}
-					placeholder={i18n["lbl_QuickPick"]}
-				/>
-			</div>
-
-			<div className="inputBox parts">
-				<Inputbox
-					icon="icon-calendar"
-					inputType="date"
-					onChange={EditField.bind(null, "startDay")}
-					value={startDayState}
-					max={moment().format("YYYY-MM-DD")}
-				/>
-
-				<Inputbox
-					icon="icon-calendar"
-					inputType="date"
-					onChange={EditField.bind(null, "endDay")}
-					value={endDayState}
-					max={moment().format("YYYY-MM-DD")}
-				/>
-			</div>
-
-			<div className="btn-group">
-				<button className="orange switch" onClick={submitHandler}>
-					{i18n["lbl_Submit"]}
-				</button>
-			</div>
-
-			{getDepositHistoryState && getDepositHistoryState.length > 0 ? (
+			<HistoryFilter submitHandler={submitHandler} />
+			{getDepositHistoryState ? (
 				<div className="recent open">
 					<div className="recentTransactions">
 						<div className="smallTitle">
@@ -180,7 +80,11 @@ const Panel = () => {
 						</div>
 						{/* <button className="icon icon-spinner11 clickBtn"></button> */}
 					</div>
-					<div className="infoList">{arr}</div>
+					{getDepositHistoryState.length > 0 ? (
+						<div className="infoList">{arr}</div>
+					) : (
+						`No Data`
+					)}{" "}
 				</div>
 			) : null}
 		</>
