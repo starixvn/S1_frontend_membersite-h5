@@ -29,10 +29,9 @@ export const api_SetCustBankInfo = ({ AccountName, AccountNo, SysId }) =>
 		SysId
 	});
 
-export const api_DelCustBankInfo = ({ AccountName, AccountNo, SysId }) => {
+export const api_DelCustBankInfo = ({ AccountName, AccountNo, SysId }) =>
 	accountStrictRequest.post("/DelCustBankInfo", {
 		AccountName,
 		AccountNo,
 		SysId
 	});
-};

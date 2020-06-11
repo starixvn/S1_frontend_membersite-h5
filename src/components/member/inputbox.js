@@ -10,7 +10,7 @@ const Inputbox = props => {
 				onFocus={props.onFocus}
 				onBlur={props.onBlur}
 				onChange={props.onChange}
-				value={props.value ? props.value : null}
+				value={props.value ? props.value : ""}
 				max={props.max ? props.max : null}
 			/>
 			<div className="icon-module">
