@@ -51,6 +51,11 @@ pre {
   white-space: break-spaces;
 }
 
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
 body, html {
   width: 100%;
   overflow-x: hidden;
@@ -320,7 +325,6 @@ header .Join .Terms, header .Login .Terms {
 
 header .Join .Terms a, header .Login .Terms a {
   color: #ff5d00;
-  text-decoration: none;
 }
 
 header .Join .Terms input[type="checkbox"], header .Login .Terms input[type="checkbox"] {
@@ -1289,6 +1293,7 @@ footer > a.open .circleAnimation + span {
   font-size: 4vw;
   padding-right: 9vw;
   width: calc(100% - 13vw - 2px);
+  min-height: 20px;
 }
 
 #popup .popTxt {
@@ -1362,7 +1367,7 @@ footer > a.open .circleAnimation + span {
   z-index: 2;
 }
 
-.tag button {
+.tag a {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -1381,7 +1386,7 @@ footer > a.open .circleAnimation + span {
   font-size: 3vw;
 }
 
-.tag button.open {
+.tag a.open {
   color: #ff5d00;
   border-color: #ff5d00;
   font-weight: bold;
@@ -1672,6 +1677,7 @@ footer > a.open .circleAnimation + span {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
 }
 
 .btn-group button, .btn-group a {
@@ -1686,7 +1692,6 @@ footer > a.open .circleAnimation + span {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  text-decoration: none;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -1910,7 +1915,6 @@ footer > a.open .circleAnimation + span {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  color: #fff;
 }
 
 .depositType div button {
@@ -2313,6 +2317,14 @@ button.clickBtn:before {
   padding-top: 40vw;
 }
 
+.Message .functionList ~ .account:before {
+  color: red;
+  content: "●";
+  position: absolute;
+  top: 1vw;
+  left: 2vw;
+}
+
 .Announcement .functionList {
   padding: 0;
   border: 0;
@@ -2361,14 +2373,6 @@ button.clickBtn:before {
   margin: 2vw 0;
   padding: 2vw 4vw;
   position: relative;
-}
-
-.functionList ~ .account:before {
-  color: red;
-  content: "●";
-  position: absolute;
-  top: 1vw;
-  left: 2vw;
 }
 
 .functionList ~ .account .info {
@@ -2484,5 +2488,80 @@ button.clickBtn:before {
   position: absolute;
   right: 2vw;
   bottom: 1.5vw;
+}
+
+.casino {
+  min-height: calc(100% - 44vw);
+  padding: 20vw 8vw 24vw;
+}
+
+.casino .info {
+  line-height: 0;
+  padding: 1vw;
+  width: calc(50% - 2vw);
+  float: left;
+}
+
+.casino .info div {
+  margin: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.casino .info div img {
+  width: 100%;
+}
+
+.inputdate {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 1px solid #ff5d00;
+  border-radius: 3px;
+  padding: 2vw;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.inputdate:first-child {
+  margin-right: 2px;
+}
+
+.inputdate:last-child {
+  margin-left: 2px;
+}
+
+.inputdate i.icon {
+  position: static;
+  -webkit-transform: none;
+          transform: none;
+  margin-right: 1vw;
+}
+
+.inputdate input[type="date"] {
+  outline: none;
+  resize: none;
+  border: 0;
+  padding: 0;
+  width: 22vw;
+  font-size: 12px;
+}
+
+.inputdate .text {
+  margin-right: 1vw;
+}
+
+.inputdate ::-webkit-datetime-edit {
+  overflow: visible;
+}
+
+.inputdate ::-webkit-calendar-picker-indicator {
+  background-image: -webkit-linear-gradient(top, transparent, transparent);
 }
 /*# sourceMappingURL=style.css.map */

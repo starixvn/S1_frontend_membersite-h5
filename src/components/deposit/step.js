@@ -1,7 +1,7 @@
 import React from "react";
 
 const totalStep = 3;
-const Panel = ({ step }) => {
+const Panel = ({ step, total = totalStep }) => {
 	let processBar =
 		step === 1 ? (
 			<div></div>
@@ -12,7 +12,7 @@ const Panel = ({ step }) => {
 		);
 
 	let rows = [];
-	for (let s = 1; s <= totalStep; s++) {
+	for (let s = 1; s <= total; s++) {
 		rows.push(
 			<div key={`step-${s}`} className="circle">
 				<div>

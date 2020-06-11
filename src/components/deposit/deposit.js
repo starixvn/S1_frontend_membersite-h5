@@ -1,29 +1,23 @@
 import React, { useContext } from "react";
 import Step from "./step";
 import { i18nContext } from "../common/context";
-import OnlineBanking from "./deposit.onlineBanking";
-import LocalBank from "./deposit.localBank";
-import MobilePay from "./deposit.mobilePay";
 import { Link } from "@reach/router";
 
 const defPayment = {
 	onlineBank: {
 		icon: "icon icon-connection",
 		displayKey: "lbl_OnlineBanking",
-		creditTimeKey: "lbl_Instant",
-		pageContent: <OnlineBanking />
+		creditTimeKey: "lbl_Instant"
 	},
 	localBank: {
 		icon: "icon icon-credit-card",
 		displayKey: "lbl_WireTransfers",
-		creditTimeKey: "lbl_5mins",
-		pageContent: <LocalBank />
+		creditTimeKey: "lbl_5mins"
 	},
 	mobilePay: {
 		icon: "icon icon-mobile",
 		displayKey: "lbl_MobileDeposit",
-		creditTimeKey: "lbl_5mins",
-		pageContent: <MobilePay />
+		creditTimeKey: "lbl_5mins"
 	}
 };
 

@@ -49,4 +49,9 @@ button {
 pre {
   white-space: break-spaces;
 }
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
 /*# sourceMappingURL=reset.css.map */

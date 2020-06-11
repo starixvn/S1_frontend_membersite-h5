@@ -12,40 +12,51 @@
   font-size: 14vw;
 }
 
-.icon-CPP:before {
-  content: "\e91f";
+.icon-CirclePay:before {
   font-size: 12vw !important;
 }
 
-.icon-EZP:before {
-  content: "\e920";
+.icon-Eeziepay:before {
   font-size: 7vw !important;
 }
 
-.icon-H2P:before {
-  content: "\e922";
-}
-
-.icon-OCP:before {
-  content: "\e923";
+.icon-OneClickPay:before {
   font-size: 14vw !important;
 }
 
-.icon-VNP:before {
-  content: "\e924";
+.icon-VNPay:before {
   font-size: 3vw !important;
 }
 
-.icon-mom:before {
+.icon-CirclePay:before {
+  content: "\e91f";
+}
+
+.icon-Eeziepay:before {
+  content: "\e920";
+}
+
+.icon-Help2Pay:before {
+  content: "\e922";
+}
+
+.icon-OneClickPay:before {
+  content: "\e923";
+}
+
+.icon-VNPay:before {
+  content: "\e924";
+}
+
+.icon-MOMO:before {
   content: "\e926";
 }
 
-.icon-vp:before {
+.icon-VIETTELPAY:before {
   content: "\e927";
-  font-size: 8vw !important;
 }
 
-.icon-ZP:before {
+.icon-ZALO:before {
   content: "\e928";
 }
 
@@ -215,6 +226,10 @@
 
 .icon-spinner11:before {
   content: "\e984";
+}
+
+.icon-search:before {
+  content: "\e986";
 }
 
 .icon-key:before {

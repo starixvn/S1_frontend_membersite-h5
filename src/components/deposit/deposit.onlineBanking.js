@@ -2,13 +2,20 @@ import React from "react";
 import Step from "./step";
 import { Link } from "@reach/router";
 
-const Panel = () => {
+export const Panel = props => props.children;
+
+export const Main = () => {
 	return (
 		<>
 			<Step step={2} />
 			<div className="depositType">
 				<div>
-					<a className="icon icon-H2P"></a>
+					<Link
+						to="1"
+						state={{
+							sysId: 1
+						}}
+						className="icon icon-H2P"></Link>
 					<span>Help2Pay</span>
 				</div>
 				<div>
@@ -36,5 +43,3 @@ const Panel = () => {
 		</>
 	);
 };
-
-export default Panel;

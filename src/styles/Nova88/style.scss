@@ -200,7 +200,6 @@ header {
       line-height: 26px;
       a{
         color: $orange;
-        text-decoration: none;
       }
       input[type="checkbox"] {
         display:none;
@@ -844,6 +843,7 @@ footer {
     font-size: 4vw;
     padding-right: 9vw;
     width: calc(100% - 13vw - 2px);
+    min-height: 20px;
   }
   .popTxt{
     border-bottom-left-radius: 15px;
@@ -904,7 +904,7 @@ footer {
   background: $blue;
   left: 0;
   z-index: 2;
-  button{
+  a{
     flex: 1;
     align-items: center;
     display: flex;
@@ -1115,7 +1115,6 @@ footer {
       display: inline-block;
     }
   }
-  
   >.icon-module {
     position: absolute;
     right: 0;
@@ -1146,7 +1145,6 @@ footer {
     font-size: 4vw;
     display: flex;
     justify-content: center;
-    text-decoration: none;
     flex: 1;
     i{
       margin: 0 2vw;
@@ -1299,7 +1297,6 @@ footer {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $white;
     }
     button{
       border-radius: 100%;
@@ -1580,6 +1577,13 @@ button.clickBtn{
 }
 .Message{
   padding-top: 40vw;
+  .functionList ~ .account:before{
+    color: red;
+    content: "●";
+    position: absolute;
+    top: 1vw;
+    left: 2vw;
+  }
 }
 .Announcement{
   .functionList{
@@ -1617,13 +1621,6 @@ button.clickBtn{
     margin: 2vw 0;
     padding: 2vw 4vw;
     position: relative;
-    &:before{
-      color: red;
-      content: "●";
-      position: absolute;
-      top: 1vw;
-      left: 2vw;
-    }
     .info {
       display: flex;
       justify-content: space-between;
@@ -1704,5 +1701,61 @@ button.clickBtn{
     position: absolute;
     right: 2vw;
     bottom: 1.5vw;
+  }
+}
+//casino
+.casino{
+  min-height: calc(100% - 44vw);
+  padding: 20vw 8vw 24vw;
+  .info{
+    line-height: 0;
+    padding: 1vw;    
+    width: calc(50% - 2vw);    
+    float: left;
+    div{
+      margin: 5px;
+      overflow : hidden;
+      text-overflow : ellipsis;
+      white-space : nowrap;
+      img{
+        width: $width;
+      }
+    }
+  }
+}
+//inputdate
+.inputdate {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  border: 1px solid #ff5d00;
+  border-radius: 3px;
+  padding: 2vw;
+  align-items: center;
+  &:first-child{
+    margin-right: 2px;
+  }
+  &:last-child{
+    margin-left: 2px;
+  }
+  i.icon{
+    position: static;
+    transform: none;
+    margin-right: 1vw;
+  }
+  input[type="date"] {
+    outline: none;
+    resize: none;
+    border: 0;
+    padding: 0;
+    width: 22vw;
+    font-size: 12px;
+  }
+  .text{
+    margin-right: 1vw;
+  }
+  ::-webkit-datetime-edit { overflow: visible; }
+  ::-webkit-calendar-picker-indicator {
+      background-image: -webkit-linear-gradient(top, transparent, transparent);
   }
 }
