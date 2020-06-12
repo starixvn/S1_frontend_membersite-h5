@@ -37,3 +37,8 @@ export const paymentRequest = axios.create({
 	withCredentials: true,
 	baseURL: `${rootURL}/api/Payment`
 });
+
+export const tpRequest = axios.create({
+	withCredentials: true,
+	baseURL: `${rootURL}/api/Tp`
+});

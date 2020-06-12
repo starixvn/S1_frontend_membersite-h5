@@ -18,3 +18,21 @@ export const api_GetOnlineBankInfoSysList = ({ payId }) =>
 
 export const api_GetOnlineBankInfo = ({ payId, sysId }) =>
 	paymentRequest.post("/GetOnlineBankInfo", { payId, sysId });
+
+export const api_GetWithdrawalInfoHistory = ({
+	StartDate,
+	EndDate,
+	PageNumber
+}) =>
+	paymentRequest.post("/GetWithdrawalInfoHistory", {
+		StartDate,
+		EndDate,
+		PageNumber
+	});
+
+export const api_GetStatement = ({ StartDate, EndDate, PageNumber }) =>
+	paymentRequest.post("/GetStatement", {
+		StartDate,
+		EndDate,
+		PageNumber
+	});

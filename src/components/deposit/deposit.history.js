@@ -9,8 +9,8 @@ const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
-
-	const [getDepositHistoryState, setGetDepositHistoryState] = useState(null);
+	const _isConvert = isConvert(userInfo.currencyId);
+	const [getHistoryState, setGetHistoryState] = useState(null);
 
 	const submitHandler = (startDay, endDay) => {
 		let transactionData = {
@@ -21,48 +21,26 @@ const Panel = () => {
 
 		api_GetDepositInfoHistory(transactionData).then(response => {
 			const errorCode = response.data.errorCode;
-			const message = response.data.message;
-
 			if (errorCode !== 0) {
 				setPopBox({
 					isOpen: true,
-					content: message
+					content: response.data.message
 				});
 			} else {
-				const data = response.data.data;
-
-				let depoHistory = data.map(item => {
-					const _isConvert = isConvert(userInfo.currencyId);
-					const _number_format = number_format(
-						item.amount,
-						_isConvert
-					);
-
-					return {
-						showDate: moment(item.createTime).format(
-							"MM/DD/YYYY(Z)"
-						),
-						showTime: moment(item.createTime).format("hh:mm:ss A"),
-						depositType: item.depositType,
-						transId: item.transId,
-						amount: _number_format,
-						status: item.status
-					};
-				});
-				setGetDepositHistoryState(depoHistory);
+				setGetHistoryState(response.data.data);
 			}
 		});
 	};
 
-	let arr = getDepositHistoryState?.map(item => {
+	let arr = getHistoryState?.map(item => {
 		return (
 			<TransactionHistory
 				key={`depositHistory-${item.transId}`}
-				showDate={item.showDate}
-				showTime={item.showTime}
+				showDate={moment(item.createTime).format("MM/DD/YYYY(Z)")}
+				showTime={moment(item.createTime).format("hh:mm:ss A")}
 				depositType={i18n[`lbl_DepositType${item.depositType}`]}
 				transId={item.transId}
-				amount={item.amount}
+				amount={number_format(item.amount, _isConvert)}
 				status={i18n[`lbl_DepositStatus${item.status}`]}
 			/>
 		);
@@ -71,7 +49,7 @@ const Panel = () => {
 	return (
 		<>
 			<HistoryFilter submitHandler={submitHandler} />
-			{getDepositHistoryState ? (
+			{getHistoryState ? (
 				<div className="recent open">
 					<div className="recentTransactions">
 						<div className="smallTitle">
@@ -80,7 +58,7 @@ const Panel = () => {
 						</div>
 						{/* <button className="icon icon-spinner11 clickBtn"></button> */}
 					</div>
-					{getDepositHistoryState.length > 0 ? (
+					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>
 					) : (
 						`No Data`

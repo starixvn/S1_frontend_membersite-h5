@@ -135,5 +135,11 @@ export default [
 	"lbl_Back",
 	"lbl_Limit",
 	"lbl_Unlimited",
-	"lbl_Statement"
+	"lbl_Statement",
+	"lbl_TypeName",
+	"lbl_ChangeAmount",
+	"lbl_BeforeAmount",
+	"lbl_AfterAmount",
+	"lbl_RefTransId",
+	"lbl_Stake"
 ];
