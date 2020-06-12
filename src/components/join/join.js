@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
+import InputboxPWD from "../common/inputbox.password";
 import Dropdown from "../common/dropdown";
 import Checkbox from "../common/checkbox";
 import Tips from "./tips";
@@ -459,7 +460,7 @@ function Join() {
 					Warning={warningState.UserName}
 					value={userValueState.UserName}></Inputbox>
 
-				<Inputbox
+				<InputboxPWD
 					icon="icon-key"
 					inputType={`${!pswState ? "password" : "text"}`}
 					placeholder={i18n["lbl_Password"]}
@@ -472,7 +473,7 @@ function Join() {
 					showTips={showTipsState.Password}
 					Tips={i18n["lbl_PasswordTooltip"]}
 					Warning={warningState.Password}
-					value={userValueState.Password}></Inputbox>
+					value={userValueState.Password}></InputboxPWD>
 
 				<Inputbox
 					icon="icon-email"
