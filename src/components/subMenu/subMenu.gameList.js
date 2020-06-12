@@ -15,9 +15,11 @@ const SubGameList = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { setNav } = useContext(navContext);
 
-	// GET_ENTER_PAGE(userInfo.langId, 1, 43, () => {
-	// 	setNav(defPanel.login);
-	// });
+	const clickGame = (tpId, gameId) => {
+		GET_ENTER_PAGE(userInfo.langId, tpId, gameId, () => {
+			setNav(defPanel.login);
+		});
+	};
 
 	const selectCategory = _category => {
 		if (category === _category) {
@@ -29,7 +31,8 @@ const SubGameList = () => {
 
 	let arr = gameList.map(item => {
 		let _open = category === item.category;
-		return (
+
+		return item.items ? (
 			<ItemList
 				key={`subGameList-${item.category}`}
 				onClick={selectCategory.bind(null, item.category)}
@@ -38,8 +41,9 @@ const SubGameList = () => {
 				items={item.items}
 				translation={i18n[item.translation]}
 				itemOpen={`${_open && !item._blank ? "open" : ""}`}
+				clickGame={clickGame}
 			/>
-		);
+		) : null;
 	});
 
 	return <div className="subGameList">{arr}</div>;
@@ -50,8 +54,9 @@ const ItemList = props => {
 		return (
 			<Item
 				itemOpen={props.itemOpen}
-				colName={props.items[i]}
-				key={`subGameItem-${i}`}
+				colName={props.items[i].icon}
+				key={`subGameItem-${props.items[i].icon}`}
+				clickGame={props.clickGame.bind(this, item.tpId, item.gameId)}
 			/>
 		);
 	});
@@ -70,7 +75,9 @@ const ItemList = props => {
 
 const Item = props => {
 	return (
-		<a className={`icon icon-${props.colName} ${props.itemOpen}`}>
+		<a
+			className={`icon icon-${props.colName} ${props.itemOpen}`}
+			onClick={props.clickGame}>
 			{props.colName.toUpperCase()}
 		</a>
 	);
