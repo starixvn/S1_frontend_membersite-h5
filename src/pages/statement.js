@@ -20,7 +20,7 @@ const IndexPage = () => {
 	const submitHandler = (startDay, endDay) => {
 		let transactionData = {
 			StartDate: moment(startDay).unix(),
-			EndDate: moment(endDay).unix(),
+			EndDate: moment(endDay).endOf("day").unix(),
 			PageNumber: 1
 		};
 
