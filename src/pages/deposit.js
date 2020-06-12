@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import TabPage from "../components/common/tabPage";
 import path from "../path";
+import BankSlip from "../components/deposit/bankSlip";
+import { bankSlipPopBoxContext } from "../components/common/context";
 
 const defTabs = {
 	default: {
@@ -14,7 +16,17 @@ const defTabs = {
 };
 
 const IndexPage = props => {
-	return <TabPage defTabs={defTabs}>{props.children}</TabPage>;
+	const [bankSlipPopBox, setbankSlipPopBox] = useState({
+		isOpen: false
+	});
+
+	return (
+		<bankSlipPopBoxContext.Provider
+			value={{ bankSlipPopBox, setbankSlipPopBox }}>
+			<TabPage defTabs={defTabs}>{props.children}</TabPage>
+			<BankSlip />
+		</bankSlipPopBoxContext.Provider>
+	);
 };
 
 export default IndexPage;

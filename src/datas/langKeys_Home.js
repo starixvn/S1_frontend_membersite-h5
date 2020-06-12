@@ -150,5 +150,11 @@ export default [
 	"msg_ForceLogedout",
 	"lbl_Message",
 	"lbl_PersonalMsg",
-	"lbl_Announcement"
+	"lbl_Announcement",
+	"lbl_AttachFile",
+	"lbl_UploadFile",
+	"lbl_RefnoToolTip",
+	"lbl_DepositTime",
+	"lbl_BankAccountName",
+	"lbl_BankNumber"
 ];

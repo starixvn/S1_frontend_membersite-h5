@@ -10,12 +10,14 @@ import DropdownIMG from "../common/dropdown.image";
 import config from "../../config";
 import { number_format, isConvert, checkAmount } from "../common/common";
 import InputBox from "../common/inputbox";
+import LimitTip from "./limitTip";
 
 const SetPayment = props => {
-	const [redirect, setRedirect] = useState(false);
 	const { setPopBox } = useContext(popBoxContext);
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
+
+	const [redirect, setRedirect] = useState(false);
 	const [bankList, setBankList] = useState([]);
 	const [selBank, setSelBank] = useState({
 		idx: null,
@@ -103,7 +105,7 @@ const SetPayment = props => {
 		);
 
 		if (result.status === 0) {
-			const RedirectToPayment = () => {
+			const RedirectToNext = real_amount => {
 				setPopBox(prevState => ({
 					...prevState,
 					isOpen: false
@@ -119,10 +121,11 @@ const SetPayment = props => {
 						"&ChannelId=" +
 						selBank.bank.channelId +
 						"&Amount=" +
-						amount
+						real_amount
 				);
 			};
 
+			let real_amount = _isConvert ? amount * 1000 : amount;
 			setPopBox({
 				isOpen: true,
 				title: i18n.lbl_ImportantNote,
@@ -135,7 +138,7 @@ const SetPayment = props => {
 						/>
 						<div className="tip">
 							<span>{i18n.lbl_DepositAmount} :</span>{" "}
-							{number_format(amount, _isConvert)}
+							{number_format(real_amount, _isConvert)}
 						</div>
 					</>
 				),
@@ -152,7 +155,9 @@ const SetPayment = props => {
 							}>
 							{i18n["lbl_Cancel"]}
 						</button>
-						<button className="orange" onClick={RedirectToPayment}>
+						<button
+							className="orange"
+							onClick={RedirectToNext.bind(this, real_amount)}>
 							{i18n["lbl_Submit"]}
 						</button>
 					</div>
@@ -179,7 +184,7 @@ const SetPayment = props => {
 				<LimitTip
 					displayTextLimit={i18n.lbl_Limit}
 					displayTextUnLimit={i18n.lbl_Unlimited}
-					isConvert={_isConvert}
+					_isConvert={_isConvert}
 					minAmount={selBank?.bank?.minAmount}
 					maxAmount={selBank?.bank?.maxAmount}
 				/>
@@ -200,29 +205,6 @@ const SetPayment = props => {
 				</button>
 			</div>
 		</>
-	);
-};
-
-const LimitTip = ({
-	minAmount,
-	maxAmount,
-	displayTextLimit,
-	displayTextUnLimit,
-	_isConvert
-}) => {
-	return !minAmount && !maxAmount ? (
-		<div className="tip">
-			<span className="text-org">{displayTextLimit} :</span>{" "}
-			{displayTextUnLimit}
-		</div>
-	) : (
-		<div className="tip">
-			<span className="text-org">{displayTextLimit} :</span>{" "}
-			{`${number_format(minAmount, _isConvert)} ~ ${number_format(
-				maxAmount,
-				_isConvert
-			)}`}
-		</div>
 	);
 };
 

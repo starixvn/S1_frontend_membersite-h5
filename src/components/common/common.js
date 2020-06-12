@@ -36,6 +36,9 @@ export const checkAmount = (amount, minAmount, maxAmount, _isConvert, i18n) => {
 	let msg = "";
 	if (amount !== null && amount !== undefined) {
 		let num_Amount = isNaN(amount) ? 0 : Number(amount);
+		if (_isConvert) {
+			num_Amount *= 1000;
+		}
 		if (num_Amount <= 0) {
 			status = 2;
 			msg = i18n.lbl_AmountTooltip;

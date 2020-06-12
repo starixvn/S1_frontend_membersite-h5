@@ -36,3 +36,12 @@ export const api_GetStatement = ({ StartDate, EndDate, PageNumber }) =>
 		EndDate,
 		PageNumber
 	});
+
+export const api_GetBankInfoOffList = () =>
+	paymentRequest.post("/GetBankInfoOffList");
+
+export const api_GetMobilePayGroupList = () =>
+	paymentRequest.post("/GetMobilePayGroupList");
+
+export const api_DepositReqWireTransfer = ({ amount, sysId }) =>
+	paymentRequest.post("/DepositReqWireTransfer", { amount, sysId });

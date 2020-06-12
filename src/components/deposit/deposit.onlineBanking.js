@@ -6,17 +6,21 @@ import { api_GetOnlinePaymentList } from "../../service/api/payment";
 
 export const Panel = props => props.children;
 
-export const Main = () => {
+export const Main = props => {
 	const { i18n } = useContext(i18nContext);
 	const [paymentList, setPaymentList] = useState([]);
 
 	useEffect(() => {
-		api_GetOnlinePaymentList().then(res => {
-			if (res.data.errorCode === 0) {
-				setPaymentList(res.data.data);
-			}
-		});
-	}, []);
+		if (props.location.state.paymentList) {
+			setPaymentList(props.location.state.paymentList);
+		} else {
+			api_GetOnlinePaymentList().then(res => {
+				if (res.data.errorCode === 0) {
+					setPaymentList(res.data.data);
+				}
+			});
+		}
+	}, [props.location.state.paymentList]);
 
 	let rows = paymentList.map(p => {
 		return (
