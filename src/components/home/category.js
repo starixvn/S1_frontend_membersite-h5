@@ -1,13 +1,27 @@
 import React, { useState, useContext } from "react";
-import { i18nContext } from "../common/context";
+import {
+	i18nContext,
+	navContext,
+	defPanel,
+	userInfoContext
+} from "../common/context";
 import gameList from "../../datas/gameList";
+import { GET_ENTER_PAGE } from "../../service/enterPage";
 
 const Category = () => {
 	const { i18n } = useContext(i18nContext);
 	const [category, setCategory] = useState("sports");
+	const { userInfo } = useContext(userInfoContext);
+	const { setNav } = useContext(navContext);
 
 	const selectCategory = _category => {
 		setCategory(_category);
+	};
+
+	const clickGame = (tpId, gameId) => {
+		GET_ENTER_PAGE(userInfo.langId, tpId, gameId, userInfo.isLogin, () => {
+			setNav(defPanel.login);
+		});
 	};
 
 	let listArr = gameList.map(item => {
@@ -16,7 +30,11 @@ const Category = () => {
 			<CategoryItems
 				key={`category-${item.category}`}
 				category={item.category}
-				onClick={selectCategory.bind(null, item.category)}
+				onClick={
+					!item._blank
+						? selectCategory.bind(null, item.category)
+						: clickGame.bind(this, item.tpId, item.gameId)
+				}
 				isOpen={`${_open ? " open" : ""}`}
 				translation={i18n[item.translation]}
 				items={item.items}
@@ -27,7 +45,17 @@ const Category = () => {
 	let itemArr = gameList.map(x =>
 		x.items.map(_item => {
 			if (x.category === category) {
-				return <Item key={`categoryItem-${_item}`} colName={_item} />;
+				return (
+					<Item
+						key={`categoryItem-${_item.icon}`}
+						colName={_item.icon}
+						clickGame={clickGame.bind(
+							this,
+							_item.tpId,
+							_item.gameId
+						)}
+					/>
+				);
 			}
 		})
 	);
@@ -51,6 +79,10 @@ const CategoryItems = props => {
 };
 
 const Item = props => {
-	return <a className={`icon icon-${props.colName}`}></a>;
+	return (
+		<a
+			className={`icon icon-${props.colName}`}
+			onClick={props.clickGame}></a>
+	);
 };
 export default Category;

@@ -5,7 +5,13 @@ export const _ACTION_TYPE = {
 	redirect: 2
 };
 
-export const GET_ENTER_PAGE = (langId, tpId, gameId, loginCallback) => {
+export const GET_ENTER_PAGE = (
+	langId,
+	tpId,
+	gameId,
+	isLogin,
+	loginCallback
+) => {
 	let homeUrl = "";
 	let signupUrl = "";
 	let LoginUrl = "";
@@ -24,7 +30,7 @@ export const GET_ENTER_PAGE = (langId, tpId, gameId, loginCallback) => {
 		}
 	}
 
-	if (result.needLogin) {
+	if (!isLogin && result.needLogin) {
 		loginCallback();
 	} else if (result.actionType === _ACTION_TYPE.blank) {
 		window.open(
