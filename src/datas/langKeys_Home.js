@@ -120,5 +120,16 @@ export default [
 	"lbl_ID",
 	"lbl_Method",
 	"lbl_Amount",
-	"lbl_Status"
+	"lbl_Status",
+	"lbl_WithdrawalStatus1",
+	"lbl_WithdrawalStatus2",
+	"lbl_WithdrawalStatus3",
+	"lbl_WithdrawalStatus4",
+	"lbl_WithdrawalStatus5",
+	"lbl_WithdrawalStatus6",
+	"lbl_WithdrawalStatus7",
+	"lbl_Wallet_Saba",
+	"lbl_MainWallet",
+	"lbl_Direction",
+	"lbl_eSports"
 ];
