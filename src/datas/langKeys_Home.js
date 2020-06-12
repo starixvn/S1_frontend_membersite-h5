@@ -131,5 +131,9 @@ export default [
 	"lbl_Wallet_Saba",
 	"lbl_MainWallet",
 	"lbl_Direction",
-	"lbl_eSports"
+	"lbl_eSports",
+	"lbl_Back",
+	"lbl_Limit",
+	"lbl_Unlimited",
+	"lbl_Statement"
 ];

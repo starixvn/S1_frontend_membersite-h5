@@ -5,10 +5,7 @@ import {
 	walletInfoContext
 } from "../common/context";
 import LangDropdown from "../common/dropdown.icon";
-import {
-	api_GetSiteLangList,
-	api_GetTranslationData
-} from "../../service/api/site";
+import { api_GetSiteLangList } from "../../service/api/site";
 import { GET_LANG_ID } from "../../service/language";
 import { api_SetLanguage } from "../../service/api/account";
 import { number_format, isConvert } from "../common/common";
