@@ -32,7 +32,7 @@ export class DropdownBox extends Component {
 
 			return (
 				<Item
-					key={`${this.props.mainKey}-${item.id}`}
+					key={`${this.props.mainKey}-${item.id ?? i}`}
 					displayText={displayText}
 					onClick={this.SelectItem.bind(null, i)}
 					ImgURL={this.props.ImgURL + item.image}
@@ -41,14 +41,16 @@ export class DropdownBox extends Component {
 			);
 		});
 
-		let selected = null;
+		let displayText = null;
+		let selectedImg = null;
 		if (this.props.options[this.props.selectedIdx]) {
 			let _s = this.props.options[this.props.selectedIdx];
 			if (_s.displayText) {
-				selected = _s.displayText;
+				displayText = _s.displayText;
 			} else {
-				selected = this.props.i18n[_s.displayKey];
+				displayText = this.props.i18n[_s.displayKey];
 			}
+			selectedImg = _s ? this.props.ImgURL + _s.image : null;
 		}
 		return (
 			<div
@@ -57,9 +59,9 @@ export class DropdownBox extends Component {
 				onClick={this.ClickDropdown}>
 				<button className="btn">
 					<div className={this.props.className}>
-						<img src={this.props.selectedImgURL} alt="" />
+						<img src={selectedImg} alt="" />
 					</div>
-					<span className="text">{selected}</span>
+					<span className="text">{displayText}</span>
 				</button>
 
 				<div
@@ -86,10 +88,13 @@ const Item = props => {
 
 DropdownBox.propTypes = {
 	colName: PropTypes.string,
-	onSelectItem: PropTypes.func,
-	options: PropTypes.array,
-	selectedIdx: PropTypes.number,
-	mainKey: PropTypes.string
+	onSelectItem: PropTypes.func.isRequired,
+	options: PropTypes.array.isRequired,
+	selectedIdx: PropTypes.number.isRequired,
+	mainKey: PropTypes.string.isRequired,
+	i18n: PropTypes.object,
+	ImgURL: PropTypes.string.isRequired,
+	className: PropTypes.string.isRequired
 };
 
 export default DropdownBox;

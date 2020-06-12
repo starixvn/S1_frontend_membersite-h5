@@ -315,11 +315,10 @@ const BankInfo = () => {
 					{" "}
 					<div className="inputBox">
 						<Dropdown
-							mainkey="getBankInfo"
+							mainKey="getBankInfo"
 							options={siteBankInfoState}
 							colName="getBankInfo"
 							className="bankLogo"
-							selectedImgURL={`${config.apiURL}/common/images/BankLogo/${siteBankInfoState[bankSelectedIdx]?.image}`}
 							ImgURL={`${config.apiURL}/common/images/BankLogo/`}
 							selectedIdx={bankSelectedIdx}
 							onSelectItem={dropdownStateHandler}
