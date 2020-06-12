@@ -58,23 +58,6 @@ const LoginPage = ({ ButtonTitle }) => {
 		});
 	};
 
-	const [showTipsState, setShowTipsState] = useState({
-		UserName: false,
-		Password: false
-	});
-
-	const showTipsHandler = (col, e) => {
-		e.stopPropagation();
-		setShowTipsState(prevState => {
-			Object.keys(prevState).forEach(_col => {
-				prevState[_col] = _col === col;
-			});
-			return {
-				...prevState
-			};
-		});
-	};
-
 	const [pswState, setPswState] = useState(false);
 
 	const showPswHandler = () => {
@@ -177,6 +160,7 @@ const LoginPage = ({ ButtonTitle }) => {
 			[colName]: value
 		}));
 	};
+
 	return (
 		<>
 			<button onClick={handleloginPanel.bind(this, showPanel)}>
@@ -200,11 +184,9 @@ const LoginPage = ({ ButtonTitle }) => {
 					icon="icon-member"
 					inputType="text"
 					placeholder={i18n["lbl_Username"]}
-					onFocus={showTipsHandler.bind(null, "UserName")}
 					onBlur={checkValueHandler.bind(null, "UserName")}
 					onChange={EditField.bind(null, "UserName")}
 					ClassName="JoinRule"
-					showTips={showTipsState.UserName}
 					Warning={warningState.UserName}
 					value={userValueState.UserName}
 				/>
@@ -213,13 +195,11 @@ const LoginPage = ({ ButtonTitle }) => {
 					icon="icon-key"
 					inputType={`${!pswState ? "password" : "text"}`}
 					placeholder={i18n["lbl_Password"]}
-					onFocus={showTipsHandler.bind(null, "Password")}
 					onBlur={checkValueHandler.bind(null, "Password")}
 					onChange={EditField.bind(null, "Password")}
 					showPsw={pswState}
 					showPswHandler={showPswHandler}
 					ClassName="JoinRule"
-					showTips={showTipsState.Password}
 					Warning={warningState.Password}
 					value={userValueState.Password}
 				/>
