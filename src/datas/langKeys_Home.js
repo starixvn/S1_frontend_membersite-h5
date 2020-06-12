@@ -147,5 +147,8 @@ export default [
 	"lbl_ConfirmDeposit",
 	"lbl_ImportantNote",
 	"lbl_DepositAmount",
-	"msg_ForceLogedout"
+	"msg_ForceLogedout",
+	"lbl_Message",
+	"lbl_PersonalMsg",
+	"lbl_Announcement"
 ];

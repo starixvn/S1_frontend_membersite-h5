@@ -99,9 +99,16 @@ const SubMenu = () => {
 						)}>
 						Statement
 					</Link>
-					<a className="icon icon-email">
-						<span>Email</span>
-					</a>
+					<Link
+						to={path.message.root}
+						className="icon icon-email"
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
+						<span>{i18n.lbl_Message}</span>
+					</Link>
 					<a className="icon icon-vip">
 						<span>VIP Lv100</span>
 					</a>

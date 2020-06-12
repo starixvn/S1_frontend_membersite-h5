@@ -70,5 +70,14 @@ export default {
 	},
 	statement: {
 		root: "statement"
+	},
+	message: {
+		root: "message",
+		sub: {
+			root: "/",
+			announcement: {
+				root: "announcement"
+			}
+		}
 	}
 };

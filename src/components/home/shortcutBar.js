@@ -16,9 +16,9 @@ const ShortcutBar = () => {
 			<Link to={path.withdrawal.root} className="icon icon-withdrawal">
 				<span>{i18n.lbl_Withdrawal}</span>
 			</Link>
-			<a className="icon icon-email">
-				<span>{i18n.lbl_Email}</span>
-			</a>
+			<Link to={path.message.root} className="icon icon-email">
+				<span>{i18n.lbl_Message}</span>
+			</Link>
 			{/* <a className="icon icon-vip">
 				<span>VIP LV100</span>
 			</a> */}

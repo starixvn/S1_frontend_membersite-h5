@@ -44,6 +44,10 @@ import TransferHistory from "./components/transfer/transfer.history";
 
 import Statement from "./pages/statement";
 
+import Message from "./pages/message";
+import PersonalMsg from "./components/message/personalMsg";
+import Announcement from "./components/message/announcement";
+
 const Index = () => {
 	let history = createHistory(window);
 	return (
@@ -104,6 +108,12 @@ const Index = () => {
 							/>
 						</Transfer>
 						<Statement path={path.statement.root} />
+						<Message path={path.message.root}>
+							<PersonalMsg path={path.message.sub.root} />
+							<Announcement
+								path={path.message.sub.announcement.root}
+							/>
+						</Message>
 					</Router>
 				</Layout>
 			</LocationProvider>

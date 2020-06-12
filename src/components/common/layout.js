@@ -39,6 +39,11 @@ const _PageInfo = {
 		titleKey: "lbl_Statement",
 		className: "main",
 		hideLogo: true
+	},
+	message: {
+		titleKey: "lbl_Message",
+		className: "main",
+		hideLogo: true
 	}
 };
 
@@ -52,6 +57,7 @@ const Layout = ({ children }) => {
 	let _matchWithdrawal = useMatch(`/${path.withdrawal.root}/*`) !== null;
 	let _matchTransfer = useMatch(`/${path.transfer.root}/*`) !== null;
 	let _matchStatement = useMatch(`/${path.statement.root}/*`) !== null;
+	let _matchMessage = useMatch(`/${path.message.root}/*`) !== null;
 	let pageInfo = {};
 	if (_matchMember) {
 		pageInfo = _PageInfo.member;
@@ -63,6 +69,8 @@ const Layout = ({ children }) => {
 		pageInfo = _PageInfo.transfer;
 	} else if (_matchStatement) {
 		pageInfo = _PageInfo.statement;
+	} else if (_matchMessage) {
+		pageInfo = _PageInfo.message;
 	}
 
 	return (
