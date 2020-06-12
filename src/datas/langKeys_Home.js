@@ -141,5 +141,11 @@ export default [
 	"lbl_BeforeAmount",
 	"lbl_AfterAmount",
 	"lbl_RefTransId",
-	"lbl_Stake"
+	"lbl_Stake",
+	"lbl_AmountTooltip",
+	"lbl_NotinLimit",
+	"lbl_ConfirmDeposit",
+	"lbl_ImportantNote",
+	"lbl_DepositAmount",
+	"msg_ForceLogedout"
 ];

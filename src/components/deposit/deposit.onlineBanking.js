@@ -1,43 +1,44 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Step from "./step";
+import { i18nContext } from "../common/context";
 import { Link } from "@reach/router";
+import { api_GetOnlinePaymentList } from "../../service/api/payment";
 
 export const Panel = props => props.children;
 
 export const Main = () => {
+	const { i18n } = useContext(i18nContext);
+	const [paymentList, setPaymentList] = useState([]);
+
+	useEffect(() => {
+		api_GetOnlinePaymentList().then(res => {
+			if (res.data.errorCode === 0) {
+				setPaymentList(res.data.data);
+			}
+		});
+	}, []);
+
+	let rows = paymentList.map(p => {
+		return (
+			<div key={`onlinebanking-${p.payId}-${p.channelId}`}>
+				<Link
+					to={`${p.payName}`}
+					state={{
+						payId: p.payId
+					}}
+					className={`icon icon-${p.payName}`}
+				/>
+				<span>{p.payName}</span>
+			</div>
+		);
+	});
 	return (
 		<>
 			<Step step={2} />
-			<div className="depositType">
-				<div>
-					<Link
-						to="1"
-						state={{
-							sysId: 1
-						}}
-						className="icon icon-H2P"></Link>
-					<span>Help2Pay</span>
-				</div>
-				<div>
-					<a className="icon icon-CPP"></a>
-					<span>CirclePay</span>
-				</div>
-				<div>
-					<a className="icon icon-OCP"></a>
-					<span>OneClickPay</span>
-				</div>
-				<div>
-					<a className="icon icon-EZP"></a>
-					<span>Eeziepay</span>
-				</div>
-				<div>
-					<a className="icon icon-VNP"></a>
-					<span>VNPay</span>
-				</div>
-			</div>
+			<div className="depositType">{rows}</div>
 			<div className="btn-group">
 				<Link to="/deposit" className="white">
-					Back
+					{i18n.lbl_Back}
 				</Link>
 			</div>
 		</>

@@ -29,7 +29,7 @@ export default {
 				sub: {
 					root: "/",
 					setOnlineBanking: {
-						root: ":sysId"
+						root: ":payName"
 					}
 				}
 			},

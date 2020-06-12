@@ -54,7 +54,7 @@ export const Wrapper = ({ children }) => {
 					setPopBox({
 						isOpen: true,
 						title: "Warning",
-						content: errMsg
+						content: errMsg ?? i18n.msg_ForceLogedout
 					});
 					navigate("/");
 				}

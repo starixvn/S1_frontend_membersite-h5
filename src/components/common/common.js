@@ -30,3 +30,27 @@ const _isConvertList = {
 export const isConvert = currencyId => {
 	return _isConvertList[currencyId] === true;
 };
+
+export const checkAmount = (amount, minAmount, maxAmount, _isConvert, i18n) => {
+	let status = 0;
+	let msg = "";
+	if (amount !== null && amount !== undefined) {
+		let num_Amount = isNaN(amount) ? 0 : Number(amount);
+		if (num_Amount <= 0) {
+			status = 2;
+			msg = i18n.lbl_AmountTooltip;
+		} else if (
+			minAmount !== 0 &&
+			maxAmount !== 0 &&
+			(num_Amount > maxAmount || num_Amount < minAmount)
+		) {
+			status = 2;
+			msg =
+				number_format(num_Amount, _isConvert) +
+				" " +
+				i18n.lbl_NotinLimit;
+		}
+	}
+
+	return { status: status, msg: msg };
+};

@@ -43,7 +43,10 @@ export class DropdownBox extends Component {
 
 		let displayText = null;
 		let selectedImg = null;
-		if (this.props.options[this.props.selectedIdx]) {
+		if (
+			this.props.selectedIdx !== null &&
+			this.props.options[this.props.selectedIdx]
+		) {
 			let _s = this.props.options[this.props.selectedIdx];
 			if (_s.displayText) {
 				displayText = _s.displayText;
@@ -90,7 +93,7 @@ DropdownBox.propTypes = {
 	colName: PropTypes.string,
 	onSelectItem: PropTypes.func.isRequired,
 	options: PropTypes.array.isRequired,
-	selectedIdx: PropTypes.number.isRequired,
+	selectedIdx: PropTypes.number,
 	mainKey: PropTypes.string.isRequired,
 	i18n: PropTypes.object,
 	ImgURL: PropTypes.string.isRequired,

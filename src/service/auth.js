@@ -84,7 +84,7 @@ export const ONLINE_CHECK = callback => {
 		},
 		error => {
 			if (error.response !== null && error.response.status === 401) {
-				//callback(error.response.status);
+				callback(error.response.status);
 			} else {
 				setTimeout(ONLINE_CHECK.bind(this, callback), 10000);
 			}
