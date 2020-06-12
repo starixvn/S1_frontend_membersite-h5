@@ -40,7 +40,11 @@ const Inputbox = props => {
 
 Inputbox.propTypes = {
 	icon: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.number,
+		PropTypes.object
+	]),
 	inputType: PropTypes.string,
 	placeholder: PropTypes.string,
 	onFocus: PropTypes.func,
