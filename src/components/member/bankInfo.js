@@ -8,7 +8,7 @@ import {
 	api_DelCustBankInfo
 } from "../../service/api/accountStrict";
 import { api_GetCustBankInfo } from "../../service/api/account";
-import Inputbox from "./inputbox";
+import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.image";
 import config from "../../config";
 

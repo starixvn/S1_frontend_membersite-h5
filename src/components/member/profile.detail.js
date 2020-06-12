@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import Inputbox from "./inputbox";
+import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.icon";
 import { i18nContext, userInfoContext } from "../common/context";
 import areaCode from "../../datas/areaCode";

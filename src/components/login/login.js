@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
+import InputboxPWD from "../common/inputbox.password";
 import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
 import { LOGIN } from "../../service/auth";
@@ -208,7 +209,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					value={userValueState.UserName}
 				/>
 
-				<Inputbox
+				<InputboxPWD
 					icon="icon-key"
 					inputType={`${!pswState ? "password" : "text"}`}
 					placeholder={i18n["lbl_Password"]}
