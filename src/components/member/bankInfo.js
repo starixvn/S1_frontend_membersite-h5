@@ -315,7 +315,7 @@ const BankInfo = () => {
 					{" "}
 					<div className="inputBox">
 						<Dropdown
-							mainKey="getBankInfo"
+							mainKey="bankInfo-bankList"
 							options={siteBankInfoState}
 							colName="getBankInfo"
 							className="bankLogo"
