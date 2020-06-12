@@ -89,6 +89,16 @@ const SubMenu = () => {
 						)}>
 						Member
 					</Link>
+					<Link
+						to={path.statement.root}
+						className="icon icon-member"
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
+						Statement
+					</Link>
 					<a className="icon icon-email">
 						<span>Email</span>
 					</a>
