@@ -34,6 +34,11 @@ const _PageInfo = {
 		titleKey: "lbl_Transfer",
 		className: "main",
 		hideLogo: true
+	},
+	statement: {
+		titleKey: "lbl_Statement",
+		className: "main",
+		hideLogo: true
 	}
 };
 
@@ -46,6 +51,7 @@ const Layout = ({ children }) => {
 	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
 	let _matchWithdrawal = useMatch(`/${path.withdrawal.root}/*`) !== null;
 	let _matchTransfer = useMatch(`/${path.transfer.root}/*`) !== null;
+	let _matchStatement = useMatch(`/${path.statement.root}/*`) !== null;
 	let pageInfo = {};
 	if (_matchMember) {
 		pageInfo = _PageInfo.member;
@@ -55,6 +61,8 @@ const Layout = ({ children }) => {
 		pageInfo = _PageInfo.withdrawal;
 	} else if (_matchTransfer) {
 		pageInfo = _PageInfo.transfer;
+	} else if (_matchStatement) {
+		pageInfo = _PageInfo.statement;
 	}
 
 	return (

@@ -120,5 +120,9 @@ export default [
 	"lbl_ID",
 	"lbl_Method",
 	"lbl_Amount",
-	"lbl_Status"
+	"lbl_Status",
+	"lbl_Back",
+	"lbl_Limit",
+	"lbl_Unlimited",
+	"lbl_Statement"
 ];
