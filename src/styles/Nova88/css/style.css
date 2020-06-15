@@ -2116,6 +2116,7 @@ footer > a.open .circleAnimation + span {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  width: calc(100% - 16vw);
 }
 
 input {
@@ -2159,6 +2160,9 @@ input[type="file"] {
   -webkit-box-flex: 2;
       -ms-flex: 2;
           flex: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fileUpload + button {
@@ -2777,5 +2781,27 @@ button.clickBtn:before {
     -webkit-transform: rotate(720deg);
             transform: rotate(720deg);
   }
+}
+
+#Loading {
+  width: calc(100% - 16vw);
+  height: calc(100% - 16vw);
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #fff;
+  background: rgba(0, 25, 66, 0.95);
+  padding: 8vw;
 }
 /*# sourceMappingURL=style.css.map */

@@ -66,7 +66,8 @@ const Panel = () => {
 					setOnlineBankingList(res.data.data);
 					setAllowPayment(prevState => ({
 						...prevState,
-						[defPayType.onlineBank]: true
+						[defPayType.onlineBank]:
+							res.data.data && res.data.data.length > 0
 					}));
 				}
 			}
@@ -78,7 +79,8 @@ const Panel = () => {
 					setLocalBankList(res.data.data);
 					setAllowPayment(prevState => ({
 						...prevState,
-						[defPayType.localBank]: true
+						[defPayType.localBank]:
+							res.data.data && res.data.data.length > 0
 					}));
 				}
 			}
@@ -90,7 +92,8 @@ const Panel = () => {
 					setMobilePayList(res.data.data);
 					setAllowPayment(prevState => ({
 						...prevState,
-						[defPayType.mobilePay]: true
+						[defPayType.mobilePay]:
+							res.data.data && res.data.data.length > 0
 					}));
 				}
 			}

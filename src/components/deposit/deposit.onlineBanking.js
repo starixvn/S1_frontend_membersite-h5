@@ -11,18 +11,21 @@ export const Main = props => {
 	const [paymentList, setPaymentList] = useState([]);
 
 	useEffect(() => {
+		let mounted = true;
 		if (props.location.state.paymentList) {
 			setPaymentList(props.location.state.paymentList);
 		} else {
 			api_GetOnlinePaymentList().then(res => {
-				if (res.data.errorCode === 0) {
+				if (res.data.errorCode === 0 && mounted) {
 					setPaymentList(res.data.data);
 				}
 			});
 		}
+
+		return () => (mounted = false);
 	}, [props.location.state.paymentList]);
 
-	let rows = paymentList.map(p => {
+	let rows = paymentList?.map(p => {
 		return (
 			<div key={`onlinebanking-${p.payId}-${p.channelId}`}>
 				<Link

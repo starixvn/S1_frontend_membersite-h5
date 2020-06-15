@@ -65,3 +65,8 @@ export const api_SetDepositReceipt = (TransId, DepositTime, RefNo) =>
 		DepositTime: DepositTime,
 		RefNo: RefNo
 	});
+
+export const api_GetMobilePayInfoList = GroupId =>
+	paymentRequest.post("/GetMobilePayInfoList", {
+		GroupId: GroupId
+	});

@@ -38,7 +38,7 @@ export default {
 				sub: {
 					root: "/",
 					setMobilePay: {
-						root: ":sysId"
+						root: ":channelName"
 					}
 				}
 			},
