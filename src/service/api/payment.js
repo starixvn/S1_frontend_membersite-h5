@@ -36,3 +36,32 @@ export const api_GetStatement = ({ StartDate, EndDate, PageNumber }) =>
 		EndDate,
 		PageNumber
 	});
+
+export const api_GetBankInfoOffList = () =>
+	paymentRequest.post("/GetBankInfoOffList");
+
+export const api_GetMobilePayGroupList = () =>
+	paymentRequest.post("/GetMobilePayGroupList");
+
+export const api_DepositReqWireTransfer = ({ amount, sysId }) =>
+	paymentRequest.post("/DepositReqWireTransfer", { amount, sysId });
+
+export const api_GetDepositInfoRecent = () =>
+	paymentRequest.post("/GetDepositInfoRecent");
+
+export const api_SetDepositCancel = TransId =>
+	paymentRequest.post("/SetDepositCancel", { TransId: TransId });
+
+export const api_UploadReceipt = formData =>
+	paymentRequest.post("/UploadReceipt", formData, {
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
+	});
+
+export const api_SetDepositReceipt = (TransId, DepositTime, RefNo) =>
+	paymentRequest.post("/SetDepositReceipt", {
+		TransId: TransId,
+		DepositTime: DepositTime,
+		RefNo: RefNo
+	});

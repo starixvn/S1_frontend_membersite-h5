@@ -91,7 +91,7 @@ const SubMenu = () => {
 					</Link>
 					<Link
 						to={path.statement.root}
-						className="icon icon-member"
+						className="icon icon-history"
 						onClick={ClickMenuItem.bind(
 							this,
 							true,

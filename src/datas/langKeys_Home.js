@@ -151,5 +151,16 @@ export default [
 	"lbl_Message",
 	"lbl_PersonalMsg",
 	"lbl_Announcement",
-	"lbl_SelectAll"
+	"lbl_SelectAll",
+	"lbl_AttachFile",
+	"lbl_UploadFile",
+	"lbl_RefnoToolTip",
+	"lbl_DepositTime",
+	"lbl_BankAccountName",
+	"lbl_BankNumber",
+	"lbl_RecentTransactions",
+	"lbl_SubmitProof",
+	"lbl_CancelConfirm",
+	"lbl_UploadSuccess",
+	"lbl_AllTranscations"
 ];

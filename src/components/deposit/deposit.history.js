@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
 import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
-import { api_GetDepositInfoHistory } from "../../service/api/payment";
+import {
+	api_GetDepositInfoHistory,
+	api_SetDepositCancel
+} from "../../service/api/payment";
 import { number_format, isConvert } from "../common/common";
 import moment from "moment";
 import HistoryFilter from "../common/historyFilter";
@@ -11,6 +14,7 @@ const Panel = () => {
 	const { setPopBox } = useContext(popBoxContext);
 	const _isConvert = isConvert(userInfo.currencyId);
 	const [getHistoryState, setGetHistoryState] = useState(null);
+	const [filterData, setFilterData] = useState(null);
 
 	const submitHandler = (startDay, endDay) => {
 		let transactionData = {
@@ -18,6 +22,8 @@ const Panel = () => {
 			EndDate: moment(endDay).endOf("day").unix(),
 			PageNumber: 1
 		};
+
+		setFilterData(transactionData);
 
 		api_GetDepositInfoHistory(transactionData).then(response => {
 			const errorCode = response.data.errorCode;
@@ -32,16 +38,56 @@ const Panel = () => {
 		});
 	};
 
+	const ClickCancel = transId => {
+		const ClickSubmit = () => {
+			setPopBox({ isOpen: false });
+			api_SetDepositCancel(transId).then(res => {
+				if (res.data.errorCode === 0) {
+					api_GetDepositInfoHistory(filterData).then(response => {
+						const errorCode = response.data.errorCode;
+						if (errorCode !== 0) {
+							setPopBox({
+								isOpen: true,
+								content: response.data.message
+							});
+						} else {
+							setGetHistoryState(response.data.data);
+						}
+					});
+				}
+			});
+		};
+
+		const ClickCancel = () => {
+			setPopBox({ isOpen: false });
+		};
+
+		setPopBox({
+			isOpen: true,
+			title: "",
+			content: i18n["lbl_CancelConfirm"],
+			hasBtn: true,
+			btnBar: (
+				<div className="btn-group">
+					<button className="blue" onClick={ClickCancel}>
+						{i18n["lbl_Cancel"]}
+					</button>
+					<button className="orange" onClick={ClickSubmit}>
+						{i18n["lbl_Submit"]}
+					</button>
+				</div>
+			)
+		});
+	};
+
 	let arr = getHistoryState?.map(item => {
 		return (
 			<TransactionHistory
 				key={`depositHistory-${item.transId}`}
-				showDate={moment(item.createTime).format("MM/DD/YYYY(Z)")}
-				showTime={moment(item.createTime).format("hh:mm:ss A")}
-				depositType={i18n[`lbl_DepositType${item.depositType}`]}
-				transId={item.transId}
-				amount={number_format(item.amount, _isConvert)}
-				status={i18n[`lbl_DepositStatus${item.status}`]}
+				{...item}
+				className="info"
+				_isConvert={_isConvert}
+				ClickCancel={ClickCancel.bind(this, item.transId)}
 			/>
 		);
 	});
@@ -61,7 +107,7 @@ const Panel = () => {
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>
 					) : (
-						`No Data`
+						<div className="not-found">No data to display.</div>
 					)}{" "}
 				</div>
 			) : null}
@@ -69,19 +115,37 @@ const Panel = () => {
 	);
 };
 
-const TransactionHistory = props => {
+export const TransactionHistory = props => {
 	const { i18n } = useContext(i18nContext);
 
+	let btnGroup = null;
+	if (props.depositType === 3 && (props.status === 1 || props.status === 7)) {
+		btnGroup = (
+			<div className="btn-group">
+				<button className="blue" onClick={props.ClickCancel}>
+					{i18n.lbl_Cancel}
+				</button>
+				<button
+					className="orange openPopup"
+					onClick={props.SubmitProof}>
+					{i18n.lbl_SubmitProof}
+				</button>
+			</div>
+		);
+	}
+
 	return (
-		<div className="info">
+		<div className={props.className}>
 			<ul>
 				<li>
 					<span className="title">{i18n["lbl_Date"]}</span>
-					<span>{props.showDate}</span>
+					<span>
+						{moment(props.createTime).format("MM/DD/YYYY(Z)")}
+					</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Time"]}</span>
-					<span>{props.showTime}</span>
+					<span>{moment(props.createTime).format("hh:mm:ss A")}</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_ID"]}</span>
@@ -89,18 +153,18 @@ const TransactionHistory = props => {
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Method"]}</span>
-					<span>{props.depositType}</span>
+					<span>{i18n[`lbl_DepositType${props.depositType}`]}</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Amount"]}</span>
-					<span>{props.amount}</span>
+					<span>{number_format(props.amount, props._isConvert)}</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Status"]}</span>
-					<span>{props.status}</span>
+					<span>{i18n[`lbl_DepositStatus${props.status}`]}</span>
 				</li>
 			</ul>
-			<div className="btn-group"></div>
+			{btnGroup}
 		</div>
 	);
 };

@@ -1,15 +1,13 @@
-import React, { useContext, useState } from "react";
-import { Redirect, Link } from "@reach/router";
+import React, { useContext } from "react";
+import { Redirect, Link, useMatch } from "@reach/router";
 import { i18nContext, userInfoContext } from "./context";
 
 const IndexPage = ({ defTabs, children }) => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
-	const [tabKey, setTab] = useState("default");
-	const handleTab = _tabKey => {
-		if (tabKey !== _tabKey) {
-			setTab(_tabKey);
-		}
+
+	const CheckMatch = path => {
+		return useMatch(path) !== null;
 	};
 
 	if (!userInfo.isLogin) {
@@ -17,12 +15,12 @@ const IndexPage = ({ defTabs, children }) => {
 	} else {
 		let items = Object.keys(defTabs).map(key => {
 			let tabItem = defTabs[key];
+			let match = CheckMatch(`${tabItem.to}`);
 			return (
 				<Link
 					to={tabItem.to}
 					key={`tab-btn-${key}`}
-					className={tabKey === key ? "open" : ""}
-					onClick={handleTab.bind(null, key)}>
+					className={match ? "open" : ""}>
 					{i18n[tabItem.displayKey]}
 				</Link>
 			);

@@ -28,6 +28,15 @@
   font-size: 3vw !important;
 }
 
+.icon-equalizer:before {
+  font-size: 6vw;
+}
+
+.icon-search {
+  -webkit-transform: translateY(35%) !important;
+          transform: translateY(35%) !important;
+}
+
 .icon-CirclePay:before {
   content: "\e91f";
 }
@@ -244,6 +253,10 @@
   content: "\e98f";
 }
 
+.icon-equalizer:before {
+  content: "\e992";
+}
+
 .icon-bin:before {
   content: "\e9ac";
 }
@@ -262,6 +275,14 @@
 
 .icon-sun:before {
   content: "\e9d4";
+}
+
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+
+.icon-star-full:before {
+  content: "\e9d9";
 }
 
 .icon-warning:before {
