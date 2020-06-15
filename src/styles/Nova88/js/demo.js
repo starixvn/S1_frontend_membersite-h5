@@ -29,4 +29,19 @@ $(function(){
         $('.selectBank > button').removeClass()
         $(this).addClass('open')
     })
+    $('.filter').click(function() {
+        $('.filterSelect').toggleClass('open')        
+    })
+    $('.slotList > .info').click(function() {
+        $('.slotFunction').addClass('open')        
+    })
+    $('.slotFunction').click(function() {
+        $(this).removeClass('open')
+    })
+    $('.icon-spinner11').click(function() {
+        $(this).addClass("open").delay(1000).queue(function(next){
+            $(this).removeClass("open").delay(1000);
+            next();
+        });
+    })
 });

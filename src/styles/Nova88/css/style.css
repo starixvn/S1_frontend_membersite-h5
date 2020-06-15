@@ -885,6 +885,8 @@ footer {
   display: flex;
   height: 12.8vw;
   border-radius: 5px 5px 0 0;
+  -webkit-box-shadow: 0 0px 7px 0 rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0px 7px 0 rgba(0, 0, 0, 0.5);
 }
 
 footer > a {
@@ -1185,7 +1187,7 @@ footer > a.open .circleAnimation + span {
   width: 100%;
   margin-left: -1px;
   left: 0;
-  top: calc(13vw + 1px);
+  top: calc(12vw + 1px);
   max-height: 45vw;
   overflow-y: scroll;
 }
@@ -1225,6 +1227,7 @@ footer > a.open .circleAnimation + span {
   display: -ms-flexbox;
   display: flex;
   color: #fff;
+  min-height: 7vw;
 }
 
 .dropdown > .btn .bankLogo {
@@ -1287,8 +1290,8 @@ footer > a.open .circleAnimation + span {
 
 #popup .popTit {
   background: #ff5d00;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   position: relative;
   font-size: 4vw;
   padding-right: 9vw;
@@ -1297,10 +1300,25 @@ footer > a.open .circleAnimation + span {
 }
 
 #popup .popTxt {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   line-height: 7vw;
   width: calc(100% - 8vw - 2px);
+}
+
+#popup .popTxt img {
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 3vw;
+}
+
+#popup .popTxt .text-org {
+  font-weight: bold;
+}
+
+#popup .popTxt .text-org + span {
+  font-size: 5vw;
+  font-weight: bold;
 }
 
 .flag:before {
@@ -1695,6 +1713,9 @@ footer > a.open .circleAnimation + span {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .btn-group button i, .btn-group a i {
@@ -2491,26 +2512,69 @@ button.clickBtn:before {
 }
 
 .casino {
-  min-height: calc(100% - 44vw);
-  padding: 20vw 8vw 24vw;
+  width: calc(100% - 8vw);
+  min-height: calc(100% - 76vw);
+  padding: 52vw 4vw 24vw;
+  position: relative;
 }
 
-.casino .info {
+.casino .slotList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.casino .slotList .info {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(50% - 1vw);
+          flex: 0 0 calc(50% - 1vw);
+  padding: 0;
+  margin: 2vw 0 0;
+  position: relative;
   line-height: 0;
-  padding: 1vw;
-  width: calc(50% - 2vw);
-  float: left;
+  -webkit-box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.9);
+          box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.9);
 }
 
-.casino .info div {
-  margin: 5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.casino .slotList .info:nth-child(odd) {
+  margin-right: 1vw;
 }
 
-.casino .info div img {
+.casino .slotList .info:nth-child(even) {
+  margin-left: 1vw;
+}
+
+.casino .slotList .info:before {
+  content: '';
+  border-style: solid;
+  border-width: 6vw 9vw;
+  border-color: #ff5d00 transparent transparent #ff5d00;
+  border-top-left-radius: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.casino .slotList .info span {
+  position: absolute;
+  left: 1.5vw;
+  top: 1.5vw;
+  line-height: initial;
+  z-index: 1;
+  font-weight: bold;
+  font-size: 3vw;
+}
+
+.casino .slotList .info span.icon {
+  right: 1vw;
+  left: initial;
+}
+
+.casino .slotList .info img {
   width: 100%;
+  border-radius: 5px;
 }
 
 .inputdate {
@@ -2563,5 +2627,155 @@ button.clickBtn:before {
 
 .inputdate ::-webkit-calendar-picker-indicator {
   background-image: -webkit-linear-gradient(top, transparent, transparent);
+}
+
+.filter {
+  color: #fff;
+  text-align: right;
+  float: right;
+  background: #ff5d00;
+  padding: 1vw;
+  border-radius: 3px;
+}
+
+.filterSelect {
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+  height: 0;
+}
+
+.filterSelect .inputBox {
+  margin: 0 0 2vw;
+}
+
+.filterSelect .inputBox .dropdown-container {
+  z-index: 2;
+}
+
+.filterSelect.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+  height: auto;
+}
+
+.filterBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 1vw 0;
+}
+
+.filterBtn button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  color: #fff;
+  border: 1px solid #ff5d00;
+  border-radius: 3px;
+  padding: 1vw 0;
+  margin-right: 2vw;
+}
+
+.filterBtn button:last-child {
+  margin-right: 0;
+}
+
+.filterBtn button.open {
+  background: #ff5d00;
+}
+
+.search {
+  width: calc(100% - 10vw);
+  padding: 2vw 0 2vw 8vw;
+}
+
+.slotBanner {
+  margin: 0 auto;
+  position: absolute;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  z-index: 2;
+  width: 100%;
+  left: 0;
+  top: 12vw;
+}
+
+.slotBanner img {
+  width: 100%;
+}
+
+.slotFunction {
+  position: fixed;
+  bottom: 0;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.7);
+          box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.7);
+  padding: 2vw 2vw 20vw;
+  border-radius: 10px;
+  width: calc(100% - 4vw);
+  left: 0;
+  background: #f3f3f3;
+  visibility: hidden;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 0;
+  z-index: 1;
+}
+
+.slotFunction .text-org {
+  font-size: 5vw;
+  margin: 2vw 0 3vw;
+}
+
+.slotFunction.open {
+  visibility: visible;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  opacity: 1;
+}
+
+.slotFunction .white {
+  border: 1px solid #ff5d00;
+}
+
+.not-found {
+  color: #fff;
+  margin-top: 10vw;
+  text-align: center;
+}
+
+.icon-spinner11.open:before {
+  -webkit-animation-name: reload;
+          animation-name: reload;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+}
+
+@-webkit-keyframes reload {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(720deg);
+            transform: rotate(720deg);
+  }
+}
+
+@keyframes reload {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(720deg);
+            transform: rotate(720deg);
+  }
 }
 /*# sourceMappingURL=style.css.map */

@@ -1,12 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
+import moment from "moment";
+import { number_format, isConvert } from "../common/common";
 import Step from "./step";
-import { i18nContext } from "../common/context";
+import {
+	i18nContext,
+	popBoxContext,
+	bankSlipPopBoxContext,
+	userInfoContext
+} from "../common/context";
 import { Link } from "@reach/router";
 import {
 	api_GetOnlinePaymentList,
 	api_GetBankInfoOffList,
-	api_GetMobilePayGroupList
+	api_GetMobilePayGroupList,
+	api_GetDepositInfoRecent,
+	api_SetDepositCancel
 } from "../../service/api/payment";
+import RecentDatas from "./deposit.recentDatas";
 
 const defPayType = {
 	onlineBank: "onlineBank",
@@ -33,7 +43,10 @@ const defPayment = {
 };
 
 const Panel = () => {
+	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
+	const { setPopBox } = useContext(popBoxContext);
+	const { setbankSlipPopBox } = useContext(bankSlipPopBoxContext);
 	const [allowPayment, setAllowPayment] = useState({
 		[defPayType.onlineBank]: false,
 		[defPayType.localBank]: false,
@@ -43,6 +56,8 @@ const Panel = () => {
 	const [onlineBankingList, setOnlineBankingList] = useState([]);
 	const [localBankList, setLocalBankList] = useState([]);
 	const [mobilePayList, setMobilePayList] = useState([]);
+	const [recentDatas, setRecentDatas] = useState([]);
+
 	useEffect(() => {
 		let mounted = true;
 		api_GetOnlinePaymentList().then(res => {
@@ -81,10 +96,79 @@ const Panel = () => {
 			}
 		});
 
+		api_GetDepositInfoRecent().then(res => {
+			if (res.data.errorCode === 0) {
+				if (mounted) {
+					setRecentDatas(res.data.data);
+				}
+			}
+		});
+
 		return () => {
 			mounted = false;
 		};
 	}, []);
+
+	const _isConvert = isConvert(userInfo.currencyId);
+	const SubmitProof = (
+		bankInfo,
+		depositRep,
+		amount,
+		transId,
+		picFileName,
+		refId
+	) => {
+		let { currencyId, ...restBankInfo } = bankInfo;
+		let { accountName, accountNo } = depositRep;
+		setbankSlipPopBox(() => ({
+			depositTime: `${moment().format("yyyy-MM-DDT")}${moment().format(
+				"HH:mm"
+			)}`,
+			...restBankInfo,
+			transId: transId,
+			accountNo: accountNo,
+			accountName: accountName,
+			isOpen: true,
+			amount: number_format(amount, _isConvert),
+			picFileName: picFileName,
+			refId: refId
+		}));
+	};
+	const ClickCancel = transId => {
+		const ClickSubmit = () => {
+			setPopBox({ isOpen: false });
+			api_SetDepositCancel(transId).then(res => {
+				if (res.data.errorCode === 0) {
+					api_GetDepositInfoRecent().then(res => {
+						if (res.data.errorCode === 0) {
+							setRecentDatas(res.data.data);
+						}
+					});
+				}
+			});
+		};
+
+		const ClickCancel = () => {
+			setPopBox({ isOpen: false });
+		};
+
+		setPopBox({
+			isOpen: true,
+			title: "",
+			content: i18n["lbl_CancelConfirm"],
+			hasBtn: true,
+			btnBar: (
+				<div className="btn-group">
+					<button className="blue" onClick={ClickCancel}>
+						{i18n["lbl_Cancel"]}
+					</button>
+					<button className="orange" onClick={ClickSubmit}>
+						{i18n["lbl_Submit"]}
+					</button>
+				</div>
+			)
+		});
+	};
 
 	const paymentList = Object.keys(defPayment)
 		.filter(key => {
@@ -122,6 +206,11 @@ const Panel = () => {
 		<>
 			<Step step={1} />
 			<div className="depositType">{paymentList}</div>
+			<RecentDatas
+				Datas={recentDatas}
+				SubmitProof={SubmitProof}
+				ClickCancel={ClickCancel}
+			/>
 		</>
 	);
 };

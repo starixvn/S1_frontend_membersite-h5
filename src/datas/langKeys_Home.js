@@ -156,5 +156,10 @@ export default [
 	"lbl_RefnoToolTip",
 	"lbl_DepositTime",
 	"lbl_BankAccountName",
-	"lbl_BankNumber"
+	"lbl_BankNumber",
+	"lbl_RecentTransactions",
+	"lbl_SubmitProof",
+	"lbl_CancelConfirm",
+	"lbl_UploadSuccess",
+	"lbl_AllTranscations"
 ];

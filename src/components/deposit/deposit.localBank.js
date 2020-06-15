@@ -13,6 +13,7 @@ import LimitTip from "./limitTip";
 import { isConvert, checkAmount, number_format } from "../common/common";
 import InputBox from "../common/inputbox";
 import { api_DepositReqWireTransfer } from "../../service/api/payment";
+import moment from "moment";
 
 export const Panel = props => props.children;
 
@@ -99,21 +100,27 @@ export const Main = props => {
 					sysId: sysId
 				}).then(res => {
 					if (res.data.errorCode === 0) {
-						setPopBox(prevState => ({
-							...prevState,
-							isOpen: false
-						}));
 						setbankSlipPopBox(prevState => ({
 							...prevState,
 							...res.data.data,
+							depositTime: `${moment().format(
+								"yyyy-MM-DDT"
+							)}${moment().format("HH:mm")}`,
 							isOpen: true,
-							amount: number_format(real_amount, _isConvert)
+							amount: number_format(real_amount, _isConvert),
+							closeCallBack: () => setRedirect(true)
+						}));
+						setPopBox(prevState => ({
+							...prevState,
+							isOpen: false
 						}));
 					}
 				});
 			};
 
-			let real_amount = _isConvert ? amount * 1000 : amount;
+			let real_amount = _isConvert
+				? Number(amount) * 1000
+				: Number(amount);
 			setPopBox({
 				isOpen: true,
 				title: i18n.lbl_ImportantNote,
