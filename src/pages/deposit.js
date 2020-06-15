@@ -7,7 +7,8 @@ import { bankSlipPopBoxContext } from "../components/common/context";
 const defTabs = {
 	default: {
 		to: `/${path.deposit.root}`,
-		displayKey: "lbl_Deposit"
+		displayKey: "lbl_Deposit",
+		excludeMath: path.deposit.sub.history.root
 	},
 	History: {
 		to: path.deposit.sub.history.root,

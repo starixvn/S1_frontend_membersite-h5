@@ -15,7 +15,11 @@ const IndexPage = ({ defTabs, children }) => {
 	} else {
 		let items = Object.keys(defTabs).map(key => {
 			let tabItem = defTabs[key];
-			let match = CheckMatch(`${tabItem.to}`);
+			let match =
+				CheckMatch(`${tabItem.to}/*`) &&
+				(!tabItem.excludeMath ||
+					!CheckMatch(`${tabItem.excludeMath}/*`));
+
 			return (
 				<Link
 					to={tabItem.to}

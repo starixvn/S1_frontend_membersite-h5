@@ -1,18 +1,118 @@
 import React, { useContext, useState } from "react";
-import { i18nContext, userInfoContext } from "../../components/common/context";
+import {
+	i18nContext,
+	userInfoContext,
+	popBoxContext
+} from "../../components/common/context";
 import Step from "./step";
 import config from "../../config";
 import LimitTip from "./limitTip";
-import { isConvert, number_format } from "../common/common";
-import { Link } from "@reach/router";
+import { isConvert, number_format, checkAmount } from "../common/common";
+import { Link, Redirect } from "@reach/router";
+import InputBox from "../common/inputbox";
 
 const SetMobilePay = props => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
-	const _isConvert = isConvert(userInfo.currencyId);
-	const [amount, setAmount] = useState(0);
+	const { setPopBox } = useContext(popBoxContext);
 
-	let paymentInfo = props.location.state;
+	const [amount, setAmount] = useState(() => {
+		return props.location.state?.amountRule === 3 ? 0 : "";
+	});
+	const [warning, setWarning] = useState({ status: false, msg: "" });
+	const [redirect, setRedirect] = useState(false);
+
+	const _isConvert = isConvert(userInfo.currencyId);
+	const paymentInfo = props.location.state;
+
+	const VaildAmount = _amount => {
+		let result = checkAmount(
+			_amount,
+			paymentInfo.minAmount,
+			paymentInfo.maxAmount,
+			_isConvert,
+			i18n
+		);
+		if (result.status !== 0) {
+			setWarning({
+				status: true,
+				msg: result.msg
+			});
+		} else {
+			setWarning({
+				status: false,
+				msg: ""
+			});
+		}
+		return result.status === 0;
+	};
+
+	const EditAmount = e => {
+		let value = e.target.value;
+		VaildAmount(value);
+		setAmount(value);
+	};
+
+	const ClickSubmit = () => {
+		let confirmAmount =
+			paymentInfo.amountRule === 3 && paymentInfo.amountList?.length > 0
+				? amount / 1000
+				: amount;
+
+		let result = VaildAmount(confirmAmount);
+
+		if (result) {
+			const RedirectToNext = real_amount => {
+				setPopBox(prevState => ({
+					...prevState,
+					isOpen: false
+				}));
+				setRedirect(true);
+				window.open(
+					`${config.apiURL}/${userInfo.langId}/Cashier/DepositReqMobilePay?ChannelId=${paymentInfo.channelId}&Amount=${real_amount}`
+				);
+			};
+
+			let real_amount = _isConvert ? confirmAmount * 1000 : confirmAmount;
+			setPopBox({
+				isOpen: true,
+				title: i18n.lbl_ImportantNote,
+				content: (
+					<>
+						<p>{i18n.lbl_ConfirmDeposit}</p>
+						<img
+							src={`${config.apiURL}/common/images/MobilePay/${paymentInfo.groupName}.png`}
+							alt={paymentInfo.groupName}
+						/>
+						<div className="tip">
+							<span>{i18n.lbl_DepositAmount} :</span>{" "}
+							{number_format(real_amount, _isConvert)}
+						</div>
+					</>
+				),
+				hasBtn: true,
+				btnBar: (
+					<div className="btn-group">
+						<button
+							className="blue"
+							onClick={() =>
+								setPopBox(prevState => ({
+									...prevState,
+									isOpen: false
+								}))
+							}>
+							{i18n["lbl_Cancel"]}
+						</button>
+						<button
+							className="orange"
+							onClick={RedirectToNext.bind(this, real_amount)}>
+							{i18n["lbl_Submit"]}
+						</button>
+					</div>
+				)
+			});
+		}
+	};
 
 	const OnSelectAmount = value => {
 		if (amount !== value) {
@@ -32,7 +132,9 @@ const SetMobilePay = props => {
 		);
 	});
 
-	return (
+	return redirect ? (
+		<Redirect to="/deposit" noThrow />
+	) : (
 		<>
 			<Step step={3} />
 			<div className="inputBox">
@@ -59,17 +161,31 @@ const SetMobilePay = props => {
 					</div>
 				</div>
 			</div>
-			<span className="infoStates">
-				{number_format(amount, _isConvert)}
-			</span>
-			{amountBtn && amountBtn.length > 0 ? (
-				<div className="buttonBox">{amountBtn}</div>
-			) : null}
+			{amountBtn &&
+			amountBtn.length > 0 &&
+			paymentInfo.amountRule === 3 ? (
+				<>
+					<span className="infoStates">
+						{number_format(amount, _isConvert)}
+					</span>
+					<div className="buttonBox">{amountBtn}</div>
+				</>
+			) : (
+				<InputBox
+					icon="icon-pencil"
+					value={amount}
+					inputType="tel"
+					onChange={EditAmount}
+					Warning={warning}
+				/>
+			)}
 			<div className="btn-group">
 				<Link to="../" className="white">
 					{i18n.lbl_Back}
 				</Link>
-				<button className="orange">{i18n.lbl_Submit}</button>
+				<button className="orange" onClick={ClickSubmit}>
+					{i18n.lbl_Submit}
+				</button>
 			</div>
 		</>
 	);

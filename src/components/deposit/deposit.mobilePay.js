@@ -63,7 +63,13 @@ export const Main = props => {
 
 	let channels = channelList?.map(c => {
 		return (
-			<div className="account" key={`deposit-mobilepay-${c.channelId}`}>
+			<Link
+				className="account"
+				key={`deposit-mobilepay-${c.channelId}`}
+				to={`${c.channelName.replace(" ", "")}`}
+				state={{
+					...c
+				}}>
 				<div className="bankLogo">
 					<img
 						src={`${config.apiURL}/common/images/MobilePay/${c.groupName}.png`}
@@ -73,33 +79,25 @@ export const Main = props => {
 				<div className="info">
 					<ul>
 						<li>
-							<Link
-								to={`${c.channelName.replace(" ", "")}`}
-								state={{
-									...c
-								}}>
-								<span className="title">{c.channelName}</span>
-								<LimitTip
-									minAmount={c.minAmount}
-									maxAmount={c.maxAmount}
-									displayTextLimit={i18n.lbl_Unlimited}
-									displayTextUnLimit={i18n.lbl_Limit}
-									_isConvert={_isConvert}
-								/>
-							</Link>
+							<span className="title">{c.channelName}</span>
+							<LimitTip
+								minAmount={c.minAmount}
+								maxAmount={c.maxAmount}
+								displayTextLimit={i18n.lbl_Unlimited}
+								displayTextUnLimit={i18n.lbl_Limit}
+								_isConvert={_isConvert}
+							/>
 						</li>
 					</ul>
 				</div>
-			</div>
+			</Link>
 		);
 	});
 
 	return (
 		<>
 			<Step step={2} />
-			<div className="depositType" style={{ display: "flex" }}>
-				{rows}
-			</div>
+			<div className="depositType">{rows}</div>
 			<div
 				className={`inputBox channel${
 					selGroupId !== null ? " open" : ""

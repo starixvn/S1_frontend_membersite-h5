@@ -85,15 +85,9 @@ export const Main = props => {
 	};
 
 	const ClickSubmit = () => {
-		let result = checkAmount(
-			amount,
-			selBank.bank.minAmount,
-			selBank.bank.maxAmount,
-			_isConvert,
-			i18n
-		);
+		let result = VaildAmount(amount);
 
-		if (result.status === 0) {
+		if (result) {
 			const RedirectToNext = (real_amount, sysId) => {
 				api_DepositReqWireTransfer({
 					amount: real_amount,
