@@ -150,5 +150,6 @@ export default [
 	"msg_ForceLogedout",
 	"lbl_Message",
 	"lbl_PersonalMsg",
-	"lbl_Announcement"
+	"lbl_Announcement",
+	"lbl_SelectAll"
 ];
