@@ -162,5 +162,6 @@ export default [
 	"lbl_SubmitProof",
 	"lbl_CancelConfirm",
 	"lbl_UploadSuccess",
-	"lbl_AllTranscations"
+	"lbl_AllTranscations",
+	"msg_NoData"
 ];

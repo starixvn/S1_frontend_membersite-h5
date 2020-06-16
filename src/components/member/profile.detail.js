@@ -17,6 +17,21 @@ const defStatus = {
 	RealName_Phone_BDay: "RealName_Phone_BDay"
 };
 
+const monthOptions = [
+	{ value: 1, id: 0, displayKey: "lbl_Month1" },
+	{ value: 2, id: 1, displayKey: "lbl_Month2" },
+	{ value: 3, id: 2, displayKey: "lbl_Month3" },
+	{ value: 4, id: 3, displayKey: "lbl_Month4" },
+	{ value: 5, id: 4, displayKey: "lbl_Month5" },
+	{ value: 6, id: 5, displayKey: "lbl_Month6" },
+	{ value: 7, id: 6, displayKey: "lbl_Month7" },
+	{ value: 8, id: 7, displayKey: "lbl_Month8" },
+	{ value: 9, id: 8, displayKey: "lbl_Month9" },
+	{ value: 10, id: 9, displayKey: "lbl_Month10" },
+	{ value: 11, id: 10, displayKey: "lbl_Month11" },
+	{ value: 12, id: 11, displayKey: "lbl_Month12" }
+];
+
 const initWarningState = {
 	RealName: {
 		status: false,
@@ -107,21 +122,6 @@ const Panel = () => {
 		}
 	];
 
-	const monthOptions = [
-		{ value: 1, id: 0, displayText: i18n["lbl_Month1"] },
-		{ value: 2, id: 1, displayText: i18n["lbl_Month2"] },
-		{ value: 3, id: 2, displayText: i18n["lbl_Month3"] },
-		{ value: 4, id: 3, displayText: i18n["lbl_Month4"] },
-		{ value: 5, id: 4, displayText: i18n["lbl_Month5"] },
-		{ value: 6, id: 5, displayText: i18n["lbl_Month6"] },
-		{ value: 7, id: 6, displayText: i18n["lbl_Month7"] },
-		{ value: 8, id: 7, displayText: i18n["lbl_Month8"] },
-		{ value: 9, id: 8, displayText: i18n["lbl_Month9"] },
-		{ value: 10, id: 9, displayText: i18n["lbl_Month10"] },
-		{ value: 11, id: 10, displayText: i18n["lbl_Month11"] },
-		{ value: 12, id: 11, displayText: i18n["lbl_Month12"] }
-	];
-
 	let yearOptions = [];
 	let dateOptions = [];
 
@@ -143,7 +143,7 @@ const Panel = () => {
 		dateOptions.push({ value: i, id: i, displayText: i });
 	}
 
-	const dropdownStateHandler = (i, col) => {
+	const dropdownStateHandler = (col, i) => {
 		if (col === "bday_year") {
 			setYearSelectedIdx(i);
 		} else if (col === "bday_month") {
@@ -205,7 +205,20 @@ const Panel = () => {
 			Birth: `${year} / ${month} / ${day}`
 		}));
 
-		if (year !== undefined && month !== undefined && day !== undefined) {
+		if (year === undefined || month === undefined || day === undefined) {
+			setWarningState(prevState => {
+				return {
+					...prevState,
+					Birthday: {
+						status: true,
+						msg: i18n.msg_SelectBirthDay
+					}
+				};
+			});
+			setChecklistState(prevState => {
+				return { ...prevState, Birthday: false };
+			});
+		} else {
 			setWarningState(prevState => {
 				return {
 					...prevState,
@@ -220,8 +233,14 @@ const Panel = () => {
 			});
 		}
 
+		if (status === defStatus.Phone_BDay) {
+			setChecklistState(prevState => {
+				return { ...prevState, RealName: true };
+			});
+		}
+
 		for (let i in checklistState) {
-			if (checklistState[i] === false) {
+			if (checklistState[i] === false && i !== "Birthday") {
 				let message = "";
 				checked = false;
 				setWarningState(prevState => {
@@ -229,8 +248,6 @@ const Panel = () => {
 						message = i18n["msg_EnterRealName"];
 					} else if (i === "Phone") {
 						message = i18n["msg_EnterPhoneNumber"];
-					} else if (i === "Birthday") {
-						message = i18n["msg_SelectBirthDay"];
 					}
 					return {
 						...prevState,
@@ -240,8 +257,6 @@ const Panel = () => {
 						}
 					};
 				});
-			} else {
-				checked = true;
 			}
 		}
 
@@ -315,6 +330,7 @@ const Panel = () => {
 					{status === defStatus.RealName_Phone_BDay ||
 					status === defStatus.Phone_BDay ? (
 						<Birthday
+							i18n={i18n}
 							userValueState={userValueState}
 							monthOptions={monthOptions}
 							dateOptions={dateOptions}
@@ -342,7 +358,6 @@ const Panel = () => {
 									"Phone"
 								)}
 								onChange={EditField.bind(null, "Phone")}
-								Warning={(status = false)}
 							/>
 							<div
 								className={`errortip ${
@@ -378,10 +393,14 @@ const Birthday = props => {
 	return (
 		<div className="inputBox parts">
 			<Dropdown
+				i18n={props.i18n}
 				mainKey="profile-month"
 				options={props.monthOptions}
 				colName="bday_month"
-				onSelectItem={props.dropdownStateHandler}
+				onSelectItem={props.dropdownStateHandler.bind(
+					null,
+					"bday_month"
+				)}
 				selectedIdx={props.monthSelectedIdx}
 				icon="icon icon-cake"
 			/>
@@ -389,17 +408,20 @@ const Birthday = props => {
 				mainKey="profile-day"
 				options={props.dateOptions}
 				colName="bday_day"
-				onSelectItem={props.dropdownStateHandler}
+				onSelectItem={props.dropdownStateHandler.bind(null, "bday_day")}
 				selectedIdx={props.daySelectedIdx}
 			/>
 			<Dropdown
 				mainKey="profile-year"
 				options={props.yearOptions}
 				colName="bday_year"
-				onSelectItem={props.dropdownStateHandler}
+				onSelectItem={props.dropdownStateHandler.bind(
+					null,
+					"bday_year"
+				)}
 				selectedIdx={props.yearSelectedIdx}
 			/>
-			<div className={`errortip ${props.Warning.status ? "open" : ""}`}>
+			<div className={`errortip${props.Warning.status ? " open" : ""}`}>
 				{props.Warning.msg}
 			</div>
 		</div>
