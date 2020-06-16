@@ -275,7 +275,7 @@ const BankInfo = () => {
 					<Inputbox
 						icon="icon-member"
 						inputType="text"
-						value={userValueState}
+						value={userValueState.RealName}
 						placeholder={i18n["lbl_RealName"]}
 						onBlur={checkInputboxHandler.bind(null, "RealName")}
 						onChange={EditField.bind(null, "RealName")}

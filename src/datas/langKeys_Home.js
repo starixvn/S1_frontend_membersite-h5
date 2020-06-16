@@ -167,5 +167,6 @@ export default [
 	"lbl_WithdrawalAmount",
 	"lbl_WithdrawalOver",
 	"lbl_RolloverOver",
-	"lbl_DepositOver"
+	"lbl_DepositOver",
+	"msg_NoData"
 ];

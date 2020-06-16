@@ -107,7 +107,7 @@ const Panel = () => {
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>
 					) : (
-						<div className="not-found">No data to display.</div>
+						<div className="not-found">{i18n["msg_NoData"]}</div>
 					)}{" "}
 				</div>
 			) : null}

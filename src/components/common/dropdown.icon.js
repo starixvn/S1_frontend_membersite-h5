@@ -53,7 +53,7 @@ export class IconDropdown extends Component {
 		return (
 			<div
 				ref={this.wrapper}
-				className={`dropdown ${this.state.isOpen ? "open" : ""}`}
+				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
 				<a className="btn">
 					<i
