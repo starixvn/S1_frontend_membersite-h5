@@ -48,6 +48,8 @@ import Message from "./pages/message";
 import PersonalMsg from "./components/message/personalMsg";
 import Announcement from "./components/message/announcement";
 
+import Casino from "./pages/casino";
+
 const Index = () => {
 	let history = createHistory(window);
 	return (
@@ -114,6 +116,7 @@ const Index = () => {
 								path={path.message.sub.announcement.root}
 							/>
 						</Message>
+						<Casino path={path.casino.root} />
 					</Router>
 				</Layout>
 			</LocationProvider>

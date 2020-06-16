@@ -49,6 +49,11 @@ const _PageInfo = {
 		titleKey: "lbl_Message",
 		className: "main Announcement",
 		hideLogo: true
+	},
+	casino: {
+		titleKey: "lbl_Casino",
+		className: "main casino",
+		hideLogo: true
 	}
 };
 
@@ -67,6 +72,7 @@ const Layout = ({ children }) => {
 		useMatch(
 			`/${path.message.root}/${path.message.sub.announcement.root}/*`
 		) !== null;
+	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 	let pageInfo = {};
 	if (_matchMember) {
 		pageInfo = _PageInfo.member;
@@ -82,6 +88,8 @@ const Layout = ({ children }) => {
 		pageInfo = _PageInfo.message;
 	} else if (_matchAnnouncement) {
 		pageInfo = _PageInfo.announcement;
+	} else if (_matchCasino) {
+		pageInfo = _PageInfo.casino;
 	}
 
 	return (

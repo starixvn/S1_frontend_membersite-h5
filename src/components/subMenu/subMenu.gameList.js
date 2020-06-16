@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
 	i18nContext,
 	navContext,
@@ -7,18 +7,39 @@ import {
 } from "../common/context";
 import gameList from "../../datas/gameList";
 import { GET_ENTER_PAGE } from "../../service/enterPage";
+import { Redirect } from "@reach/router";
 
 const SubGameList = () => {
 	const { i18n } = useContext(i18nContext);
 	const [category, setCategory] = useState(null);
-
 	const { userInfo } = useContext(userInfoContext);
-	const { setNav } = useContext(navContext);
+	const { nav, setNav } = useContext(navContext);
+	const [redirect, setRedirect] = useState({
+		redirect: false,
+		path: ""
+	});
 
-	const clickGame = (tpId, gameId) => {
-		GET_ENTER_PAGE(userInfo.langId, tpId, gameId, () => {
-			setNav(defPanel.login);
-		});
+	useEffect(() => {
+		if (nav !== null) {
+			setRedirect({
+				redirect: false,
+				path: ""
+			});
+		}
+	}, [nav]);
+
+	const clickGame = ({ tpId, gameId, path }) => {
+		if (path) {
+			setNav(null);
+			setRedirect({
+				redirect: true,
+				path: path
+			});
+		} else {
+			GET_ENTER_PAGE(userInfo.langId, tpId, gameId, () => {
+				setNav(defPanel.login);
+			});
+		}
 	};
 
 	const selectCategory = _category => {
@@ -31,8 +52,7 @@ const SubGameList = () => {
 
 	let arr = gameList.map(item => {
 		let _open = category === item.category;
-
-		return item.items ? (
+		return (
 			<ItemList
 				key={`subGameList-${item.category}`}
 				onClick={selectCategory.bind(null, item.category)}
@@ -43,20 +63,24 @@ const SubGameList = () => {
 				itemOpen={`${_open && !item._blank ? "open" : ""}`}
 				clickGame={clickGame}
 			/>
-		) : null;
+		);
 	});
 
-	return <div className="subGameList">{arr}</div>;
+	return redirect.redirect ? (
+		<Redirect to={redirect.path} noThrow />
+	) : (
+		<div className="subGameList">{arr}</div>
+	);
 };
 
 const ItemList = props => {
-	let itemArr = props.items.map((item, i) => {
+	let itemArr = props.items?.map(item => {
 		return (
 			<Item
 				itemOpen={props.itemOpen}
-				colName={props.items[i].icon}
-				key={`subGameItem-${props.items[i].icon}`}
-				clickGame={props.clickGame.bind(this, item.tpId, item.gameId)}
+				colName={item.icon}
+				key={`subGameItem-${item.icon}`}
+				clickGame={props.clickGame.bind(this, { ...item })}
 			/>
 		);
 	});

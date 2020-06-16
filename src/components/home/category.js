@@ -7,21 +7,39 @@ import {
 } from "../common/context";
 import gameList from "../../datas/gameList";
 import { GET_ENTER_PAGE } from "../../service/enterPage";
+import { Redirect } from "@reach/router";
 
 const Category = () => {
 	const { i18n } = useContext(i18nContext);
 	const [category, setCategory] = useState("sports");
 	const { userInfo } = useContext(userInfoContext);
 	const { setNav } = useContext(navContext);
+	const [redirect, setRedirect] = useState({
+		redirect: false,
+		path: ""
+	});
 
 	const selectCategory = _category => {
 		setCategory(_category);
 	};
 
-	const clickGame = (tpId, gameId) => {
-		GET_ENTER_PAGE(userInfo.langId, tpId, gameId, userInfo.isLogin, () => {
-			setNav(defPanel.login);
-		});
+	const clickGame = ({ tpId, gameId, path }) => {
+		if (path) {
+			setRedirect({
+				redirect: true,
+				path: path
+			});
+		} else {
+			GET_ENTER_PAGE(
+				userInfo.langId,
+				tpId,
+				gameId,
+				userInfo.isLogin,
+				() => {
+					setNav(defPanel.login);
+				}
+			);
+		}
 	};
 
 	let listArr = gameList.map(item => {
@@ -33,7 +51,7 @@ const Category = () => {
 				onClick={
 					!item._blank
 						? selectCategory.bind(null, item.category)
-						: clickGame.bind(this, item.tpId, item.gameId)
+						: clickGame.bind(this, { ...item })
 				}
 				isOpen={`${_open ? " open" : ""}`}
 				translation={i18n[item.translation]}
@@ -42,25 +60,23 @@ const Category = () => {
 		);
 	});
 
-	let itemArr = gameList.map(x =>
-		x.items.map(_item => {
-			if (x.category === category) {
+	let itemArr = gameList
+		.filter(x => x.category === category)
+		.map(x =>
+			x.items.map(_item => {
 				return (
 					<Item
 						key={`categoryItem-${_item.icon}`}
 						colName={_item.icon}
-						clickGame={clickGame.bind(
-							this,
-							_item.tpId,
-							_item.gameId
-						)}
+						clickGame={clickGame.bind(this, { ..._item })}
 					/>
 				);
-			}
-		})
-	);
+			})
+		);
 
-	return (
+	return redirect.redirect ? (
+		<Redirect to={redirect.path} noThrow />
+	) : (
 		<div className="content">
 			<div className="sideBar">{listArr}</div>
 			<div className="gameList">{itemArr}</div>
@@ -71,7 +87,7 @@ const Category = () => {
 const CategoryItems = props => {
 	return (
 		<button
-			className={`icon icon-${props.category} ${props.isOpen}`}
+			className={`icon icon-${props.category}${props.isOpen}`}
 			onClick={props.onClick}>
 			<div>{props.translation}</div>
 		</button>
