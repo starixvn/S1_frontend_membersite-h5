@@ -25,3 +25,6 @@ export const api_GetMsgContent = MsgId =>
 
 export const api_DelMsg = MsgIds =>
 	accountRequest.post("/DelMsg", { MsgIds: MsgIds });
+
+export const api_GetWithdrawalAvailableBalance = () =>
+	accountRequest.post("/GetWithdrawalAvailableBalance");

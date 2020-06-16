@@ -70,3 +70,16 @@ export const api_GetMobilePayInfoList = GroupId =>
 	paymentRequest.post("/GetMobilePayInfoList", {
 		GroupId: GroupId
 	});
+
+export const api_WithdrawalReq = (AccountNo, amount, sysId) =>
+	paymentRequest.post("/WithdrawalReq", {
+		AccountNo,
+		amount,
+		sysId
+	});
+
+export const api_GetWithdrawalInfoRecent = () =>
+	paymentRequest.post("/GetWithdrawalInfoRecent");
+
+export const api_SetWithdrawalCancel = TransId =>
+	paymentRequest.post("/SetWithdrawalCancel", { TransId });

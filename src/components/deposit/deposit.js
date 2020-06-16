@@ -61,49 +61,41 @@ const Panel = () => {
 	useEffect(() => {
 		let mounted = true;
 		api_GetOnlinePaymentList().then(res => {
-			if (res.data.errorCode === 0) {
-				if (mounted) {
-					setOnlineBankingList(res.data.data);
-					setAllowPayment(prevState => ({
-						...prevState,
-						[defPayType.onlineBank]:
-							res.data.data && res.data.data.length > 0
-					}));
-				}
+			if (res.data.errorCode === 0 && mounted) {
+				setOnlineBankingList(res.data.data);
+				setAllowPayment(prevState => ({
+					...prevState,
+					[defPayType.onlineBank]:
+						res.data.data && res.data.data.length > 0
+				}));
 			}
 		});
 
 		api_GetBankInfoOffList().then(res => {
-			if (res.data.errorCode === 0) {
-				if (mounted) {
-					setLocalBankList(res.data.data);
-					setAllowPayment(prevState => ({
-						...prevState,
-						[defPayType.localBank]:
-							res.data.data && res.data.data.length > 0
-					}));
-				}
+			if (res.data.errorCode === 0 && mounted) {
+				setLocalBankList(res.data.data);
+				setAllowPayment(prevState => ({
+					...prevState,
+					[defPayType.localBank]:
+						res.data.data && res.data.data.length > 0
+				}));
 			}
 		});
 
 		api_GetMobilePayGroupList().then(res => {
-			if (res.data.errorCode === 0) {
-				if (mounted) {
-					setMobilePayList(res.data.data);
-					setAllowPayment(prevState => ({
-						...prevState,
-						[defPayType.mobilePay]:
-							res.data.data && res.data.data.length > 0
-					}));
-				}
+			if (res.data.errorCode === 0 && mounted) {
+				setMobilePayList(res.data.data);
+				setAllowPayment(prevState => ({
+					...prevState,
+					[defPayType.mobilePay]:
+						res.data.data && res.data.data.length > 0
+				}));
 			}
 		});
 
 		api_GetDepositInfoRecent().then(res => {
-			if (res.data.errorCode === 0) {
-				if (mounted) {
-					setRecentDatas(res.data.data);
-				}
+			if (res.data.errorCode === 0 && mounted) {
+				setRecentDatas(res.data.data);
 			}
 		});
 

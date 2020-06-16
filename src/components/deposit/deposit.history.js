@@ -24,7 +24,6 @@ const Panel = () => {
 		};
 
 		setFilterData(transactionData);
-
 		api_GetDepositInfoHistory(transactionData).then(response => {
 			const errorCode = response.data.errorCode;
 			if (errorCode !== 0) {
