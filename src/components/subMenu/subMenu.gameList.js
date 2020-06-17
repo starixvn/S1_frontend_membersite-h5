@@ -35,7 +35,11 @@ const SubGameList = () => {
 		return item.items ? (
 			<ItemList
 				key={`subGameList-${item.category}`}
-				onClick={selectCategory.bind(null, item.category)}
+				onClick={
+					!item._blank
+						? selectCategory.bind(null, item.category)
+						: clickGame.bind(this, item.tpId, item.gameId)
+				}
 				isOpen={`${_open ? "open" : ""}`}
 				category={item.category}
 				items={item.items}
