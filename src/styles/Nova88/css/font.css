@@ -37,6 +37,14 @@
           transform: translateY(35%) !important;
 }
 
+.icon-nova_casino:before {
+  content: "\e929";
+}
+
+.icon-ow_casino:before {
+  content: "\e92a";
+}
+
 .icon-CirclePay:before {
   content: "\e91f";
 }

@@ -751,62 +751,77 @@ main .gameList {
   top: 73vw;
   left: 20vw;
   margin-bottom: 20vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+main .gameList.casinoList a {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(100% - 3vw);
+          flex: 0 0 calc(100% - 3vw);
+  margin-bottom: 2vw;
+}
+
+main .gameList.casinoList a:before {
+  font-size: 10vw;
+  bottom: unset;
+  right: unset;
+  left: 10vw;
+  top: 10vw;
+}
+
+main .gameList.casinoList a:after {
+  display: none;
+}
+
+main .gameList.casinoList a span {
+  position: absolute;
+  left: 2vw;
+  top: 21vw;
+  width: 28vw;
+  text-align: center;
+  font-weight: bold;
+}
+
+main .gameList.livecasinoList a:after {
+  border-color: transparent #ff5d00 #ff5d00 transparent;
+}
+
+main .gameList.livecasinoList a span {
+  position: absolute;
+  font-weight: bold;
+  right: 1vw;
+  z-index: 2;
+  bottom: 1vw;
 }
 
 main .gameList a {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
   margin: 1vw 0 1vw 2vw;
   background: #fff;
   border-radius: 10px;
-  width: calc(50% - 3vw);
-  height: 25vw;
-  float: left;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(50% - 3vw);
+          flex: 0 0 calc(50% - 3vw);
   -webkit-box-shadow: 1px 2px 4px 0px #5e5e5e;
           box-shadow: 1px 2px 4px 0px #5e5e5e;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
   position: relative;
+  overflow: hidden;
 }
 
-main .gameList a:nth-child(1) {
-  background: url(../img/gamePic1.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(2) {
-  background: url(../img/gamePic2.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(3) {
-  background: url(../img/gamePic3.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(4) {
-  background: url(../img/gamePic4.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(5) {
-  background: url(../img/gamePic5.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(6) {
-  background: url(../img/gamePic6.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(7) {
-  background: url(../img/gamePic7.jpg) no-repeat top center/cover;
-}
-
-main .gameList a:nth-child(8) {
-  background: url(../img/gamePic8.jpg) no-repeat top center/cover;
+main .gameList a img {
+  width: 100%;
 }
 
 main .gameList a:before {
@@ -814,6 +829,7 @@ main .gameList a:before {
   right: 1vw;
   bottom: 1vw;
   color: #fff;
+  z-index: 2;
 }
 
 main .gameList a:after {
@@ -822,6 +838,9 @@ main .gameList a:after {
   border-width: 20px 20px 20px 20px;
   border-color: transparent #001942 #001942 transparent;
   border-bottom-right-radius: 10px;
+  z-index: 1;
+  position: absolute;
+  right: 0;
 }
 
 main .gameList a:nth-child(1):after {
@@ -2554,6 +2573,9 @@ button.clickBtn:before {
   min-height: calc(100% - 76vw);
   padding: 52vw 4vw 24vw;
   position: relative;
+  -webkit-box-pack: normal;
+      -ms-flex-pack: normal;
+          justify-content: normal;
 }
 
 .casino .slotList {
@@ -2572,8 +2594,6 @@ button.clickBtn:before {
   margin: 2vw 0 0;
   position: relative;
   line-height: 0;
-  -webkit-box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.9);
-          box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.9);
 }
 
 .casino .slotList .info:nth-child(odd) {
@@ -2613,6 +2633,8 @@ button.clickBtn:before {
 .casino .slotList .info img {
   width: 100%;
   border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.9);
+          box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.9);
 }
 
 .inputdate {
@@ -2762,6 +2784,13 @@ button.clickBtn:before {
   transition: 0.7s;
   opacity: 0;
   z-index: 1;
+}
+
+.slotFunction .icon-cancel-circle {
+  position: absolute;
+  right: 2vw;
+  top: 2vw;
+  color: #333;
 }
 
 .slotFunction .text-org {
