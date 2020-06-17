@@ -41,12 +41,12 @@ const IndexPage = () => {
 		return (
 			<TransactionHistory
 				key={`statementHistory-${item.refTransId}`}
-				showDate={moment(item.createTime).format("MM/DD/YYYY(Z)")}
-				showTime={moment(item.createTime).format("hh:mm:ss A")}
+				createTime={item.createTime}
 				typeName={item.typeName}
-				changeAmount={number_format(item.changeAmount, _isConvert)}
-				beforeAmount={number_format(item.beforeAmount, _isConvert)}
-				afterAmount={number_format(item.afterAmount, _isConvert)}
+				_isConvert={_isConvert}
+				changeAmount={item.changeAmount}
+				beforeAmount={item.beforeAmount}
+				afterAmount={item.afterAmount}
 				direction={item.direction === 1 ? "+" : "-"}
 				refTransId={item.refTransId}
 			/>
@@ -84,11 +84,13 @@ const TransactionHistory = props => {
 			<ul>
 				<li>
 					<span className="title">{i18n["lbl_Date"]}</span>
-					<span>{props.showDate}</span>
+					<span>
+						{moment(props.createTime).format("MM/DD/YYYY(Z)")}
+					</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Time"]}</span>
-					<span>{props.showTime}</span>
+					<span>{moment(props.createTime).format("hh:mm:ss A")}</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_TypeName"]}</span>
@@ -98,16 +100,20 @@ const TransactionHistory = props => {
 					<span className="title">{i18n["lbl_ChangeAmount"]}</span>
 					<span>
 						{props.direction}
-						{props.changeAmount}
+						{number_format(props.changeAmount, props._isConvert)}
 					</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_BeforeAmount"]}</span>
-					<span>{props.beforeAmount}</span>
+					<span>
+						{number_format(props.beforeAmount, props._isConvert)}
+					</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_AfterAmount"]}</span>
-					<span>{props.afterAmount}</span>
+					<span>
+						{number_format(props.afterAmount, props._isConvert)}
+					</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_RefTransId"]}</span>

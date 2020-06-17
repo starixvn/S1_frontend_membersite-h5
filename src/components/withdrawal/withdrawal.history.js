@@ -36,10 +36,11 @@ const Panel = () => {
 		return (
 			<TransactionHistory
 				key={`withdrawalHistory-${item.transId}`}
-				showDate={moment(item.createTime).format("MM/DD/YYYY(Z)")}
-				showTime={moment(item.createTime).format("hh:mm:ss A")}
+				showDate={item.createTime}
+				showTime={item.createTime}
 				transId={item.transId}
-				amount={number_format(item.amount, _isConvert)}
+				amount={item.amount}
+				_isConvert={_isConvert}
 				status={i18n[`lbl_WithdrawalStatus${item.status}`]}
 			/>
 		);
@@ -76,11 +77,13 @@ const TransactionHistory = props => {
 			<ul>
 				<li>
 					<span className="title">{i18n["lbl_Date"]}</span>
-					<span>{props.showDate}</span>
+					<span>
+						{moment(props.showDate).format("MM/DD/YYYY(Z)")}
+					</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Time"]}</span>
-					<span>{props.showTime}</span>
+					<span>{moment(props.showTime).format("hh:mm:ss A")}</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_ID"]}</span>
@@ -88,7 +91,7 @@ const TransactionHistory = props => {
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Amount"]}</span>
-					<span>{props.amount}</span>
+					<span>{number_format(props.amount, props._isConvert)}</span>
 				</li>
 				<li>
 					<span className="title">{i18n["lbl_Status"]}</span>

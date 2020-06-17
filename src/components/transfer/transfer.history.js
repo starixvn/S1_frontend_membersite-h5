@@ -55,10 +55,10 @@ const Panel = () => {
 		return (
 			<TransactionHistory
 				key={`transferHistory-${item.transId}`}
-				showDate={moment(item.createTime).format("MM/DD/YYYY(Z)")}
-				showTime={moment(item.createTime).format("hh:mm:ss A")}
+				createTime={item.createTime}
 				transId={item.transId}
-				amount={number_format(item.amount, _isConvert)}
+				_isConvert={_isConvert}
+				amount={item.amount}
 				startWallet={_transferDirection.startWallet}
 				endWallet={_transferDirection.endWallet}
 				i18n={i18n}
@@ -89,17 +89,19 @@ const Panel = () => {
 	);
 };
 
-const TransactionHistory = props => {
+export const TransactionHistory = props => {
 	return (
 		<div className="info transfer">
 			<ul>
 				<li>
 					<span className="title">{props.i18n["lbl_Date"]}</span>
-					<span>{props.showDate}</span>
+					<span>
+						{moment(props.createTime).format("MM/DD/YYYY(Z)")}
+					</span>
 				</li>
 				<li>
 					<span className="title">{props.i18n["lbl_Time"]}</span>
-					<span>{props.showTime}</span>
+					<span>{moment(props.createTime).format("hh:mm:ss A")}</span>
 				</li>
 				<li>
 					<span className="title">{props.i18n["lbl_ID"]}</span>
@@ -107,7 +109,7 @@ const TransactionHistory = props => {
 				</li>
 				<li>
 					<span className="title">{props.i18n["lbl_Amount"]}</span>
-					<span>{props.amount}</span>
+					<span>{number_format(props.amount, props._isConvert)}</span>
 				</li>
 				<li>
 					<span className="title">{props.i18n["lbl_Direction"]}</span>

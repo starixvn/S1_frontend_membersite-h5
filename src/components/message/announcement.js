@@ -51,9 +51,7 @@ const Item = props => {
 			<div className="info">
 				<div className="introduction">
 					<span className="title">{props.subject}</span>
-					<span>
-						{moment(props.showTime).format("MM/DD/YYYY h:mm:ss A")}
-					</span>
+					<span>{moment(props.showTime).format("MM/DD/YYYY")}</span>
 				</div>
 				<button
 					className={`icon icon-circle-right ${
