@@ -5,7 +5,8 @@ import path from "../path";
 const defTabs = {
 	default: {
 		to: `/${path.member.root}`,
-		displayKey: "lbl_Profile"
+		displayKey: "lbl_Profile",
+		excludeMath: path.member.sub.bankInfo.root
 	},
 	bankInfo: {
 		to: path.member.sub.bankInfo.root,

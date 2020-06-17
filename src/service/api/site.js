@@ -21,3 +21,5 @@ export const api_GetSiteCurrencyList = () =>
 export const api_GetSiteLangList = () => siteRequest.post(`/GetSiteLangList/`);
 
 export const api_CheckSignIn = () => siteRequest.post(`/CheckSignIn/`);
+
+export const api_GetGamelist = () => siteRequest.post(`/GetGamelist`);

@@ -5,7 +5,8 @@ import path from "../path";
 const defTabs = {
 	default: {
 		to: `/${path.withdrawal.root}`,
-		displayKey: "lbl_Withdrawal"
+		displayKey: "lbl_Withdrawal",
+		excludeMath: path.withdrawal.sub.history.root
 	},
 	History: {
 		to: path.withdrawal.sub.history.root,

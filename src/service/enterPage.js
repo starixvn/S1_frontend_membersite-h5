@@ -5,6 +5,22 @@ export const _ACTION_TYPE = {
 	redirect: 2
 };
 
+export const GET_CASINO_ENTER_PAGE = (tpId, gameId, isFree, langId) => {
+	let homeUrl = "";
+	let signupUrl = "";
+	let LoginUrl = "";
+	let entPageUrl = `${config.apiURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}`;
+	window
+		.open(
+			`${entPageUrl}&fun=${
+				isFree ? 1 : 0
+			}&gameId=${gameId}&tpId=${tpId}&gameType=slots`,
+			`Tp_${tpId}`,
+			"toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0"
+		)
+		.focus();
+};
+
 export const GET_ENTER_PAGE = (
 	langId,
 	tpId,

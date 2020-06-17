@@ -79,5 +79,8 @@ export default {
 				root: "announcement"
 			}
 		}
+	},
+	casino: {
+		root: "casino"
 	}
 };

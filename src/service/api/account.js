@@ -27,3 +27,11 @@ export const api_DelMsg = MsgIds =>
 	accountRequest.post("/DelMsg", { MsgIds: MsgIds });
 
 export const api_GetWalletInfo = () => accountRequest.post("/GetWalletInfo");
+
+export const api_GetWithdrawalAvailableBalance = () =>
+	accountRequest.post("/GetWithdrawalAvailableBalance");
+
+export const api_SetFavoriteGame = (ProviderId, GameId, IsRemove) =>
+	accountRequest.post(`/SetFavoriteGame`, { ProviderId, GameId, IsRemove });
+
+export const api_GetFavoriteGame = () => accountRequest.post(`GetFavoriteGame`);
