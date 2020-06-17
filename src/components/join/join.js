@@ -87,7 +87,7 @@ function Join() {
 			if (mounted) {
 				const currencyNum = res.data.data;
 				let currencyArr = currencyNum.map(id => {
-					return { id: id, displayText: i18n[`Currency_${id}`] };
+					return { id: id, displayKey: `Currency_${id}` };
 				});
 
 				setUserValueState(prevState => ({
@@ -499,7 +499,8 @@ function Join() {
 						options={siteCurrencyState}
 						clickDropdown={showTipsHandler}
 						onSelectItem={dropdownStateHandler}
-						value={userValueState.Currency}></Dropdown>
+						value={userValueState.Currency}
+						i18n={i18n}></Dropdown>
 					<Tips
 						Icon="icon-coin-dollar"
 						IsOpen={showTipsState.Currency}

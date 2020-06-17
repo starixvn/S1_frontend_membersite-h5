@@ -73,7 +73,7 @@ const RecentDatas = props => {
 					) : null}
 				</>
 			) : isOpen ? (
-				<div className="not-found">No data to display.</div>
+				<div className="not-found">{i18n["msg_NoData"]}</div>
 			) : null}
 		</>
 	);

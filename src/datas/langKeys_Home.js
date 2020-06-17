@@ -163,5 +163,8 @@ export default [
 	"lbl_CancelConfirm",
 	"lbl_UploadSuccess",
 	"lbl_AllTranscations",
-	"msg_NoData"
+	"msg_NoData",
+	"lbl_MaxAmount",
+	"lbl_TransferTo",
+	"lbl_TransferFrom"
 ];

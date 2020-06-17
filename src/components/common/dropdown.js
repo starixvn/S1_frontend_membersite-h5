@@ -26,14 +26,30 @@ export class DropdownBox extends Component {
 
 	render() {
 		let arr = this.props.options.map((item, i) => {
+			let displayText = item.displayText
+				? item.displayText
+				: this.props.i18n?.[item.displayKey];
 			return (
 				<Item
 					key={`${this.props.mainKey}-${item.id}`}
-					displayText={item.displayText}
+					displayText={displayText}
 					onClick={this.SelectItem.bind(null, i)}
 				/>
 			);
 		});
+
+		let selected = null;
+		if (this.props.options[this.props.selectedIdx]) {
+			let _s = this.props.options[this.props.selectedIdx];
+
+			if (_s.displayText) {
+				selected = _s.displayText;
+			} else {
+				selected = this.props.i18n[_s.displayKey];
+			}
+		} else {
+			selected = this.props.placeholder;
+		}
 
 		return (
 			<div
@@ -41,12 +57,7 @@ export class DropdownBox extends Component {
 				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
 				<button className="btn">
-					<span className="text">
-						{
-							this.props.options[this.props.selectedIdx]
-								?.displayText
-						}
-					</span>
+					<span className="text">{selected}</span>
 				</button>
 				<div
 					className={`dropdown-container${
