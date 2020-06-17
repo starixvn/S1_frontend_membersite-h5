@@ -168,5 +168,15 @@ export default [
 	"lbl_WithdrawalOver",
 	"lbl_RolloverOver",
 	"lbl_DepositOver",
-	"msg_NoData"
+	"msg_NoData",
+	"lbl_AllGames",
+	"lbl_Feature",
+	"lbl_Promo",
+	"lbl_Favourite",
+	"lbl_Slots",
+	"lbl_Table",
+	"lbl_All",
+	"lbl_GPI",
+	"lbl_Free",
+	"lbl_PlayNow"
 ];

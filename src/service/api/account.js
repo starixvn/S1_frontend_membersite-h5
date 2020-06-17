@@ -28,3 +28,8 @@ export const api_DelMsg = MsgIds =>
 
 export const api_GetWithdrawalAvailableBalance = () =>
 	accountRequest.post("/GetWithdrawalAvailableBalance");
+
+export const api_SetFavoriteGame = (ProviderId, GameId, IsRemove) =>
+	accountRequest.post(`/SetFavoriteGame`, { ProviderId, GameId, IsRemove });
+
+export const api_GetFavoriteGame = () => accountRequest.post(`GetFavoriteGame`);
