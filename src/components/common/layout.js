@@ -60,7 +60,7 @@ const _PageInfo = {
 const Layout = ({ children }) => {
 	const { i18n } = useContext(i18nContext);
 	const { nav } = useContext(navContext);
-	let position = {};
+	let position = { position: "fixed" };
 	let pageInfo = _PageInfo.default;
 	let _matchMember = useMatch(`/${path.member.root}/*`) !== null;
 	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 
 	if (nav === null) {
-		position = { position: "fixed" };
+		position = {};
 		if (_matchMember) {
 			pageInfo = _PageInfo.member;
 		} else if (_matchDeposit) {
