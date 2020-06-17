@@ -48,8 +48,8 @@ export const Wrapper = ({ children }) => {
 			const OnlineCheckCallBack = (errorCode, errMsg) => {
 				if (errorCode !== 0) {
 					setUserInfo(prevState => ({
-						...prevState,
-						isLogin: false
+						isLogin: false,
+						langId: prevState.langId
 					}));
 					setPopBox({
 						isOpen: true,

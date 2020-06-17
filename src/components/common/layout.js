@@ -60,8 +60,8 @@ const _PageInfo = {
 const Layout = ({ children }) => {
 	const { i18n } = useContext(i18nContext);
 	const { nav } = useContext(navContext);
-	let position = nav === null ? {} : { position: "fixed" };
-
+	let position = {};
+	let pageInfo = _PageInfo.default;
 	let _matchMember = useMatch(`/${path.member.root}/*`) !== null;
 	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
 	let _matchWithdrawal = useMatch(`/${path.withdrawal.root}/*`) !== null;
@@ -73,23 +73,26 @@ const Layout = ({ children }) => {
 			`/${path.message.root}/${path.message.sub.announcement.root}/*`
 		) !== null;
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
-	let pageInfo = {};
-	if (_matchMember) {
-		pageInfo = _PageInfo.member;
-	} else if (_matchDeposit) {
-		pageInfo = _PageInfo.deposit;
-	} else if (_matchWithdrawal) {
-		pageInfo = _PageInfo.withdrawal;
-	} else if (_matchTransfer) {
-		pageInfo = _PageInfo.transfer;
-	} else if (_matchStatement) {
-		pageInfo = _PageInfo.statement;
-	} else if (_matchMessage) {
-		pageInfo = _PageInfo.message;
-	} else if (_matchAnnouncement) {
-		pageInfo = _PageInfo.announcement;
-	} else if (_matchCasino) {
-		pageInfo = _PageInfo.casino;
+
+	if (nav === null) {
+		position = { position: "fixed" };
+		if (_matchMember) {
+			pageInfo = _PageInfo.member;
+		} else if (_matchDeposit) {
+			pageInfo = _PageInfo.deposit;
+		} else if (_matchWithdrawal) {
+			pageInfo = _PageInfo.withdrawal;
+		} else if (_matchTransfer) {
+			pageInfo = _PageInfo.transfer;
+		} else if (_matchStatement) {
+			pageInfo = _PageInfo.statement;
+		} else if (_matchMessage) {
+			pageInfo = _PageInfo.message;
+		} else if (_matchAnnouncement) {
+			pageInfo = _PageInfo.announcement;
+		} else if (_matchCasino) {
+			pageInfo = _PageInfo.casino;
+		}
 	}
 
 	return (

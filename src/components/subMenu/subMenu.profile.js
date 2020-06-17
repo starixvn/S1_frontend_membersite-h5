@@ -71,7 +71,9 @@ const Profile = () => {
 	return (
 		<div className="info">
 			<div className="Avatar"></div>
-			<div className="MemberID">Welcome {userInfo?.userName}</div>
+			<div className="MemberID">
+				Welcome {userInfo?.userName ?? "guest"}
+			</div>
 			<Balance
 				isLogin={userInfo.isLogin}
 				currency={i18n[`Currency_${userInfo.currencyId}`]}
