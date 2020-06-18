@@ -74,7 +74,9 @@ const Layout = ({ children }) => {
 		) !== null;
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 
-	if (nav === null) {
+	if (nav === defPanel.login || nav === defPanel.join) {
+		position = { position: "fixed" };
+	} else {
 		if (_matchMember) {
 			pageInfo = _PageInfo.member;
 		} else if (_matchDeposit) {
@@ -92,8 +94,6 @@ const Layout = ({ children }) => {
 		} else if (_matchCasino) {
 			pageInfo = _PageInfo.casino;
 		}
-	} else if (nav === defPanel.login || nav === defPanel.join) {
-		position = { position: "fixed" };
 	}
 
 	return (
