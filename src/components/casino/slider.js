@@ -17,22 +17,22 @@ const Slider = () => {
 	};
 
 	return (
-		<div className="slotBanner">
-			<Swiper {...params}>
-				<a href="#">
-					<img
-						src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-ygg-20200508.png`}
-						alt=""
-					/>
-				</a>
-				<a href="#">
-					<img
-						src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-pp-20200508.png`}
-						alt=""
-					/>
-				</a>
-			</Swiper>
-		</div>
+		<Swiper {...params}>
+			<a href="#">
+				<img
+					className="banner"
+					src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-ygg-20200508.png`}
+					alt=""
+				/>
+			</a>
+			<a href="#">
+				<img
+					className="banner"
+					src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-pp-20200508.png`}
+					alt=""
+				/>
+			</a>
+		</Swiper>
 	);
 };
 
