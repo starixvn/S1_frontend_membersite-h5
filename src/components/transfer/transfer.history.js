@@ -30,6 +30,7 @@ const Panel = () => {
 
 	const [filterData, setFilterData] = useState(null);
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+
 	AUTO_FETCHING_DATA(
 		api_GetTransferHistory,
 		filterData,
@@ -39,13 +40,16 @@ const Panel = () => {
 		setPopBox
 	);
 
-	const submitHandler = (startDay, endDay) => {
-		let transactionData = {
-			StartDate: moment(startDay).unix(),
-			EndDate: moment(endDay).endOf("day").unix()
-		};
+	const submitHandler = (startDay, endDay, isUnix) => {
+		let transactionData = filterData;
+		if (!isUnix) {
+			transactionData = {
+				StartDate: moment(startDay).unix(),
+				EndDate: moment(endDay).endOf("day").unix()
+			};
+			setFilterData(transactionData);
+		}
 
-		setFilterData(transactionData);
 		api_GetTransferHistory({
 			...transactionData,
 			PageNumber: 1
@@ -84,6 +88,8 @@ const Panel = () => {
 				startWallet={_transferDirection.startWallet}
 				endWallet={_transferDirection.endWallet}
 				i18n={i18n}
+				className="info transfer"
+				memo={item.memo}
 			/>
 		);
 	});
@@ -98,7 +104,14 @@ const Panel = () => {
 							<i className="icon icon-history"></i>
 							{i18n["lbl_TransactionHistory"]}
 						</div>
-						<ReloadSpin func={submitHandler} />
+						<ReloadSpin
+							func={submitHandler.bind(
+								this,
+								filterData?.StartDate,
+								filterData?.EndDate,
+								true
+							)}
+						/>
 					</div>
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>
@@ -113,7 +126,7 @@ const Panel = () => {
 
 export const TransactionHistory = props => {
 	return (
-		<div className="info transfer">
+		<div className={props.className}>
 			<ul>
 				<li>
 					<span className="title">{props.i18n["lbl_Date"]}</span>
@@ -138,6 +151,12 @@ export const TransactionHistory = props => {
 					<span>
 						<span>{props.startWallet}</span> >
 						<span>{props.endWallet}</span>
+					</span>
+				</li>
+				<li>
+					<span className="title">{props.i18n["lbl_Memo"]}</span>
+					<span>
+						<span>{props.memo}</span>
 					</span>
 				</li>
 			</ul>

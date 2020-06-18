@@ -15,7 +15,6 @@ const ReacentDatas = props => {
 	const HandleOpen = () => {
 		setOpen(prevState => !prevState);
 	};
-	let hasData = props.Datas && props.Datas.length > 0;
 
 	const transferDirection = (
 		_direction,
@@ -35,6 +34,7 @@ const ReacentDatas = props => {
 		return { startWallet, endWallet };
 	};
 
+	let hasData = props.datas && props.datas.length > 0;
 	let arr =
 		hasData &&
 		props.datas?.map(item => {
@@ -52,6 +52,8 @@ const ReacentDatas = props => {
 					startWallet={_transferDirection.startWallet}
 					endWallet={_transferDirection.endWallet}
 					i18n={i18n}
+					className="info infoBlack transfer"
+					memo={item.memo}
 				/>
 			);
 		});
@@ -79,7 +81,7 @@ const ReacentDatas = props => {
 							</div>
 							<ReloadSpin func={props.GetRecentDatas} />
 						</div>
-						{arr}
+						<div className="infoList">{arr}</div>
 					</div>
 					{isOpen ? (
 						<div className="btn-group">
