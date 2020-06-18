@@ -29,6 +29,14 @@
 .icon-search{
   transform: translateY(35%) !important;
 }
+.icon-hockey:before {
+  font-size: 3vw;
+  margin-bottom: 1vw;
+}
+header .subMenu .icon-hockey:before{
+  font-size: 7vw;
+  margin: 1.5vw;
+}
 //
 .icon-AB:before {
   content: "\e92b";
@@ -44,6 +52,9 @@
 }
 .icon-SA:before {
   content: "\e92f";
+}
+.icon-hockey:before {
+  content: "\e930";
 }
 .icon-nova-casino:before {
   content: "\e929";

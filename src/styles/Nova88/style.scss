@@ -1793,10 +1793,14 @@ button.clickBtn{
 //casino
 .casino{
   width: calc(100% - 8vw);
-  min-height: calc(100% - 36vw);
-  padding: 12vw 4vw 24vw;
+  min-height: calc(100% - 71vw);
+  padding: 47vw 4vw 24vw;
   position: relative;
   justify-content: normal;
+  .swiper-container{
+    top: 12vw;
+    left: 0;
+  }
   .slotList{
     display: flex;
     flex-wrap: wrap;
