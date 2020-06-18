@@ -182,5 +182,19 @@ export default [
 	"lbl_All",
 	"lbl_GPI",
 	"lbl_Free",
-	"lbl_PlayNow"
+	"lbl_PlayNow",
+	"lbl_Memo",
+	"lbl_Soccer",
+	"lbl_Baseball",
+	"lbl_Basketball",
+	"lbl_badminton",
+	"lbl_Tennis",
+	"lbl_FootballBetting",
+	"lbl_HockeyBetting",
+	"lbl_PPCasino",
+	"lbl_AGCasino",
+	"lbl_DGCasino",
+	"lbl_SACasino",
+	"lbl_SelfCasino",
+	"lbl_OWCasino"
 ];
