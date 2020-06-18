@@ -44,6 +44,8 @@ export const GET_ENTER_PAGE = (
 		} else if (gameId >= 200) {
 			result = setResult("", true, _ACTION_TYPE.blank, tpId, gameId);
 		}
+	} else {
+		result = setResult("", true, _ACTION_TYPE.blank, tpId, gameId);
 	}
 
 	if (!isLogin && result.needLogin) {

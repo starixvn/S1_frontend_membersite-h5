@@ -41,33 +41,39 @@ const gameList = [
 		items: [
 			{
 				icon: "PP",
-				gameId: 1,
-				tpId: 1,
+				gameId: 101,
+				tpId: 5,
 				imgId: LIVEcasino_PP,
 				span: "PP"
 			},
 			{
 				icon: "AG",
-				gameId: 1,
-				tpId: 2,
+				gameId: 3,
+				tpId: 3,
 				imgId: LIVEcasino_AG,
 				span: "AG"
 			},
 			{
 				icon: "DG",
-				gameId: 1,
-				tpId: 3,
+				gameId: 4,
+				tpId: 4,
 				imgId: LIVEcasino_DG,
 				span: "DG"
 			},
 			{
 				icon: "SA",
-				gameId: 1,
-				tpId: 4,
+				gameId: 2,
+				tpId: 2,
 				imgId: LIVEcasino_SA,
 				span: "SA"
 			},
-			{ icon: "AB", gameId: 1, tpId: 5, imgId: LIVEcasino_AB, span: "AB" }
+			{
+				icon: "AB",
+				gameId: 12,
+				tpId: 12,
+				imgId: LIVEcasino_AB,
+				span: "AB"
+			}
 		],
 		translation: "lbl_LiveCasino"
 	},
@@ -76,15 +82,14 @@ const gameList = [
 		items: [
 			{
 				icon: "nova-casino",
-				gameId: 1,
-				tpId: 1,
+				path: path.casino.root,
 				imgId: casinoNOVA,
 				span: "NOVA CASINO"
 			},
 			{
 				icon: "ow-casino",
 				gameId: 1,
-				tpId: 8,
+				tpId: 208,
 				imgId: casinoOW,
 				span: "OW CASINO"
 			}
