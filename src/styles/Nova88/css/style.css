@@ -2379,11 +2379,11 @@ button.clickBtn:before {
   height: auto;
 }
 
-.transfer ul li:last-child {
+.transfer ul li:nth-last-child(2) {
   width: 100%;
 }
 
-.transfer ul li:last-child span {
+.transfer ul li:nth-last-child(2) span {
   margin-top: 1vw;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2393,11 +2393,15 @@ button.clickBtn:before {
           align-items: center;
 }
 
-.transfer ul li:last-child span span {
+.transfer ul li:nth-last-child(2) span span {
   border-radius: 3px;
   padding: 1vw;
   margin: 0 1vw;
   background: rgba(51, 51, 51, 0.7);
+}
+
+.transfer ul li:last-child {
+  width: 100%;
 }
 
 .Message {
