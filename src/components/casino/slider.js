@@ -19,14 +19,18 @@ const Slider = () => {
 	return (
 		<div className="slotBanner">
 			<Swiper {...params}>
-				<img
-					src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-ygg-20200508.png`}
-					alt=""
-				/>
-				<img
-					src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-pp-20200508.png`}
-					alt=""
-				/>
+				<a href="#">
+					<img
+						src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-ygg-20200508.png`}
+						alt=""
+					/>
+				</a>
+				<a href="#">
+					<img
+						src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-pp-20200508.png`}
+						alt=""
+					/>
+				</a>
 			</Swiper>
 		</div>
 	);

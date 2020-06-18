@@ -17,7 +17,8 @@ const SearchBox = props => {
 
 	const providerList = [
 		{ id: null, displayText: i18n.lbl_All },
-		...props.gameDatas?.map(d => {
+		...Object.keys(props.TpList)?.map(k => {
+			let d = props.TpList[k];
 			return {
 				id: d.value,
 				displayText: d.displayKey ? i18n[d.displayKey] : d.displayText
