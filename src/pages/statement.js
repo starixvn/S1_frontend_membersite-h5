@@ -8,6 +8,7 @@ import { api_GetStatement } from "../service/api/payment";
 import { number_format, isConvert } from "../components/common/common";
 import moment from "moment";
 import HistoryFilter from "../components/common/historyFilter";
+import AUTO_FETCHING_DATA from "../service/autoFetchingData";
 
 const IndexPage = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -17,14 +18,28 @@ const IndexPage = () => {
 
 	const [getHistoryState, setGetHistoryState] = useState(null);
 
+	const [filterData, setFilterData] = useState(null);
+	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+	AUTO_FETCHING_DATA(
+		api_GetStatement,
+		filterData,
+		pageInfo,
+		setGetHistoryState,
+		setPageInfo,
+		setPopBox
+	);
+
 	const submitHandler = (startDay, endDay) => {
 		let transactionData = {
 			StartDate: moment(startDay).unix(),
-			EndDate: moment(endDay).endOf("day").unix(),
-			PageNumber: 1
+			EndDate: moment(endDay).endOf("day").unix()
 		};
 
-		api_GetStatement(transactionData).then(response => {
+		setFilterData(transactionData);
+		api_GetStatement({
+			...transactionData,
+			PageNumber: 1
+		}).then(response => {
 			const errorCode = response.data.errorCode;
 
 			if (errorCode !== 0) {
@@ -34,6 +49,12 @@ const IndexPage = () => {
 				});
 			} else {
 				setGetHistoryState(response.data.data);
+				if (response.data.totalPages >= response.data.pageNumber) {
+					setPageInfo(() => ({
+						totalPages: response.data.totalPages,
+						pageNumber: response.data.pageNumber
+					}));
+				}
 			}
 		});
 	};

@@ -7,6 +7,7 @@ import {
 import { number_format, isConvert } from "../common/common";
 import moment from "moment";
 import HistoryFilter from "../common/historyFilter";
+import AUTO_FETCHING_DATA from "../../service/autoFetchingData";
 
 const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -16,15 +17,27 @@ const Panel = () => {
 	const [getHistoryState, setGetHistoryState] = useState(null);
 	const [filterData, setFilterData] = useState(null);
 
+	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+	AUTO_FETCHING_DATA(
+		api_GetWithdrawalInfoHistory,
+		filterData,
+		pageInfo,
+		setGetHistoryState,
+		setPageInfo,
+		setPopBox
+	);
+
 	const submitHandler = (startDay, endDay) => {
 		let transactionData = {
 			StartDate: moment(startDay).unix(),
-			EndDate: moment(endDay).endOf("day").unix(),
-			PageNumber: 1
+			EndDate: moment(endDay).endOf("day").unix()
 		};
 
 		setFilterData(transactionData);
-		api_GetWithdrawalInfoHistory(transactionData).then(response => {
+		api_GetWithdrawalInfoHistory({
+			...transactionData,
+			PageNumber: 1
+		}).then(response => {
 			const errorCode = response.data.errorCode;
 			if (errorCode !== 0) {
 				setPopBox({
@@ -33,6 +46,12 @@ const Panel = () => {
 				});
 			} else {
 				setGetHistoryState(response.data.data);
+				if (response.data.totalPages >= response.data.pageNumber) {
+					setPageInfo(() => ({
+						totalPages: response.data.totalPages,
+						pageNumber: response.data.pageNumber
+					}));
+				}
 			}
 		});
 	};
@@ -42,10 +61,11 @@ const Panel = () => {
 			setPopBox({ isOpen: false });
 			api_SetWithdrawalCancel(transId).then(res => {
 				if (res.data.errorCode === 0) {
-					api_GetWithdrawalInfoHistory(filterData).then(res => {
-						if (res.data.errorCode === 0) {
-							setGetHistoryState(res.data.data);
-						}
+					setGetHistoryState(prevState => {
+						let newD = [...prevState];
+						let idx = newD.findIndex(x => x.transId === transId);
+						newD[idx].status = 5;
+						return newD;
 					});
 				}
 			});
