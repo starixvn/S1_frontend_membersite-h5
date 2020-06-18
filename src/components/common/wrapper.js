@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import * as ct from "../common/context";
 import { api_GetTranslationData } from "../../service/api/site";
 import { api_GetCustProfile } from "../../service/api/accountStrict";
-import { api_GetBalnace } from "../../service/api/account";
-import { IS_LOGGED_IN, ONLINE_CHECK } from "../../service/auth";
+import { api_GetBalnace, api_onlineCheck } from "../../service/api/account";
+import { IS_LOGGED_IN } from "../../service/auth";
 import { navigate } from "@reach/router";
 import { GET_LANG_ID } from "../../service/language";
 import themeList from "../../datas/theme";
+import useInterval from "../hook/useInterval";
 
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
@@ -43,23 +44,45 @@ export const Wrapper = ({ children }) => {
 		});
 	}, [userInfo.isLogin]);
 
+	const OnlineCheckCallBack = (errorCode, errMsg) => {
+		if (errorCode !== 0) {
+			setUserInfo(prevState => ({
+				isLogin: false,
+				langId: prevState.langId
+			}));
+			setPopBox({
+				isOpen: true,
+				title: "Warning",
+				content: errMsg ?? i18n.msg_ForceLogedout
+			});
+			navigate("/");
+		}
+	};
+
+	useInterval(
+		() => {
+			api_onlineCheck().then(
+				res => {
+					var result = res.data;
+					if (result.errorCode !== null && result.errorCode !== 0) {
+						OnlineCheckCallBack(result.errorCode, result.message);
+					}
+				},
+				error => {
+					if (
+						error.response !== null &&
+						error.response.status === 401
+					) {
+						OnlineCheckCallBack(error.response.status);
+					}
+				}
+			);
+		},
+		userInfo.isLogin ? 10000 : null
+	);
+
 	useEffect(() => {
 		if (userInfo.isLogin) {
-			const OnlineCheckCallBack = (errorCode, errMsg) => {
-				if (errorCode !== 0) {
-					setUserInfo(prevState => ({
-						isLogin: false,
-						langId: prevState.langId
-					}));
-					setPopBox({
-						isOpen: true,
-						title: "Warning",
-						content: errMsg ?? i18n.msg_ForceLogedout
-					});
-					navigate("/");
-				}
-			};
-			ONLINE_CHECK(OnlineCheckCallBack);
 			if (!userInfo.regTime) {
 				api_GetCustProfile().then(res_custInfo => {
 					if (res_custInfo.data.errorCode === 0) {
