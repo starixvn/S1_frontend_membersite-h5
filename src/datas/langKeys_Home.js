@@ -196,5 +196,11 @@ export default [
 	"lbl_DGCasino",
 	"lbl_SACasino",
 	"lbl_SelfCasino",
-	"lbl_OWCasino"
+	"lbl_OWCasino",
+	"lbl_CountryMY",
+	"lbl_CountryCS",
+	"lbl_CountryID",
+	"lbl_CountryIN",
+	"lbl_CountryVN",
+	"lbl_Welcome"
 ];
