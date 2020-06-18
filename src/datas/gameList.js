@@ -18,13 +18,55 @@ const gameList = [
 	{
 		category: "sports",
 		items: [
-			{ icon: "soccer", gameId: 1, tpId: 1, imgId: gamePic1 },
-			{ icon: "baseball", gameId: 8, tpId: 1, imgId: gamePic2 },
-			{ icon: "basketball", gameId: 2, tpId: 1, imgId: gamePic3 },
-			{ icon: "badminton", gameId: 9, tpId: 1, imgId: gamePic4 },
-			{ icon: "football", gameId: 3, tpId: 1, imgId: gamePic7 },
-			{ icon: "hockey", gameId: 4, tpId: 1, imgId: gamePic9 },
-			{ icon: "tennis", gameId: 5, tpId: 1, imgId: gamePic6 }
+			{
+				icon: "soccer",
+				gameId: 1,
+				tpId: 1,
+				imgId: gamePic1,
+				translation: "lbl_Soccer"
+			},
+			{
+				icon: "baseball",
+				gameId: 8,
+				tpId: 1,
+				imgId: gamePic2,
+				translation: "lbl_Soccer"
+			},
+			{
+				icon: "basketball",
+				gameId: 2,
+				tpId: 1,
+				imgId: gamePic3,
+				translation: "lbl_Basketball"
+			},
+			{
+				icon: "badminton",
+				gameId: 9,
+				tpId: 1,
+				imgId: gamePic4,
+				translation: "lbl_badminton"
+			},
+			{
+				icon: "football",
+				gameId: 3,
+				tpId: 1,
+				imgId: gamePic7,
+				translation: "lbl_FootballBetting"
+			},
+			{
+				icon: "hockey",
+				gameId: 4,
+				tpId: 1,
+				imgId: gamePic9,
+				translation: "lbl_HockeyBetting"
+			},
+			{
+				icon: "tennis",
+				gameId: 5,
+				tpId: 1,
+				imgId: gamePic6,
+				translation: "lbl_Tennis"
+			}
 		],
 		translation: "lbl_Sports"
 	},
@@ -44,35 +86,40 @@ const gameList = [
 				gameId: 101,
 				tpId: 5,
 				imgId: LIVEcasino_PP,
-				span: "PP"
+				span: "PP",
+				translation: "lbl_PPCasino"
 			},
 			{
 				icon: "AG",
 				gameId: 3,
 				tpId: 3,
 				imgId: LIVEcasino_AG,
-				span: "AG"
+				span: "AG",
+				translation: "lbl_AGCasino"
 			},
 			{
 				icon: "DG",
 				gameId: 4,
 				tpId: 4,
 				imgId: LIVEcasino_DG,
-				span: "DG"
+				span: "DG",
+				translation: "lbl_DGCasino"
 			},
 			{
 				icon: "SA",
 				gameId: 2,
 				tpId: 2,
 				imgId: LIVEcasino_SA,
-				span: "SA"
+				span: "SA",
+				translation: "lbl_SACasino"
 			},
 			{
 				icon: "AB",
 				gameId: 12,
 				tpId: 12,
 				imgId: LIVEcasino_AB,
-				span: "AB"
+				span: "AB",
+				translation: "AB"
 			}
 		],
 		translation: "lbl_LiveCasino"
@@ -84,14 +131,16 @@ const gameList = [
 				icon: "nova-casino",
 				path: path.casino.root,
 				imgId: casinoNOVA,
-				span: "NOVA CASINO"
+				span: "NOVA CASINO",
+				translation: "lbl_SelfCasino"
 			},
 			{
 				icon: "ow-casino",
 				gameId: 1,
 				tpId: 208,
 				imgId: casinoOW,
-				span: "OW CASINO"
+				span: "OW CASINO",
+				translation: "lbl_OWCasino"
 			}
 		],
 		translation: "lbl_Casino"

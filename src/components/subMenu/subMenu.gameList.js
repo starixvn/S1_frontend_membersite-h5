@@ -66,6 +66,7 @@ const SubGameList = () => {
 				translation={i18n[item.translation]}
 				itemOpen={`${_open && !item._blank ? "open" : ""}`}
 				clickGame={clickGame}
+				i18n={i18n}
 			/>
 		);
 	});
@@ -85,6 +86,8 @@ const ItemList = props => {
 				colName={item.icon}
 				key={`subGameItem-tpId: ${item.tpId}-gameId: ${item.gameId}`}
 				clickGame={props.clickGame.bind(this, { ...item })}
+				translation={item.translation}
+				i18n={props.i18n}
 			/>
 		);
 	});
@@ -106,7 +109,7 @@ const Item = props => {
 		<a
 			className={`icon icon-${props.colName} ${props.itemOpen}`}
 			onClick={props.clickGame}>
-			{props.colName.toUpperCase()}
+			{props.i18n[props.translation]}
 		</a>
 	);
 };
