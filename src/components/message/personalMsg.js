@@ -7,6 +7,7 @@ import {
 } from "../../service/api/account";
 import moment from "moment";
 import ReloadSpin from "../common/reloadSpin";
+import AUTO_FETCHING_DATA from "../../service/autoFetchingData";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -17,16 +18,32 @@ const Panel = () => {
 	const [checkboxListState, setcheckboxListState] = useState([]);
 	const [isSelectedAll, setIsSelectedAll] = useState(false);
 
+	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+	AUTO_FETCHING_DATA(
+		api_GetMsgList,
+		{},
+		pageInfo,
+		setGetMsgList,
+		setPageInfo,
+		setPopBox
+	);
+
 	useEffect(() => {
-		GetMsgList();
+		GetMsgList(1);
 	}, []);
 
 	const GetMsgList = () => {
-		api_GetMsgList(1).then(res => {
+		api_GetMsgList({ PageNumber: 1 }).then(res => {
 			if (res.data.errorCode === 0) {
 				let data = res.data.data;
 				if (data !== null) {
 					setGetMsgList(data);
+					if (res.data.totalPages >= res.data.pageNumber) {
+						setPageInfo(() => ({
+							totalPages: res.data.totalPages,
+							pageNumber: res.data.pageNumber
+						}));
+					}
 				}
 			}
 		});
@@ -82,7 +99,12 @@ const Panel = () => {
 		const DelMsg = () => {
 			api_DelMsg(checkboxListState).then(res => {
 				if (res.data.errorCode === 0) {
-					GetMsgList();
+					setGetMsgList(prevState =>
+						prevState.filter(m => {
+							return !checkboxListState.includes(m.id);
+						})
+					);
+					setcheckboxListState([]);
 				}
 			});
 			setPopBox({ isOpen: false });

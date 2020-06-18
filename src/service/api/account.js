@@ -15,8 +15,8 @@ export const api_GetBalnace = () => accountRequest.post("/GetBalance");
 export const api_GetCustBankInfo = () =>
 	accountRequest.post("/GetCustBankInfo");
 
-export const api_GetMsgList = PageNumber =>
-	accountRequest.post("/GetMsgList", { PageNumber: PageNumber });
+export const api_GetMsgList = ({ PageNumber }) =>
+	accountRequest.post("/GetMsgList", { PageNumber });
 
 export const api_GetMsgContent = MsgId =>
 	accountRequest.post("/GetMsgContent", {
