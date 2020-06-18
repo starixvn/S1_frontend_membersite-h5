@@ -78,7 +78,7 @@ export const Wrapper = ({ children }) => {
 				}
 			);
 		},
-		userInfo.isLogin ? 2000 : null
+		userInfo.isLogin ? 10000 : null
 	);
 
 	useEffect(() => {
