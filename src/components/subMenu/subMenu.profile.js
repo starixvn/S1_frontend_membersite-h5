@@ -82,7 +82,7 @@ const Profile = () => {
 		<div className="info">
 			<div className="Avatar"></div>
 			<div className="MemberID">
-				Welcome {userInfo?.userName ?? "guest"}
+				{i18n.lbl_Welcome} {userInfo?.userName ?? "guest"}
 			</div>
 			{userInfo.isLogin ? (
 				<Balance
@@ -105,7 +105,7 @@ const Profile = () => {
 	);
 };
 
-const Balance = ({ isLogin, currency, amount, GetBalance }) => {
+const Balance = ({ currency, amount, GetBalance }) => {
 	let displayText = `${currency} ${amount}`;
 	return (
 		<>

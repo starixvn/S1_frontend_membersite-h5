@@ -110,7 +110,7 @@ const SubMenu = () => {
 						<span>{i18n.lbl_Message}</span>
 					</Link>
 					<a className="icon icon-vip">
-						<span>VIP Lv100</span>
+						<span>VIP Lv{userInfo.userLevel}</span>
 					</a>
 				</div>
 			</div>

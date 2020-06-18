@@ -32,6 +32,9 @@ const Panel = () => {
 	return (
 		<>
 			<div className="avatar"></div>
+			<div className="viplv">
+				<i className="icon icon-vip"></i>VIP Lv{userInfo.userLevel}
+			</div>
 			<div className="balance">
 				{i18n[`Currency_${userInfo.currencyId}`]} {balance}
 				<ReloadSpin func={GetBalance} />
