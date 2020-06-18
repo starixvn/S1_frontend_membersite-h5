@@ -28,11 +28,15 @@ const Panel = () => {
 		setPopBox
 	);
 
-	const submitHandler = (startDay, endDay) => {
-		let transactionData = {
-			StartDate: moment(startDay).unix(),
-			EndDate: moment(endDay).endOf("day").unix()
-		};
+	const submitHandler = (startDay, endDay, isUnix) => {
+		let transactionData = filterData;
+		if (!isUnix) {
+			transactionData = {
+				StartDate: moment(startDay).unix(),
+				EndDate: moment(endDay).endOf("day").unix()
+			};
+			setFilterData(transactionData);
+		}
 
 		setFilterData(transactionData);
 		api_GetDepositInfoHistory({
@@ -116,7 +120,14 @@ const Panel = () => {
 							<i className="icon icon-history"></i>
 							{i18n["lbl_TransactionHistory"]}
 						</div>
-						<ReloadSpin func={submitHandler} />
+						<ReloadSpin
+							func={submitHandler.bind(
+								this,
+								filterData?.StartDate,
+								filterData?.EndDate,
+								true
+							)}
+						/>
 					</div>
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>

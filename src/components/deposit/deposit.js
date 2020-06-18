@@ -197,6 +197,14 @@ const Panel = () => {
 			);
 		});
 
+	const GetDepositInfoRecent = () => {
+		api_GetDepositInfoRecent().then(res => {
+			if (res.data.errorCode === 0) {
+				setRecentDatas(res.data.data);
+			}
+		});
+	};
+
 	return (
 		<>
 			<Step step={1} />
@@ -205,6 +213,7 @@ const Panel = () => {
 				Datas={recentDatas}
 				SubmitProof={SubmitProof}
 				ClickCancel={ClickCancel}
+				GetDepositInfoRecent={GetDepositInfoRecent}
 			/>
 		</>
 	);

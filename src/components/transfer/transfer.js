@@ -17,8 +17,8 @@ const Panel = () => {
 	const [getWalletInfo, setGetWalletInfo] = useState([]);
 	const [amount, setAmount] = useState("1");
 	const [warning, setWarning] = useState({ status: false, msg: "" });
-	const [fromSelectedIdx, setFromSelectedIdx] = useState();
-	const [toSelectedIdx, setToSelectedIdx] = useState();
+	const [fromSelectedIdx, setFromSelectedIdx] = useState(0);
+	const [toSelectedIdx, setToSelectedIdx] = useState(1);
 	const [recentDatas, setRecentDatas] = useState([]);
 
 	useEffect(() => {
@@ -89,26 +89,30 @@ const Panel = () => {
 
 	const VaildAmount = _amount => {
 		const minAmount = 1;
-		const maxAmount = getWalletInfo[fromSelectedIdx].balance;
-		let result = checkAmount(
-			_amount,
-			minAmount,
-			maxAmount,
-			_isConvert,
-			i18n
-		);
-		if (result.status !== 0) {
-			setWarning({
-				status: true,
-				msg: result.msg
-			});
+		const maxAmount = getWalletInfo[fromSelectedIdx]?.balance;
+		if (maxAmount === null || maxAmount === undefined) {
+			return false;
 		} else {
-			setWarning({
-				status: false,
-				msg: ""
-			});
+			let result = checkAmount(
+				_amount,
+				minAmount,
+				maxAmount,
+				_isConvert,
+				i18n
+			);
+			if (result.status !== 0) {
+				setWarning({
+					status: true,
+					msg: result.msg
+				});
+			} else {
+				setWarning({
+					status: false,
+					msg: ""
+				});
+			}
+			return result.status === 0;
 		}
-		return result.status === 0;
 	};
 
 	const EditAmount = e => {

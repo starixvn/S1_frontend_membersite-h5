@@ -8,6 +8,7 @@ import { api_GetStatement } from "../service/api/payment";
 import { number_format, isConvert } from "../components/common/common";
 import moment from "moment";
 import HistoryFilter from "../components/common/historyFilter";
+import ReloadSpin from "../components/common/reloadSpin";
 import AUTO_FETCHING_DATA from "../service/autoFetchingData";
 
 const IndexPage = () => {
@@ -29,13 +30,15 @@ const IndexPage = () => {
 		setPopBox
 	);
 
-	const submitHandler = (startDay, endDay) => {
-		let transactionData = {
-			StartDate: moment(startDay).unix(),
-			EndDate: moment(endDay).endOf("day").unix()
-		};
-
-		setFilterData(transactionData);
+	const submitHandler = (startDay, endDay, isUnix) => {
+		let transactionData = filterData;
+		if (!isUnix) {
+			transactionData = {
+				StartDate: moment(startDay).unix(),
+				EndDate: moment(endDay).endOf("day").unix()
+			};
+			setFilterData(transactionData);
+		}
 		api_GetStatement({
 			...transactionData,
 			PageNumber: 1
@@ -84,7 +87,14 @@ const IndexPage = () => {
 							<i className="icon icon-history"></i>
 							{i18n["lbl_TransactionHistory"]}
 						</div>
-						{/* <button className="icon icon-spinner11 clickBtn"></button> */}
+						<ReloadSpin
+							func={submitHandler.bind(
+								this,
+								filterData?.StartDate,
+								filterData?.EndDate,
+								true
+							)}
+						/>
 					</div>
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>

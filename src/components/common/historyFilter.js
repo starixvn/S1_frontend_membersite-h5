@@ -78,7 +78,7 @@ const Panel = props => {
 					selectedIdx={quickPickSelectedIdx}
 					icon="icon icon-calendar"
 					onSelectItem={dropdownStateHandler}
-					placeholder={i18n["lbl_QuickPick"]}
+					// placeholder={i18n["lbl_QuickPick"]}
 				/>
 			</div>
 
@@ -106,7 +106,8 @@ const Panel = props => {
 					onClick={props.submitHandler.bind(
 						this,
 						startDayState,
-						endDayState
+						endDayState,
+						false
 					)}>
 					{i18n["lbl_Submit"]}
 				</button>

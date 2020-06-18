@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 import { isConvert } from "../common/common";
 import { i18nContext, userInfoContext } from "../common/context";
 import { TransactionHistory } from "./deposit.history";
+import ReloadSpin from "../common/reloadSpin";
 import path from "../../path";
 
 const RecentDatas = props => {
@@ -59,6 +60,7 @@ const RecentDatas = props => {
 									{i18n.lbl_RecentTransactions}
 								</i>
 							</div>
+							<ReloadSpin func={props.GetDepositInfoRecent} />
 						</div>
 						{rows}
 					</div>
