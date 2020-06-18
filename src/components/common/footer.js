@@ -57,21 +57,15 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path={path.livechat.root}>
-					{props => {
-						let isMatch = props.match !== null;
-						return (
-							<Link
-								to={path.livechat.root}
-								className={isMatch ? "open" : ""}>
-								<div className="circleAnimation">
-									<div className="icon icon-contact"></div>
-								</div>
-								<span>LIVE CHAT</span>
-							</Link>
-						);
-					}}
-				</Match>
+				<a
+					target="_blank"
+					href="https://direct.lc.chat/11638088/"
+					className="">
+					<div className="circleAnimation">
+						<div className="icon icon-contact"></div>
+					</div>
+					<span>LIVE CHAT</span>
+				</a>
 
 				<Match path={path.member.root}>
 					{props => {
@@ -141,21 +135,15 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path={path.livechat.root}>
-					{props => {
-						let isMatch = props.match !== null;
-						return (
-							<Link
-								to={path.livechat.root}
-								className={isMatch ? "open" : ""}>
-								<div className="circleAnimation">
-									<div className="icon icon-contact"></div>
-								</div>
-								<span>LIVE CHAT</span>
-							</Link>
-						);
-					}}
-				</Match>
+				<a
+					target="_blank"
+					href="https://direct.lc.chat/11638088/"
+					className="">
+					<div className="circleAnimation">
+						<div className="icon icon-contact"></div>
+					</div>
+					<span>LIVE CHAT</span>
+				</a>
 			</footer>
 		);
 	}
