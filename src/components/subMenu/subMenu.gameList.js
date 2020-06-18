@@ -83,7 +83,7 @@ const ItemList = props => {
 			<Item
 				itemOpen={props.itemOpen}
 				colName={item.icon}
-				key={`subGameItem-${item.icon}`}
+				key={`subGameItem-tpId: ${item.tpId}-gameId: ${item.gameId}`}
 				clickGame={props.clickGame.bind(this, { ...item })}
 			/>
 		);
