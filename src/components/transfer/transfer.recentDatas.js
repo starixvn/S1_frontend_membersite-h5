@@ -10,11 +10,12 @@ const ReacentDatas = props => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
 	const _isConvert = isConvert(userInfo.currencyId);
-	const [openRecentState, setOpenRecentState] = useState(false);
+	const [isOpen, setOpen] = useState(false);
 
-	const openRecent = () => {
-		setOpenRecentState(prevState => !prevState);
+	const HandleOpen = () => {
+		setOpen(prevState => !prevState);
 	};
+	let hasData = props.Datas && props.Datas.length > 0;
 
 	const transferDirection = (
 		_direction,
@@ -34,61 +35,64 @@ const ReacentDatas = props => {
 		return { startWallet, endWallet };
 	};
 
-	let arr = props.datas?.map(item => {
-		const _transferDirection = transferDirection(
-			item.direction,
-			i18n.lbl_MainWallet,
-			i18n.lbl_Wallet_Saba
-		);
-		return (
-			<TransactionHistory
-				key={`transferRecent-${item.transId}`}
-				createTime={item.createTime}
-				transId={item.transId}
-				amount={number_format(item.amount, _isConvert)}
-				startWallet={_transferDirection.startWallet}
-				endWallet={_transferDirection.endWallet}
-				i18n={i18n}
-			/>
-		);
-	});
+	let arr =
+		hasData &&
+		props.datas?.map(item => {
+			const _transferDirection = transferDirection(
+				item.direction,
+				i18n.lbl_MainWallet,
+				i18n.lbl_Wallet_Saba
+			);
+			return (
+				<TransactionHistory
+					key={`transferRecent-${item.transId}`}
+					createTime={item.createTime}
+					transId={item.transId}
+					amount={number_format(item.amount, _isConvert)}
+					startWallet={_transferDirection.startWallet}
+					endWallet={_transferDirection.endWallet}
+					i18n={i18n}
+				/>
+			);
+		});
 
 	return (
 		<>
 			<div className="btn-group">
-				<button className="orange switch" onClick={openRecent}>
+				<button className="orange switch" onClick={HandleOpen}>
 					{i18n["lbl_RecentTransactions"]}
 					<i
 						className={`icon icon-circle-right${
-							openRecentState ? " open" : ""
+							isOpen ? " open" : ""
 						}`}></i>
 				</button>
 			</div>
 
-			{openRecentState ? (
-				<div className="recent open">
-					<div className="recentTransactions">
-						<div className="smallTitle">
-							<i className="icon icon-history">
-								{i18n["lbl_RecentTransactions"]}
-							</i>
+			{hasData ? (
+				<>
+					<div className={`recent${isOpen ? " open" : ""}`}>
+						<div className="recentTransactions">
+							<div className="smallTitle">
+								<i className="icon icon-history">
+									{i18n["lbl_RecentTransactions"]}
+								</i>
+							</div>
+							<ReloadSpin func={props.GetRecentDatas} />
 						</div>
-						<ReloadSpin func={props.GetRecentDatas} />
+						{arr}
 					</div>
-					{props.datas?.length > 0 ? (
-						<div className="infoList">{arr}</div>
-					) : (
-						<div className="not-found">{i18n["msg_NoData"]}</div>
-					)}
-					<div className="btn-group">
-						<Link
-							to={path.transfer.sub.history.root}
-							href="transferhistory.html"
-							className="orange recentBtn">
-							{i18n["lbl_AllTranscations"]}
-						</Link>
-					</div>
-				</div>
+					{isOpen ? (
+						<div className="btn-group">
+							<Link
+								to={path.transfer.sub.history.root}
+								className="orange recentBtn">
+								{i18n["lbl_AllTranscations"]}
+							</Link>
+						</div>
+					) : null}
+				</>
+			) : isOpen ? (
+				<div className="not-found">{i18n["msg_NoData"]}</div>
 			) : null}
 		</>
 	);

@@ -7,6 +7,7 @@ import {
 import { number_format, isConvert } from "../common/common";
 import moment from "moment";
 import HistoryFilter from "../common/historyFilter";
+import ReloadSpin from "../common/reloadSpin";
 
 const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -101,7 +102,7 @@ const Panel = () => {
 							<i className="icon icon-history"></i>
 							{i18n["lbl_TransactionHistory"]}
 						</div>
-						{/* <button className="icon icon-spinner11 clickBtn"></button> */}
+						<ReloadSpin func={submitHandler} />
 					</div>
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>

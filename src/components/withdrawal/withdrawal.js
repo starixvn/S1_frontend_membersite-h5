@@ -13,6 +13,7 @@ import {
 import InputBox from "../common/inputbox";
 import config from "../../config";
 import RecentDatas from "./withdrawal.recentDatas";
+import ReloadSpin from "../common/reloadSpin";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -266,9 +267,7 @@ const Panel = () => {
 			<div className="balance">
 				{i18n[`Currency_${userInfo.currencyId}`]}{" "}
 				{number_format(_availableBalance, _isConvert)}
-				<button
-					className="icon icon-spinner11 clickBtn"
-					onClick={GetBalance}></button>
+				<ReloadSpin func={GetBalance} />
 			</div>
 			<InputBox
 				icon="icon-pencil"

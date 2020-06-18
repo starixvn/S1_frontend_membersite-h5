@@ -4,6 +4,7 @@ import { isConvert } from "../common/common";
 import { Link } from "@reach/router";
 import path from "../../path";
 import { TransactionHistory } from "./withdrawal.history";
+import ReloadSpin from "../common/reloadSpin";
 
 const RecentDatas = props => {
 	const { i18n } = useContext(i18nContext);
@@ -50,6 +51,7 @@ const RecentDatas = props => {
 									{i18n.lbl_RecentTransactions}
 								</i>
 							</div>
+							<ReloadSpin func={props.submitHandler} />
 						</div>
 						{rows}
 					</div>
@@ -64,7 +66,7 @@ const RecentDatas = props => {
 					) : null}
 				</>
 			) : isOpen ? (
-				<div className="not-found">No data to display.</div>
+				<div className="not-found">{i18n["msg_NoData"]}</div>
 			) : null}
 		</>
 	);
