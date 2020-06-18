@@ -414,6 +414,15 @@ header .subMenu :before {
   font-size: 10vw;
 }
 
+header .subMenu .icon-nova-casino, header .subMenu .icon-ow-casino {
+  white-space: nowrap;
+  margin-right: 3vw;
+}
+
+header .subMenu .icon-nova-casino :before, header .subMenu .icon-ow-casino :before {
+  font-size: 7vw;
+}
+
 header .subMenu > div {
   width: calc(100% - 8vw);
   border-bottom: 1px solid #ff5d00;
@@ -796,6 +805,10 @@ main .gameList.livecasinoList a span {
   right: 1vw;
   z-index: 2;
   bottom: 1vw;
+}
+
+main .gameList.livecasinoList .icon:before {
+  display: none;
 }
 
 main .gameList a {
@@ -2399,6 +2412,12 @@ button.clickBtn:before {
   left: 2vw;
 }
 
+.Announcement {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
 .Announcement .functionList {
   padding: 0;
   border: 0;
@@ -2422,6 +2441,7 @@ button.clickBtn:before {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-top: 3px;
 }
 
 .functionList.ann {
@@ -2570,12 +2590,17 @@ button.clickBtn:before {
 
 .casino {
   width: calc(100% - 8vw);
-  min-height: calc(100% - 76vw);
-  padding: 52vw 4vw 24vw;
+  min-height: calc(100% - 71vw);
+  padding: 47vw 4vw 24vw;
   position: relative;
   -webkit-box-pack: normal;
       -ms-flex-pack: normal;
           justify-content: normal;
+}
+
+.casino .swiper-container {
+  top: 12vw;
+  left: 0;
 }
 
 .casino .slotList {
@@ -2751,22 +2776,6 @@ button.clickBtn:before {
 .search {
   width: calc(100% - 10vw);
   padding: 2vw 0 2vw 8vw;
-}
-
-.slotBanner {
-  margin: 0 auto;
-  position: absolute;
-  overflow: hidden;
-  list-style: none;
-  padding: 0;
-  z-index: 2;
-  width: 100%;
-  left: 0;
-  top: 12vw;
-}
-
-.slotBanner img {
-  width: 100%;
 }
 
 .slotFunction {
