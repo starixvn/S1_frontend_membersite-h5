@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import Footer from "./footer";
 import Header from "./header";
-import { navContext, i18nContext } from "../common/context";
+import { navContext, i18nContext, defPanel } from "../common/context";
 import "../../styles/Nova88/css/style-dark.css";
 import "../../styles/Nova88/css/style.css";
 import "../../styles/Nova88/css/font.css";
@@ -60,7 +60,7 @@ const _PageInfo = {
 const Layout = ({ children }) => {
 	const { i18n } = useContext(i18nContext);
 	const { nav } = useContext(navContext);
-	let position = { position: "fixed" };
+	let position = {};
 	let pageInfo = _PageInfo.default;
 	let _matchMember = useMatch(`/${path.member.root}/*`) !== null;
 	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
@@ -75,7 +75,6 @@ const Layout = ({ children }) => {
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 
 	if (nav === null) {
-		position = {};
 		if (_matchMember) {
 			pageInfo = _PageInfo.member;
 		} else if (_matchDeposit) {
@@ -93,6 +92,8 @@ const Layout = ({ children }) => {
 		} else if (_matchCasino) {
 			pageInfo = _PageInfo.casino;
 		}
+	} else if (nav === defPanel.login || nav === defPanel.join) {
+		position = { position: "fixed" };
 	}
 
 	return (
