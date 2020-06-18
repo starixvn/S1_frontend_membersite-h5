@@ -58,7 +58,7 @@ const SubGameList = () => {
 				onClick={
 					!item._blank
 						? selectCategory.bind(null, item.category)
-						: clickGame.bind(this, item.tpId, item.gameId)
+						: clickGame.bind(this, { ...item })
 				}
 				isOpen={`${_open ? "open" : ""}`}
 				category={item.category}
