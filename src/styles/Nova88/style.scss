@@ -269,6 +269,13 @@ header {
     :before{
       font-size: 10vw;
     }
+    .icon-nova-casino,.icon-ow-casino{
+      white-space: nowrap;
+      margin-right: 3vw;
+      :before{
+        font-size: 7vw;
+      }
+    }
     > div{
       width: calc(#{$width} - 8vw);
       border-bottom: 1px solid $orange;
@@ -511,29 +518,69 @@ main {
     top: 73vw;
     left: 20vw;
     margin-bottom: 20vw;
+    display: flex;
+    flex-wrap: wrap;
+    &.casinoList{
+      a{
+        flex: 0 0 calc(100% - 3vw);
+        margin-bottom: 2vw;
+        &:before{
+          font-size: 10vw;
+          bottom: unset;
+          right: unset;
+          left: 10vw;
+          top: 10vw;
+        }
+        &:after{
+          display: none;
+        }
+        span{
+          position: absolute;
+          left: 2vw;
+          top: 21vw;
+          width: 28vw;
+          text-align: center;
+          font-weight: bold;
+        }
+      }
+    }
+    &.livecasinoList{
+      a{
+        &:after{
+          border-color: transparent $orange $orange transparent;
+        }
+        span{
+          position: absolute;
+          font-weight: bold;
+          right: 1vw;
+          z-index: 2;
+          bottom: 1vw;
+        }
+      }
+      .icon:before{
+        display: none;
+      }
+    }
     a {
-      flex: 1;
       margin: 1vw 0 1vw 2vw;
       background: $white;
       border-radius: 10px;
-      width: calc(50% - 3vw);
-      height: 25vw;
-      float: left;
+      flex: 0 0 calc(50% - 3vw);
       box-shadow: 1px 2px 4px 0px #5e5e5e;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: flex-end;
       position: relative;
-      @for $i from 1 through 8 {
-        &:nth-child(#{$i}) {
-          background: url(../img/gamePic#{$i}.jpg) no-repeat top center/cover;
-        }
+      overflow: hidden;
+      img{
+        width: $width;
       }
       &:before {
         position: absolute;
         right: 1vw;
         bottom: 1vw;
         color: $white;
+        z-index: 2;
       }
       &:after {
         content: '';
@@ -541,6 +588,9 @@ main {
         border-width: 20px 20px 20px 20px;
         border-color: transparent $blue $blue transparent;
         border-bottom-right-radius: 10px;
+        z-index: 1;
+        position: absolute;
+        right: 0;
       }
       &:nth-child(1) {
         &:after{
@@ -592,6 +642,7 @@ footer {
   display: flex;
   height: 12.8vw;
   border-radius: 5px 5px 0 0;
+  box-shadow: 0 0px 7px 0 rgba(0, 0, 0, 0.5);
   >a {
     flex: 1 1 0;
     text-align: center;
@@ -770,7 +821,7 @@ footer {
     width: 100%;
     margin-left: -1px;
     left: 0;
-    top: calc(13vw + 1px);
+    top: calc(12vw + 1px);
     max-height: 45vw;
     overflow-y: scroll;
     .dropdown-item{
@@ -795,6 +846,7 @@ footer {
     align-items: center;
     display: flex;
     color: $white;
+    min-height: 7vw;
     .bankLogo{
       flex: 1;
       img{
@@ -837,8 +889,8 @@ footer {
   }
   .popTit{
     background: $orange;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     position: relative;
     font-size: 4vw;
     padding-right: 9vw;
@@ -846,10 +898,36 @@ footer {
     min-height: 20px;
   }
   .popTxt{
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     line-height: 7vw;
     width: calc(100% - 8vw - 2px);
+    img{
+      width: $width;
+      border-radius: 5px;
+      margin-top: 3vw;
+    }
+    .text-org{
+      font-weight: bold;
+      &+span{
+        font-size: 5vw;
+        font-weight: bold;
+      }
+    }
+    >div{
+      margin: 2vw 0 4vw;
+      li{
+        padding: 1vw 2vw;
+        display: flex;
+        justify-content: space-between;
+        &:nth-child(odd){
+          background: rgba($black, 0.3);
+        }
+        &:nth-child(even){
+          background: rgba($orange, 0.1);
+        }
+      }
+    }
   }
 }
 //flag
@@ -1081,9 +1159,6 @@ footer {
     .dropdown{
       flex: 1;
       margin-left: 1vw;
-      // &:first-child{
-      //   margin-right: 1vw;
-      // }
       &:first-child{
         margin-left: 0vw;
       }
@@ -1137,6 +1212,7 @@ footer {
 .btn-group{
   margin: 2vw 0;
   display: flex;
+  width: $width;
   button,a{
     width: $width;
     color: $white;
@@ -1146,6 +1222,7 @@ footer {
     display: flex;
     justify-content: center;
     flex: 1;
+    align-items: center;
     i{
       margin: 0 2vw;
       &.icon-circle-right.open{
@@ -1274,6 +1351,8 @@ footer {
 }
 //depositType
 .depositType{
+  display: flex;
+  flex-wrap: wrap;
   .icon:before{
     font-size: 10vw;
   }
@@ -1422,6 +1501,7 @@ footer {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  width: calc(100% - 16vw);
 }
 //input
 input{
@@ -1448,6 +1528,9 @@ input[type="file"] {
   margin-right: 0.5vw;
   border-radius: 3px;
   flex: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   &+button{
     flex: 1;
   }
@@ -1471,7 +1554,6 @@ button.clickBtn{
 .infoStates{
   padding: 2vw;
   border-radius: 3px;
-  // border: 1px solid $orange;
   color: $white;
   text-align: center;
   font-weight: bold;
@@ -1586,6 +1668,7 @@ button.clickBtn{
   }
 }
 .Announcement{
+  justify-content: flex-start;
   .functionList{
     padding: 0;
     border: 0;
@@ -1603,6 +1686,7 @@ button.clickBtn{
   border-bottom: 1px solid $orange;
   align-items: center;
   display: flex;
+  margin-top: 3px;
   &.ann{
     border: 0;
     padding: 0;
@@ -1693,6 +1777,9 @@ button.clickBtn{
 .introduction{
   display: flex;
   flex-wrap: wrap;
+  span{
+    width: 100%;
+  }
 }
 //switch
 .switch{
@@ -1705,20 +1792,53 @@ button.clickBtn{
 }
 //casino
 .casino{
-  min-height: calc(100% - 44vw);
-  padding: 20vw 8vw 24vw;
-  .info{
-    line-height: 0;
-    padding: 1vw;    
-    width: calc(50% - 2vw);    
-    float: left;
-    div{
-      margin: 5px;
-      overflow : hidden;
-      text-overflow : ellipsis;
-      white-space : nowrap;
+  width: calc(100% - 8vw);
+  min-height: calc(100% - 36vw);
+  padding: 12vw 4vw 24vw;
+  position: relative;
+  justify-content: normal;
+  .slotList{
+    display: flex;
+    flex-wrap: wrap;
+    .info{
+      flex: 0 0 calc(50% - 1vw);
+      padding: 0;
+      margin: 2vw 0 0;
+      position: relative;
+      line-height: 0;
+      &:nth-child(odd){
+        margin-right: 1vw;
+      }
+      &:nth-child(even){
+        margin-left: 1vw;
+      }
+      &:before {
+        content: '';
+        border-style: solid;
+        border-width: 6vw 9vw;
+        border-color: $orange transparent transparent $orange;
+        border-top-left-radius: 5px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      span{
+        position: absolute;
+        left: 1.5vw;
+        top: 1.5vw;
+        line-height: initial;
+        z-index: 1;
+        font-weight: bold;
+        font-size: 3vw;
+        &.icon{
+          right: 1vw;
+          left: initial;
+        }
+      }
       img{
         width: $width;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px -2px rgba($black, 0.9);
       }
     }
   }
@@ -1757,5 +1877,212 @@ button.clickBtn{
   ::-webkit-datetime-edit { overflow: visible; }
   ::-webkit-calendar-picker-indicator {
       background-image: -webkit-linear-gradient(top, transparent, transparent);
+  }
+}
+.filter{
+  color: #fff;
+  text-align: right;
+  float: right;
+  background: $orange;
+  padding: 1vw;
+  border-radius: 3px;
+}
+.filterSelect{
+  visibility: hidden;
+  transition: $transition;
+  opacity: 0;
+  height: 0;
+  .inputBox{
+    margin: 0 0 2vw;
+    .dropdown-container{
+      z-index: 2;
+    }
+  }
+  &.open{
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+    height: auto;
+  }
+}
+.filterBtn{
+  display: flex;
+  margin: 1vw 0;
+  button{
+    flex: 1;
+    color: $white;
+    border: 1px solid $orange;
+    border-radius: 3px;
+    padding: 1vw 0;    
+    margin-right: 2vw;
+    &:last-child{
+      margin-right: 0;
+    }
+    &.open{
+      background: $orange;
+    }
+  }
+}
+.search{
+  width: calc(100% - 10vw);
+  padding: 2vw 0 2vw 8vw;
+}
+//slotFunction
+.slotFunction{
+  position: fixed;
+  bottom: 0;
+  box-shadow: 0 0 10px 0 rgba($black,0.7);
+  padding: 2vw 2vw 20vw;
+  border-radius: 10px;
+  width: calc(#{$width} - 4vw);
+  left: 0;
+  background: $gray;
+  visibility: hidden;
+  transition: $transition;
+  opacity: 0;
+  z-index: 1;
+  .icon-cancel-circle{
+    position: absolute;
+    right: 2vw;
+    top: 2vw;
+    color: $lightBlack;
+  }
+  .text-org{
+    font-size: 5vw;
+    margin: 2vw 0 3vw;
+  }
+  &.open{
+    visibility: visible;
+    transition: $transition;
+    opacity: 1;
+  }
+  .white{
+    border: 1px solid $orange;
+  }
+}
+.not-found{
+  color: $white;
+  margin-top: 10vw;
+  text-align: center;
+}
+.icon-spinner11{
+  &.open{
+    &:before{
+      animation-name: reload;
+      animation-duration: 1s;
+      animation-iteration-count: 1;
+    }
+  }
+}
+@keyframes reload {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+//Loading
+#Loading{
+  width: calc(100% - 16vw);
+  height: calc(100% - 16vw);
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: $white;
+  background: rgba($blue, 0.95);
+  padding: 8vw;
+  display: none;
+  &.open{
+    display: flex;
+  }
+  $size: 16vw;
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin: 0 auto;
+    width: 50%;
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotateX(-37.5deg) rotateY(45deg);
+    }
+    50% {
+      transform: rotateX(-37.5deg) rotateY(405deg);
+    }
+    100% {
+      transform: rotateX(-37.5deg) rotateY(405deg);
+    }
+  }
+  .cube, .cube * {
+    position: absolute;
+    width: $size;
+    height: $size;
+    z-index: 1;
+  }
+  .sides {
+    animation: rotate 3s ease infinite;
+    animation-delay: .8s;
+    transform-style: preserve-3d;
+    transform: rotateX(-37.5deg) rotateY(45deg);
+  }
+  .cube .sides * {
+    box-sizing: border-box;
+    background-color: rgba(255, 80, 13,0.1);
+    border: 1px solid #ff500d;
+  }
+  @mixin side($name, $rotate, $i) {
+    .#{$name} {
+      animation: #{$name}-animation 3s ease infinite;
+      animation-delay: $i * 100ms;
+      transform: #{$rotate} translateZ($size);
+      animation-fill-mode: forwards;
+      transform-origin: 50% 50%;
+    }    
+    @keyframes #{$name}-animation {
+      0% { opacity: 1; transform: #{$rotate} translateZ($size)}  
+      20% { opacity: 1; transform: #{$rotate} translateZ($size / 2)}  
+      70% {  opacity: 1; transform: #{$rotate} translateZ($size / 2) }
+      90% {  opacity: 1; transform: #{$rotate} translateZ($size) }
+      100% {  opacity: 1; transform: #{$rotate} translateZ($size) }
+    }
+  }
+  .cube .sides {
+    @include side("top", rotateX(90deg), 0);
+    @include side("bottom", rotateX(-90deg), 0);
+    @include side("front", rotateY(0deg), 1);
+    @include side("back", rotateY(-180deg), 1);
+    @include side("left", rotateY(-90deg), 1);
+    @include side("right", rotateY(90deg), 1);
+  }
+  h1{
+    transform: rotateX(-37.5deg) rotateY(45deg);
+    animation: rotate 3s ease infinite;
+    animation-delay: .8s;
+    &:after {
+      font-size: 4vw;
+      font-weight: bold;
+      content:"NOVA88";
+      position: absolute;
+      color: rgba(255,255,255,1);
+      transform: translateX(-50%) translateY(-50%);
+      text-shadow:
+      -1px -1px 1px #333,
+      -2px -2px 1px #333,
+      -3px -3px 1px #333,
+      -4px -4px 1px #333,
+      -5px -5px 1px #333,
+      -6px -6px 1px #333,
+      -7px -7px 5px rgba(0, 0, 128, 0.75);
+    }
+  }
+  .text{
+    width: 100%;
+    position: absolute;
+    transform: translateY(25vw);
+    font-size: 4vw;
+    text-align: center;
   }
 }

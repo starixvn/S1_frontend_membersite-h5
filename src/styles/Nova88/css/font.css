@@ -37,11 +37,31 @@
           transform: translateY(35%) !important;
 }
 
-.icon-nova_casino:before {
+.icon-AB:before {
+  content: "\e92b";
+}
+
+.icon-AG:before {
+  content: "\e92c";
+}
+
+.icon-DG:before {
+  content: "\e92d";
+}
+
+.icon-PP:before {
+  content: "\e92e";
+}
+
+.icon-SA:before {
+  content: "\e92f";
+}
+
+.icon-nova-casino:before {
   content: "\e929";
 }
 
-.icon-ow_casino:before {
+.icon-ow-casino:before {
   content: "\e92a";
 }
 
