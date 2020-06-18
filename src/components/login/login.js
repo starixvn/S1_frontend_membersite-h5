@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
 import InputboxPWD from "../common/inputbox.password";
-import Checkbox from "../common/checkbox";
 import logo from "../../styles/Nova88/img/logo.svg";
 import { LOGIN } from "../../service/auth";
 import { api_GetTranslationData } from "../../service/api/site";
@@ -131,8 +130,7 @@ const LoginPage = ({ ButtonTitle }) => {
 			LOGIN(
 				{
 					userName: userValueState.UserName,
-					password: userValueState.Password,
-					isPersistent: userValueState.Checkbox
+					password: userValueState.Password
 				},
 				CallBackLogin
 			);
@@ -204,13 +202,6 @@ const LoginPage = ({ ButtonTitle }) => {
 					value={userValueState.Password}
 				/>
 
-				<Checkbox
-					className="Terms"
-					id="Login-RemeberPWD"
-					Checked={checkboxState}
-					checkboxHandler={checkboxHandler}>
-					Remember Password
-				</Checkbox>
 				<button onClick={handleLogin}>{i18n["lbl_Login"]}</button>
 			</div>
 		</>

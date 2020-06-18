@@ -23,7 +23,45 @@
 .icon-VNPay:before {
   font-size: 3vw !important;
 }
+.icon-equalizer:before {
+  font-size: 6vw;
+}
+.icon-search{
+  transform: translateY(35%) !important;
+}
+.icon-hockey:before {
+  font-size: 3vw;
+  margin-bottom: 1vw;
+}
+header .subMenu .icon-hockey:before{
+  font-size: 7vw;
+  margin: 1.5vw;
+}
 //
+.icon-AB:before {
+  content: "\e92b";
+}
+.icon-AG:before {
+  content: "\e92c";
+}
+.icon-DG:before {
+  content: "\e92d";
+}
+.icon-PP:before {
+  content: "\e92e";
+}
+.icon-SA:before {
+  content: "\e92f";
+}
+.icon-hockey:before {
+  content: "\e930";
+}
+.icon-nova-casino:before {
+  content: "\e929";
+}
+.icon-ow-casino:before {
+  content: "\e92a";
+}
 .icon-CirclePay:before {
   content: "\e91f";
 }
@@ -186,6 +224,9 @@
 .icon-lock:before {
   content: "\e98f";
 }
+.icon-equalizer:before {
+  content: "\e992";
+}
 .icon-bin:before {
   content: "\e9ac";
 }
@@ -200,6 +241,12 @@
 }
 .icon-sun:before {
   content: "\e9d4";
+}
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+.icon-star-full:before {
+  content: "\e9d9";
 }
 .icon-warning:before {
   content: "\ea07";

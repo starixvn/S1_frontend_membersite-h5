@@ -15,11 +15,11 @@ const quickPickList = [
 
 const Panel = props => {
 	const { i18n } = useContext(i18nContext);
+	const [quickPickSelectedIdx, setquickPickSelectedIdx] = useState(0);
 
-	const [quickPickSelectedIdx, setquickPickSelectedIdx] = useState(null);
-
-	const [startDayState, setStartDayState] = useState({});
-	const [endDayState, setEndDatyState] = useState({});
+	const today = moment().format("YYYY-MM-DD");
+	const [startDayState, setStartDayState] = useState(today);
+	const [endDayState, setEndDatyState] = useState(today);
 
 	let startDate = "";
 	let endDate = "";

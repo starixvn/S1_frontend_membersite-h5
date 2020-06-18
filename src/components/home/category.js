@@ -12,6 +12,8 @@ import { Redirect } from "@reach/router";
 const Category = () => {
 	const { i18n } = useContext(i18nContext);
 	const [category, setCategory] = useState("sports");
+	const [addClass, setAddClass] = useState("");
+
 	const { userInfo } = useContext(userInfoContext);
 	const { setNav } = useContext(navContext);
 	const [redirect, setRedirect] = useState({
@@ -21,6 +23,13 @@ const Category = () => {
 
 	const selectCategory = _category => {
 		setCategory(_category);
+		if (_category === "casino") {
+			setAddClass(" casinoList");
+		} else if (_category === "livecasino") {
+			setAddClass(" livecasinoList");
+		} else {
+			setAddClass("");
+		}
 	};
 
 	const clickGame = ({ tpId, gameId, path }) => {
@@ -66,9 +75,11 @@ const Category = () => {
 			x.items.map(_item => {
 				return (
 					<Item
-						key={`categoryItem-${_item.icon}`}
+						key={`categoryItem-tpId: ${_item.tpId}-gameId: ${_item.gameId}`}
 						colName={_item.icon}
 						clickGame={clickGame.bind(this, { ..._item })}
+						imgId={_item.imgId}
+						span={_item.span}
 					/>
 				);
 			})
@@ -79,7 +90,9 @@ const Category = () => {
 	) : (
 		<div className="content">
 			<div className="sideBar">{listArr}</div>
-			<div className="gameList">{itemArr}</div>
+			<div className={`gameList${addClass !== "" ? addClass : ""}`}>
+				{itemArr}
+			</div>
 		</div>
 	);
 };
@@ -97,8 +110,13 @@ const CategoryItems = props => {
 const Item = props => {
 	return (
 		<a
-			className={`icon icon-${props.colName}`}
-			onClick={props.clickGame}></a>
+			className={
+				props.colName !== "" ? `icon icon-${props.colName}` : null
+			}
+			onClick={props.clickGame}>
+			<img src={props.imgId} alt="" />
+			<span>{props.span}</span>
+		</a>
 	);
 };
 export default Category;

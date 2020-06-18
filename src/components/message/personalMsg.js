@@ -6,6 +6,7 @@ import {
 	api_DelMsg
 } from "../../service/api/account";
 import moment from "moment";
+import ReloadSpin from "../common/reloadSpin";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -145,9 +146,7 @@ const Panel = () => {
 					<button
 						className="icon icon-bin clickBtn"
 						onClick={delMsg}></button>
-					<button
-						className="icon icon-spinner11 clickBtn"
-						onClick={GetMsgList}></button>
+					<ReloadSpin func={GetMsgList} />
 				</div>
 			</div>
 			{arr}

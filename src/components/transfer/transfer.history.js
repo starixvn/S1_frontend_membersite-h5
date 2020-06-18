@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import { api_GetTransferHistory } from "../../service/api/tp";
 import { number_format, isConvert } from "../common/common";
+import ReloadSpin from "../common/reloadSpin";
 import moment from "moment";
 import HistoryFilter from "../common/historyFilter";
 import AUTO_FETCHING_DATA from "../../service/autoFetchingData";
@@ -97,7 +98,7 @@ const Panel = () => {
 							<i className="icon icon-history"></i>
 							{i18n["lbl_TransactionHistory"]}
 						</div>
-						{/* <button className="icon icon-spinner11 clickBtn"></button> */}
+						<ReloadSpin func={submitHandler} />
 					</div>
 					{getHistoryState.length > 0 ? (
 						<div className="infoList">{arr}</div>

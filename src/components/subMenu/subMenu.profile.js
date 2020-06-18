@@ -7,15 +7,16 @@ import {
 import LangDropdown from "../common/dropdown.icon";
 import { api_GetSiteLangList } from "../../service/api/site";
 import { GET_LANG_ID } from "../../service/language";
-import { api_SetLanguage } from "../../service/api/account";
+import { api_SetLanguage, api_GetBalnace } from "../../service/api/account";
 import { number_format, isConvert } from "../common/common";
+import ReloadSpin from "../common/reloadSpin";
 
 const Profile = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
+	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
 	const { i18n } = useContext(i18nContext);
 
 	const [userLanValue, setUserLanValue] = useState(0);
-
 	const [langList, setLangList] = useState([]);
 
 	useEffect(() => {
@@ -40,6 +41,17 @@ const Profile = () => {
 		}
 	}, [langList, userInfo.langId]);
 
+	const GetBalance = () => {
+		api_GetBalnace().then(res => {
+			if (res.data.errorCode === 0) {
+				setWalletInfo(prevState => ({
+					...prevState,
+					main: res.data.data
+				}));
+			}
+		});
+	};
+
 	const selectItemHandler = idx => {
 		if (idx !== userLanValue) {
 			let langId = langList[idx].langId;
@@ -62,8 +74,6 @@ const Profile = () => {
 		}
 	};
 
-	const { walletInfo } = useContext(walletInfoContext);
-
 	let balance = number_format(
 		walletInfo.main,
 		isConvert(userInfo.currencyId)
@@ -74,12 +84,13 @@ const Profile = () => {
 			<div className="MemberID">
 				Welcome {userInfo?.userName ?? "guest"}
 			</div>
-			<Balance
-				isLogin={userInfo.isLogin}
-				currency={i18n[`Currency_${userInfo.currencyId}`]}
-				amount={balance}
-			/>
-			<button className="icon icon-spinner11 clickBtn"></button>
+			{userInfo.isLogin ? (
+				<Balance
+					currency={i18n[`Currency_${userInfo.currencyId}`]}
+					amount={balance}
+					GetBalance={GetBalance}
+				/>
+			) : null}
 
 			<div className="Country">
 				<i className="icon icon-sphere"></i>
@@ -94,9 +105,14 @@ const Profile = () => {
 	);
 };
 
-const Balance = ({ isLogin, currency, amount }) => {
-	let displayText = isLogin ? `${currency} ${amount}` : "";
-	return <div className="Balance">{displayText}</div>;
+const Balance = ({ isLogin, currency, amount, GetBalance }) => {
+	let displayText = `${currency} ${amount}`;
+	return (
+		<>
+			<div className="Balance">{displayText}</div>
+			<ReloadSpin func={GetBalance} />
+		</>
+	);
 };
 
 export default Profile;
