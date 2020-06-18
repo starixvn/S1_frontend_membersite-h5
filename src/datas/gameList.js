@@ -5,7 +5,7 @@ import gamePic3 from "../styles/Nova88/img/gamePic3.jpg";
 import gamePic4 from "../styles/Nova88/img/gamePic4.jpg";
 import gamePic6 from "../styles/Nova88/img/gamePic6.jpg";
 import gamePic7 from "../styles/Nova88/img/gamePic7.jpg";
-import gamePic8 from "../styles/Nova88/img/gamePic8.jpg";
+import gamePic9 from "../styles/Nova88/img/gamePic9.jpg";
 import LIVEcasino_PP from "../styles/Nova88/img/LIVEcasino_PP.jpg";
 import LIVEcasino_AG from "../styles/Nova88/img/LIVEcasino_AG.jpg";
 import LIVEcasino_DG from "../styles/Nova88/img/LIVEcasino_DG.jpg";
@@ -23,7 +23,7 @@ const gameList = [
 			{ icon: "basketball", gameId: 2, tpId: 1, imgId: gamePic3 },
 			{ icon: "badminton", gameId: 9, tpId: 1, imgId: gamePic4 },
 			{ icon: "football", gameId: 3, tpId: 1, imgId: gamePic7 },
-			{ icon: "Icehockey", gameId: 4, tpId: 1, imgId: "" },
+			{ icon: "hockey", gameId: 4, tpId: 1, imgId: gamePic9 },
 			{ icon: "tennis", gameId: 5, tpId: 1, imgId: gamePic6 }
 		],
 		translation: "lbl_Sports"
@@ -94,26 +94,26 @@ const gameList = [
 	{
 		category: "game",
 		items: [
-			{ icon: "soccer", gameId: 1, tpId: 1 },
-			{ icon: "basketball", gameId: 1, tpId: 2 },
-			{ icon: "football", gameId: 1, tpId: 3 },
-			{ icon: "icehockey", gameId: 1, tpId: 4 },
-			{ icon: "tennis", gameId: 1, tpId: 5 },
-			{ icon: "baseball", gameId: 1, tpId: 8 },
-			{ icon: "badminton", gameId: 1, tpId: 9 }
+			// { icon: "soccer", gameId: 1, tpId: 1 },
+			// { icon: "basketball", gameId: 1, tpId: 2 },
+			// { icon: "football", gameId: 1, tpId: 3 },
+			// { icon: "icehockey", gameId: 1, tpId: 4 },
+			// { icon: "tennis", gameId: 1, tpId: 5 },
+			// { icon: "baseball", gameId: 1, tpId: 8 },
+			// { icon: "badminton", gameId: 1, tpId: 9 }
 		],
 		translation: "lbl_Games"
 	},
 	{
 		category: "keno",
 		items: [
-			{ icon: "soccer", gameId: 1, tpId: 1 },
-			{ icon: "basketball", gameId: 1, tpId: 2 },
-			{ icon: "football", gameId: 1, tpId: 3 },
-			{ icon: "icehockey", gameId: 1, tpId: 4 },
-			{ icon: "tennis", gameId: 1, tpId: 5 },
-			{ icon: "baseball", gameId: 1, tpId: 8 },
-			{ icon: "badminton", gameId: 1, tpId: 9 }
+			// { icon: "soccer", gameId: 1, tpId: 1 },
+			// { icon: "basketball", gameId: 1, tpId: 2 },
+			// { icon: "football", gameId: 1, tpId: 3 },
+			// { icon: "icehockey", gameId: 1, tpId: 4 },
+			// { icon: "tennis", gameId: 1, tpId: 5 },
+			// { icon: "baseball", gameId: 1, tpId: 8 },
+			// { icon: "badminton", gameId: 1, tpId: 9 }
 		],
 		translation: "lbl_KenoAndLottery"
 	}
