@@ -105,45 +105,56 @@ const Panel = () => {
 		let result = VaildAmount(amount);
 		if (result) {
 			const RedirectToNext = (accountNo, _real_amount, sysId) => {
-				api_WithdrawalReq(accountNo, _real_amount, sysId).then(res => {
-					if (res.data.errorCode === 0) {
-						setAmount("");
-						api_GetWithdrawalInfoRecent().then(res => {
-							if (res.data.errorCode === 0) {
-								setRecentDatas(res.data.data);
+				api_WithdrawalReq(accountNo, _real_amount, sysId).then(
+					res => {
+						if (res.data.errorCode === 0) {
+							setAmount("");
+							api_GetWithdrawalInfoRecent().then(res => {
+								if (res.data.errorCode === 0) {
+									setRecentDatas(res.data.data);
+								}
+							});
+							setPopBox({ isOpen: false });
+						} else {
+							let content = res.data.message;
+							if (res.data.errorCode === -1) {
+								content = `${
+									i18n.lbl_RolloverOver
+								}: ${number_format(
+									parseFloat(res.data.message),
+									_isConvert
+								)}`;
+							} else if (res.data.errorCode === -2) {
+								content = `${
+									i18n.lbl_DepositOver
+								}: ${number_format(
+									parseFloat(res.data.message),
+									_isConvert
+								)}`;
+							} else if (res.data.errorCode === -2) {
+								content = `${
+									i18n.lbl_WithdrawalOver
+								}: ${number_format(
+									parseFloat(res.data.message),
+									_isConvert
+								)}`;
 							}
-						});
-						setPopBox({ isOpen: false });
-					} else {
-						let content = res.data.message;
-						if (res.data.errorCode === -1) {
-							content = `${
-								i18n.lbl_RolloverOver
-							}: ${number_format(
-								parseFloat(res.data.message),
-								_isConvert
-							)}`;
-						} else if (res.data.errorCode === -2) {
-							content = `${i18n.lbl_DepositOver}: ${number_format(
-								parseFloat(res.data.message),
-								_isConvert
-							)}`;
-						} else if (res.data.errorCode === -2) {
-							content = `${
-								i18n.lbl_WithdrawalOver
-							}: ${number_format(
-								parseFloat(res.data.message),
-								_isConvert
-							)}`;
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: content,
+								hasBtn: false
+							});
 						}
-						setPopBox({
+					},
+					err => {
+						this.props.setPopBox({
 							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: content,
-							hasBtn: false
+							title: this.props.i18n.lbl_ImportantNote,
+							content: "API Server Error."
 						});
 					}
-				});
+				);
 			};
 
 			let real_amount = _isConvert
@@ -214,15 +225,30 @@ const Panel = () => {
 	const ClickCancel = transId => {
 		const ClickSubmit = () => {
 			setPopBox({ isOpen: false });
-			api_SetWithdrawalCancel(transId).then(res => {
-				if (res.data.errorCode === 0) {
-					api_GetWithdrawalInfoRecent().then(res => {
-						if (res.data.errorCode === 0) {
-							setRecentDatas(res.data.data);
-						}
+			api_SetWithdrawalCancel(transId).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						api_GetWithdrawalInfoRecent().then(res => {
+							if (res.data.errorCode === 0) {
+								setRecentDatas(res.data.data);
+							}
+						});
+					} else {
+						this.props.setPopBox({
+							isOpen: true,
+							title: this.props.i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
+				},
+				err => {
+					this.props.setPopBox({
+						isOpen: true,
+						title: this.props.i18n.lbl_ImportantNote,
+						content: "API Server Error."
 					});
 				}
-			});
+			);
 		};
 
 		const ClickCancel = () => {

@@ -92,46 +92,63 @@ class Marquee extends Component {
 		}
 	};
 	GetAnnouncement = langId => {
-		api_GetAnnouncement(langId).then(res => {
-			let resData = res.data.data;
-			let stateData = this.state.datas;
-			let upd = false;
-			if (resData.length !== 0 && stateData.length !== 0) {
-				for (let d in resData) {
-					let find = stateData.find(
-						x =>
-							x.id === resData[d].id &&
-							x.subject === resData[d].subject &&
-							x.content === resData[d].content
-					);
+		api_GetAnnouncement(langId).then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let resData = res.data.data;
+					let stateData = this.state.datas;
+					let upd = false;
+					if (resData.length !== 0 && stateData.length !== 0) {
+						for (let d in resData) {
+							let find = stateData.find(
+								x =>
+									x.id === resData[d].id &&
+									x.subject === resData[d].subject &&
+									x.content === resData[d].content
+							);
 
-					if (!find) {
+							if (!find) {
+								upd = true;
+								break;
+							}
+						}
+					} else {
 						upd = true;
-						break;
 					}
-				}
-			} else {
-				upd = true;
-			}
 
-			if (upd) {
-				if (this.intervalId_Pos === undefined) {
-					this.intervalId_Pos = setInterval(this.SetPos, 25);
-				}
+					if (upd) {
+						if (this.intervalId_Pos === undefined) {
+							this.intervalId_Pos = setInterval(this.SetPos, 25);
+						}
 
-				if (!this.unmounted) {
-					this.setState({
-						datas: res.data.data.map(item => {
-							return {
-								...item,
-								subject: item.subject,
-								content: item.content
-							};
-						})
+						if (!this.unmounted) {
+							this.setState({
+								datas: res.data.data.map(item => {
+									return {
+										...item,
+										subject: item.subject,
+										content: item.content
+									};
+								})
+							});
+						}
+					}
+				} else {
+					this.props.setPopBox({
+						isOpen: true,
+						title: this.props.i18n.lbl_ImportantNote,
+						content: res.data.message
 					});
 				}
+			},
+			err => {
+				this.props.setPopBox({
+					isOpen: true,
+					title: this.props.i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 	};
 	ClickMarquee = item => {
 		if (this.props.userIsLogin) {

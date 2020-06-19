@@ -33,6 +33,7 @@ export const Main = props => {
 	const [warning, setWarning] = useState({ status: false, msg: "" });
 
 	const _isConvert = isConvert(userInfo.currencyId);
+	const [processing, setProcessing] = useState(false);
 
 	useEffect(() => {
 		if (props.location.state.paymentList) {
@@ -46,6 +47,7 @@ export const Main = props => {
 				};
 			});
 			setBankList(datas);
+			setProcessing(false);
 		}
 	}, [props.location.state.paymentList]);
 
@@ -85,82 +87,96 @@ export const Main = props => {
 	};
 
 	const ClickSubmit = () => {
-		let result = VaildAmount(amount);
-
-		if (result) {
-			const RedirectToNext = (real_amount, sysId) => {
-				api_DepositReqWireTransfer({
-					amount: real_amount,
-					sysId: sysId
-				}).then(res => {
-					if (res.data.errorCode === 0) {
-						setbankSlipPopBox(prevState => ({
-							...prevState,
-							...res.data.data,
-							depositTime: `${moment().format(
-								"yyyy-MM-DDT"
-							)}${moment().format("HH:mm")}`,
-							isOpen: true,
-							amount: number_format(real_amount, _isConvert),
-							closeCallBack: () => setRedirect(true)
-						}));
-						setPopBox(prevState => ({
-							...prevState,
-							isOpen: false
-						}));
-					} else {
-						setPopBox(prevState => ({
-							...prevState,
-							content: "wrong amount."
-						}));
-					}
-				});
-			};
-
-			let real_amount = _isConvert
-				? Number(amount) * 1000
-				: Number(amount);
-			setPopBox({
-				isOpen: true,
-				title: i18n.lbl_ImportantNote,
-				content: (
-					<>
-						<p>{i18n.lbl_ConfirmDeposit}</p>
-						<img
-							src={`${config.apiURL}/common/images/BankLogo/${selBank.bank.image}`}
-							alt={selBank.bank.bankName}
-						/>
-						<div className="tip">
-							<span>{i18n.lbl_DepositAmount} :</span>{" "}
-							{number_format(real_amount, _isConvert)}
-						</div>
-					</>
-				),
-				hasBtn: true,
-				btnBar: (
-					<div className="btn-group">
-						<button
-							className="blue"
-							onClick={() =>
+		if (!processing) {
+			let result = VaildAmount(amount);
+			if (result) {
+				const RedirectToNext = (real_amount, sysId) => {
+					api_DepositReqWireTransfer({
+						amount: real_amount,
+						sysId: sysId
+					}).then(
+						res => {
+							if (res.data.errorCode === 0) {
+								setbankSlipPopBox(prevState => ({
+									...prevState,
+									...res.data.data,
+									depositTime: `${moment().format(
+										"yyyy-MM-DDT"
+									)}${moment().format("HH:mm")}`,
+									isOpen: true,
+									amount: number_format(
+										real_amount,
+										_isConvert
+									),
+									closeCallBack: () => setRedirect(true)
+								}));
 								setPopBox(prevState => ({
 									...prevState,
 									isOpen: false
-								}))
-							}>
-							{i18n["lbl_Cancel"]}
-						</button>
-						<button
-							className="orange"
-							onClick={RedirectToNext.bind(
-								this,
-								real_amount,
-								selBank.bank.id
-							)}>
-							{i18n["lbl_Submit"]}
-						</button>
-					</div>
-				)
-			});
+								}));
+							} else {
+								setPopBox(prevState => ({
+									...prevState,
+									title: i18n.lbl_ImportantNote,
+									content: "Wrong amount."
+								}));
+							}
+						},
+						err => {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: "API Server Error."
+							});
+						}
+					);
+				};
+
+				let real_amount = _isConvert
+					? Number(amount) * 1000
+					: Number(amount);
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: (
+						<>
+							<p>{i18n.lbl_ConfirmDeposit}</p>
+							<img
+								src={`${config.apiURL}/common/images/BankLogo/${selBank.bank.image}`}
+								alt={selBank.bank.bankName}
+							/>
+							<div className="tip">
+								<span>{i18n.lbl_DepositAmount} :</span>{" "}
+								{number_format(real_amount, _isConvert)}
+							</div>
+						</>
+					),
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button
+								className="blue"
+								onClick={() =>
+									setPopBox(prevState => ({
+										...prevState,
+										isOpen: false
+									}))
+								}>
+								{i18n["lbl_Cancel"]}
+							</button>
+							<button
+								className="orange"
+								onClick={RedirectToNext.bind(
+									this,
+									real_amount,
+									selBank.bank.id
+								)}>
+								{i18n["lbl_Submit"]}
+							</button>
+						</div>
+					)
+				});
+			}
 		}
 	};
 

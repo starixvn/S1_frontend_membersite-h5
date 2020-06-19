@@ -132,15 +132,30 @@ const Panel = () => {
 	const ClickCancel = transId => {
 		const ClickSubmit = () => {
 			setPopBox({ isOpen: false });
-			api_SetDepositCancel(transId).then(res => {
-				if (res.data.errorCode === 0) {
-					api_GetDepositInfoRecent().then(res => {
-						if (res.data.errorCode === 0) {
-							setRecentDatas(res.data.data);
-						}
+			api_SetDepositCancel(transId).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						api_GetDepositInfoRecent().then(res => {
+							if (res.data.errorCode === 0) {
+								setRecentDatas(res.data.data);
+							}
+						});
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
 					});
 				}
-			});
+			);
 		};
 
 		const ClickCancel = () => {
@@ -198,11 +213,26 @@ const Panel = () => {
 		});
 
 	const GetDepositInfoRecent = () => {
-		api_GetDepositInfoRecent().then(res => {
-			if (res.data.errorCode === 0) {
-				setRecentDatas(res.data.data);
+		api_GetDepositInfoRecent().then(
+			res => {
+				if (res.data.errorCode === 0) {
+					setRecentDatas(res.data.data);
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 	};
 
 	return (

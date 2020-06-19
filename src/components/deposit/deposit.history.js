@@ -83,16 +83,34 @@ const Panel = () => {
 	const ClickCancel = transId => {
 		const ClickSubmit = () => {
 			setPopBox({ isOpen: false });
-			api_SetDepositCancel(transId).then(res => {
-				if (res.data.errorCode === 0) {
-					setGetHistoryState(prevState => {
-						let newD = [...prevState];
-						let idx = newD.findIndex(x => x.transId === transId);
-						newD[idx].status = 5;
-						return newD;
+			api_SetDepositCancel(transId).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						setGetHistoryState(prevState => {
+							let newD = [...prevState];
+							let idx = newD.findIndex(
+								x => x.transId === transId
+							);
+							newD[idx].status = 5;
+							return newD;
+						});
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
 					});
+					setProcessing(false);
 				}
-			});
+			);
 		};
 
 		const ClickCancel = () => {

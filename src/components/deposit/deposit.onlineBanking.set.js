@@ -31,23 +31,38 @@ const SetPayment = props => {
 		let mounted = true;
 		api_GetOnlineBankInfoSysList({
 			payId: props.location.state.payId
-		}).then(res => {
-			if (res.data.errorCode === 0) {
-				let datas = res.data.data.map(b => {
-					let { bankLogo, sysId, bankName, ...rest } = b;
-					return {
-						...rest,
-						image: bankLogo,
-						id: sysId,
-						displayText: bankName
-					};
-				});
+		}).then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let datas = res.data.data.map(b => {
+						let { bankLogo, sysId, bankName, ...rest } = b;
+						return {
+							...rest,
+							image: bankLogo,
+							id: sysId,
+							displayText: bankName
+						};
+					});
 
-				if (mounted) {
-					setBankList(datas);
+					if (mounted) {
+						setBankList(datas);
+					}
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 		return () => {
 			mounted = false;
 		};
@@ -57,14 +72,29 @@ const SetPayment = props => {
 		api_GetOnlineBankInfo({
 			payId: props.location.state.payId,
 			sysId: bankList[idx].id
-		}).then(res => {
-			if (res.data.errorCode === 0) {
-				setSelBank({
-					idx: idx,
-					bank: res.data.data
+		}).then(
+			res => {
+				if (res.data.errorCode === 0) {
+					setSelBank({
+						idx: idx,
+						bank: res.data.data
+					});
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
 				});
 			}
-		});
+		);
 	};
 
 	const VaildAmount = _amount => {

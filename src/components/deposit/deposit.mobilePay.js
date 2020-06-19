@@ -1,7 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import Step from "./step";
 import { Link } from "@reach/router";
-import { i18nContext, userInfoContext } from "../../components/common/context";
+import {
+	i18nContext,
+	userInfoContext,
+	popBoxContext
+} from "../../components/common/context";
 import {
 	api_GetMobilePayGroupList,
 	api_GetMobilePayInfoList
@@ -18,6 +22,7 @@ export const Main = props => {
 	const [paymentList, setPaymentList] = useState([]);
 	const [selGroupId, setSelGroupId] = useState(null);
 	const [channelList, setChannelList] = useState([]);
+	const { setPopBox } = useContext(popBoxContext);
 
 	const _isConvert = isConvert(userInfo.currencyId);
 	useEffect(() => {
@@ -25,13 +30,28 @@ export const Main = props => {
 		if (props.location.state.paymentList) {
 			setPaymentList(props.location.state.paymentList);
 		} else {
-			api_GetMobilePayGroupList().then(res => {
-				if (res.data.errorCode === 0) {
-					if (res.data.errorCode === 0 && mounted) {
-						setPaymentList(res.data.data);
+			api_GetMobilePayGroupList().then(
+				res => {
+					if (res.data.errorCode === 0) {
+						if (res.data.errorCode === 0 && mounted) {
+							setPaymentList(res.data.data);
+						}
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
 				}
-			});
+			);
 		}
 
 		return () => (mounted = false);
@@ -40,11 +60,26 @@ export const Main = props => {
 	const SelectPayment = groupId => {
 		if (selGroupId !== groupId) {
 			setSelGroupId(() => groupId);
-			api_GetMobilePayInfoList(groupId).then(res => {
-				if (res.data.errorCode === 0) {
-					setChannelList(res.data.data);
+			api_GetMobilePayInfoList(groupId).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						setChannelList(res.data.data);
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
 				}
-			});
+			);
 		}
 	};
 
