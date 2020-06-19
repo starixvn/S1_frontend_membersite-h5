@@ -61,19 +61,20 @@ class Panel extends React.Component {
 						});
 					}
 				});
-
-				this.setState(
-					{
-						tpList: _tpList,
-						gameDatas: games
-					},
-					() => {
-						if (!this.timerRunning) {
-							this.timerRunning = true;
-							this.SetMoreItems();
+				if (this.mounted) {
+					this.setState(
+						{
+							tpList: _tpList,
+							gameDatas: games
+						},
+						() => {
+							if (!this.timerRunning) {
+								this.timerRunning = true;
+								this.SetMoreItems();
+							}
 						}
-					}
-				);
+					);
+				}
 			}
 		});
 
@@ -97,7 +98,9 @@ class Panel extends React.Component {
 		let newFav = isRemove
 			? this.state.favorite.filter(f => f !== key)
 			: [...this.state.favorite, key];
-		this.setState({ favorite: newFav });
+		if (this.mounted) {
+			this.setState({ favorite: newFav });
+		}
 		if (this.props.userInfo.isLogin) {
 			api_SetFavoriteGame(tpId, gameId, isRemove);
 		}
@@ -124,11 +127,13 @@ class Panel extends React.Component {
 	};
 
 	CloseSelGame = () => {
-		this.setState({ selGameInfo: null });
+		if (this.mounted) {
+			this.setState({ selGameInfo: null });
+		}
 	};
 
 	SelectGame = (tpId, gameInfo) => {
-		if (this.state.selGameInfo === null) {
+		if (this.state.selGameInfo === null && this.mounted) {
 			this.setState({
 				selGameInfo: { tpId, ...gameInfo }
 			});
@@ -144,21 +149,23 @@ class Panel extends React.Component {
 				[colName]: v
 			};
 
-			this.setState(
-				{
-					searchInfo: newData,
-					displayGames: [],
-					totalCount: 0,
-					hasMore: true,
-					displayedCount: 0
-				},
-				() => {
-					if (!this.timerRunning) {
-						this.timerRunning = true;
-						this.SetMoreItems();
+			if (this.mounted) {
+				this.setState(
+					{
+						searchInfo: newData,
+						displayGames: [],
+						totalCount: 0,
+						hasMore: true,
+						displayedCount: 0
+					},
+					() => {
+						if (!this.timerRunning) {
+							this.timerRunning = true;
+							this.SetMoreItems();
+						}
 					}
-				}
-			);
+				);
+			}
 		}
 	};
 
@@ -253,9 +260,11 @@ class Panel extends React.Component {
 					this.timerRunning = false;
 				}
 			} else {
-				this.setState({
-					hasMore: false
-				});
+				if (this.mounted) {
+					this.setState({
+						hasMore: false
+					});
+				}
 				this.timerRunning = false;
 			}
 		} else {
