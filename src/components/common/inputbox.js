@@ -11,7 +11,11 @@ const Inputbox = props => {
 				onFocus={props.onFocus}
 				onBlur={props.onBlur}
 				onChange={props.onChange}
-				value={props.value}
+				value={
+					props.value === null || props.value === undefined
+						? ""
+						: props.value
+				}
 				max={props.max ? props.max : null}
 			/>
 			{props.Warning?.status ? (

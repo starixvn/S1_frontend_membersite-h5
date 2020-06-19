@@ -3,18 +3,23 @@ import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
 import { api_GetBankInfoSysList } from "../../service/api/payment";
 import {
 	api_SetCustBankInfo,
-	api_SetProfile,
-	api_GetCustProfile,
 	api_DelCustBankInfo
 } from "../../service/api/accountStrict";
 import { api_GetCustBankInfo } from "../../service/api/account";
 import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.image";
 import config from "../../config";
+import reloadSpin from "../common/reloadSpin";
 
 const initWarningState = {
-	status: false,
-	msg: ""
+	RealName: {
+		status: false,
+		msg: ""
+	},
+	BankAccount: {
+		status: false,
+		msg: ""
+	}
 };
 
 const BankInfo = () => {
@@ -27,7 +32,6 @@ const BankInfo = () => {
 	const [userValueState, setUserValueState] = useState({});
 	const [bankSelectedIdx, setBankSelectedIdx] = useState(0);
 	const [warningState, setWarningState] = useState(initWarningState);
-	const [checklistState, setChecklistState] = useState(false);
 
 	useEffect(() => {
 		api_GetBankInfoSysList().then(res => {
@@ -76,7 +80,6 @@ const BankInfo = () => {
 		setBankSelectedIdx(0);
 		setWarningState(initWarningState);
 		setUserValueState({});
-		setChecklistState(false);
 	};
 
 	const toShowBankAccount = () => {
@@ -109,13 +112,16 @@ const BankInfo = () => {
 			...prevState,
 			[col]: val
 		}));
+
 		setWarningState(prevState => {
 			return {
-				status: !checked,
-				msg: message
+				...prevState,
+				[col]: {
+					status: !checked,
+					msg: message
+				}
 			};
 		});
-		setChecklistState(checked);
 	};
 
 	const EditField = (col, e) => {
@@ -141,6 +147,10 @@ const BankInfo = () => {
 						};
 					});
 					setGetBankInfo(preV => getBankInfoArr);
+					setUserInfo(prevState => ({
+						...prevState,
+						accountName: data.accountName
+					}));
 				}
 			}
 		});
@@ -179,55 +189,82 @@ const BankInfo = () => {
 		});
 	};
 
-	const checkSubmitHandler = () => {
+	const realNameCheck = () => {
 		let checked = true;
-
-		if (status === true && !userInfo.accountName) {
-			if (checklistState === false) {
-				checked = false;
-				setWarningState(prevState => {
-					return {
+		if (
+			userValueState.RealName === "" ||
+			userValueState.RealName === undefined
+		) {
+			checked = false;
+			setWarningState(prevState => {
+				return {
+					...prevState,
+					RealName: {
 						status: !checked,
 						msg: i18n["msg_EnterRealName"]
-					};
-				});
-			} else {
-				checked = true;
-			}
-		} else if (status === false) {
-			if (checklistState === false) {
-				checked = false;
-
-				setWarningState(prevState => {
-					return {
+					}
+				};
+			});
+		} else {
+			checked = true;
+			setWarningState(prevState => {
+				return {
+					...prevState,
+					RealName: {
+						status: !checked,
+						msg: ""
+					}
+				};
+			});
+		}
+		return checked;
+	};
+	const bankAccountCheck = () => {
+		let checked = true;
+		if (
+			userValueState.BankAccount === "" ||
+			userValueState.BankAccount === undefined
+		) {
+			checked = false;
+			setWarningState(prevState => {
+				return {
+					...prevState,
+					BankAccount: {
 						status: !checked,
 						msg: i18n["msg_NeedAccountNo"]
-					};
-				});
+					}
+				};
+			});
+		} else {
+			checked = true;
+			setWarningState(prevState => {
+				return {
+					...prevState,
+					BankAccount: {
+						status: !checked,
+						msg: ""
+					}
+				};
+			});
+		}
+		return checked;
+	};
+
+	const checkSubmitHandler = () => {
+		let checked = true;
+		if (status === false) {
+			if (!userInfo.accountName) {
+				checked = realNameCheck() && bankAccountCheck();
 			} else {
-				checked = true;
+				checked = bankAccountCheck();
 			}
 		}
 
 		if (checked) {
-			if (status === true && !userInfo.accountName) {
-				let profileData = {
-					AccountName: userValueState.RealName
-				};
-				api_SetProfile(profileData).then(response => {
-					api_GetCustProfile().then(res => {
-						if (res.data.errorCode === 0) {
-							setUserInfo(prevState => ({
-								...prevState,
-								...res.data.data
-							}));
-						}
-					});
-				});
-				setStatus(true);
-			} else if (status === false) {
+			if (status === false) {
 				let bankInfoData = {
-					AccountName: userInfo.accountName,
+					AccountName:
+						userInfo.accountName ?? userValueState.RealName,
 					AccountNo: userValueState.BankAccount,
 					SysId: siteBankInfoState[bankSelectedIdx].id
 				};
@@ -237,11 +274,10 @@ const BankInfo = () => {
 					const message = response.data.message;
 
 					if (errorCode !== 0) {
-						setWarningState(prevState => {
-							return {
-								status: true,
-								msg: message
-							};
+						setPopBox({
+							isOpen: true,
+							title: i18n["lbl_ImportantNote"],
+							content: message
 						});
 					} else {
 						GetCustBankInfo();
@@ -269,39 +305,11 @@ const BankInfo = () => {
 		<>
 			<div className="avatar"></div>
 			<div className="name">{userInfo.accountName}</div>
-
-			{status === true && !userInfo.accountName ? (
+			{status === true ? (
 				<>
-					<Inputbox
-						icon="icon-member"
-						inputType="text"
-						value={
-							userValueState.RealName === null ||
-							userValueState.RealName === undefined
-								? ""
-								: userValueState.RealName
-						}
-						placeholder={i18n["lbl_RealName"]}
-						onBlur={checkInputboxHandler.bind(null, "RealName")}
-						onChange={EditField.bind(null, "RealName")}
-						Warning={warningState}
-					/>
-
-					<div className="btn-group">
-						<button className="orange" onClick={checkSubmitHandler}>
-							{i18n["lbl_Submit"]}
-						</button>
-					</div>
-				</>
-			) : null}
-
-			{status === true && userInfo.accountName ? (
-				<div className="text-org">{i18n["lbl_ContactCSD"]}</div>
-			) : null}
-
-			{status === true && userInfo.accountName ? (
-				<>
-					{" "}
+					{userInfo.accountName ? (
+						<div className="text-org">{i18n["lbl_ContactCSD"]}</div>
+					) : null}
 					{getBankInfo && getBankInfo.length < 3 ? (
 						<div className="btn-group">
 							<button
@@ -313,9 +321,7 @@ const BankInfo = () => {
 						</div>
 					) : null}
 				</>
-			) : null}
-
-			{status === false ? (
+			) : (
 				<>
 					{" "}
 					<div className="inputBox">
@@ -329,16 +335,22 @@ const BankInfo = () => {
 							onSelectItem={dropdownStateHandler}
 						/>
 					</div>
+					{!userInfo.accountName ? (
+						<Inputbox
+							icon="icon-member"
+							inputType="text"
+							value={userValueState.RealName}
+							placeholder={i18n["lbl_RealName"]}
+							onBlur={checkInputboxHandler.bind(null, "RealName")}
+							onChange={EditField.bind(null, "RealName")}
+							Warning={warningState.RealName}
+						/>
+					) : null}
 					<Inputbox
 						icon="icon-newspaper"
-						Warning={warningState}
+						Warning={warningState.BankAccount}
 						inputType="tel"
-						value={
-							userValueState.BankAccount === null ||
-							userValueState === undefined
-								? ""
-								: userValueState.BankAccount
-						}
+						value={userValueState.BankAccount}
 						placeholder={i18n["lbl_BankNumber"]}
 						onBlur={checkInputboxHandler.bind(null, "BankAccount")}
 						onChange={EditField.bind(null, "BankAccount")}
@@ -352,8 +364,7 @@ const BankInfo = () => {
 						</button>
 					</div>
 				</>
-			) : null}
-
+			)}
 			{status === true ? (
 				<>
 					{getBankInfo && getBankInfo.length > 0 ? (

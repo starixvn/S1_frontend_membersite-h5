@@ -324,6 +324,7 @@ const Panel = () => {
 							onBlur={checkInputboxHandler.bind(null, "RealName")}
 							onChange={EditField.bind(null, "RealName")}
 							Warning={warningState.RealName}
+							value={userValueState.RealName}
 						/>
 					) : null}
 
@@ -358,6 +359,7 @@ const Panel = () => {
 									"Phone"
 								)}
 								onChange={EditField.bind(null, "Phone")}
+								value={userValueState.Phone}
 							/>
 							<div
 								className={`errortip ${
