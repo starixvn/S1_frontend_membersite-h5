@@ -110,7 +110,12 @@ const SubMenu = () => {
 						to={path.deposit.root}
 						className="icon icon-deposit"
 						checkProfile={true}
-						redirectPath={path.member.root}>
+						redirectPath={path.member.root}
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
 						<span>{i18n.lbl_Deposit}</span>
 					</NavLink>
 					<Link
@@ -127,7 +132,12 @@ const SubMenu = () => {
 						to={path.withdrawal.root}
 						className="icon icon-withdrawal"
 						checkProfile={true}
-						redirectPath={path.member.root}>
+						redirectPath={path.member.root}
+						onClick={ClickMenuItem.bind(
+							this,
+							true,
+							userInfo.isLogin
+						)}>
 						<span>{i18n.lbl_Withdrawal}</span>
 					</NavLink>
 				</div>

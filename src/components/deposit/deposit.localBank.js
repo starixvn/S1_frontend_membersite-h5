@@ -108,6 +108,11 @@ export const Main = props => {
 							...prevState,
 							isOpen: false
 						}));
+					} else {
+						setPopBox(prevState => ({
+							...prevState,
+							content: "wrong amount."
+						}));
 					}
 				});
 			};
