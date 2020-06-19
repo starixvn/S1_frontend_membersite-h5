@@ -109,8 +109,10 @@ const Balance = ({ currency, amount, GetBalance }) => {
 	let displayText = `${currency} ${amount}`;
 	return (
 		<>
-			<div className="Balance">{displayText}</div>
-			<ReloadSpin func={GetBalance} />
+			<div className="Balance">
+				{displayText}
+				<ReloadSpin func={GetBalance} />
+			</div>
 		</>
 	);
 };

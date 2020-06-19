@@ -5,7 +5,7 @@ import {
 	popBoxContext,
 	userInfoContext,
 	navContext,
-	defPanel
+	defNavPanel
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 
@@ -14,13 +14,14 @@ const Panel = () => {
 
 	const OpenLoginPanel = () => {
 		setNav(() => {
-			return defPanel.login;
+			return defNavPanel.login;
 		});
 	};
 
 	const { popBox, setPopBox } = useContext(popBoxContext);
 	const { userInfo } = useContext(userInfoContext);
 	let langId = GET_LANG_ID(userInfo.langId);
+
 	return (
 		<Marquee
 			nav={nav}
@@ -47,9 +48,18 @@ class Marquee extends Component {
 		this.marquee = createRef();
 		this.content = createRef();
 	}
+	shouldComponentUpdate = (nextProps, nextState) => {
+		if (this.props.langId !== nextProps.langId) {
+			this.GetAnnouncement(nextProps.langId);
+		}
+		return true;
+	};
 	componentDidMount = () => {
-		this.GetAnnouncement();
-		this.intervalId = setInterval(this.GetAnnouncement, 60000);
+		this.GetAnnouncement(this.props.langId);
+		this.intervalId = setInterval(
+			this.GetAnnouncement.bind(this, this.props.langId),
+			60000
+		);
 	};
 	SetPos = () => {
 		if (
@@ -81,8 +91,8 @@ class Marquee extends Component {
 			this.setState({ pos: -pos, initWidth: pos });
 		}
 	};
-	GetAnnouncement = () => {
-		api_GetAnnouncement(this.props.langId).then(res => {
+	GetAnnouncement = langId => {
+		api_GetAnnouncement(langId).then(res => {
 			let resData = res.data.data;
 			let stateData = this.state.datas;
 			let upd = false;
@@ -126,11 +136,20 @@ class Marquee extends Component {
 	ClickMarquee = item => {
 		if (this.props.userIsLogin) {
 			let content = item.content.split("\\n").join("　");
-
 			this.props.setPopBox({
 				isOpen: true,
 				title: item.subject,
 				content: content
+				// hasBtn: true,
+				// btnBar: (
+				// 	<div className="btn-group">
+				// 		<Link
+				// 			className="blue"
+				// 			to={`/${path.message.root}/${path.message.sub.announcement.root}`}>
+				// 			More
+				// 		</Link>
+				// 	</div>
+				// )
 			});
 		} else {
 			this.props.OpenLoginPanel();

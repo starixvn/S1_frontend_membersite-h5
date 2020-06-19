@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import Footer from "./footer";
 import Header from "./header";
-import { navContext, i18nContext, defPanel } from "../common/context";
+import { navContext, i18nContext, defNavPanel } from "../common/context";
 import "../../styles/Nova88/css/style-dark.css";
 import "../../styles/Nova88/css/style.css";
 import "../../styles/Nova88/css/font.css";
@@ -16,7 +16,7 @@ const _PageInfo = {
 		hideLogo: false
 	},
 	member: {
-		titleKey: "lbl_Member",
+		titleKey: "Member",
 		className: "main",
 		hideLogo: true
 	},
@@ -74,7 +74,7 @@ const Layout = ({ children }) => {
 		) !== null;
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 
-	if (nav === defPanel.login || nav === defPanel.join) {
+	if (nav === defNavPanel.login || nav === defNavPanel.join) {
 		position = { position: "fixed" };
 	} else {
 		if (_matchMember) {

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import {
 	i18nContext,
 	navContext,
-	defPanel,
+	defNavPanel,
 	userInfoContext
 } from "../common/context";
 import gameList from "../../datas/gameList";
@@ -37,7 +37,7 @@ const SubGameList = () => {
 			});
 		} else {
 			GET_ENTER_PAGE(userInfo.langId, tpId, gameId, () => {
-				setNav(defPanel.login);
+				setNav(defNavPanel.login);
 			});
 		}
 	};

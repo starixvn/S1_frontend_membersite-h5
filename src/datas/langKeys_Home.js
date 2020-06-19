@@ -202,5 +202,7 @@ export default [
 	"lbl_CountryID",
 	"lbl_CountryIN",
 	"lbl_CountryVN",
-	"lbl_Welcome"
+	"lbl_Welcome",
+	"lbl_UpdatePersonalInfo",
+	"lbl_UpdatePersonalDetail"
 ];

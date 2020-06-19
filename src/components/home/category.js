@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import {
 	i18nContext,
 	navContext,
-	defPanel,
+	defNavPanel,
 	userInfoContext
 } from "../common/context";
 import gameList from "../../datas/gameList";
@@ -45,7 +45,7 @@ const Category = () => {
 				gameId,
 				userInfo.isLogin,
 				() => {
-					setNav(defPanel.login);
+					setNav(defNavPanel.login);
 				}
 			);
 		}
