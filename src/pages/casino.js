@@ -9,7 +9,7 @@ import {
 	i18nContext,
 	userInfoContext,
 	navContext,
-	defPanel
+	defNavPanel
 } from "../components/common/context";
 import {
 	api_SetFavoriteGame,
@@ -217,7 +217,7 @@ class Panel extends React.Component {
 				this.props.userInfo.langId
 			);
 		} else {
-			this.props.setNav(defPanel.login);
+			this.props.setNav(defNavPanel.login);
 		}
 	};
 

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import {
 	i18nContext,
 	navContext,
-	defPanel,
+	defNavPanel,
 	userInfoContext,
 	popBoxContext
 } from "../common/context";
@@ -25,7 +25,7 @@ const ShortcutBar = () => {
 	}, [redirectPath]);
 
 	const ShowLogin = () => {
-		setNav(defPanel.login);
+		setNav(defNavPanel.login);
 	};
 
 	const ShowUpdProfileHint = redirectPath => {
@@ -93,6 +93,7 @@ const ShortcutBar = () => {
 			</NavLink>
 			<NavLink to={path.message.root} className="icon icon-email">
 				<span>{i18n.lbl_Message}</span>
+				{/* <span className="amount">20</span> */}
 			</NavLink>
 			{/* <a className="icon icon-vip">
 				<span>VIP LV100</span>

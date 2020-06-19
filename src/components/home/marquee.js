@@ -1,17 +1,11 @@
-import React, {
-	Component,
-	useContext,
-	createRef,
-	useEffect,
-	useState
-} from "react";
+import React, { Component, useContext, createRef } from "react";
 import { api_GetAnnouncement } from "../../service/api/message";
 import PropTypes from "prop-types";
 import {
 	popBoxContext,
 	userInfoContext,
 	navContext,
-	defPanel
+	defNavPanel
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 
@@ -20,7 +14,7 @@ const Panel = () => {
 
 	const OpenLoginPanel = () => {
 		setNav(() => {
-			return defPanel.login;
+			return defNavPanel.login;
 		});
 	};
 

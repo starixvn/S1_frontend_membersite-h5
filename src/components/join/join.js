@@ -18,7 +18,7 @@ import {
 	userInfoContext,
 	i18nContext,
 	navContext,
-	defPanel
+	defNavPanel
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
@@ -421,12 +421,12 @@ function Join() {
 		}
 
 		setNav(() => {
-			let newState = show ? null : defPanel.join;
+			let newState = show ? null : defNavPanel.join;
 			return newState;
 		});
 	};
 
-	let openPanel = nav === defPanel.join;
+	let openPanel = nav === defNavPanel.join;
 
 	return (
 		<>

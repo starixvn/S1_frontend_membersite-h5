@@ -8,7 +8,7 @@ import {
 	userInfoContext,
 	i18nContext,
 	navContext,
-	defPanel
+	defNavPanel
 } from "../common/context";
 
 const initState = {
@@ -144,12 +144,12 @@ const LoginPage = ({ ButtonTitle }) => {
 			setWarningState(initWarningState);
 		}
 		setNav(() => {
-			let newState = show ? null : defPanel.login;
+			let newState = show ? null : defNavPanel.login;
 			return newState;
 		});
 	};
 
-	let showPanel = nav === defPanel.login;
+	let showPanel = nav === defNavPanel.login;
 
 	const EditField = (colName, e) => {
 		let value = e.target.value;

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Profile from "./subMenu.profile";
 import {
 	navContext,
-	defPanel,
+	defNavPanel,
 	i18nContext,
 	userInfoContext,
 	popBoxContext
@@ -21,7 +21,7 @@ const SubMenu = () => {
 	const handleOpen = () => {
 		setNav(prevState => {
 			let newState =
-				prevState === defPanel.subMenu ? null : defPanel.subMenu;
+				prevState === defNavPanel.subMenu ? null : defNavPanel.subMenu;
 			return newState;
 		});
 	};
@@ -34,15 +34,15 @@ const SubMenu = () => {
 		return () => (mounted = false);
 	}, [redirectPath]);
 
-	let isOpen = nav === defPanel.subMenu;
+	let isOpen = nav === defNavPanel.subMenu;
 
 	const ClickMenuItem = (needLogin, isLogin) => {
-		let panel = needLogin && !isLogin ? defPanel.login : null;
+		let panel = needLogin && !isLogin ? defNavPanel.login : null;
 		setNav(panel);
 	};
 
 	const ShowLogin = () => {
-		setNav(defPanel.login);
+		setNav(defNavPanel.login);
 	};
 
 	const ShowUpdProfileHint = redirectPath => {
@@ -162,6 +162,7 @@ const SubMenu = () => {
 							userInfo.isLogin
 						)}>
 						<span>{i18n.lbl_Message}</span>
+						{/* <span className="amount">20</span> */}
 					</Link>
 					<a className="icon icon-vip">
 						<span>VIP Lv{userInfo.userLevel}</span>

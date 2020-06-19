@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const defPanel = {
+export const defNavPanel = {
 	login: "login",
 	join: "join",
 	subMenu: "subMenu"
