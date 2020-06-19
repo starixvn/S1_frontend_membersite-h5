@@ -1,4 +1,10 @@
-import React, { Component, useContext, createRef } from "react";
+import React, {
+	Component,
+	useContext,
+	createRef,
+	useEffect,
+	useState
+} from "react";
 import { api_GetAnnouncement } from "../../service/api/message";
 import PropTypes from "prop-types";
 import {
@@ -21,6 +27,7 @@ const Panel = () => {
 	const { popBox, setPopBox } = useContext(popBoxContext);
 	const { userInfo } = useContext(userInfoContext);
 	let langId = GET_LANG_ID(userInfo.langId);
+
 	return (
 		<Marquee
 			nav={nav}
@@ -47,6 +54,12 @@ class Marquee extends Component {
 		this.marquee = createRef();
 		this.content = createRef();
 	}
+	shouldComponentUpdate = (nextProps, nextState) => {
+		if (this.props.langId && nextProps.langId) {
+			this.GetAnnouncement();
+		}
+		return true;
+	};
 	componentDidMount = () => {
 		this.GetAnnouncement();
 		this.intervalId = setInterval(this.GetAnnouncement, 60000);
@@ -126,11 +139,20 @@ class Marquee extends Component {
 	ClickMarquee = item => {
 		if (this.props.userIsLogin) {
 			let content = item.content.split("\\n").join("　");
-
 			this.props.setPopBox({
 				isOpen: true,
 				title: item.subject,
 				content: content
+				// hasBtn: true,
+				// btnBar: (
+				// 	<div className="btn-group">
+				// 		<Link
+				// 			className="blue"
+				// 			to={`/${path.message.root}/${path.message.sub.announcement.root}`}>
+				// 			More
+				// 		</Link>
+				// 	</div>
+				// )
 			});
 		} else {
 			this.props.OpenLoginPanel();
