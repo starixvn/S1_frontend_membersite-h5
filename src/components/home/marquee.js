@@ -55,14 +55,17 @@ class Marquee extends Component {
 		this.content = createRef();
 	}
 	shouldComponentUpdate = (nextProps, nextState) => {
-		if (this.props.langId && nextProps.langId) {
-			this.GetAnnouncement();
+		if (this.props.langId !== nextProps.langId) {
+			this.GetAnnouncement(nextProps.langId);
 		}
 		return true;
 	};
 	componentDidMount = () => {
-		this.GetAnnouncement();
-		this.intervalId = setInterval(this.GetAnnouncement, 60000);
+		this.GetAnnouncement(this.props.langId);
+		this.intervalId = setInterval(
+			this.GetAnnouncement.bind(this, this.props.langId),
+			60000
+		);
 	};
 	SetPos = () => {
 		if (
@@ -94,8 +97,8 @@ class Marquee extends Component {
 			this.setState({ pos: -pos, initWidth: pos });
 		}
 	};
-	GetAnnouncement = () => {
-		api_GetAnnouncement(this.props.langId).then(res => {
+	GetAnnouncement = langId => {
+		api_GetAnnouncement(langId).then(res => {
 			let resData = res.data.data;
 			let stateData = this.state.datas;
 			let upd = false;
