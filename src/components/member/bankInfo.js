@@ -41,7 +41,7 @@ const BankInfo = () => {
 					displayText: i.bankName
 				};
 			});
-			setSiteBankInfoState(preV => bankInfoArr);
+			setSiteBankInfoState(() => bankInfoArr);
 		});
 	}, []);
 
@@ -59,7 +59,7 @@ const BankInfo = () => {
 							SysId: i.sysId
 						};
 					});
-					setGetBankInfo(preV => getBankInfoArr);
+					setGetBankInfo(() => getBankInfoArr);
 				}
 			}
 		});
@@ -275,7 +275,12 @@ const BankInfo = () => {
 					<Inputbox
 						icon="icon-member"
 						inputType="text"
-						value={userValueState.RealName}
+						value={
+							userValueState.RealName === null ||
+							userValueState.RealName === undefined
+								? ""
+								: userValueState.RealName
+						}
 						placeholder={i18n["lbl_RealName"]}
 						onBlur={checkInputboxHandler.bind(null, "RealName")}
 						onChange={EditField.bind(null, "RealName")}
@@ -328,7 +333,12 @@ const BankInfo = () => {
 						icon="icon-newspaper"
 						Warning={warningState}
 						inputType="tel"
-						value={userValueState.BankAccount}
+						value={
+							userValueState.BankAccount === null ||
+							userValueState === undefined
+								? ""
+								: userValueState.BankAccount
+						}
 						placeholder={i18n["lbl_BankNumber"]}
 						onBlur={checkInputboxHandler.bind(null, "BankAccount")}
 						onChange={EditField.bind(null, "BankAccount")}
