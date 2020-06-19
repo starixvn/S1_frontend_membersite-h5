@@ -5,10 +5,12 @@ export default props => {
 
 	const clickSpin = () => {
 		setSpin(true);
+		if (!spin) {
+			props.func();
+		}
 		setTimeout(() => {
 			setSpin(false);
 		}, 1000);
-		props.func();
 	};
 
 	return (
