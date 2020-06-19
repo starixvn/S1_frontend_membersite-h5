@@ -192,6 +192,16 @@ const Panel = () => {
 			...prevState,
 			[col]: val
 		}));
+
+		if (status === defStatus.Phone_BDay) {
+			setChecklistState(prevState => {
+				return { ...prevState, RealName: true };
+			});
+		} else if (status === defStatus.RealName) {
+			setChecklistState(prevState => {
+				return { ...prevState, Birthday: true, Phone: true };
+			});
+		}
 	};
 
 	const checkSubmitHandler = () => {
@@ -230,12 +240,6 @@ const Panel = () => {
 			});
 			setChecklistState(prevState => {
 				return { ...prevState, Birthday: true };
-			});
-		}
-
-		if (status === defStatus.Phone_BDay) {
-			setChecklistState(prevState => {
-				return { ...prevState, RealName: true };
 			});
 		}
 
