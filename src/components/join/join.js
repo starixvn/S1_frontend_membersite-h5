@@ -59,7 +59,7 @@ const currencyDefaultSelectIdx = 0;
 
 function Join() {
 	const { i18n } = useContext(i18nContext);
-	const { setUserInfo } = useContext(userInfoContext);
+	const { userInfo, setUserInfo } = useContext(userInfoContext);
 
 	const [userValueState, setUserValueState] = useState(initState);
 	const [siteCurrencyState, setSiteCurrencyState] = useState([]);
@@ -516,11 +516,11 @@ function Join() {
 					checkboxHandler={checkboxHandler}
 					id="c1">
 					{i18n["lbl_Check18TC1"]} &nbsp;
-					<a target="_blank" href={TandC.terms}>
+					<a target="_blank" href={TandC(userInfo.langId).terms}>
 						{i18n["lbl_TermsConditions"]}
 					</a>
 					&nbsp; {i18n["lbl_Check18TC2"]}&nbsp;
-					<a target="_blank" href={TandC.rule}>
+					<a target="_blank" href={TandC(userInfo.langId).rule}>
 						{i18n["lbl_RuleRegulations"]}
 					</a>
 					&nbsp; {i18n["lbl_Check18TC3"]}&nbsp;Nova88.&nbsp;
