@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { i18nContext, popBoxContext } from "../common/context";
+import { i18nContext, popBoxContext, msgCountContext } from "../common/context";
 import {
 	api_GetMsgList,
 	api_GetMsgContent,
-	api_DelMsg
+	api_DelMsg,
+	api_GetMsgCount
 } from "../../service/api/account";
 import moment from "moment";
 import ReloadSpin from "../common/reloadSpin";
@@ -12,6 +13,7 @@ import AUTO_FETCHING_DATA from "../../service/autoFetchingData";
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { setMsgCount } = useContext(msgCountContext);
 	const [getMsgList, setGetMsgList] = useState([]);
 	const [getMsgContent, setGetMsgContent] = useState([]);
 	const [openContentState, setOpenContentState] = useState(null);
@@ -67,6 +69,12 @@ const Panel = () => {
 								}
 								return x;
 							});
+						});
+
+						api_GetMsgCount().then(res => {
+							if (res.data.errorCode === 0) {
+								setMsgCount(res.data.data);
+							}
 						});
 					}
 				}

@@ -5,7 +5,8 @@ import {
 	defNavPanel,
 	i18nContext,
 	userInfoContext,
-	popBoxContext
+	popBoxContext,
+	msgCountContext
 } from "../common/context";
 import SubGameList from "./subMenu.gameList";
 import { Link, Redirect } from "@reach/router";
@@ -16,6 +17,7 @@ const SubMenu = () => {
 	const { nav, setNav } = useContext(navContext);
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { msgCount } = useContext(msgCountContext);
 	const [redirectPath, setRedirectPath] = useState(null);
 
 	const handleOpen = () => {
@@ -172,7 +174,9 @@ const SubMenu = () => {
 							userInfo.isLogin
 						)}>
 						<span>{i18n.lbl_Message}</span>
-						{/* <span className="amount">20</span> */}
+						{msgCount ? (
+							<span className="amount">{msgCount}</span>
+						) : null}
 					</Link>
 					<a className="icon icon-vip">
 						<span>VIP Lv{userInfo.userLevel}</span>

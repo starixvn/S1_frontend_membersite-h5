@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import * as ct from "../common/context";
 import { api_GetTranslationData } from "../../service/api/site";
 import { api_GetCustProfile } from "../../service/api/accountStrict";
-import { api_GetBalnace, api_onlineCheck } from "../../service/api/account";
+import {
+	api_GetBalnace,
+	api_onlineCheck,
+	api_GetMsgCount
+} from "../../service/api/account";
 import { IS_LOGGED_IN } from "../../service/auth";
 import { navigate } from "@reach/router";
 import { GET_LANG_ID } from "../../service/language";
@@ -30,6 +34,8 @@ export const Wrapper = ({ children }) => {
 	const [walletInfo, setWalletInfo] = useState({
 		main: 0
 	});
+
+	const [msgCount, setMsgCount] = useState(0);
 
 	const [theme, setTheme] = useState(themeList.default);
 
@@ -66,6 +72,12 @@ export const Wrapper = ({ children }) => {
 					var result = res.data;
 					if (result.errorCode !== null && result.errorCode !== 0) {
 						OnlineCheckCallBack(result.errorCode, result.message);
+					} else {
+						api_GetMsgCount().then(res => {
+							if (res.data.errorCode === 0) {
+								setMsgCount(res.data.data);
+							}
+						});
 					}
 				},
 				error => {
@@ -91,6 +103,12 @@ export const Wrapper = ({ children }) => {
 							...prevState,
 							...data
 						}));
+					}
+				});
+
+				api_GetMsgCount().then(res => {
+					if (res.data.errorCode === 0) {
+						setMsgCount(res.data.data);
 					}
 				});
 			}
@@ -135,7 +153,10 @@ export const Wrapper = ({ children }) => {
 						<ct.popBoxContext.Provider
 							value={{ popBox, setPopBox }}>
 							<ct.navContext.Provider value={{ nav, setNav }}>
-								{children}
+								<ct.msgCountContext.Provider
+									value={{ msgCount, setMsgCount }}>
+									{children}
+								</ct.msgCountContext.Provider>
 							</ct.navContext.Provider>
 						</ct.popBoxContext.Provider>
 					</ct.themeContext.Provider>

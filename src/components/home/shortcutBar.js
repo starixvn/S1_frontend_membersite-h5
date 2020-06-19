@@ -4,7 +4,8 @@ import {
 	navContext,
 	defNavPanel,
 	userInfoContext,
-	popBoxContext
+	popBoxContext,
+	msgCountContext
 } from "../common/context";
 import { Link, Redirect } from "@reach/router";
 import path from "../../path";
@@ -14,6 +15,7 @@ const ShortcutBar = () => {
 	const { setNav } = useContext(navContext);
 	const { userInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { msgCount } = useContext(msgCountContext);
 	const [redirectPath, setRedirectPath] = useState(null);
 
 	useEffect(() => {
@@ -93,7 +95,7 @@ const ShortcutBar = () => {
 			</NavLink>
 			<NavLink to={path.message.root} className="icon icon-email">
 				<span>{i18n.lbl_Message}</span>
-				{/* <span className="amount">20</span> */}
+				{msgCount ? <span className="amount">{msgCount}</span> : null}
 			</NavLink>
 			{/* <a className="icon icon-vip">
 				<span>VIP LV100</span>
