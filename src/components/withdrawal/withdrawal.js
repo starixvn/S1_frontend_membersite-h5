@@ -40,11 +40,13 @@ const Panel = () => {
 
 		api_GetCustBankInfo().then(res => {
 			if (res.data.errorCode === 0 && mounted) {
-				setbankInfo(() => ({
-					accountName: res.data.data.accountName,
-					bankList: res.data.data.bankInfoDetail
-				}));
-				setSelBank(res.data.data.bankInfoDetail?.[0]);
+				if (res.data.data !== null) {
+					setbankInfo(() => ({
+						accountName: res.data.data.accountName,
+						bankList: res.data.data.bankInfoDetail
+					}));
+					setSelBank(res.data.data.bankInfoDetail?.[0]);
+				}
 			}
 		});
 

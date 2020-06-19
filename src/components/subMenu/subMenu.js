@@ -1,19 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Profile from "./subMenu.profile";
 import {
 	navContext,
 	defPanel,
 	i18nContext,
-	userInfoContext
+	userInfoContext,
+	popBoxContext
 } from "../common/context";
 import SubGameList from "./subMenu.gameList";
-import { Link } from "@reach/router";
+import { Link, Redirect } from "@reach/router";
 import path from "../../path";
 
 const SubMenu = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { nav, setNav } = useContext(navContext);
 	const { i18n } = useContext(i18nContext);
+	const { setPopBox } = useContext(popBoxContext);
+	const [redirectPath, setRedirectPath] = useState(null);
 
 	const handleOpen = () => {
 		setNav(prevState => {
@@ -23,6 +26,14 @@ const SubMenu = () => {
 		});
 	};
 
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+		return () => (mounted = false);
+	}, [redirectPath]);
+
 	let isOpen = nav === defPanel.subMenu;
 
 	const ClickMenuItem = (needLogin, isLogin) => {
@@ -30,7 +41,56 @@ const SubMenu = () => {
 		setNav(panel);
 	};
 
-	return (
+	const ShowLogin = () => {
+		setNav(defPanel.login);
+	};
+
+	const ShowUpdProfileHint = redirectPath => {
+		const ClosePopBox = _redirectPath => {
+			setNav(null);
+			setPopBox({ isOpen: false });
+			setRedirectPath(_redirectPath);
+		};
+
+		setPopBox({
+			isOpen: true,
+			title: i18n.lbl_ImportantNote,
+			content: i18n.lbl_UpdatePersonalInfo,
+			hasBtn: true,
+			btnBar: (
+				<div className="btn-group">
+					<button
+						className="blue"
+						onClick={ClosePopBox.bind(this, redirectPath)}>
+						{i18n.lbl_UpdatePersonalDetail}
+					</button>
+				</div>
+			)
+		});
+	};
+
+	const NavLink = props => {
+		let { checkProfile, redirectPath, ...passProps } = props;
+		if (!userInfo.isLogin) {
+			passProps = { ...passProps, to: "/", onClick: ShowLogin };
+		} else if (checkProfile) {
+			if (
+				!userInfo.accountName ||
+				!userInfo.birth_d ||
+				!userInfo.phoneNo
+			) {
+				passProps = {
+					...passProps,
+					to: "/",
+					onClick: ShowUpdProfileHint.bind(this, redirectPath)
+				};
+			}
+		}
+
+		return <Link {...passProps} />;
+	};
+
+	return redirectPath === null ? (
 		<>
 			<div
 				className={`close${isOpen ? " open" : ""}`}
@@ -46,16 +106,13 @@ const SubMenu = () => {
 			<div className={`subMenu${isOpen ? " open" : ""}`}>
 				<Profile />
 				<div className="subThBar">
-					<Link
+					<NavLink
 						to={path.deposit.root}
 						className="icon icon-deposit"
-						onClick={ClickMenuItem.bind(
-							this,
-							true,
-							userInfo.isLogin
-						)}>
-						{i18n["lbl_Deposit"]}
-					</Link>
+						checkProfile={true}
+						redirectPath={path.member.root}>
+						<span>{i18n.lbl_Deposit}</span>
+					</NavLink>
 					<Link
 						to={path.transfer.root}
 						className="icon icon-transfer"
@@ -66,16 +123,13 @@ const SubMenu = () => {
 						)}>
 						<span>{i18n["lbl_Transfer"]}</span>
 					</Link>
-					<Link
+					<NavLink
 						to={path.withdrawal.root}
 						className="icon icon-withdrawal"
-						onClick={ClickMenuItem.bind(
-							this,
-							true,
-							userInfo.isLogin
-						)}>
-						<span>{i18n["lbl_Withdrawal"]}</span>
-					</Link>
+						checkProfile={true}
+						redirectPath={path.member.root}>
+						<span>{i18n.lbl_Withdrawal}</span>
+					</NavLink>
 				</div>
 				<SubGameList />
 				<div className="memberFunction">
@@ -115,6 +169,8 @@ const SubMenu = () => {
 				</div>
 			</div>
 		</>
+	) : (
+		<Redirect to={redirectPath} noThrow />
 	);
 };
 
