@@ -184,7 +184,12 @@ const Panel = () => {
 				<div className="info">
 					<span className="title">{i18n["lbl_Wallet_Saba"]}</span>
 					<div>
-						{number_format(getWalletInfo[1]?.balance, _isConvert)}
+						{number_format(
+							getWalletInfo[1]?.balance === undefined
+								? 0
+								: getWalletInfo[1]?.balance,
+							_isConvert
+						)}
 					</div>
 				</div>
 				<ReloadSpin func={GetWalletInfo} />
