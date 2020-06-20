@@ -9,6 +9,7 @@ import { api_GetCustBankInfo } from "../../service/api/account";
 import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.image";
 import config from "../../config";
+import Loading from "../common/loading";
 
 const initWarningState = {
 	RealName: {
@@ -31,9 +32,62 @@ const BankInfo = () => {
 	const [userValueState, setUserValueState] = useState({});
 	const [bankSelectedIdx, setBankSelectedIdx] = useState(0);
 	const [warningState, setWarningState] = useState(initWarningState);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		let mounted = true;
+		if (userInfo.isLogin) {
+			setLoading(true);
+			api_GetCustBankInfo().then(
+				res => {
+					if (res.data.errorCode === 0) {
+						let data = res.data.data;
+						if (data !== null) {
+							let bankInfoDetail = data.bankInfoDetail ?? [];
+							let getBankInfoArr = bankInfoDetail.map(i => {
+								return {
+									bankName: i.bankName,
+									image: i.bankLogo,
+									accountNo: i.accountNo,
+									SysId: i.sysId
+								};
+							});
+							if (mounted) {
+								setGetBankInfo(() => getBankInfoArr);
+							}
+						}
+					}
+
+					if (mounted) {
+						setLoading(false);
+					}
+				},
+				err => {
+					if (mounted) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: "API Server Error."
+						});
+						setLoading(false);
+					}
+				}
+			);
+		}
+
+		return () => (mounted = false);
+	}, [i18n.lbl_ImportantNote, setPopBox, userInfo.isLogin]);
+
+	useEffect(() => {
+		let mounted = true;
+		if (!userInfo.accountName && mounted) {
+			setStatus(true);
+		}
+		return () => (mounted = false);
+	}, [userInfo.accountName]);
+
+	const toAddBankAccount = () => {
+		setLoading(true);
 		api_GetBankInfoSysList().then(
 			res => {
 				if (res.data.errorCode === 0) {
@@ -47,69 +101,31 @@ const BankInfo = () => {
 							displayText: i.bankName
 						};
 					});
-					if (mounted) {
-						setSiteBankInfoState(() => bankInfoArr);
-					}
-				}
-			},
-			err => {
-				if (mounted) {
+
+					setSiteBankInfoState(() => bankInfoArr);
+					setStatus(false);
+					setBankSelectedIdx(0);
+					setWarningState(initWarningState);
+					setUserValueState({});
+				} else {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
 						content: "API Server Error."
 					});
 				}
-			}
-		);
-
-		api_GetCustBankInfo().then(
-			res => {
-				if (res.data.errorCode === 0) {
-					let data = res.data.data;
-					if (data !== null) {
-						let bankInfoDetail = data.bankInfoDetail ?? [];
-						let getBankInfoArr = bankInfoDetail.map(i => {
-							return {
-								bankName: i.bankName,
-								image: i.bankLogo,
-								accountNo: i.accountNo,
-								SysId: i.sysId
-							};
-						});
-						if (mounted) {
-							setGetBankInfo(() => getBankInfoArr);
-						}
-					}
-				}
+				setLoading(false);
 			},
 			err => {
-				if (mounted) {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
-				}
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
+
+				setLoading(false);
 			}
 		);
-
-		return () => (mounted = false);
-	}, [i18n.lbl_ImportantNote, setPopBox]);
-
-	useEffect(() => {
-		let mounted = true;
-		if (!userInfo.accountName && mounted) {
-			setStatus(true);
-		}
-		return () => (mounted = false);
-	}, [userInfo.accountName]);
-
-	const toAddBankAccount = () => {
-		setStatus(false);
-		setBankSelectedIdx(0);
-		setWarningState(initWarningState);
-		setUserValueState({});
 	};
 
 	const toShowBankAccount = () => {
@@ -163,6 +179,8 @@ const BankInfo = () => {
 	};
 
 	const GetCustBankInfo = () => {
+		setLoading(true);
+
 		api_GetCustBankInfo().then(
 			res => {
 				if (res.data.errorCode === 0) {
@@ -182,6 +200,7 @@ const BankInfo = () => {
 							...prevState,
 							accountName: data.accountName
 						}));
+						setLoading(false);
 					}
 				}
 			},
@@ -191,11 +210,14 @@ const BankInfo = () => {
 					title: i18n.lbl_ImportantNote,
 					content: "API Server Error."
 				});
+				// setLoading(false);
 			}
 		);
 	};
 
 	const removeAccountHandler = val => {
+		setLoading(true);
+
 		const removeAccount = () => {
 			let removeAccountData = {
 				AccountName: userInfo.accountName,
@@ -215,6 +237,7 @@ const BankInfo = () => {
 						title: i18n.lbl_ImportantNote,
 						content: "API Server Error."
 					});
+					setLoading(false);
 				}
 			);
 		};
@@ -299,6 +322,8 @@ const BankInfo = () => {
 	};
 
 	const checkSubmitHandler = () => {
+		setLoading(true);
+
 		let checked = true;
 		if (status === false) {
 			if (!userInfo.accountName) {
@@ -338,6 +363,7 @@ const BankInfo = () => {
 							title: i18n.lbl_ImportantNote,
 							content: "API Server Error."
 						});
+						setLoading(false);
 					}
 				);
 				setStatus(true);
@@ -354,11 +380,14 @@ const BankInfo = () => {
 				removeAccountHandler={removeAccountHandler.bind(null, item)}
 				image={`${config.imgUrl}/common/images/BankLogo/${item.image}`}
 				className="bankLogo"
+				loading={loading}
 			/>
 		);
 	});
 
-	return (
+	return loading ? (
+		<Loading />
+	) : (
 		<>
 			<div className="avatar"></div>
 			<div className="name">{userInfo.accountName}</div>
