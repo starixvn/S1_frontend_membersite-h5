@@ -27,7 +27,9 @@ const IndexPage = () => {
 		pageInfo,
 		setGetHistoryState,
 		setPageInfo,
-		setPopBox
+		setPopBox,
+		processing,
+		setProcessing
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {

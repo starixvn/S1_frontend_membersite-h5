@@ -18,6 +18,7 @@ import {
 } from "../../service/api/payment";
 import RecentDatas from "./deposit.recentDatas";
 import path from "../../path";
+import Loading from "../common/loading";
 
 const defPayType = {
 	onlineBank: "onlineBank",
@@ -61,6 +62,7 @@ const Panel = () => {
 
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [pageVerify, setPageVerify] = useState(true);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		let mounted = true;
@@ -99,10 +101,14 @@ const Panel = () => {
 						</div>
 					)
 				});
-
-				setPageVerify(false);
+				if (mounted) {
+					setLoading(false);
+					setPageVerify(false);
+				}
 			} else {
-				setPageVerify(true);
+				if (mounted) {
+					setPageVerify(true);
+				}
 			}
 		}
 
@@ -122,38 +128,66 @@ const Panel = () => {
 	useEffect(() => {
 		let mounted = true;
 		if (userInfo.isLogin) {
-			api_GetOnlinePaymentList().then(res => {
-				if (res.data.errorCode === 0 && mounted) {
-					setOnlineBankingList(res.data.data);
-					setAllowPayment(prevState => ({
-						...prevState,
-						[defPayType.onlineBank]:
-							res.data.data && res.data.data.length > 0
-					}));
-				}
-			});
+			if (mounted) {
+				setLoading(true);
+			}
 
-			api_GetBankInfoOffList().then(res => {
-				if (res.data.errorCode === 0 && mounted) {
-					setLocalBankList(res.data.data);
-					setAllowPayment(prevState => ({
-						...prevState,
-						[defPayType.localBank]:
-							res.data.data && res.data.data.length > 0
-					}));
+			api_GetOnlinePaymentList().then(
+				res => {
+					if (res.data.errorCode === 0 && mounted) {
+						setOnlineBankingList(res.data.data);
+						setAllowPayment(prevState => ({
+							...prevState,
+							[defPayType.onlineBank]:
+								res.data.data && res.data.data.length > 0
+						}));
+						setLoading(false);
+					}
+				},
+				err => {
+					if (mounted) {
+						setLoading(false);
+					}
 				}
-			});
+			);
 
-			api_GetMobilePayGroupList().then(res => {
-				if (res.data.errorCode === 0 && mounted) {
-					setMobilePayList(res.data.data);
-					setAllowPayment(prevState => ({
-						...prevState,
-						[defPayType.mobilePay]:
-							res.data.data && res.data.data.length > 0
-					}));
+			api_GetBankInfoOffList().then(
+				res => {
+					if (res.data.errorCode === 0 && mounted) {
+						setLocalBankList(res.data.data);
+						setAllowPayment(prevState => ({
+							...prevState,
+							[defPayType.localBank]:
+								res.data.data && res.data.data.length > 0
+						}));
+						setLoading(false);
+					}
+				},
+				err => {
+					if (mounted) {
+						setLoading(false);
+					}
 				}
-			});
+			);
+
+			api_GetMobilePayGroupList().then(
+				res => {
+					if (res.data.errorCode === 0 && mounted) {
+						setMobilePayList(res.data.data);
+						setAllowPayment(prevState => ({
+							...prevState,
+							[defPayType.mobilePay]:
+								res.data.data && res.data.data.length > 0
+						}));
+						setLoading(false);
+					}
+				},
+				err => {
+					if (mounted) {
+						setLoading(false);
+					}
+				}
+			);
 
 			api_GetDepositInfoRecent().then(res => {
 				if (res.data.errorCode === 0 && mounted) {
@@ -306,16 +340,20 @@ const Panel = () => {
 	};
 
 	return redirectPath === null ? (
-		<>
-			<Step step={1} />
-			<div className="depositType">{paymentList}</div>
-			<RecentDatas
-				Datas={recentDatas}
-				SubmitProof={SubmitProof}
-				ClickCancel={ClickCancel}
-				GetDepositInfoRecent={GetDepositInfoRecent}
-			/>
-		</>
+		loading ? (
+			<Loading />
+		) : (
+			<>
+				<Step step={1} />
+				<div className="depositType">{paymentList}</div>
+				<RecentDatas
+					Datas={recentDatas}
+					SubmitProof={SubmitProof}
+					ClickCancel={ClickCancel}
+					GetDepositInfoRecent={GetDepositInfoRecent}
+				/>
+			</>
+		)
 	) : (
 		<Redirect to={redirectPath} noThrow />
 	);

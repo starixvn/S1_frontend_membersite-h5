@@ -31,7 +31,9 @@ const Panel = () => {
 		pageInfo,
 		setGetMsgList,
 		setPageInfo,
-		setPopBox
+		setPopBox,
+		processing,
+		setProcessing
 	);
 
 	useEffect(() => {
