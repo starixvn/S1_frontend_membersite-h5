@@ -94,6 +94,12 @@ const Panel = () => {
 							newD[idx].status = 5;
 							return newD;
 						});
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
 				},
 				err => {

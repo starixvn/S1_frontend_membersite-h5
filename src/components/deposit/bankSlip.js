@@ -1,5 +1,9 @@
 import React, { useContext, Component } from "react";
-import { bankSlipPopBoxContext, i18nContext } from "../common/context";
+import {
+	bankSlipPopBoxContext,
+	i18nContext,
+	popBoxContext
+} from "../common/context";
 import moment from "moment";
 import ClipboardJS from "../../lib/clipboard.min";
 import {
@@ -49,14 +53,23 @@ class Modal extends Component {
 			let formData = new FormData();
 			formData.append("TransId", this.props.bankSlipPopBox.transId);
 			formData.append("Receipt", files[0]);
-			api_UploadReceipt(formData).then(response => {
-				let result = response.data;
-				if (result.errorCode === 0) {
-					alert(this.props.i18n.lbl_UploadSuccess);
-				} else {
-					alert(result.message);
+			api_UploadReceipt(formData).then(
+				response => {
+					let result = response.data;
+					if (result.errorCode === 0) {
+						alert(this.props.i18n.lbl_UploadSuccess);
+					} else {
+						alert(result.message);
+					}
+				},
+				err => {
+					this.props.setPopBox({
+						isOpen: true,
+						title: this.props.i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
 				}
-			});
+			);
 		} else {
 			this.setState({ UploadDisabled: true });
 		}
@@ -70,13 +83,22 @@ class Modal extends Component {
 			bankSlipPopBox.transId,
 			moment(bankSlipPopBox.depositTime).unix(),
 			bankSlipPopBox.refId
-		).then(res => {
-			if (res.data.errorCode === 0) {
-				this.props.handlePopBox();
-			} else {
-				alert(res.message);
+		).then(
+			res => {
+				if (res.data.errorCode === 0) {
+					this.props.handlePopBox();
+				} else {
+					alert(res.message);
+				}
+			},
+			err => {
+				this.props.setPopBox({
+					isOpen: true,
+					title: this.props.i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 	};
 	render() {
 		let bankSlipPopBox = this.props.bankSlipPopBox;
@@ -200,6 +222,7 @@ class Modal extends Component {
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
+	const { setPopBox } = useContext(popBoxContext);
 	const { bankSlipPopBox, setbankSlipPopBox } = useContext(
 		bankSlipPopBoxContext
 	);
@@ -220,6 +243,7 @@ const Panel = () => {
 			bankSlipPopBox={bankSlipPopBox}
 			handlePopBox={handlePopBox}
 			EditField={EditField}
+			setPopBox={setPopBox}
 		/>
 	);
 };

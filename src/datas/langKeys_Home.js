@@ -205,5 +205,7 @@ export default [
 	"lbl_Welcome",
 	"lbl_UpdatePersonalInfo",
 	"lbl_UpdatePersonalDetail",
-	"lbl_JoinNow"
+	"lbl_JoinNow",
+	"lbl_UpdateBankDetail",
+	"lbl_UpdateBankInfo"
 ];

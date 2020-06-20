@@ -15,7 +15,7 @@ import useInterval from "../hook/useInterval";
 
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
-		isLogin: false,
+		isLogin: null,
 		langId: GET_LANG_ID(),
 		userName: "guest"
 	});
@@ -72,12 +72,6 @@ export const Wrapper = ({ children }) => {
 					var result = res.data;
 					if (result.errorCode !== null && result.errorCode !== 0) {
 						OnlineCheckCallBack(result.errorCode, result.message);
-					} else {
-						api_GetMsgCount().then(res => {
-							if (res.data.errorCode === 0) {
-								setMsgCount(res.data.data);
-							}
-						});
 					}
 				},
 				error => {
@@ -105,13 +99,13 @@ export const Wrapper = ({ children }) => {
 						}));
 					}
 				});
-
-				api_GetMsgCount().then(res => {
-					if (res.data.errorCode === 0) {
-						setMsgCount(res.data.data);
-					}
-				});
 			}
+
+			api_GetMsgCount().then(res => {
+				if (res.data.errorCode === 0) {
+					setMsgCount(res.data.data);
+				}
+			});
 
 			api_GetBalnace().then(res => {
 				if (res.data.errorCode === 0) {
@@ -121,6 +115,8 @@ export const Wrapper = ({ children }) => {
 					}));
 				}
 			});
+		} else {
+			setMsgCount(0);
 		}
 	}, [userInfo.isLogin, userInfo.regTime]);
 

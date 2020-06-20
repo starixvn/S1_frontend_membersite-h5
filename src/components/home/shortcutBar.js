@@ -7,6 +7,7 @@ import {
 	popBoxContext,
 	msgCountContext
 } from "../common/context";
+import { api_GetCustBankInfo } from "../../service/api/account";
 import { Link, Redirect } from "@reach/router";
 import path from "../../path";
 
@@ -30,10 +31,10 @@ const ShortcutBar = () => {
 		setNav(defNavPanel.login);
 	};
 
-	const ShowUpdProfileHint = redirectPath => {
-		const ClosePopBox = _redirectPath => {
+	const ShowUpdProfileHint = () => {
+		const ClosePopBox = () => {
 			setPopBox({ isOpen: false });
-			setRedirectPath(_redirectPath);
+			setRedirectPath(path.member.root);
 		};
 
 		setPopBox({
@@ -43,9 +44,30 @@ const ShortcutBar = () => {
 			hasBtn: true,
 			btnBar: (
 				<div className="btn-group">
-					<button
-						className="blue"
-						onClick={ClosePopBox.bind(this, redirectPath)}>
+					<button className="blue" onClick={ClosePopBox}>
+						{i18n.lbl_UpdatePersonalDetail}
+					</button>
+				</div>
+			)
+		});
+	};
+
+	const ShowUpdBankInfoHint = () => {
+		const ClosePopBox = () => {
+			setPopBox({ isOpen: false });
+			setRedirectPath(
+				`${path.member.root}/${path.member.sub.bankInfo.root}`
+			);
+		};
+
+		setPopBox({
+			isOpen: true,
+			title: i18n.lbl_ImportantNote,
+			content: i18n.lbl_UpdateBankDetail,
+			hasBtn: true,
+			btnBar: (
+				<div className="btn-group">
+					<button className="blue" onClick={ClosePopBox}>
 						{i18n.lbl_UpdatePersonalDetail}
 					</button>
 				</div>
@@ -54,8 +76,8 @@ const ShortcutBar = () => {
 	};
 
 	const NavLink = props => {
-		let { checkProfile, redirectPath, ...passProps } = props;
-		if (!userInfo.isLogin) {
+		let { checkProfile, redirectPath, checkBankInfo, ...passProps } = props;
+		if (userInfo.isLogin === false) {
 			passProps = { ...passProps, to: "/", onClick: ShowLogin };
 		} else if (checkProfile) {
 			if (
@@ -66,7 +88,7 @@ const ShortcutBar = () => {
 				passProps = {
 					...passProps,
 					to: "/",
-					onClick: ShowUpdProfileHint.bind(this, redirectPath)
+					onClick: ShowUpdProfileHint
 				};
 			}
 		}
@@ -79,8 +101,7 @@ const ShortcutBar = () => {
 			<NavLink
 				to={path.deposit.root}
 				className="icon icon-deposit"
-				checkProfile={true}
-				redirectPath={path.member.root}>
+				checkProfile={true}>
 				<span>{i18n.lbl_Deposit}</span>
 			</NavLink>
 			<NavLink to={path.transfer.root} className="icon icon-transfer">
@@ -89,8 +110,7 @@ const ShortcutBar = () => {
 			<NavLink
 				to={path.withdrawal.root}
 				className="icon icon-withdrawal"
-				checkProfile={true}
-				redirectPath={path.member.root}>
+				checkProfile={true}>
 				<span>{i18n.lbl_Withdrawal}</span>
 			</NavLink>
 			<NavLink to={path.message.root} className="icon icon-email">

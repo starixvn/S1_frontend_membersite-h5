@@ -43,7 +43,7 @@ const Category = () => {
 				userInfo.langId,
 				tpId,
 				gameId,
-				userInfo.isLogin,
+				userInfo.isLogin === true,
 				() => {
 					setNav(defNavPanel.login);
 				}

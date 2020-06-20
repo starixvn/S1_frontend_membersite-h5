@@ -39,7 +39,7 @@ const SubMenu = () => {
 	let isOpen = nav === defNavPanel.subMenu;
 
 	const ClickMenuItem = (needLogin, isLogin) => {
-		let panel = needLogin && !isLogin ? defNavPanel.login : null;
+		let panel = needLogin && isLogin === false ? defNavPanel.login : null;
 		setNav(panel);
 	};
 
@@ -73,7 +73,7 @@ const SubMenu = () => {
 
 	const NavLink = props => {
 		let { checkProfile, redirectPath, ...passProps } = props;
-		if (!userInfo.isLogin) {
+		if (userInfo.isLogin === false) {
 			passProps = { ...passProps, to: "/", onClick: ShowLogin };
 		} else if (checkProfile) {
 			if (
