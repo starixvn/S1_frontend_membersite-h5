@@ -26,7 +26,9 @@ const Panel = () => {
 		pageInfo,
 		setGetHistoryState,
 		setPageInfo,
-		setPopBox
+		setPopBox,
+		processing,
+		setProcessing
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {
@@ -62,7 +64,8 @@ const Panel = () => {
 						) {
 							setPageInfo(() => ({
 								totalPages: response.data.totalPages,
-								pageNumber: response.data.pageNumber
+								pageNumber: response.data.pageNumber,
+								donePage: [1]
 							}));
 						}
 					}
