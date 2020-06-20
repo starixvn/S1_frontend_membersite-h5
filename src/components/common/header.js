@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import logoItem from "../../styles/Nova88/img/logo.svg";
 import { LOGOUT } from "../../service/auth";
-import { navigate } from "@reach/router";
+import { Redirect } from "@reach/router";
 import SubMenu from "../subMenu/subMenu";
 import { userInfoContext, i18nContext, navContext } from "../common/context";
 import JoinPanel from "../join/join";
@@ -27,6 +27,18 @@ const HeaderBtn = () => {
 	const { i18n } = useContext(i18nContext);
 	const { setNav } = useContext(navContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
+	const [redirectPath, setRedirectPath] = useState(null);
+
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+		return () => {
+			mounted = false;
+		};
+	}, [redirectPath, setRedirectPath]);
+
 	const handleLogout = () => {
 		LOGOUT(() => {
 			setUserInfo(prevState => ({
@@ -34,19 +46,23 @@ const HeaderBtn = () => {
 				langId: prevState.langId
 			}));
 			setNav(() => null);
-			navigate("/");
+			setRedirectPath("/");
 		});
 	};
 
-	return userInfo?.isLogin ? (
-		<div className="headerButton">
-			<button onClick={handleLogout}>{i18n.lbl_Logout}</button>
-		</div>
+	return redirectPath === null ? (
+		userInfo?.isLogin ? (
+			<div className="headerButton">
+				<button onClick={handleLogout}>{i18n.lbl_Logout}</button>
+			</div>
+		) : (
+			<div className="headerButton">
+				<JoinPanel />
+				<LoginPanel ButtonTitle={i18n.lbl_Login} />
+			</div>
+		)
 	) : (
-		<div className="headerButton">
-			<JoinPanel />
-			<LoginPanel ButtonTitle={i18n.lbl_Login} />
-		</div>
+		<Redirect to={redirectPath} noThrow />
 	);
 };
 

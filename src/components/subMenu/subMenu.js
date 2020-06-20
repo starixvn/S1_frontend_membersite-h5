@@ -1,24 +1,21 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import Profile from "./subMenu.profile";
 import {
 	navContext,
 	defNavPanel,
 	i18nContext,
 	userInfoContext,
-	popBoxContext,
 	msgCountContext
 } from "../common/context";
 import SubGameList from "./subMenu.gameList";
-import { Link, Redirect } from "@reach/router";
+import { Link } from "@reach/router";
 import path from "../../path";
 
 const SubMenu = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { nav, setNav } = useContext(navContext);
 	const { i18n } = useContext(i18nContext);
-	const { setPopBox } = useContext(popBoxContext);
 	const { msgCount } = useContext(msgCountContext);
-	const [redirectPath, setRedirectPath] = useState(null);
 
 	const handleOpen = () => {
 		setNav(prevState => {
@@ -27,14 +24,6 @@ const SubMenu = () => {
 			return newState;
 		});
 	};
-
-	useEffect(() => {
-		let mounted = true;
-		if (mounted && redirectPath !== null) {
-			setRedirectPath(null);
-		}
-		return () => (mounted = false);
-	}, [redirectPath]);
 
 	let isOpen = nav === defNavPanel.subMenu;
 
@@ -47,52 +36,16 @@ const SubMenu = () => {
 		setNav(defNavPanel.login);
 	};
 
-	const ShowUpdProfileHint = redirectPath => {
-		const ClosePopBox = _redirectPath => {
-			setNav(null);
-			setPopBox({ isOpen: false });
-			setRedirectPath(_redirectPath);
-		};
-
-		setPopBox({
-			isOpen: true,
-			title: i18n.lbl_ImportantNote,
-			content: i18n.lbl_UpdatePersonalInfo,
-			hasBtn: true,
-			btnBar: (
-				<div className="btn-group">
-					<button
-						className="blue"
-						onClick={ClosePopBox.bind(this, redirectPath)}>
-						{i18n.lbl_UpdatePersonalDetail}
-					</button>
-				</div>
-			)
-		});
-	};
-
 	const NavLink = props => {
 		let { checkProfile, redirectPath, ...passProps } = props;
 		if (userInfo.isLogin === false) {
 			passProps = { ...passProps, to: "/", onClick: ShowLogin };
-		} else if (checkProfile) {
-			if (
-				!userInfo.accountName ||
-				!userInfo.birth_d ||
-				!userInfo.phoneNo
-			) {
-				passProps = {
-					...passProps,
-					to: "/",
-					onClick: ShowUpdProfileHint.bind(this, redirectPath)
-				};
-			}
 		}
 
 		return <Link {...passProps} />;
 	};
 
-	return redirectPath === null ? (
+	return (
 		<>
 			<div
 				className={`close${isOpen ? " open" : ""}`}
@@ -184,8 +137,6 @@ const SubMenu = () => {
 				</div>
 			</div>
 		</>
-	) : (
-		<Redirect to={redirectPath} noThrow />
 	);
 };
 

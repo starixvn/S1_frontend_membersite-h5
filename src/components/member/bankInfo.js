@@ -9,7 +9,6 @@ import { api_GetCustBankInfo } from "../../service/api/account";
 import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.image";
 import config from "../../config";
-import reloadSpin from "../common/reloadSpin";
 
 const initWarningState = {
 	RealName: {

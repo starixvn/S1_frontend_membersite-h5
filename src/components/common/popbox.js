@@ -10,14 +10,16 @@ const PopUp = () => {
 	return (
 		<div id="popup" className={`${popBox.isOpen ? "show" : ""}`}>
 			<div className="popTit">
-				<div className={`close open`} onClick={handlePopBox}>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</div>
+				{popBox.hideCloseBtn === true ? null : (
+					<div className={`close open`} onClick={handlePopBox}>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				)}
 				{popBox.title}
 			</div>
 			<div className="popTxt">

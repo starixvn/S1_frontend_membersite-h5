@@ -8,7 +8,7 @@ import {
 	bankSlipPopBoxContext,
 	userInfoContext
 } from "../common/context";
-import { Link } from "@reach/router";
+import { Link, Redirect } from "@reach/router";
 import {
 	api_GetOnlinePaymentList,
 	api_GetBankInfoOffList,
@@ -17,6 +17,7 @@ import {
 	api_SetDepositCancel
 } from "../../service/api/payment";
 import RecentDatas from "./deposit.recentDatas";
+import path from "../../path";
 
 const defPayType = {
 	onlineBank: "onlineBank",
@@ -57,6 +58,56 @@ const Panel = () => {
 	const [localBankList, setLocalBankList] = useState([]);
 	const [mobilePayList, setMobilePayList] = useState([]);
 	const [recentDatas, setRecentDatas] = useState([]);
+
+	const [redirectPath, setRedirectPath] = useState(null);
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+		return () => (mounted = false);
+	}, [redirectPath]);
+
+	useEffect(() => {
+		let mounted = true;
+		if (mounted) {
+			if (
+				!userInfo.accountName ||
+				!userInfo.birth_d ||
+				!userInfo.phoneNo
+			) {
+				const ClosePopBox = () => {
+					setPopBox({ isOpen: false });
+					setRedirectPath(`/${path.member.root}`);
+				};
+
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: i18n.lbl_UpdatePersonalInfo,
+					hasBtn: true,
+					hideCloseBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={ClosePopBox}>
+								{i18n.lbl_UpdatePersonalDetail}
+							</button>
+						</div>
+					)
+				});
+			}
+		}
+
+		return () => {
+			mounted = false;
+		};
+	}, [
+		userInfo.accountName,
+		userInfo.birth_d,
+		userInfo.phoneNo,
+		i18n,
+		setPopBox
+	]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -235,7 +286,7 @@ const Panel = () => {
 		);
 	};
 
-	return (
+	return redirectPath === null ? (
 		<>
 			<Step step={1} />
 			<div className="depositType">{paymentList}</div>
@@ -246,6 +297,8 @@ const Panel = () => {
 				GetDepositInfoRecent={GetDepositInfoRecent}
 			/>
 		</>
+	) : (
+		<Redirect to={redirectPath} noThrow />
 	);
 };
 

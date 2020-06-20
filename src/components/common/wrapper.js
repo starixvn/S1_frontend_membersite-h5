@@ -8,7 +8,6 @@ import {
 	api_GetMsgCount
 } from "../../service/api/account";
 import { IS_LOGGED_IN } from "../../service/auth";
-import { navigate } from "@reach/router";
 import { GET_LANG_ID } from "../../service/language";
 import themeList from "../../datas/theme";
 import useInterval from "../hook/useInterval";
@@ -36,7 +35,6 @@ export const Wrapper = ({ children }) => {
 	});
 
 	const [msgCount, setMsgCount] = useState(0);
-
 	const [theme, setTheme] = useState(themeList.default);
 
 	useEffect(() => {
@@ -61,7 +59,6 @@ export const Wrapper = ({ children }) => {
 				title: "Warning",
 				content: errMsg ?? i18n.msg_ForceLogedout
 			});
-			navigate("/");
 		}
 	};
 
