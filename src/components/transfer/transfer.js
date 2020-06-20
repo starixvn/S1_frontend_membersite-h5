@@ -7,6 +7,7 @@ import RecentDatas from "./transfer.recentDatas";
 import InputBox from "../common/inputbox";
 import Dropdown from "../common/dropdown";
 import ReloadSpin from "../common/reloadSpin";
+import Loading from "../common/loading";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -20,6 +21,7 @@ const Panel = () => {
 	const [fromSelectedIdx, setFromSelectedIdx] = useState(0);
 	const [toSelectedIdx, setToSelectedIdx] = useState(1);
 	const [recentDatas, setRecentDatas] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		let mounted = true;
@@ -45,12 +47,14 @@ const Panel = () => {
 					}
 				}
 			}
+			setLoading(false);
 		});
 
 		api_GetTransferRecent().then(res => {
 			if (res.data.errorCode === 0 && mounted) {
 				setRecentDatas(res.data.data);
 			}
+			setLoading(false);
 		});
 
 		return () => (mounted = false);
@@ -169,7 +173,9 @@ const Panel = () => {
 		}
 	};
 
-	return (
+	return loading ? (
+		<Loading />
+	) : (
 		<>
 			<div className="account">
 				<div className="info">
