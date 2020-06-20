@@ -42,9 +42,12 @@
   margin-bottom: 1vw;
 }
 
-header .subMenu .icon-hockey:before {
-  font-size: 7vw;
-  margin: 1.5vw;
+.icon-kelo:before {
+  content: "\e931";
+}
+
+.icon-lottery:before {
+  content: "\e932";
 }
 
 .icon-AB:before {
