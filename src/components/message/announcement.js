@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { userInfoContext, popBoxContext, i18nContext } from "../common/context";
 import { api_GetAnnouncement } from "../../service/api/message";
 import moment from "moment";
+import Loading from "../common/loading";
 
 const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -9,12 +10,16 @@ const Panel = () => {
 	const { setPopBox } = useContext(popBoxContext);
 	const [getAnnouncement, setGetAnnouncement] = useState([]);
 	const [selectItemState, setSelectItemState] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		setLoading(true);
+
 		api_GetAnnouncement(userInfo.langId).then(
 			res => {
 				const data = res.data.data;
 				setGetAnnouncement(data);
+				setLoading(false);
 			},
 			err => {
 				setPopBox({
@@ -22,6 +27,7 @@ const Panel = () => {
 					title: i18n.lbl_ImportantNote,
 					content: "API Server Error."
 				});
+				setLoading(false);
 			}
 		);
 	}, [i18n.lbl_ImportantNote, setPopBox, userInfo.langId]);
@@ -50,6 +56,7 @@ const Panel = () => {
 
 	return (
 		<>
+			{loading ? <Loading /> : null}
 			<div className="functionList"></div>
 			{arr}
 		</>

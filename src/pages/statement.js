@@ -16,11 +16,11 @@ const IndexPage = () => {
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
 	const _isConvert = isConvert(userInfo.currencyId);
-
 	const [getHistoryState, setGetHistoryState] = useState(null);
-
 	const [filterData, setFilterData] = useState(null);
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+	const [processing, setProcessing] = useState(false);
+
 	AUTO_FETCHING_DATA(
 		api_GetStatement,
 		filterData,
@@ -31,36 +31,53 @@ const IndexPage = () => {
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {
-		let transactionData = filterData;
-		if (!isUnix) {
-			transactionData = {
-				StartDate: moment(startDay).unix(),
-				EndDate: moment(endDay).endOf("day").unix()
-			};
-			setFilterData(transactionData);
-		}
-		api_GetStatement({
-			...transactionData,
-			PageNumber: 1
-		}).then(response => {
-			const errorCode = response.data.errorCode;
-
-			if (errorCode !== 0) {
-				setPopBox({
-					isOpen: true,
-					content: response.data.message
-				});
-			} else {
-				setGetHistoryState(response.data.data);
-				if (response.data.totalPages >= response.data.pageNumber) {
-					setPageInfo(() => ({
-						totalPages: response.data.totalPages,
-						pageNumber: response.data.pageNumber
-					}));
-				}
+		if (!processing) {
+			setProcessing(true);
+			let transactionData = filterData;
+			if (!isUnix) {
+				transactionData = {
+					StartDate: moment(startDay).unix(),
+					EndDate: moment(endDay).endOf("day").unix()
+				};
+				setFilterData(transactionData);
 			}
-		});
+			api_GetStatement({
+				...transactionData,
+				PageNumber: 1
+			}).then(
+				response => {
+					const errorCode = response.data.errorCode;
+
+					if (errorCode !== 0) {
+						setPopBox({
+							isOpen: true,
+							content: response.data.message
+						});
+					} else {
+						setGetHistoryState(response.data.data);
+						if (
+							response.data.totalPages >= response.data.pageNumber
+						) {
+							setPageInfo(() => ({
+								totalPages: response.data.totalPages,
+								pageNumber: response.data.pageNumber
+							}));
+						}
+					}
+					setProcessing(false);
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+					setProcessing(false);
+				}
+			);
+		}
 	};
+
 	let arr = getHistoryState?.map(item => {
 		return (
 			<TransactionHistory

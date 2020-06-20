@@ -9,6 +9,7 @@ import moment from "moment";
 import HistoryFilter from "../common/historyFilter";
 import AUTO_FETCHING_DATA from "../../service/autoFetchingData";
 import ReloadSpin from "../common/reloadSpin";
+import Loading from "../common/loading";
 
 const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -18,6 +19,7 @@ const Panel = () => {
 	const [getHistoryState, setGetHistoryState] = useState(null);
 	const [filterData, setFilterData] = useState(null);
 	const [processing, setProcessing] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	AUTO_FETCHING_DATA(
@@ -32,6 +34,8 @@ const Panel = () => {
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {
+		setLoading(true);
+
 		if (!processing) {
 			setProcessing(true);
 			let transactionData = filterData;
@@ -70,6 +74,7 @@ const Panel = () => {
 						}
 					}
 					setProcessing(false);
+					setLoading(false);
 				},
 				err => {
 					setPopBox({
@@ -78,6 +83,7 @@ const Panel = () => {
 						content: "API Server Error."
 					});
 					setProcessing(false);
+					setLoading(false);
 				}
 			);
 		}
@@ -152,30 +158,38 @@ const Panel = () => {
 
 	return (
 		<>
-			<HistoryFilter submitHandler={submitHandler} />
-			{getHistoryState ? (
-				<div className="recent open">
-					<div className="recentTransactions">
-						<div className="smallTitle">
-							<i className="icon icon-history"></i>
-							{i18n["lbl_TransactionHistory"]}
+			{loading ? (
+				<Loading />
+			) : (
+				<>
+					<HistoryFilter submitHandler={submitHandler} />
+					{getHistoryState ? (
+						<div className="recent open">
+							<div className="recentTransactions">
+								<div className="smallTitle">
+									<i className="icon icon-history"></i>
+									{i18n["lbl_TransactionHistory"]}
+								</div>
+								<ReloadSpin
+									func={submitHandler.bind(
+										this,
+										filterData?.StartDate,
+										filterData?.EndDate,
+										true
+									)}
+								/>
+							</div>
+							{getHistoryState.length > 0 ? (
+								<div className="infoList">{arr}</div>
+							) : (
+								<div className="not-found">
+									{i18n["msg_NoData"]}
+								</div>
+							)}{" "}
 						</div>
-						<ReloadSpin
-							func={submitHandler.bind(
-								this,
-								filterData?.StartDate,
-								filterData?.EndDate,
-								true
-							)}
-						/>
-					</div>
-					{getHistoryState.length > 0 ? (
-						<div className="infoList">{arr}</div>
-					) : (
-						<div className="not-found">{i18n["msg_NoData"]}</div>
-					)}{" "}
-				</div>
-			) : null}
+					) : null}
+				</>
+			)}
 		</>
 	);
 };

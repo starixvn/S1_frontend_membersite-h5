@@ -161,7 +161,7 @@ header {
       -ms-flex-align: center;
           align-items: center;
   padding: 0 4vw;
-  z-index: 4;
+  z-index: 5;
 }
 
 header > a > img {
@@ -323,6 +323,14 @@ header .Join .Terms, header .Login .Terms {
   line-height: 26px;
 }
 
+header .Join .Terms.error, header .Login .Terms.error {
+  border: 1px solid #ffbe00;
+  -webkit-box-shadow: 0 0 0 1px white;
+          box-shadow: 0 0 0 1px white;
+  border-radius: 0;
+  padding: 0 2vw;
+}
+
 header .Join .Terms a, header .Login .Terms a {
   color: #ff5d00;
 }
@@ -403,6 +411,15 @@ header .subMenu {
   pointer-events: none;
 }
 
+header .subMenu .icon-hockey:before {
+  font-size: 7vw;
+  margin: 1.5vw;
+}
+
+header .subMenu .icon-kelo:before {
+  font-size: 6.4vw;
+}
+
 header .subMenu.open {
   visibility: visible;
   -webkit-transition: 0.7s;
@@ -441,6 +458,7 @@ header .subMenu > div.info .Avatar {
   border: 1px solid #ff5d00;
   float: left;
   margin-right: 3vw;
+  background: url(../img/avatar.jpg) no-repeat top center/cover;
 }
 
 header .subMenu > div.info .MemberID {
@@ -534,6 +552,10 @@ header .subMenu > div.subGameList > button {
   transition: 0.7s;
 }
 
+header .subMenu > div.subGameList > button.icon-casino:before {
+  font-size: 10.6vw;
+}
+
 header .subMenu > div.subGameList > button.open {
   font-size: 4vw;
   background: rgba(255, 93, 0, 0.7);
@@ -617,7 +639,7 @@ main.stopScroll {
 }
 
 main .swiper-container {
-  z-index: 3;
+  z-index: 4;
 }
 
 main .banner {
@@ -641,7 +663,7 @@ main #Marquee {
   -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.3);
           box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.3);
   position: fixed;
-  z-index: 3;
+  z-index: 4;
   width: 100%;
   top: 49.4vw;
   overflow: hidden;
@@ -700,7 +722,7 @@ main .sideBar {
           box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
-  z-index: 2;
+  z-index: 3;
   padding: 56vw 0 24vw 1vw;
   overflow-y: scroll;
 }
@@ -847,7 +869,7 @@ main .thBar {
   position: fixed;
   top: 55vw;
   right: 0;
-  z-index: 1;
+  z-index: 2;
   background: #fff;
   -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.2);
           box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.2);
@@ -891,7 +913,7 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 0;
-  z-index: 2;
+  z-index: 3;
   background: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2387,6 +2409,9 @@ button.clickBtn:before {
 
 .Message {
   padding-top: 40vw;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 
 .Message .functionList ~ .account:before {
@@ -3399,5 +3424,12 @@ button.clickBtn:before {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
   padding: 0.5vw;
+}
+
+input.error {
+  border: 1px solid #ffbe00;
+  -webkit-box-shadow: 0 0 0 1px white;
+          box-shadow: 0 0 0 1px white;
+  border-radius: 0;
 }
 /*# sourceMappingURL=style.css.map */
