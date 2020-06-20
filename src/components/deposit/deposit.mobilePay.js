@@ -107,7 +107,7 @@ export const Main = props => {
 				}}>
 				<div className="bankLogo">
 					<img
-						src={`${config.apiURL}/common/images/MobilePay/${c.groupName}.png`}
+						src={`${config.imgUrl}/common/images/MobilePay/${c.groupName}.png`}
 						alt={c.groupName}
 					/>
 				</div>

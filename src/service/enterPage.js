@@ -1,4 +1,5 @@
 import config from "../config";
+import path from "../path";
 
 export const _ACTION_TYPE = {
 	blank: 1,
@@ -28,10 +29,12 @@ export const GET_ENTER_PAGE = (
 	isLogin,
 	loginCallback
 ) => {
-	let homeUrl = "";
-	let signupUrl = "";
-	let LoginUrl = "";
-	let entPageUrl = `${config.apiURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}`;
+	let homeUrl = `${config.appURL}`;
+	let signupUrl = `${config.appURL}/${path.join.root}`;
+	let LoginUrl = `${config.appURL}/${path.login.root}`;
+	let lobbyUrl = ``;
+	let cashierUrl = `${config.appURL}/${path.deposit.root}`;
+	let entPageUrl = `${config.apiURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}&&CashierUrl=${cashierUrl}&&LobbyUrl=${lobbyUrl}`;
 	let result = setResult("", true, _ACTION_TYPE.blank);
 
 	if (tpId === 1) {

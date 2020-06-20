@@ -60,6 +60,8 @@ const Panel = () => {
 	const [recentDatas, setRecentDatas] = useState([]);
 
 	const [redirectPath, setRedirectPath] = useState(null);
+	const [pageVerify, setPageVerify] = useState(true);
+
 	useEffect(() => {
 		let mounted = true;
 		if (mounted && redirectPath !== null) {
@@ -72,9 +74,11 @@ const Panel = () => {
 		let mounted = true;
 		if (mounted) {
 			if (
-				!userInfo.accountName ||
-				!userInfo.birth_d ||
-				!userInfo.phoneNo
+				userInfo.isLogin &&
+				userInfo.currencyId &&
+				(!userInfo.accountName ||
+					!userInfo.birth_d ||
+					!userInfo.phoneNo)
 			) {
 				const ClosePopBox = () => {
 					setPopBox({ isOpen: false });
@@ -95,6 +99,10 @@ const Panel = () => {
 						</div>
 					)
 				});
+
+				setPageVerify(false);
+			} else {
+				setPageVerify(true);
 			}
 		}
 
@@ -105,55 +113,59 @@ const Panel = () => {
 		userInfo.accountName,
 		userInfo.birth_d,
 		userInfo.phoneNo,
+		userInfo.currencyId,
+		userInfo.isLogin,
 		i18n,
 		setPopBox
 	]);
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetOnlinePaymentList().then(res => {
-			if (res.data.errorCode === 0 && mounted) {
-				setOnlineBankingList(res.data.data);
-				setAllowPayment(prevState => ({
-					...prevState,
-					[defPayType.onlineBank]:
-						res.data.data && res.data.data.length > 0
-				}));
-			}
-		});
+		if (userInfo.isLogin) {
+			api_GetOnlinePaymentList().then(res => {
+				if (res.data.errorCode === 0 && mounted) {
+					setOnlineBankingList(res.data.data);
+					setAllowPayment(prevState => ({
+						...prevState,
+						[defPayType.onlineBank]:
+							res.data.data && res.data.data.length > 0
+					}));
+				}
+			});
 
-		api_GetBankInfoOffList().then(res => {
-			if (res.data.errorCode === 0 && mounted) {
-				setLocalBankList(res.data.data);
-				setAllowPayment(prevState => ({
-					...prevState,
-					[defPayType.localBank]:
-						res.data.data && res.data.data.length > 0
-				}));
-			}
-		});
+			api_GetBankInfoOffList().then(res => {
+				if (res.data.errorCode === 0 && mounted) {
+					setLocalBankList(res.data.data);
+					setAllowPayment(prevState => ({
+						...prevState,
+						[defPayType.localBank]:
+							res.data.data && res.data.data.length > 0
+					}));
+				}
+			});
 
-		api_GetMobilePayGroupList().then(res => {
-			if (res.data.errorCode === 0 && mounted) {
-				setMobilePayList(res.data.data);
-				setAllowPayment(prevState => ({
-					...prevState,
-					[defPayType.mobilePay]:
-						res.data.data && res.data.data.length > 0
-				}));
-			}
-		});
+			api_GetMobilePayGroupList().then(res => {
+				if (res.data.errorCode === 0 && mounted) {
+					setMobilePayList(res.data.data);
+					setAllowPayment(prevState => ({
+						...prevState,
+						[defPayType.mobilePay]:
+							res.data.data && res.data.data.length > 0
+					}));
+				}
+			});
 
-		api_GetDepositInfoRecent().then(res => {
-			if (res.data.errorCode === 0 && mounted) {
-				setRecentDatas(res.data.data);
-			}
-		});
+			api_GetDepositInfoRecent().then(res => {
+				if (res.data.errorCode === 0 && mounted) {
+					setRecentDatas(res.data.data);
+				}
+			});
+		}
 
 		return () => {
 			mounted = false;
 		};
-	}, []);
+	}, [userInfo.isLogin]);
 
 	const _isConvert = isConvert(userInfo.currencyId);
 	const SubmitProof = (
@@ -164,104 +176,111 @@ const Panel = () => {
 		picFileName,
 		refId
 	) => {
-		let { currencyId, ...restBankInfo } = bankInfo;
-		let { accountName, accountNo } = depositRep;
-		setbankSlipPopBox(() => ({
-			depositTime: `${moment().format("yyyy-MM-DDT")}${moment().format(
-				"HH:mm"
-			)}`,
-			...restBankInfo,
-			transId: transId,
-			accountNo: accountNo,
-			accountName: accountName,
-			isOpen: true,
-			amount: number_format(amount, _isConvert),
-			picFileName: picFileName,
-			refId: refId
-		}));
+		if (pageVerify) {
+			let { currencyId, ...restBankInfo } = bankInfo;
+			let { accountName, accountNo } = depositRep;
+			setbankSlipPopBox(() => ({
+				depositTime: `${moment().format(
+					"yyyy-MM-DDT"
+				)}${moment().format("HH:mm")}`,
+				...restBankInfo,
+				transId: transId,
+				accountNo: accountNo,
+				accountName: accountName,
+				isOpen: true,
+				amount: number_format(amount, _isConvert),
+				picFileName: picFileName,
+				refId: refId
+			}));
+		}
 	};
+
 	const ClickCancel = transId => {
-		const ClickSubmit = () => {
-			setPopBox({ isOpen: false });
-			api_SetDepositCancel(transId).then(
-				res => {
-					if (res.data.errorCode === 0) {
-						api_GetDepositInfoRecent().then(res => {
-							if (res.data.errorCode === 0) {
-								setRecentDatas(res.data.data);
-							}
-						});
-					} else {
+		if (pageVerify) {
+			const ClickSubmit = () => {
+				setPopBox({ isOpen: false });
+				api_SetDepositCancel(transId).then(
+					res => {
+						if (res.data.errorCode === 0) {
+							api_GetDepositInfoRecent().then(res => {
+								if (res.data.errorCode === 0) {
+									setRecentDatas(res.data.data);
+								}
+							});
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
+					},
+					err => {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: res.data.message
+							content: "API Server Error."
 						});
 					}
-				},
-				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
-				}
-			);
-		};
+				);
+			};
 
-		const ClickCancel = () => {
-			setPopBox({ isOpen: false });
-		};
+			const ClickCancel = () => {
+				setPopBox({ isOpen: false });
+			};
 
-		setPopBox({
-			isOpen: true,
-			title: "",
-			content: i18n["lbl_CancelConfirm"],
-			hasBtn: true,
-			btnBar: (
-				<div className="btn-group">
-					<button className="blue" onClick={ClickCancel}>
-						{i18n["lbl_Cancel"]}
-					</button>
-					<button className="orange" onClick={ClickSubmit}>
-						{i18n["lbl_Submit"]}
-					</button>
-				</div>
-			)
-		});
+			setPopBox({
+				isOpen: true,
+				title: "",
+				content: i18n["lbl_CancelConfirm"],
+				hasBtn: true,
+				btnBar: (
+					<div className="btn-group">
+						<button className="blue" onClick={ClickCancel}>
+							{i18n["lbl_Cancel"]}
+						</button>
+						<button className="orange" onClick={ClickSubmit}>
+							{i18n["lbl_Submit"]}
+						</button>
+					</div>
+				)
+			});
+		}
 	};
 
-	const paymentList = Object.keys(defPayment)
-		.filter(key => {
-			return allowPayment[key];
-		})
-		.map(key => {
-			let item = defPayment[key];
-			let list = [];
-			if (key === defPayType.onlineBank) {
-				list = onlineBankingList;
-			} else if (key === defPayType.localBank) {
-				list = localBankList;
-			} else if (key === defPayType.mobilePay) {
-				list = mobilePayList;
-			}
-			return (
-				<div key={`deposit-${key}`}>
-					<Link
-						to={key}
-						className={item.icon}
-						state={{
-							paymentList: list
-						}}
-					/>
-					<span>{i18n[item.displayKey]}</span>
-					<span className="title">{i18n.lbl_CreditTime}</span>
-					<span className="creditTime">
-						{i18n[item.creditTimeKey]}
-					</span>
-				</div>
-			);
-		});
+	const paymentList = pageVerify
+		? Object.keys(defPayment)
+				.filter(key => {
+					return allowPayment[key];
+				})
+				.map(key => {
+					let item = defPayment[key];
+					let list = [];
+					if (key === defPayType.onlineBank) {
+						list = onlineBankingList;
+					} else if (key === defPayType.localBank) {
+						list = localBankList;
+					} else if (key === defPayType.mobilePay) {
+						list = mobilePayList;
+					}
+					return (
+						<div key={`deposit-${key}`}>
+							<Link
+								to={key}
+								className={item.icon}
+								state={{
+									paymentList: list
+								}}
+							/>
+							<span>{i18n[item.displayKey]}</span>
+							<span className="title">{i18n.lbl_CreditTime}</span>
+							<span className="creditTime">
+								{i18n[item.creditTimeKey]}
+							</span>
+						</div>
+					);
+				})
+		: null;
 
 	const GetDepositInfoRecent = () => {
 		api_GetDepositInfoRecent().then(

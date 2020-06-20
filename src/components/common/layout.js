@@ -62,6 +62,7 @@ const Layout = ({ children }) => {
 	const { nav } = useContext(navContext);
 	let position = {};
 	let pageInfo = _PageInfo.default;
+	let _matchLogin = useMatch(`/${path.login.root}`) !== null;
 	let _matchMember = useMatch(`/${path.member.root}/*`) !== null;
 	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
 	let _matchWithdrawal = useMatch(`/${path.withdrawal.root}/*`) !== null;
@@ -74,7 +75,7 @@ const Layout = ({ children }) => {
 		) !== null;
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 
-	if (nav === defNavPanel.login || nav === defNavPanel.join) {
+	if (nav === defNavPanel.login || _matchLogin || nav === defNavPanel.join) {
 		position = { position: "fixed" };
 	} else {
 		if (_matchMember) {
