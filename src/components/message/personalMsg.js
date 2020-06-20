@@ -8,6 +8,8 @@ import {
 } from "../../service/api/account";
 import moment from "moment";
 import ReloadSpin from "../common/reloadSpin";
+import Loading from "../common/loading";
+
 import AUTO_FETCHING_DATA from "../../service/autoFetchingData";
 
 const Panel = () => {
@@ -19,8 +21,10 @@ const Panel = () => {
 	const [openContentState, setOpenContentState] = useState(null);
 	const [checkboxListState, setcheckboxListState] = useState([]);
 	const [isSelectedAll, setIsSelectedAll] = useState(false);
-
+	const [processing, setProcessing] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+
 	AUTO_FETCHING_DATA(
 		api_GetMsgList,
 		{},
@@ -31,54 +35,119 @@ const Panel = () => {
 	);
 
 	useEffect(() => {
-		GetMsgList(1);
-	}, []);
+		setLoading(true);
 
-	const GetMsgList = () => {
-		api_GetMsgList({ PageNumber: 1 }).then(res => {
-			if (res.data.errorCode === 0) {
-				let data = res.data.data;
-				if (data !== null) {
-					setGetMsgList(data);
-					if (res.data.totalPages >= res.data.pageNumber) {
-						setPageInfo(() => ({
-							totalPages: res.data.totalPages,
-							pageNumber: res.data.pageNumber
-						}));
+		api_GetMsgList({ PageNumber: 1 }).then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let data = res.data.data;
+					if (data !== null) {
+						setGetMsgList(data);
+						if (res.data.totalPages >= res.data.pageNumber) {
+							setPageInfo(() => ({
+								totalPages: res.data.totalPages,
+								pageNumber: res.data.pageNumber
+							}));
+						}
 					}
 				}
+				setLoading(false);
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
+				setLoading(false);
 			}
-		});
+		);
+	}, [i18n.lbl_ImportantNote, setPopBox]);
+
+	const GetMsgList = () => {
+		if (!processing) {
+			setProcessing(true);
+			api_GetMsgList({ PageNumber: 1 }).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						let data = res.data.data;
+						if (data !== null) {
+							setGetMsgList(data);
+							if (res.data.totalPages >= res.data.pageNumber) {
+								setPageInfo(() => ({
+									totalPages: res.data.totalPages,
+									pageNumber: res.data.pageNumber
+								}));
+							}
+						}
+					}
+					setProcessing(false);
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+					setProcessing(false);
+				}
+			);
+		}
 	};
 
 	const openContent = (id, flag) => {
-		if (openContentState === id) {
-			setOpenContentState(null);
-		} else {
-			setOpenContentState(id);
-			api_GetMsgContent(id).then(res => {
-				if (res.data.errorCode === 0) {
-					let data = res.data.data;
-					setGetMsgContent(data);
+		if (!processing) {
+			setProcessing(true);
 
-					if (flag !== true) {
-						setGetMsgList(prevState => {
-							return prevState.map(x => {
-								if (x.id === id) {
-									x.flag = true;
-								}
-								return x;
-							});
-						});
+			if (openContentState === id) {
+				setOpenContentState(null);
+				setProcessing(false);
+			} else {
+				api_GetMsgContent(id).then(
+					res => {
+						if (res.data.errorCode === 0) {
+							let data = res.data.data;
+							setGetMsgContent(data);
 
-						api_GetMsgCount().then(res => {
-							if (res.data.errorCode === 0) {
-								setMsgCount(res.data.data);
+							if (flag !== false) {
+								setGetMsgList(prevState => {
+									return prevState.map(x => {
+										if (x.id === id) {
+											x.flag = true;
+										}
+										return x;
+									});
+								});
+
+								api_GetMsgCount().then(
+									res => {
+										if (res.data.errorCode === 0) {
+											setMsgCount(res.data.data);
+										}
+									},
+									err => {
+										setPopBox({
+											isOpen: true,
+											title: i18n.lbl_ImportantNote,
+											content: "API Server Error."
+										});
+									}
+								);
 							}
+						}
+						setProcessing(false);
+						setOpenContentState(id);
+					},
+					err => {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: "API Server Error."
 						});
+						setProcessing(false);
 					}
-				}
-			});
+				);
+			}
 		}
 	};
 
@@ -105,16 +174,25 @@ const Panel = () => {
 
 	const delMsg = () => {
 		const DelMsg = () => {
-			api_DelMsg(checkboxListState).then(res => {
-				if (res.data.errorCode === 0) {
-					setGetMsgList(prevState =>
-						prevState.filter(m => {
-							return !checkboxListState.includes(m.id);
-						})
-					);
-					setcheckboxListState([]);
+			api_DelMsg(checkboxListState).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						setGetMsgList(prevState =>
+							prevState.filter(m => {
+								return !checkboxListState.includes(m.id);
+							})
+						);
+						setcheckboxListState([]);
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
 				}
-			});
+			);
 			setPopBox({ isOpen: false });
 		};
 
@@ -163,6 +241,7 @@ const Panel = () => {
 
 	return (
 		<>
+			{loading ? <Loading /> : null}
 			<div className="functionList">
 				<label className="checkbox">
 					<input type="checkbox" onChange={selectAll} />

@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import {
 	userInfoContext,
 	i18nContext,
-	walletInfoContext
+	walletInfoContext,
+	popBoxContext
 } from "../common/context";
 import LangDropdown from "../common/dropdown.icon";
 import { api_GetSiteLangList } from "../../service/api/site";
@@ -15,23 +16,33 @@ const Profile = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
 	const { i18n } = useContext(i18nContext);
-
+	const { setPopBox } = useContext(popBoxContext);
 	const [userLanValue, setUserLanValue] = useState(0);
 	const [langList, setLangList] = useState([]);
+	const [processing, setProcessing] = useState(false);
 
 	useEffect(() => {
-		api_GetSiteLangList().then(res => {
-			const langNum = res.data.data;
-			let langArr = langNum.map(id => {
-				return {
-					langId: id.langId,
-					displayText: id.language,
-					iconClassName: `flag ${id.langId}`
-				};
-			});
-			setLangList(langArr);
-		});
-	}, []);
+		api_GetSiteLangList().then(
+			res => {
+				const langNum = res.data.data;
+				let langArr = langNum.map(id => {
+					return {
+						langId: id.langId,
+						displayText: id.language,
+						iconClassName: `flag ${id.langId}`
+					};
+				});
+				setLangList(langArr);
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
+			}
+		);
+	}, [i18n.lbl_ImportantNote, setPopBox]);
 
 	useEffect(() => {
 		let langId = userInfo.langId ?? GET_LANG_ID();
@@ -42,14 +53,29 @@ const Profile = () => {
 	}, [langList, userInfo.langId]);
 
 	const GetBalance = () => {
-		api_GetBalnace().then(res => {
-			if (res.data.errorCode === 0) {
-				setWalletInfo(prevState => ({
-					...prevState,
-					main: res.data.data
-				}));
-			}
-		});
+		if (!processing) {
+			setProcessing(true);
+
+			api_GetBalnace().then(
+				res => {
+					if (res.data.errorCode === 0) {
+						setWalletInfo(prevState => ({
+							...prevState,
+							main: res.data.data
+						}));
+					}
+					setProcessing(false);
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+					setProcessing(false);
+				}
+			);
+		}
 	};
 
 	const selectItemHandler = idx => {
