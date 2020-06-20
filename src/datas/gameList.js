@@ -156,7 +156,7 @@ const gameList = [
 			// { icon: "baseball", gameId: 1, tpId: 8 },
 			// { icon: "badminton", gameId: 1, tpId: 9 }
 		],
-		translation: "lbl_Games"
+		translation: "lbl_Fishing"
 	},
 	{
 		category: "keno",

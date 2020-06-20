@@ -207,5 +207,6 @@ export default [
 	"lbl_UpdatePersonalDetail",
 	"lbl_JoinNow",
 	"lbl_UpdateBankDetail",
-	"lbl_UpdateBankInfo"
+	"lbl_UpdateBankInfo",
+	"lbl_Fishing"
 ];
