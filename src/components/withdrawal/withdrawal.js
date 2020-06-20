@@ -60,22 +60,22 @@ const Panel = () => {
 					setRedirectPath(`/${path.member.root}`);
 				};
 
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: i18n.lbl_UpdatePersonalInfo,
-					hasBtn: true,
-					hideCloseBtn: true,
-					btnBar: (
-						<div className="btn-group">
-							<button className="blue" onClick={ClosePopBox}>
-								{i18n.lbl_UpdatePersonalDetail}
-							</button>
-						</div>
-					)
-				});
-
 				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: i18n.lbl_UpdatePersonalInfo,
+						hasBtn: true,
+						hideCloseBtn: true,
+						btnBar: (
+							<div className="btn-group">
+								<button className="blue" onClick={ClosePopBox}>
+									{i18n.lbl_UpdatePersonalDetail}
+								</button>
+							</div>
+						)
+					});
+
 					setLoading(false);
 					setPageVerify(false);
 				}
@@ -142,24 +142,26 @@ const Panel = () => {
 									);
 								};
 
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: i18n.lbl_UpdateBankInfo,
-									hasBtn: true,
-									hideCloseBtn: true,
-									btnBar: (
-										<div className="btn-group">
-											<button
-												className="blue"
-												onClick={ClosePopBox}>
-												{i18n.lbl_UpdateBankDetail}
-											</button>
-										</div>
-									)
-								});
+								if (mounted) {
+									setPopBox({
+										isOpen: true,
+										title: i18n.lbl_ImportantNote,
+										content: i18n.lbl_UpdateBankInfo,
+										hasBtn: true,
+										hideCloseBtn: true,
+										btnBar: (
+											<div className="btn-group">
+												<button
+													className="blue"
+													onClick={ClosePopBox}>
+													{i18n.lbl_UpdateBankDetail}
+												</button>
+											</div>
+										)
+									});
 
-								setPageVerify(false);
+									setPageVerify(false);
+								}
 							}
 						}
 					}

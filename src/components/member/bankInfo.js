@@ -33,26 +33,33 @@ const BankInfo = () => {
 	const [warningState, setWarningState] = useState(initWarningState);
 
 	useEffect(() => {
+		let mounted = true;
 		api_GetBankInfoSysList().then(
 			res => {
-				const data = res.data.data;
-				let bankInfoArr = data.map(i => {
-					return {
-						id: i.sysId,
-						sysId: i.sysId,
-						bankName: i.bankName,
-						image: i.bankLogo,
-						displayText: i.bankName
-					};
-				});
-				setSiteBankInfoState(() => bankInfoArr);
+				if (res.data.errorCode === 0) {
+					const data = res.data.data;
+					let bankInfoArr = data.map(i => {
+						return {
+							id: i.sysId,
+							sysId: i.sysId,
+							bankName: i.bankName,
+							image: i.bankLogo,
+							displayText: i.bankName
+						};
+					});
+					if (mounted) {
+						setSiteBankInfoState(() => bankInfoArr);
+					}
+				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+				}
 			}
 		);
 
@@ -70,24 +77,32 @@ const BankInfo = () => {
 								SysId: i.sysId
 							};
 						});
-						setGetBankInfo(() => getBankInfoArr);
+						if (mounted) {
+							setGetBankInfo(() => getBankInfoArr);
+						}
 					}
 				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+				}
 			}
 		);
+
+		return () => (mounted = false);
 	}, [i18n.lbl_ImportantNote, setPopBox]);
 
 	useEffect(() => {
-		if (!userInfo.accountName) {
+		let mounted = true;
+		if (!userInfo.accountName && mounted) {
 			setStatus(true);
 		}
+		return () => (mounted = false);
 	}, [userInfo.accountName]);
 
 	const toAddBankAccount = () => {

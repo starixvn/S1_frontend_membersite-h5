@@ -13,21 +13,33 @@ const Panel = () => {
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		setLoading(true);
+		let mounted = true;
+		if (mounted) {
+			setLoading(true);
+		}
 
 		api_GetAnnouncement(userInfo.langId).then(
 			res => {
-				const data = res.data.data;
-				setGetAnnouncement(data);
-				setLoading(false);
+				if (res.data.errorCode === 0) {
+					const data = res.data.data;
+					if (mounted) {
+						setGetAnnouncement(data);
+					}
+				}
+
+				if (mounted) {
+					setLoading(false);
+				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
-				setLoading(false);
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+					setLoading(false);
+				}
 			}
 		);
 	}, [i18n.lbl_ImportantNote, setPopBox, userInfo.langId]);

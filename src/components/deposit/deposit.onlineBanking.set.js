@@ -48,19 +48,23 @@ const SetPayment = props => {
 						setBankList(datas);
 					}
 				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
+					if (mounted) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
 				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+				}
 			}
 		);
 		return () => {

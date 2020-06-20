@@ -36,6 +36,7 @@ export const Main = props => {
 	const [processing, setProcessing] = useState(false);
 
 	useEffect(() => {
+		let mounted = true;
 		if (props.location.state.paymentList) {
 			let datas = props.location.state.paymentList.map(b => {
 				let { bankLogo, sysId, bankName, ...rest } = b;
@@ -46,9 +47,12 @@ export const Main = props => {
 					displayText: bankName
 				};
 			});
-			setBankList(datas);
-			setProcessing(false);
+			if (mounted) {
+				setBankList(datas);
+				setProcessing(false);
+			}
 		}
+		return () => (mounted = false);
 	}, [props.location.state.paymentList]);
 
 	const SelectBank = idx => {

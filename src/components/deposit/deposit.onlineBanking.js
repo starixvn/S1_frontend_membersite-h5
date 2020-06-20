@@ -14,7 +14,9 @@ export const Main = props => {
 	useEffect(() => {
 		let mounted = true;
 		if (props.location.state.paymentList) {
-			setPaymentList(props.location.state.paymentList);
+			if (mounted) {
+				setPaymentList(props.location.state.paymentList);
+			}
 		} else {
 			api_GetOnlinePaymentList().then(
 				res => {
@@ -31,17 +33,19 @@ export const Main = props => {
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
+					if (mounted) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: "API Server Error."
+						});
+					}
 				}
 			);
 		}
 
 		return () => (mounted = false);
-	}, [props.location.state.paymentList, i18n.lbl_ImportantNote]);
+	}, [props.location.state.paymentList, i18n.lbl_ImportantNote, setPopBox]);
 
 	let rows = paymentList?.map(p => {
 		return (

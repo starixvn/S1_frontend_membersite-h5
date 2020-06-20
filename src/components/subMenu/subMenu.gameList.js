@@ -20,12 +20,14 @@ const SubGameList = () => {
 	});
 
 	useEffect(() => {
-		if (nav !== null) {
+		let mounted = true;
+		if (nav !== null && mounted) {
 			setRedirect({
 				redirect: false,
 				path: ""
 			});
 		}
+		return () => (mounted = false);
 	}, [nav]);
 
 	const clickGame = ({ tpId, gameId, path }) => {

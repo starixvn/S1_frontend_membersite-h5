@@ -88,32 +88,35 @@ function Join() {
 		let mounted = true;
 		api_GetSiteCurrencyList().then(
 			res => {
-				if (mounted) {
+				if (res.data.errorCode === 0) {
 					const currencyNum = res.data.data;
 					let currencyArr = currencyNum.map(id => {
 						return { id: id, displayKey: `Currency_${id}` };
 					});
-
-					setUserValueState(prevState => ({
-						...prevState,
-						Currency: currencyArr[currencyDefaultSelectIdx]
-					}));
-					setSiteCurrencyState(() => currencyArr);
+					if (mounted) {
+						setUserValueState(prevState => ({
+							...prevState,
+							Currency: currencyArr[currencyDefaultSelectIdx]
+						}));
+						setSiteCurrencyState(() => currencyArr);
+					}
 				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						titleKey: "lbl_ImportantNote",
+						content: "API Server Error."
+					});
+				}
 			}
 		);
 
 		return () => {
 			mounted = false;
 		};
-	}, [i18n, setPopBox]);
+	}, [setPopBox]);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);

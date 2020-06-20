@@ -37,15 +37,23 @@ const Panel = () => {
 	);
 
 	useEffect(() => {
-		setLoading(true);
+		let mounted = true;
+		if (mounted) {
+			setLoading(true);
+		}
 
 		api_GetMsgList({ PageNumber: 1 }).then(
 			res => {
 				if (res.data.errorCode === 0) {
 					let data = res.data.data;
 					if (data !== null) {
-						setGetMsgList(data);
-						if (res.data.totalPages >= res.data.pageNumber) {
+						if (mounted) {
+							setGetMsgList(data);
+						}
+						if (
+							res.data.totalPages >= res.data.pageNumber &&
+							mounted
+						) {
 							setPageInfo(() => ({
 								totalPages: res.data.totalPages,
 								pageNumber: res.data.pageNumber
@@ -53,17 +61,23 @@ const Panel = () => {
 						}
 					}
 				}
-				setLoading(false);
+				if (mounted) {
+					setLoading(false);
+				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
-				setLoading(false);
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+					setLoading(false);
+				}
 			}
 		);
+
+		return () => (mounted = false);
 	}, [i18n.lbl_ImportantNote, setPopBox]);
 
 	const GetMsgList = () => {

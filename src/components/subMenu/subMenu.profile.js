@@ -22,34 +22,46 @@ const Profile = () => {
 	const [processing, setProcessing] = useState(false);
 
 	useEffect(() => {
+		let mounted = true;
 		api_GetSiteLangList().then(
 			res => {
-				const langNum = res.data.data;
-				let langArr = langNum.map(id => {
-					return {
-						langId: id.langId,
-						displayText: id.language,
-						iconClassName: `flag ${id.langId}`
-					};
-				});
-				setLangList(langArr);
+				if (res.data.errorCode === 0) {
+					const langNum = res.data.data;
+					let langArr = langNum.map(id => {
+						return {
+							langId: id.langId,
+							displayText: id.language,
+							iconClassName: `flag ${id.langId}`
+						};
+					});
+
+					if (mounted) {
+						setLangList(langArr);
+					}
+				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (mounted) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+				}
 			}
 		);
+
+		return () => (mounted = false);
 	}, [i18n.lbl_ImportantNote, setPopBox]);
 
 	useEffect(() => {
+		let mounted = true;
 		let langId = userInfo.langId ?? GET_LANG_ID();
 		let idx = langList.findIndex(x => x.langId === langId);
-		if (idx !== -1) {
+		if (idx !== -1 && mounted) {
 			setUserLanValue(idx);
 		}
+		return () => (mounted = false);
 	}, [langList, userInfo.langId]);
 
 	const GetBalance = () => {
