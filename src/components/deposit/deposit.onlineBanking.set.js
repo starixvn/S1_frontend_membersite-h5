@@ -11,13 +11,16 @@ import config from "../../config";
 import { number_format, isConvert, checkAmount } from "../common/common";
 import InputBox from "../common/inputbox";
 import LimitTip from "./limitTip";
+import path from "../../path";
+import PageVerify from "./deposit.pageVerify";
+import Loading from "../common/loading";
 
 const SetPayment = props => {
 	const { setPopBox } = useContext(popBoxContext);
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
 
-	const [redirect, setRedirect] = useState(false);
+	const [redirectPath, setRedirectPath] = useState(null);
 	const [bankList, setBankList] = useState([]);
 	const [selBank, setSelBank] = useState({
 		idx: null,
@@ -27,78 +30,118 @@ const SetPayment = props => {
 	const [warning, setWarning] = useState({ status: false, msg: "" });
 	const _isConvert = isConvert(userInfo.currencyId);
 
+	const [pageVerify, setPageVerify] = useState(true);
+	const [loading, setLoading] = useState(true);
+
+	PageVerify(
+		userInfo,
+		i18n,
+		setPopBox,
+		setRedirectPath,
+		setPageVerify,
+		props.location.state !== null
+	);
+
 	useEffect(() => {
 		let mounted = true;
-		api_GetOnlineBankInfoSysList({
-			payId: props.location.state.payId
-		}).then(
-			res => {
-				if (res.data.errorCode === 0) {
-					let datas = res.data.data.map(b => {
-						let { bankLogo, sysId, bankName, ...rest } = b;
-						return {
-							...rest,
-							image: bankLogo,
-							id: sysId,
-							displayText: bankName
-						};
-					});
 
-					if (mounted) {
-						setBankList(datas);
+		if (props.location.state === null) {
+			if (mounted) {
+				setRedirectPath(`/${path.deposit.root}`);
+				setLoading(false);
+			}
+		} else {
+			if (userInfo.isLogin) {
+				setLoading(true);
+				api_GetOnlineBankInfoSysList({
+					payId: props.location.state.payId
+				}).then(
+					res => {
+						if (res.data.errorCode === 0) {
+							let datas = res.data.data.map(b => {
+								let { bankLogo, sysId, bankName, ...rest } = b;
+								return {
+									...rest,
+									image: bankLogo,
+									id: sysId,
+									displayText: bankName
+								};
+							});
+
+							if (mounted) {
+								if (datas.length > 0) {
+									setBankList(datas);
+								} else {
+									setRedirectPath(`/${path.deposit.root}`);
+								}
+							}
+						} else {
+							if (mounted) {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: res.data.message
+								});
+							}
+						}
+
+						if (mounted) {
+							setLoading(false);
+						}
+					},
+					err => {
+						if (mounted) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: "API Server Error."
+							});
+							setLoading(false);
+						}
 					}
-				} else {
-					if (mounted) {
+				);
+			}
+		}
+
+		return () => {
+			mounted = false;
+		};
+	}, [
+		props.location.state,
+		userInfo.isLogin,
+		i18n.lbl_ImportantNote,
+		setPopBox
+	]);
+
+	const SelectBank = idx => {
+		if (pageVerify) {
+			api_GetOnlineBankInfo({
+				payId: props.location.state.payId,
+				sysId: bankList[idx].id
+			}).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						setSelBank({
+							idx: idx,
+							bank: res.data.data
+						});
+					} else {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
 							content: res.data.message
 						});
 					}
-				}
-			},
-			err => {
-				if (mounted) {
+				},
+				err => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
 						content: "API Server Error."
 					});
 				}
-			}
-		);
-		return () => {
-			mounted = false;
-		};
-	}, [props.location.state.payId]);
-
-	const SelectBank = idx => {
-		api_GetOnlineBankInfo({
-			payId: props.location.state.payId,
-			sysId: bankList[idx].id
-		}).then(
-			res => {
-				if (res.data.errorCode === 0) {
-					setSelBank({
-						idx: idx,
-						bank: res.data.data
-					});
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
-				}
-			},
-			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
-			}
-		);
+			);
+		}
 	};
 
 	const VaildAmount = _amount => {
@@ -149,7 +192,7 @@ const SetPayment = props => {
 					...prevState,
 					isOpen: false
 				}));
-				setRedirect(true);
+				setRedirectPath(`/${path.deposit.root}`);
 			};
 
 			let real_amount = _isConvert ? amount * 1000 : amount;
@@ -193,46 +236,52 @@ const SetPayment = props => {
 		}
 	};
 
-	return redirect ? (
-		<Redirect to="/deposit" noThrow />
-	) : (
-		<>
-			<Step step={3} />
-			<div className="inputBox">
-				<DropdownIMG
-					mainKey={"onlineBanking-bankList"}
-					onSelectItem={SelectBank}
-					options={bankList}
-					selectedIdx={selBank?.idx}
-					i18n={i18n}
-					ImgURL={`${config.apiURL}/common/images/BankLogo/`}
-					className="bankLogo"
+	if (loading) {
+		return <Loading />;
+	} else {
+		return redirectPath !== null ? (
+			<Redirect to={redirectPath} noThrow />
+		) : pageVerify ? (
+			<>
+				<Step step={3} />
+				<div className="inputBox">
+					<DropdownIMG
+						mainKey={"onlineBanking-bankList"}
+						onSelectItem={SelectBank}
+						options={bankList}
+						selectedIdx={selBank?.idx}
+						i18n={i18n}
+						ImgURL={`${config.apiURL}/common/images/BankLogo/`}
+						className="bankLogo"
+					/>
+					<LimitTip
+						displayTextLimit={i18n.lbl_Limit}
+						displayTextUnLimit={i18n.lbl_Unlimited}
+						_isConvert={_isConvert}
+						minAmount={selBank?.bank?.minAmount}
+						maxAmount={selBank?.bank?.maxAmount}
+					/>
+				</div>
+				<InputBox
+					icon="icon-pencil"
+					value={amount}
+					inputType="tel"
+					onChange={EditAmount}
+					Warning={warning}
 				/>
-				<LimitTip
-					displayTextLimit={i18n.lbl_Limit}
-					displayTextUnLimit={i18n.lbl_Unlimited}
-					_isConvert={_isConvert}
-					minAmount={selBank?.bank?.minAmount}
-					maxAmount={selBank?.bank?.maxAmount}
-				/>
-			</div>
-			<InputBox
-				icon="icon-pencil"
-				value={amount}
-				inputType="tel"
-				onChange={EditAmount}
-				Warning={warning}
-			/>
-			<div className="btn-group">
-				<Link to="../" className="white">
-					{i18n.lbl_Back}
-				</Link>
-				<button className="orange" onClick={ClickSubmit}>
-					{i18n.lbl_Submit}
-				</button>
-			</div>
-		</>
-	);
+				<div className="btn-group">
+					<Link to="../" className="white">
+						{i18n.lbl_Back}
+					</Link>
+					<button className="orange" onClick={ClickSubmit}>
+						{i18n.lbl_Submit}
+					</button>
+				</div>
+			</>
+		) : (
+			<></>
+		);
+	}
 };
 
 export default SetPayment;

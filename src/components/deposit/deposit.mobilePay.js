@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import Step from "./step";
-import { Link } from "@reach/router";
+import { Link, Redirect } from "@reach/router";
 import {
 	i18nContext,
 	userInfoContext,
@@ -13,6 +13,9 @@ import {
 import config from "../../config";
 import LimitTip from "./limitTip";
 import { isConvert } from "../common/common";
+import path from "../../path";
+import PageVerify from "./deposit.pageVerify";
+import Loading from "../common/loading";
 
 export const Panel = props => props.children;
 
@@ -24,46 +27,79 @@ export const Main = props => {
 	const [channelList, setChannelList] = useState([]);
 	const { setPopBox } = useContext(popBoxContext);
 
+	const [redirectPath, setRedirectPath] = useState(null);
+	const [pageVerify, setPageVerify] = useState(true);
+	const [loading, setLoading] = useState(true);
+
+	PageVerify(
+		userInfo,
+		i18n,
+		setPopBox,
+		setRedirectPath,
+		setPageVerify,
+		props.location.state?.paymentList?.length >= 0
+	);
+
 	const _isConvert = isConvert(userInfo.currencyId);
 	useEffect(() => {
 		let mounted = true;
-		if (props.location.state.paymentList) {
+		if (props.location.state?.paymentList) {
 			if (mounted) {
+				setLoading(false);
 				setPaymentList(props.location.state.paymentList);
 			}
 		} else {
-			api_GetMobilePayGroupList().then(
-				res => {
-					if (res.data.errorCode === 0) {
-						if (res.data.errorCode === 0 && mounted) {
-							setPaymentList(res.data.data);
+			if (userInfo.isLogin) {
+				setLoading(true);
+				api_GetMobilePayGroupList().then(
+					res => {
+						if (res.data.errorCode === 0) {
+							if (res.data.errorCode === 0 && mounted) {
+								if (res.data.data.length > 0) {
+									setPaymentList(res.data.data);
+								} else {
+									setRedirectPath(`/${path.deposit.root}`);
+								}
+							}
+						} else {
+							if (mounted) {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: res.data.message
+								});
+							}
 						}
-					} else {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
+						if (mounted) {
+							setLoading(false);
+						}
+					},
+					err => {
+						if (mounted) {
+							setLoading(false);
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: "API Server Error."
+							});
+						}
 					}
-				},
-				err => {
-					if (mounted) {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
-						});
-					}
-				}
-			);
+				);
+			}
 		}
 
 		return () => (mounted = false);
-	}, [props.location.state.paymentList, setPopBox, i18n.lbl_ImportantNote]);
+	}, [
+		props.location.state,
+		setPopBox,
+		i18n.lbl_ImportantNote,
+		userInfo.isLogin
+	]);
 
 	const SelectPayment = groupId => {
-		if (selGroupId !== groupId) {
+		if (pageVerify && selGroupId !== groupId) {
 			setSelGroupId(() => groupId);
+			setLoading(true);
 			api_GetMobilePayInfoList(groupId).then(
 				res => {
 					if (res.data.errorCode === 0) {
@@ -75,6 +111,7 @@ export const Main = props => {
 							content: res.data.message
 						});
 					}
+					setLoading(false);
 				},
 				err => {
 					setPopBox({
@@ -82,6 +119,7 @@ export const Main = props => {
 						title: i18n.lbl_ImportantNote,
 						content: "API Server Error."
 					});
+					setLoading(false);
 				}
 			);
 		}
@@ -133,21 +171,29 @@ export const Main = props => {
 		);
 	});
 
-	return (
-		<>
-			<Step step={2} />
-			<div className="depositType">{rows}</div>
-			<div
-				className={`inputBox channel${
-					selGroupId !== null ? " open" : ""
-				}`}>
-				{channels}
-			</div>
-			<div className="btn-group">
-				<Link to="../" className="white">
-					{i18n.lbl_Back}
-				</Link>
-			</div>
-		</>
-	);
+	if (loading) {
+		return <Loading />;
+	} else {
+		return redirectPath !== null ? (
+			<Redirect to={redirectPath} noThrow />
+		) : pageVerify ? (
+			<>
+				<Step step={2} />
+				<div className="depositType">{rows}</div>
+				<div
+					className={`inputBox channel${
+						selGroupId !== null ? " open" : ""
+					}`}>
+					{channels}
+				</div>
+				<div className="btn-group">
+					<Link to="../" className="white">
+						{i18n.lbl_Back}
+					</Link>
+				</div>
+			</>
+		) : (
+			<></>
+		);
+	}
 };

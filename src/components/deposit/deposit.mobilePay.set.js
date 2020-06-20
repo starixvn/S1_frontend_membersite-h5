@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
 	i18nContext,
 	userInfoContext,
@@ -10,6 +10,8 @@ import LimitTip from "./limitTip";
 import { isConvert, number_format, checkAmount } from "../common/common";
 import { Link, Redirect } from "@reach/router";
 import InputBox from "../common/inputbox";
+import path from "../../path";
+import PageVerify from "./deposit.pageVerify";
 
 const SetMobilePay = props => {
 	const { i18n } = useContext(i18nContext);
@@ -20,10 +22,29 @@ const SetMobilePay = props => {
 		return props.location.state?.amountRule === 3 ? 0 : "";
 	});
 	const [warning, setWarning] = useState({ status: false, msg: "" });
-	const [redirect, setRedirect] = useState(false);
+	const [redirectPath, setRedirectPath] = useState(null);
 
 	const _isConvert = isConvert(userInfo.currencyId);
 	const paymentInfo = props.location.state;
+
+	const [pageVerify, setPageVerify] = useState(true);
+
+	PageVerify(
+		userInfo,
+		i18n,
+		setPopBox,
+		setRedirectPath,
+		setPageVerify,
+		props.location.state !== null
+	);
+
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && props.location.state === null) {
+			redirectPath(`/${path.deposit.root}`);
+		}
+		return () => (mounted = false);
+	}, [props.location.state, redirectPath]);
 
 	const VaildAmount = _amount => {
 		let result = checkAmount(
@@ -54,63 +75,71 @@ const SetMobilePay = props => {
 	};
 
 	const ClickSubmit = () => {
-		let confirmAmount =
-			paymentInfo.amountRule === 3 && paymentInfo.amountList?.length > 0
-				? amount / 1000
-				: amount;
+		if (pageVerify) {
+			let confirmAmount =
+				paymentInfo.amountRule === 3 &&
+				paymentInfo.amountList?.length > 0
+					? amount / 1000
+					: amount;
 
-		let result = VaildAmount(confirmAmount);
+			let result = VaildAmount(confirmAmount);
 
-		if (result) {
-			const RedirectToNext = real_amount => {
-				setPopBox(prevState => ({
-					...prevState,
-					isOpen: false
-				}));
-				setRedirect(true);
-				window.open(
-					`${config.apiURL}/${userInfo.langId}/Cashier/DepositReqMobilePay?ChannelId=${paymentInfo.channelId}&Amount=${real_amount}`
-				);
-			};
+			if (result) {
+				const RedirectToNext = real_amount => {
+					setPopBox(prevState => ({
+						...prevState,
+						isOpen: false
+					}));
+					setRedirectPath(`/${path.deposit.root}`);
+					window.open(
+						`${config.apiURL}/${userInfo.langId}/Cashier/DepositReqMobilePay?ChannelId=${paymentInfo.channelId}&Amount=${real_amount}`
+					);
+				};
 
-			let real_amount = _isConvert ? confirmAmount * 1000 : confirmAmount;
-			setPopBox({
-				isOpen: true,
-				title: i18n.lbl_ImportantNote,
-				content: (
-					<>
-						<p>{i18n.lbl_ConfirmDeposit}</p>
-						<img
-							src={`${config.imgUrl}/common/images/MobilePay/${paymentInfo.groupName}.png`}
-							alt={paymentInfo.groupName}
-						/>
-						<div className="tip">
-							<span>{i18n.lbl_DepositAmount} :</span>{" "}
-							{number_format(real_amount, _isConvert)}
+				let real_amount = _isConvert
+					? confirmAmount * 1000
+					: confirmAmount;
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: (
+						<>
+							<p>{i18n.lbl_ConfirmDeposit}</p>
+							<img
+								src={`${config.imgUrl}/common/images/MobilePay/${paymentInfo.groupName}.png`}
+								alt={paymentInfo.groupName}
+							/>
+							<div className="tip">
+								<span>{i18n.lbl_DepositAmount} :</span>{" "}
+								{number_format(real_amount, _isConvert)}
+							</div>
+						</>
+					),
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button
+								className="blue"
+								onClick={() =>
+									setPopBox(prevState => ({
+										...prevState,
+										isOpen: false
+									}))
+								}>
+								{i18n["lbl_Cancel"]}
+							</button>
+							<button
+								className="orange"
+								onClick={RedirectToNext.bind(
+									this,
+									real_amount
+								)}>
+								{i18n["lbl_Submit"]}
+							</button>
 						</div>
-					</>
-				),
-				hasBtn: true,
-				btnBar: (
-					<div className="btn-group">
-						<button
-							className="blue"
-							onClick={() =>
-								setPopBox(prevState => ({
-									...prevState,
-									isOpen: false
-								}))
-							}>
-							{i18n["lbl_Cancel"]}
-						</button>
-						<button
-							className="orange"
-							onClick={RedirectToNext.bind(this, real_amount)}>
-							{i18n["lbl_Submit"]}
-						</button>
-					</div>
-				)
-			});
+					)
+				});
+			}
 		}
 	};
 
@@ -132,8 +161,8 @@ const SetMobilePay = props => {
 		);
 	});
 
-	return redirect ? (
-		<Redirect to="/deposit" noThrow />
+	return redirectPath !== null ? (
+		<Redirect to={redirectPath} noThrow />
 	) : (
 		<>
 			<Step step={3} />
