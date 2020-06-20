@@ -15,7 +15,7 @@ import useInterval from "../hook/useInterval";
 
 export const Wrapper = ({ children }) => {
 	const [userInfo, setUserInfo] = useState({
-		isLogin: false,
+		isLogin: null,
 		langId: GET_LANG_ID(),
 		userName: "guest"
 	});

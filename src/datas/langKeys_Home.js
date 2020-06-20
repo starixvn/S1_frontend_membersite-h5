@@ -204,5 +204,7 @@ export default [
 	"lbl_CountryVN",
 	"lbl_Welcome",
 	"lbl_UpdatePersonalInfo",
-	"lbl_UpdatePersonalDetail"
+	"lbl_UpdatePersonalDetail",
+	"lbl_UpdateBankDetail",
+	"lbl_UpdateBankInfo"
 ];
