@@ -18,7 +18,8 @@ import {
 	userInfoContext,
 	i18nContext,
 	navContext,
-	defNavPanel
+	defNavPanel,
+	popBoxContext
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
@@ -60,7 +61,7 @@ const currencyDefaultSelectIdx = 0;
 function Join() {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
-
+	const { setPopBox } = useContext(popBoxContext);
 	const [userValueState, setUserValueState] = useState(initState);
 	const [siteCurrencyState, setSiteCurrencyState] = useState([]);
 	const [warningState, setWarningState] = useState(initWarningState);
@@ -83,25 +84,34 @@ function Join() {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetSiteCurrencyList().then(res => {
-			if (mounted) {
-				const currencyNum = res.data.data;
-				let currencyArr = currencyNum.map(id => {
-					return { id: id, displayKey: `Currency_${id}` };
-				});
+		api_GetSiteCurrencyList().then(
+			res => {
+				if (mounted) {
+					const currencyNum = res.data.data;
+					let currencyArr = currencyNum.map(id => {
+						return { id: id, displayKey: `Currency_${id}` };
+					});
 
-				setUserValueState(prevState => ({
-					...prevState,
-					Currency: currencyArr[currencyDefaultSelectIdx]
-				}));
-				setSiteCurrencyState(() => currencyArr);
+					setUserValueState(prevState => ({
+						...prevState,
+						Currency: currencyArr[currencyDefaultSelectIdx]
+					}));
+					setSiteCurrencyState(() => currencyArr);
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 
 		return () => {
 			mounted = false;
 		};
-	}, [i18n]);
+	}, [i18n, setPopBox]);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);
@@ -153,20 +163,29 @@ function Join() {
 
 		api_ExistsUserName({
 			UserName: val
-		}).then(response => {
-			const res = response.data;
-			if (res.errorCode === 0 && res.data === true) {
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						UserName: {
-							status: true,
-							msg: i18n["msg_UsernameNotAvailable"]
-						}
-					};
+		}).then(
+			response => {
+				const res = response.data;
+				if (res.errorCode === 0 && res.data === true) {
+					setWarningState(prevState => {
+						return {
+							...prevState,
+							UserName: {
+								status: true,
+								msg: i18n["msg_UsernameNotAvailable"]
+							}
+						};
+					});
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
 				});
 			}
-		});
+		);
 
 		setWarningState(prevState => {
 			return {
@@ -261,20 +280,29 @@ function Join() {
 
 		api_ExistsEmail({
 			Email: val
-		}).then(response => {
-			const res = response.data;
-			if (res.errorCode === 0 && res.data === true) {
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						Email: {
-							status: true,
-							msg: i18n["msg_MailExisted"]
-						}
-					};
+		}).then(
+			response => {
+				const res = response.data;
+				if (res.errorCode === 0 && res.data === true) {
+					setWarningState(prevState => {
+						return {
+							...prevState,
+							Email: {
+								status: true,
+								msg: i18n["msg_MailExisted"]
+							}
+						};
+					});
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
 				});
 			}
-		});
+		);
 		setWarningState(prevState => {
 			return {
 				...prevState,
@@ -364,40 +392,61 @@ function Join() {
 
 			regData["aff"] = getUrlParameter("aff");
 
-			api_Register(regData).then(response => {
-				const errorCode = response.data.errorCode;
-				const message = response.data.message;
-				if (errorCode === 0) {
-					api_GetCustProfile().then(res_custInfo => {
-						let _user = {
-							isLogin: true,
-							langId: defaultLangId,
-							userName: userValueState.UserName
-						};
+			api_Register(regData).then(
+				response => {
+					const errorCode = response.data.errorCode;
+					const message = response.data.message;
+					if (errorCode === 0) {
+						api_GetCustProfile().then(
+							res_custInfo => {
+								let _user = {
+									isLogin: true,
+									langId: defaultLangId,
+									userName: userValueState.UserName
+								};
 
-						if (res_custInfo.data.errorCode === 0) {
-							_user = { ..._user, ...res_custInfo.data.data };
-						}
+								if (res_custInfo.data.errorCode === 0) {
+									_user = {
+										..._user,
+										...res_custInfo.data.data
+									};
+								}
 
-						setUserInfo(_user);
+								setUserInfo(_user);
+							},
+							err => {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: "API Server Error."
+								});
+							}
+						);
+						setNav(null);
+					} else if (
+						errorCode === -2 ||
+						errorCode === -5 ||
+						errorCode === -19
+					) {
+						setWarningState(prevState => ({
+							...prevState,
+							UserName: { status: true, msg: message }
+						}));
+					} else if (errorCode === -3) {
+						setWarningState(prevState => ({
+							...prevState,
+							Password: { status: true, msg: message }
+						}));
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
 					});
-					setNav(null);
-				} else if (
-					errorCode === -2 ||
-					errorCode === -5 ||
-					errorCode === -19
-				) {
-					setWarningState(prevState => ({
-						...prevState,
-						UserName: { status: true, msg: message }
-					}));
-				} else if (errorCode === -3) {
-					setWarningState(prevState => ({
-						...prevState,
-						Password: { status: true, msg: message }
-					}));
 				}
-			});
+			);
 		} else {
 			setWarningState(prevState => ({
 				...prevState,
