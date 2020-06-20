@@ -142,7 +142,7 @@ export const Main = props => {
 						<>
 							<p>{i18n.lbl_ConfirmDeposit}</p>
 							<img
-								src={`${config.apiURL}/common/images/BankLogo/${selBank.bank.image}`}
+								src={`${config.imgUrl}/common/images/BankLogo/${selBank.bank.image}`}
 								alt={selBank.bank.bankName}
 							/>
 							<div className="tip">

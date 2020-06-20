@@ -156,7 +156,7 @@ const SetPayment = props => {
 					<>
 						<p>{i18n.lbl_ConfirmDeposit}</p>
 						<img
-							src={`${config.apiURL}/common/images/BankLogo/${selBank.bank.bankLogo}`}
+							src={`${config.imgUrl}/common/images/BankLogo/${selBank.bank.bankLogo}`}
 							alt={selBank.bank.bankName}
 						/>
 						<div className="tip">

@@ -21,14 +21,14 @@ const Slider = () => {
 			<a href="#">
 				<img
 					className="banner"
-					src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-ygg-20200508.png`}
+					src={`${config.imgUrl}/CMS/Nova88/Casino/ch/event-ygg-20200508.png`}
 					alt=""
 				/>
 			</a>
 			<a href="#">
 				<img
 					className="banner"
-					src={`${config.apiURL}/CMS/Nova88/Casino/ch/event-pp-20200508.png`}
+					src={`${config.imgUrl}/CMS/Nova88/Casino/ch/event-pp-20200508.png`}
 					alt=""
 				/>
 			</a>

@@ -23,6 +23,8 @@ import {
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
+import { useMatch, Redirect } from "@reach/router";
+import path from "../../path";
 
 const colName = ["UserName", "Password", "Email", "Currency"];
 
@@ -458,7 +460,8 @@ function Join() {
 	};
 
 	const { nav, setNav } = useContext(navContext);
-	const handleJoinPanel = (show, reset) => {
+	const [redirectPath, setRedirectPath] = useState(null);
+	const handleJoinPanel = (show, reset, showBylink) => {
 		if (reset) {
 			setUserValueState({
 				...initState,
@@ -469,15 +472,30 @@ function Join() {
 			setCheckboxState(false);
 		}
 
-		setNav(() => {
-			let newState = show ? null : defNavPanel.join;
-			return newState;
-		});
+		if (showBylink) {
+			setRedirectPath("/");
+		} else {
+			setNav(() => {
+				let newState = show ? null : defNavPanel.join;
+				return newState;
+			});
+		}
 	};
 
-	let openPanel = nav === defNavPanel.join;
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+		return () => {
+			mounted = false;
+		};
+	}, [redirectPath]);
 
-	return (
+	let showBylink = useMatch(path.join.root);
+	let openPanel = showBylink || nav === defNavPanel.join;
+
+	return redirectPath === null ? (
 		<>
 			<button onClick={handleJoinPanel.bind(this, openPanel)}>
 				JOIN
@@ -485,7 +503,12 @@ function Join() {
 			<div className={`Join${openPanel ? " open" : ""}`}>
 				<div
 					className={`close${openPanel ? " open" : ""}`}
-					onClick={handleJoinPanel.bind(this, openPanel, true)}>
+					onClick={handleJoinPanel.bind(
+						this,
+						openPanel,
+						true,
+						showBylink
+					)}>
 					<span></span>
 					<span></span>
 					<span></span>
@@ -581,6 +604,8 @@ function Join() {
 				</button>
 			</div>
 		</>
+	) : (
+		<Redirect to="/" noThrow />
 	);
 }
 

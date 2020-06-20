@@ -81,7 +81,7 @@ const SetMobilePay = props => {
 					<>
 						<p>{i18n.lbl_ConfirmDeposit}</p>
 						<img
-							src={`${config.apiURL}/common/images/MobilePay/${paymentInfo.groupName}.png`}
+							src={`${config.imgUrl}/common/images/MobilePay/${paymentInfo.groupName}.png`}
 							alt={paymentInfo.groupName}
 						/>
 						<div className="tip">
@@ -141,7 +141,7 @@ const SetMobilePay = props => {
 				<div className="account">
 					<div className="bankLogo">
 						<img
-							src={`${config.apiURL}/common/images/MobilePay/${paymentInfo.groupName}.png`}
+							src={`${config.imgUrl}/common/images/MobilePay/${paymentInfo.groupName}.png`}
 							alt={paymentInfo.groupName}
 						/>
 					</div>

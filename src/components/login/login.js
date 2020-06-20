@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Inputbox from "../common/inputbox";
 import InputboxPWD from "../common/inputbox.password";
 import logo from "../../styles/Nova88/img/logo.svg";
@@ -11,6 +11,8 @@ import {
 	defNavPanel,
 	popBoxContext
 } from "../common/context";
+import { useMatch, Redirect } from "@reach/router";
+import path from "../../path";
 
 const initState = {
 	UserName: "",
@@ -138,18 +140,35 @@ const LoginPage = ({ ButtonTitle }) => {
 	};
 
 	const { nav, setNav } = useContext(navContext);
-	const handleloginPanel = (show, reset) => {
+	const [redirectPath, setRedirectPath] = useState(null);
+	const handleloginPanel = (show, reset, showBylink) => {
 		if (reset) {
 			setUserValueState(initState);
 			setWarningState(initWarningState);
 		}
-		setNav(() => {
-			let newState = show ? null : defNavPanel.login;
-			return newState;
-		});
+
+		if (showBylink) {
+			setRedirectPath("/");
+		} else {
+			setNav(() => {
+				let newState = show ? null : defNavPanel.login;
+				return newState;
+			});
+		}
 	};
 
-	let showPanel = nav === defNavPanel.login;
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+		return () => {
+			mounted = false;
+		};
+	}, [redirectPath]);
+
+	let showBylink = useMatch(path.login.root) !== null;
+	let showPanel = showBylink || nav === defNavPanel.login;
 
 	const EditField = (colName, e) => {
 		let value = e.target.value;
@@ -159,7 +178,7 @@ const LoginPage = ({ ButtonTitle }) => {
 		}));
 	};
 
-	return (
+	return redirectPath === null ? (
 		<>
 			<button onClick={handleloginPanel.bind(this, showPanel)}>
 				{ButtonTitle}
@@ -167,7 +186,12 @@ const LoginPage = ({ ButtonTitle }) => {
 			<div className={`Login${showPanel ? " open" : ""}`}>
 				<div
 					className={`close${showPanel ? " open" : ""}`}
-					onClick={handleloginPanel.bind(this, showPanel, true)}>
+					onClick={handleloginPanel.bind(
+						this,
+						showPanel,
+						true,
+						showBylink
+					)}>
 					<span></span>
 					<span></span>
 					<span></span>
@@ -175,6 +199,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					<span></span>
 					<span></span>
 				</div>
+
 				<img src={logo} alt="Nova88" />
 				<div className="title">{i18n["lbl_Login"]}</div>
 
@@ -205,6 +230,8 @@ const LoginPage = ({ ButtonTitle }) => {
 				<button onClick={handleLogin}>{i18n["lbl_Login"]}</button>
 			</div>
 		</>
+	) : (
+		<Redirect to="/" noThrow />
 	);
 };
 

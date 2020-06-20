@@ -337,7 +337,7 @@ const BankInfo = () => {
 				title={item.bankName}
 				accountNo={item.accountNo}
 				removeAccountHandler={removeAccountHandler.bind(null, item)}
-				image={`${config.apiURL}/common/images/BankLogo/${item.image}`}
+				image={`${config.imgUrl}/common/images/BankLogo/${item.image}`}
 				className="bankLogo"
 			/>
 		);

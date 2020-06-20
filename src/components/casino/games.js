@@ -12,7 +12,7 @@ const Games = props => {
 			<div className="info" key={`casino-game-${t.value}-${g.gameId}`}>
 				<img
 					onClick={props.SelectGame.bind(this, t.value, g)}
-					src={`${config.apiURL}/common/images/Casino/${t.name}/${
+					src={`${config.imgUrl}/common/images/Casino/${t.name}/${
 						g.imgName[userInfo.langId] ?? g.imgName.en
 					}`}
 					alt={g.name[userInfo.langId] ?? g.name.en}

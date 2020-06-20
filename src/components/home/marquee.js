@@ -5,12 +5,14 @@ import {
 	popBoxContext,
 	userInfoContext,
 	navContext,
-	defNavPanel
+	defNavPanel,
+	i18nContext
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
 
 const Panel = () => {
 	const { nav, setNav } = useContext(navContext);
+	const { i18n } = useContext(i18nContext);
 
 	const OpenLoginPanel = () => {
 		setNav(() => {
@@ -30,6 +32,7 @@ const Panel = () => {
 			userIsLogin={userInfo.isLogin}
 			langId={langId}
 			popBoxIsOpen={popBox.isOpen}
+			i18n={i18n}
 		/>
 	);
 };

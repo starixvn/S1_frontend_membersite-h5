@@ -20,6 +20,12 @@ export default {
 			}
 		}
 	},
+	login: {
+		root: "login"
+	},
+	join: {
+		root: "join"
+	},
 	deposit: {
 		root: "deposit",
 		sub: {
