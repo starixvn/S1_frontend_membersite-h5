@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import {
 	i18nContext,
 	userInfoContext,
-	walletInfoContext
+	walletInfoContext,
+	popBoxContext
 } from "../common/context";
 import { number_format, isConvert } from "../common/common";
 import { api_GetBalnace } from "../../service/api/account";
@@ -12,6 +13,7 @@ import ReloadSpin from "../common/reloadSpin";
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
+	const { setPopBox } = useContext(popBoxContext);
 	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
 
 	let balance = number_format(
@@ -20,14 +22,23 @@ const Panel = () => {
 	);
 
 	const GetBalance = () => {
-		api_GetBalnace().then(res => {
-			if (res.data.errorCode === 0) {
-				setWalletInfo(prevState => ({
-					...prevState,
-					main: res.data.data
-				}));
+		api_GetBalnace().then(
+			res => {
+				if (res.data.errorCode === 0) {
+					setWalletInfo(prevState => ({
+						...prevState,
+						main: res.data.data
+					}));
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 	};
 	return (
 		<>

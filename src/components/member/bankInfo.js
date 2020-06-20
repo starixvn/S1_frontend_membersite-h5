@@ -33,40 +33,56 @@ const BankInfo = () => {
 	const [warningState, setWarningState] = useState(initWarningState);
 
 	useEffect(() => {
-		api_GetBankInfoSysList().then(res => {
-			const data = res.data.data;
-			let bankInfoArr = data.map(i => {
-				return {
-					id: i.sysId,
-					sysId: i.sysId,
-					bankName: i.bankName,
-					image: i.bankLogo,
-					displayText: i.bankName
-				};
-			});
-			setSiteBankInfoState(() => bankInfoArr);
-		});
-	}, []);
-
-	useEffect(() => {
-		api_GetCustBankInfo().then(res => {
-			if (res.data.errorCode === 0) {
-				let data = res.data.data;
-				if (data !== null) {
-					let bankInfoDetail = data.bankInfoDetail ?? [];
-					let getBankInfoArr = bankInfoDetail.map(i => {
-						return {
-							bankName: i.bankName,
-							image: i.bankLogo,
-							accountNo: i.accountNo,
-							SysId: i.sysId
-						};
-					});
-					setGetBankInfo(() => getBankInfoArr);
-				}
+		api_GetBankInfoSysList().then(
+			res => {
+				const data = res.data.data;
+				let bankInfoArr = data.map(i => {
+					return {
+						id: i.sysId,
+						sysId: i.sysId,
+						bankName: i.bankName,
+						image: i.bankLogo,
+						displayText: i.bankName
+					};
+				});
+				setSiteBankInfoState(() => bankInfoArr);
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
-	}, []);
+		);
+
+		api_GetCustBankInfo().then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let data = res.data.data;
+					if (data !== null) {
+						let bankInfoDetail = data.bankInfoDetail ?? [];
+						let getBankInfoArr = bankInfoDetail.map(i => {
+							return {
+								bankName: i.bankName,
+								image: i.bankLogo,
+								accountNo: i.accountNo,
+								SysId: i.sysId
+							};
+						});
+						setGetBankInfo(() => getBankInfoArr);
+					}
+				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
+			}
+		);
+	}, [i18n.lbl_ImportantNote, setPopBox]);
 
 	useEffect(() => {
 		if (!userInfo.accountName) {
@@ -132,27 +148,36 @@ const BankInfo = () => {
 	};
 
 	const GetCustBankInfo = () => {
-		api_GetCustBankInfo().then(res => {
-			if (res.data.errorCode === 0) {
-				let data = res.data.data;
-				if (data !== null) {
-					let bankInfoDetail = data.bankInfoDetail ?? [];
-					let getBankInfoArr = bankInfoDetail.map(i => {
-						return {
-							bankName: i.bankName,
-							image: i.bankLogo,
-							accountNo: i.accountNo,
-							SysId: i.sysId
-						};
-					});
-					setGetBankInfo(preV => getBankInfoArr);
-					setUserInfo(prevState => ({
-						...prevState,
-						accountName: data.accountName
-					}));
+		api_GetCustBankInfo().then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let data = res.data.data;
+					if (data !== null) {
+						let bankInfoDetail = data.bankInfoDetail ?? [];
+						let getBankInfoArr = bankInfoDetail.map(i => {
+							return {
+								bankName: i.bankName,
+								image: i.bankLogo,
+								accountNo: i.accountNo,
+								SysId: i.sysId
+							};
+						});
+						setGetBankInfo(preV => getBankInfoArr);
+						setUserInfo(prevState => ({
+							...prevState,
+							accountName: data.accountName
+						}));
+					}
 				}
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
 			}
-		});
+		);
 	};
 
 	const removeAccountHandler = val => {
@@ -163,11 +188,20 @@ const BankInfo = () => {
 				SysId: val.SysId
 			};
 			setPopBox({ isOpen: false });
-			api_DelCustBankInfo(removeAccountData).then(res => {
-				if (res.data.errorCode === 0) {
-					GetCustBankInfo();
+			api_DelCustBankInfo(removeAccountData).then(
+				res => {
+					if (res.data.errorCode === 0) {
+						GetCustBankInfo();
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
 				}
-			});
+			);
 		};
 
 		setPopBox({
@@ -268,20 +302,29 @@ const BankInfo = () => {
 					SysId: siteBankInfoState[bankSelectedIdx].id
 				};
 
-				api_SetCustBankInfo(bankInfoData).then(response => {
-					const errorCode = response.data.errorCode;
-					const message = response.data.message;
+				api_SetCustBankInfo(bankInfoData).then(
+					response => {
+						const errorCode = response.data.errorCode;
+						const message = response.data.message;
 
-					if (errorCode !== 0) {
+						if (errorCode !== 0) {
+							setPopBox({
+								isOpen: true,
+								title: i18n["lbl_ImportantNote"],
+								content: message
+							});
+						} else {
+							GetCustBankInfo();
+						}
+					},
+					err => {
 						setPopBox({
 							isOpen: true,
-							title: i18n["lbl_ImportantNote"],
-							content: message
+							title: i18n.lbl_ImportantNote,
+							content: "API Server Error."
 						});
-					} else {
-						GetCustBankInfo();
 					}
-				});
+				);
 				setStatus(true);
 			}
 		}

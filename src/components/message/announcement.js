@@ -1,19 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
-import { userInfoContext } from "../common/context";
+import { userInfoContext, popBoxContext, i18nContext } from "../common/context";
 import { api_GetAnnouncement } from "../../service/api/message";
 import moment from "moment";
 
 const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
+	const { i18n } = useContext(i18nContext);
+	const { setPopBox } = useContext(popBoxContext);
 	const [getAnnouncement, setGetAnnouncement] = useState([]);
 	const [selectItemState, setSelectItemState] = useState(null);
 
 	useEffect(() => {
-		api_GetAnnouncement(userInfo.langId).then(res => {
-			const data = res.data.data;
-			setGetAnnouncement(data);
-		});
-	}, [userInfo.langId]);
+		api_GetAnnouncement(userInfo.langId).then(
+			res => {
+				const data = res.data.data;
+				setGetAnnouncement(data);
+			},
+			err => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: "API Server Error."
+				});
+			}
+		);
+	}, [i18n.lbl_ImportantNote, setPopBox, userInfo.langId]);
 
 	const openItem = id => {
 		if (selectItemState === id) {

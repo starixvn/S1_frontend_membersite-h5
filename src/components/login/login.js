@@ -8,7 +8,8 @@ import {
 	userInfoContext,
 	i18nContext,
 	navContext,
-	defNavPanel
+	defNavPanel,
+	popBoxContext
 } from "../common/context";
 
 const initState = {
@@ -40,7 +41,7 @@ const warningLangKey = {
 const LoginPage = ({ ButtonTitle }) => {
 	const { i18n, seti18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
-
+	const { setPopBox } = useContext(popBoxContext);
 	const [userValueState, setUserValueState] = useState(initState);
 
 	const checkValueHandler = (colName, e) => {
@@ -64,16 +65,6 @@ const LoginPage = ({ ButtonTitle }) => {
 	};
 
 	const [warningState, setWarningState] = useState(initWarningState);
-
-	const [checkboxState, setCheckboxState] = useState(false);
-
-	const checkboxHandler = () => {
-		let checked = !checkboxState;
-		setCheckboxState(checked);
-		setUserValueState(prevState => {
-			return { ...prevState, Checkbox: checked };
-		});
-	};
 
 	const handleLogin = () => {
 		let checked =
@@ -100,9 +91,18 @@ const LoginPage = ({ ButtonTitle }) => {
 				if (errorCode === 0) {
 					let langId = userData.langId;
 					if (userInfo?.langId !== langId) {
-						api_GetTranslationData(langId).then(res => {
-							seti18n(res.data.data);
-						});
+						api_GetTranslationData(langId).then(
+							res => {
+								seti18n(res.data.data);
+							},
+							err => {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: "API Server Error."
+								});
+							}
+						);
 					}
 
 					setUserInfo(() => ({

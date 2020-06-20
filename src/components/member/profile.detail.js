@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.icon";
-import { i18nContext, userInfoContext } from "../common/context";
+import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
 import areaCode from "../../datas/areaCode";
 import moment from "moment";
 import ThemeMode from "./profile.themeMode";
@@ -50,10 +50,9 @@ const initWarningState = {
 const Panel = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
-
+	const { setPopBox } = useContext(popBoxContext);
 	const [userValueState, setUserValueState] = useState({});
 	const [warningState, setWarningState] = useState(initWarningState);
-
 	const [yearSelectedIdx, setYearSelectedIdx] = useState();
 	const [monthSelectedIdx, setMonthSelectedIdx] = useState();
 	const [daySelectedIdx, setDaySelectedIdx] = useState();
@@ -275,26 +274,44 @@ const Panel = () => {
 				PhoneNo: userValueState.Phone
 			};
 
-			api_SetProfile(profileData).then(response => {
-				const errorCode = response.data.errorCode;
-				const message = response.data.message;
+			api_SetProfile(profileData).then(
+				response => {
+					const errorCode = response.data.errorCode;
+					const message = response.data.message;
 
-				if (errorCode === 21) {
-					setWarningState(prevState => ({
-						...prevState,
-						Phone: { status: true, msg: message }
-					}));
-				} else {
-					api_GetCustProfile().then(res => {
-						if (res.data.errorCode === 0) {
-							setUserInfo(prevState => ({
-								...prevState,
-								...res.data.data
-							}));
-						}
+					if (errorCode === 21) {
+						setWarningState(prevState => ({
+							...prevState,
+							Phone: { status: true, msg: message }
+						}));
+					} else {
+						api_GetCustProfile().then(
+							res => {
+								if (res.data.errorCode === 0) {
+									setUserInfo(prevState => ({
+										...prevState,
+										...res.data.data
+									}));
+								}
+							},
+							err => {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: "API Server Error."
+								});
+							}
+						);
+					}
+				},
+				err => {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
 					});
 				}
-			});
+			);
 		}
 	};
 
