@@ -38,6 +38,12 @@ const Profile = () => {
 					if (mounted) {
 						setLangList(langArr);
 					}
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
 			},
 			err => {
@@ -75,6 +81,12 @@ const Profile = () => {
 							...prevState,
 							main: res.data.data
 						}));
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
 					setProcessing(false);
 				},
@@ -101,6 +113,12 @@ const Profile = () => {
 							...prevState,
 							langId: langId
 						}));
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
 				});
 			} else {

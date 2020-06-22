@@ -25,6 +25,12 @@ const Panel = () => {
 					if (mounted) {
 						setGetAnnouncement(data);
 					}
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
 
 				if (mounted) {

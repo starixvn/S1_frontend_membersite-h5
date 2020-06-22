@@ -111,7 +111,7 @@ const BankInfo = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: res.data.message
 					});
 				}
 				setLoading(false);
@@ -202,6 +202,12 @@ const BankInfo = () => {
 						}));
 						setLoading(false);
 					}
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
 			},
 			err => {
@@ -210,7 +216,6 @@ const BankInfo = () => {
 					title: i18n.lbl_ImportantNote,
 					content: "API Server Error."
 				});
-				// setLoading(false);
 			}
 		);
 	};
@@ -229,6 +234,12 @@ const BankInfo = () => {
 				res => {
 					if (res.data.errorCode === 0) {
 						GetCustBankInfo();
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
 				},
 				err => {
