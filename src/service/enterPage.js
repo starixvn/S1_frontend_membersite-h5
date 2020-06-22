@@ -7,10 +7,10 @@ export const _ACTION_TYPE = {
 };
 
 export const GET_CASINO_ENTER_PAGE = (tpId, gameId, isFree, langId) => {
-	let homeUrl = "";
-	let signupUrl = "";
-	let LoginUrl = "";
-	let entPageUrl = `${config.apiURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}`;
+	let homeUrl = `${config.appURL}`;
+	let signupUrl = `${config.appURL}/${path.join.root}`;
+	let LoginUrl = `${config.appURL}/${path.login.root}`;
+	let entPageUrl = `${config.openURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}`;
 	window
 		.open(
 			`${entPageUrl}&fun=${
@@ -22,19 +22,19 @@ export const GET_CASINO_ENTER_PAGE = (tpId, gameId, isFree, langId) => {
 		.focus();
 };
 
-export const GET_ENTER_PAGE = (
+export const GET_ENTER_PAGE = ({
 	langId,
 	tpId,
 	gameId,
 	isLogin,
 	loginCallback
-) => {
+}) => {
 	let homeUrl = `${config.appURL}`;
 	let signupUrl = `${config.appURL}/${path.join.root}`;
 	let LoginUrl = `${config.appURL}/${path.login.root}`;
 	let lobbyUrl = ``;
 	let cashierUrl = `${config.appURL}/${path.deposit.root}`;
-	let entPageUrl = `${config.apiURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}&&CashierUrl=${cashierUrl}&&LobbyUrl=${lobbyUrl}`;
+	let entPageUrl = `${config.openURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}&CashierUrl=${cashierUrl}&&LobbyUrl=${lobbyUrl}`;
 	let result = setResult("", true, _ACTION_TYPE.blank);
 
 	if (tpId === 1) {

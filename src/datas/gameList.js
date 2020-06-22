@@ -147,16 +147,12 @@ const gameList = [
 	},
 	{
 		category: "game",
-		items: [
-			// { icon: "soccer", gameId: 1, tpId: 1 },
-			// { icon: "basketball", gameId: 1, tpId: 2 },
-			// { icon: "football", gameId: 1, tpId: 3 },
-			// { icon: "icehockey", gameId: 1, tpId: 4 },
-			// { icon: "tennis", gameId: 1, tpId: 5 },
-			// { icon: "baseball", gameId: 1, tpId: 8 },
-			// { icon: "badminton", gameId: 1, tpId: 9 }
-		],
-		translation: "lbl_Fishing"
+		items: [],
+		_blank: true,
+		translation: "lbl_Fishing",
+		gameId: 10,
+		tpId: 7,
+		gameType: "Fishing"
 	},
 	{
 		category: "keno",

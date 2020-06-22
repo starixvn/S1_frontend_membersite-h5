@@ -253,7 +253,7 @@ export const Main = props => {
 						options={bankList}
 						selectedIdx={selBank?.idx}
 						i18n={i18n}
-						ImgURL={`${config.apiURL}/common/images/BankLogo/`}
+						ImgURL={`${config.imgUrl}/common/images/BankLogo/`}
 						className="bankLogo"
 					/>
 					<LimitTip
