@@ -13,6 +13,7 @@ export default process.env.NODE_ENV === "production"
 	: {
 			siteName,
 			apiURL: "http://m.n88dev.com",
+			openURL: "http://m.n88dev.com",
 			imgUrl: "http://m.n88dev.com",
 			t_and_cURL: "http://m.n88dev.com",
 			//apiURL: "http://localhost:60930",
