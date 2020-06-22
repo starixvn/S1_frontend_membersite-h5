@@ -39,15 +39,15 @@ const Category = () => {
 				path: path
 			});
 		} else {
-			GET_ENTER_PAGE(
-				userInfo.langId,
+			GET_ENTER_PAGE({
+				langId: userInfo.langId,
 				tpId,
 				gameId,
-				userInfo.isLogin === true,
-				() => {
+				isLogin: userInfo.isLogin === true,
+				loginCallback: () => {
 					setNav(defNavPanel.login);
 				}
-			);
+			});
 		}
 	};
 

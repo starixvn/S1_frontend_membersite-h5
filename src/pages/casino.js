@@ -28,7 +28,7 @@ class Panel extends React.Component {
 			hasMore: true,
 			totalCount: 0,
 			displayedCount: 0,
-			displayGames: [],
+			displayGames: null,
 			selGameInfo: null,
 			gameDatas: null,
 			searchInfo: {
@@ -61,6 +61,18 @@ class Panel extends React.Component {
 						});
 					}
 				});
+
+				if (games.length) {
+					for (let i = 0; i < games.length; i++) {
+						let idx = Math.floor(Math.random() * games.length);
+						let tempEle1 = games[i];
+						let tempEle2 = games[idx];
+
+						games[i] = tempEle2;
+						games[idx] = tempEle1;
+					}
+				}
+
 				if (this.mounted) {
 					this.setState(
 						{
@@ -94,9 +106,9 @@ class Panel extends React.Component {
 
 	SetFavorite = (tpId, gameId) => {
 		let key = `${tpId}_${gameId}`;
-		let isRemove = this.state.favorite.includes(key);
+		let isRemove = this.state.favorite?.includes(key);
 		let newFav = isRemove
-			? this.state.favorite.filter(f => f !== key)
+			? this.state.favorite?.filter(f => f !== key)
 			: [...this.state.favorite, key];
 		if (this.mounted) {
 			this.setState({ favorite: newFav });
@@ -111,7 +123,7 @@ class Panel extends React.Component {
 			this.setState(
 				{
 					selNav: navKey,
-					displayGames: [],
+					displayGames: null,
 					totalCount: 0,
 					hasMore: true,
 					displayedCount: 0
@@ -172,7 +184,7 @@ class Panel extends React.Component {
 	matchKeyword = (name, _keyword) => {
 		let keyword = _keyword.toLowerCase();
 		return (
-			Object.keys(name).filter(key => {
+			Object.keys(name)?.filter(key => {
 				return name[key].toLowerCase().indexOf(keyword) !== -1;
 			}).length > 0
 		);
@@ -200,7 +212,7 @@ class Panel extends React.Component {
 			);
 		};
 
-		return _gameDatas.filter(g => {
+		return _gameDatas?.filter(g => {
 			let tp = _tpList[g.tpId];
 			return (
 				(tpId === null || tp.value === tpId) && matchFilter(tp.value, g)
@@ -234,7 +246,7 @@ class Panel extends React.Component {
 				initGameDatas,
 				initTpList
 			);
-			let restCount = _gameDatas.length - s.displayedCount;
+			let restCount = _gameDatas?.length - s.displayedCount;
 			let loadCount =
 				restCount >= eachPageItem ? eachPageItem : restCount;
 			let startIdx = s.displayedCount;
@@ -248,10 +260,11 @@ class Panel extends React.Component {
 			if (newItem.length !== 0 && this.mounted) {
 				let new_count = s.displayedCount + newItem.length;
 				if (this.mounted) {
+					let displayGames = s.displayGames ?? [];
 					this.setState({
-						displayGames: [...s.displayGames, ...newItem],
-						totalCount: _gameDatas.length,
-						hasMore: new_count < _gameDatas.length,
+						displayGames: [...displayGames, ...newItem],
+						totalCount: _gameDatas?.length,
+						hasMore: new_count < _gameDatas?.length,
 						displayedCount: new_count
 					});
 
@@ -261,9 +274,16 @@ class Panel extends React.Component {
 				}
 			} else {
 				if (this.mounted) {
-					this.setState({
-						hasMore: false
-					});
+					if (s.displayGames === null) {
+						this.setState({
+							hasMore: false,
+							displayGames: []
+						});
+					} else {
+						this.setState({
+							hasMore: false
+						});
+					}
 				}
 				this.timerRunning = false;
 			}

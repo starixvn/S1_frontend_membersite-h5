@@ -92,7 +92,7 @@ const SetMobilePay = props => {
 					}));
 					setRedirectPath(`/${path.deposit.root}`);
 					window.open(
-						`${config.apiURL}/${userInfo.langId}/Cashier/DepositReqMobilePay?ChannelId=${paymentInfo.channelId}&Amount=${real_amount}`
+						`${config.openURL}/${userInfo.langId}/Cashier/DepositReqMobilePay?ChannelId=${paymentInfo.channelId}&Amount=${real_amount}`
 					);
 				};
 

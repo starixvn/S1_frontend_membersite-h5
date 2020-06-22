@@ -25,6 +25,7 @@ import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
+import config from "../../config";
 
 const colName = ["UserName", "Password", "Email", "Currency"];
 
@@ -616,7 +617,8 @@ function Join() {
 					<a target="_blank" href={TandC(userInfo.langId).rule}>
 						{i18n["lbl_RuleRegulations"]}
 					</a>
-					&nbsp; {i18n["lbl_Check18TC3"]}&nbsp;Nova88.&nbsp;
+					&nbsp; {i18n["lbl_Check18TC3"]}&nbsp;${config.siteName}
+					.&nbsp;
 					{i18n["lbl_Check18TC4"]}
 				</Checkbox>
 

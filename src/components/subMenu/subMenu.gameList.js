@@ -38,8 +38,14 @@ const SubGameList = () => {
 				path: path
 			});
 		} else {
-			GET_ENTER_PAGE(userInfo.langId, tpId, gameId, () => {
-				setNav(defNavPanel.login);
+			GET_ENTER_PAGE({
+				langId: userInfo.langId,
+				tpId,
+				gameId,
+				isLogin: userInfo.isLogin === true,
+				loginCallback: () => {
+					setNav(defNavPanel.login);
+				}
 			});
 		}
 	};

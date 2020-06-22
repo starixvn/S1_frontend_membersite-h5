@@ -178,7 +178,7 @@ const SetPayment = props => {
 		if (result) {
 			const RedirectToNext = real_amount => {
 				window.open(
-					`${config.apiURL}/${userInfo.langId}/Cashier/DepositReqOnlineBanking` +
+					`${config.openURL}/${userInfo.langId}/Cashier/DepositReqOnlineBanking` +
 						"?sysId=" +
 						selBank.bank.sysId +
 						"&payId=" +
@@ -251,7 +251,7 @@ const SetPayment = props => {
 						options={bankList}
 						selectedIdx={selBank?.idx}
 						i18n={i18n}
-						ImgURL={`${config.apiURL}/common/images/BankLogo/`}
+						ImgURL={`${config.imgUrl}/common/images/BankLogo/`}
 						className="bankLogo"
 					/>
 					<LimitTip

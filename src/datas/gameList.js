@@ -147,16 +147,12 @@ const gameList = [
 	},
 	{
 		category: "game",
-		items: [
-			// {
-			// 	icon: "nova-casino",
-			// 	path: path.casino.root,
-			// 	imgId: casinoNOVA,
-			// 	span: "NOVA CASINO",
-			// 	translation: "lbl_SelfCasino"
-			// },
-		],
-		translation: "lbl_Fishing"
+		items: [],
+		_blank: true,
+		translation: "lbl_Fishing",
+		gameId: 10,
+		tpId: 7,
+		gameType: "Fishing"
 	},
 	{
 		category: "keno",
