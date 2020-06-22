@@ -416,10 +416,6 @@ header .subMenu .icon-hockey:before {
   margin: 1.5vw;
 }
 
-header .subMenu .icon-kelo:before {
-  font-size: 6.4vw;
-}
-
 header .subMenu.open {
   visibility: visible;
   -webkit-transition: 0.7s;
@@ -781,7 +777,7 @@ main .gameList.casinoList a:before {
   font-size: 10vw;
   bottom: unset;
   right: unset;
-  left: 10vw;
+  left: 11vw;
   top: 10vw;
 }
 
@@ -2121,7 +2117,7 @@ footer > a.open .circleAnimation + span {
   line-height: 16px;
 }
 
-.account .info ul li span {
+.account .tip span {
   display: initial;
 }
 
