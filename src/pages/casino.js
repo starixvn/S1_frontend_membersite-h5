@@ -328,15 +328,6 @@ class Panel extends React.Component {
 				/>
 
 				{this.state.gameDatas === null ? null : (
-					// <InfiniteScroll
-					// 	pageStart={0}
-					// 	loadMore={this.SetMoreItems}
-					// 	hasMore={this.state.hasMore}
-					// 	loader={
-					// 		<div className="loader" key={0}>
-					// 			Loading ...
-					// 		</div>
-					// 	}>
 					<Games
 						SelectGame={this.SelectGame}
 						Games={this.state.displayGames}
@@ -345,7 +336,6 @@ class Panel extends React.Component {
 						TpList={this.state.tpList}
 						i18n={this.props.i18n}
 					/>
-					// </InfiniteScroll>
 				)}
 
 				{this.state.selGameInfo === null ? null : (
