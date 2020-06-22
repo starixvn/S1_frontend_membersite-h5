@@ -208,5 +208,7 @@ export default [
 	"lbl_JoinNow",
 	"lbl_UpdateBankDetail",
 	"lbl_UpdateBankInfo",
-	"lbl_Fishing"
+	"lbl_Fishing",
+	"lbl_Keno",
+	"lbl_Lottery"
 ];
