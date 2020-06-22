@@ -262,7 +262,7 @@ const Panel = () => {
 										parseFloat(res.data.message),
 										_isConvert
 									)}`;
-								} else if (res.data.errorCode === -2) {
+								} else if (res.data.errorCode === -3) {
 									content = `${
 										i18n.lbl_WithdrawalOver
 									}: ${number_format(
