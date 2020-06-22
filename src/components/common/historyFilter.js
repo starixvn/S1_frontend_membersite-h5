@@ -78,7 +78,6 @@ const Panel = props => {
 					selectedIdx={quickPickSelectedIdx}
 					icon="icon icon-calendar"
 					onSelectItem={dropdownStateHandler}
-					// placeholder={i18n["lbl_QuickPick"]}
 				/>
 			</div>
 

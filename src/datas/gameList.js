@@ -157,13 +157,20 @@ const gameList = [
 	{
 		category: "keno",
 		items: [
-			// { icon: "soccer", gameId: 1, tpId: 1 },
-			// { icon: "basketball", gameId: 1, tpId: 2 },
-			// { icon: "football", gameId: 1, tpId: 3 },
-			// { icon: "icehockey", gameId: 1, tpId: 4 },
-			// { icon: "tennis", gameId: 1, tpId: 5 },
-			// { icon: "baseball", gameId: 1, tpId: 8 },
-			// { icon: "badminton", gameId: 1, tpId: 9 }
+			{
+				icon: "keno",
+				gameId: 202,
+				tpId: 1,
+				imgId: casinoNOVA,
+				translation: "lbl_Keno"
+			},
+			{
+				icon: "lottery",
+				gameId: 220,
+				tpId: 1,
+				imgId: casinoNOVA,
+				translation: "lbl_Lottery"
+			}
 		],
 		translation: "lbl_KenoAndLottery"
 	}
