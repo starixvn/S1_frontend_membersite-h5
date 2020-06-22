@@ -17,12 +17,11 @@ import {
 } from "../service/api/account";
 import { GET_CASINO_ENTER_PAGE } from "../service/enterPage";
 
-const eachPageItem = 6;
+const eachPageItem = 20;
 
 class Panel extends React.Component {
 	constructor(props) {
 		super(props);
-		this.timerRunning = false;
 		this.state = {
 			tpList: {},
 			hasMore: true,
@@ -42,10 +41,46 @@ class Panel extends React.Component {
 	}
 	componentWillUnmount = () => {
 		this.mounted = false;
+		window.removeEventListener("mousewheel", this.ScrollBarListener);
+		window.removeEventListener("touchmove", this.ScrollBarListener, {
+			passive: false
+		});
+	};
+
+	ScrollBarListener = () => {
+		let window_height =
+			window.innerHeight ||
+			document.documentElement.clientHeight ||
+			document.body.clientHeight;
+
+		let window_scrollTop =
+			window.pageYOffset ||
+			document.documentElement.scrollTop ||
+			document.body.scrollTop;
+
+		let body = document.body,
+			html = document.documentElement;
+
+		let document_height = Math.max(
+			body.scrollHeight,
+			body.offsetHeight,
+			html.clientHeight,
+			html.scrollHeight,
+			html.offsetHeight
+		);
+
+		if (window_height + window_scrollTop >= document_height - 200) {
+			this.SetMoreItems();
+		}
 	};
 
 	componentDidMount() {
 		this.mounted = true;
+
+		window.addEventListener("mousewheel", this.ScrollBarListener, false);
+		window.addEventListener("touchmove", this.ScrollBarListener, {
+			passive: false
+		});
 		api_GetGamelist().then(res => {
 			if (res.data.errorCode === 0 && this.mounted) {
 				let _tpList = {};
@@ -80,10 +115,7 @@ class Panel extends React.Component {
 							gameDatas: games
 						},
 						() => {
-							if (!this.timerRunning) {
-								this.timerRunning = true;
-								this.SetMoreItems();
-							}
+							this.SetMoreItems();
 						}
 					);
 				}
@@ -110,8 +142,13 @@ class Panel extends React.Component {
 		let newFav = isRemove
 			? this.state.favorite?.filter(f => f !== key)
 			: [...this.state.favorite, key];
+		let displayGames = isRemove
+			? this.state.displayGames.filter(
+					g => !(g.tpId === tpId && g.gameId === gameId)
+			  )
+			: this.state.displayGames;
 		if (this.mounted) {
-			this.setState({ favorite: newFav });
+			this.setState({ favorite: newFav, displayGames: displayGames });
 		}
 		if (this.props.userInfo.isLogin) {
 			api_SetFavoriteGame(tpId, gameId, isRemove);
@@ -129,10 +166,7 @@ class Panel extends React.Component {
 					displayedCount: 0
 				},
 				() => {
-					if (!this.timerRunning) {
-						this.timerRunning = true;
-						this.SetMoreItems();
-					}
+					this.SetMoreItems();
 				}
 			);
 		}
@@ -171,10 +205,7 @@ class Panel extends React.Component {
 						displayedCount: 0
 					},
 					() => {
-						if (!this.timerRunning) {
-							this.timerRunning = true;
-							this.SetMoreItems();
-						}
+						this.SetMoreItems();
 					}
 				);
 			}
@@ -267,10 +298,6 @@ class Panel extends React.Component {
 						hasMore: new_count < _gameDatas?.length,
 						displayedCount: new_count
 					});
-
-					setTimeout(this.SetMoreItems, 1000);
-				} else {
-					this.timerRunning = false;
 				}
 			} else {
 				if (this.mounted) {
@@ -285,10 +312,7 @@ class Panel extends React.Component {
 						});
 					}
 				}
-				this.timerRunning = false;
 			}
-		} else {
-			this.timerRunning = false;
 		}
 	};
 
