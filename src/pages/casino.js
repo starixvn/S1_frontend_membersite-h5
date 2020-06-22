@@ -58,8 +58,8 @@ class Panel extends React.Component {
 			document.documentElement.scrollTop ||
 			document.body.scrollTop;
 
-		let body = document.body,
-			html = document.documentElement;
+		let body = document.body;
+		let html = document.documentElement;
 
 		let document_height = Math.max(
 			body.scrollHeight,
