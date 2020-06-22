@@ -322,8 +322,6 @@ const BankInfo = () => {
 	};
 
 	const checkSubmitHandler = () => {
-		setLoading(true);
-
 		let checked = true;
 		if (status === false) {
 			if (!userInfo.accountName) {
@@ -341,7 +339,7 @@ const BankInfo = () => {
 					AccountNo: userValueState.BankAccount,
 					SysId: siteBankInfoState[bankSelectedIdx].id
 				};
-
+				setLoading(true);
 				api_SetCustBankInfo(bankInfoData).then(
 					response => {
 						const errorCode = response.data.errorCode;
@@ -416,7 +414,7 @@ const BankInfo = () => {
 							options={siteBankInfoState}
 							colName="getBankInfo"
 							className="bankLogo"
-							ImgURL={`${config.apiURL}/common/images/BankLogo/`}
+							ImgURL={`${config.imgUrl}/common/images/BankLogo/`}
 							selectedIdx={bankSelectedIdx}
 							onSelectItem={dropdownStateHandler}
 						/>
