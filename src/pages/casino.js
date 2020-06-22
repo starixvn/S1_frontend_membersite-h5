@@ -28,7 +28,7 @@ class Panel extends React.Component {
 			hasMore: true,
 			totalCount: 0,
 			displayedCount: 0,
-			displayGames: [],
+			displayGames: null,
 			selGameInfo: null,
 			gameDatas: null,
 			searchInfo: {
@@ -61,6 +61,16 @@ class Panel extends React.Component {
 						});
 					}
 				});
+
+				for (let i = 0; i < games.length; i++) {
+					let idx = Math.floor(Math.random() * games.length);
+					let tempEle1 = games[i];
+					let tempEle2 = games[idx];
+
+					games[i] = tempEle2;
+					games[idx] = tempEle1;
+				}
+
 				if (this.mounted) {
 					this.setState(
 						{
@@ -111,7 +121,7 @@ class Panel extends React.Component {
 			this.setState(
 				{
 					selNav: navKey,
-					displayGames: [],
+					displayGames: null,
 					totalCount: 0,
 					hasMore: true,
 					displayedCount: 0
@@ -248,8 +258,9 @@ class Panel extends React.Component {
 			if (newItem.length !== 0 && this.mounted) {
 				let new_count = s.displayedCount + newItem.length;
 				if (this.mounted) {
+					let displayGames = s.displayGames ?? [];
 					this.setState({
-						displayGames: [...s.displayGames, ...newItem],
+						displayGames: [...displayGames, ...newItem],
 						totalCount: _gameDatas.length,
 						hasMore: new_count < _gameDatas.length,
 						displayedCount: new_count
@@ -261,9 +272,16 @@ class Panel extends React.Component {
 				}
 			} else {
 				if (this.mounted) {
-					this.setState({
-						hasMore: false
-					});
+					if (s.displayGames === null) {
+						this.setState({
+							hasMore: false,
+							displayGames: []
+						});
+					} else {
+						this.setState({
+							hasMore: false
+						});
+					}
 				}
 				this.timerRunning = false;
 			}
