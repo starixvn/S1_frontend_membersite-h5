@@ -13,6 +13,7 @@ import {
 } from "../common/context";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
+import config from "../../config";
 
 const initState = {
 	UserName: "",
@@ -200,7 +201,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					<span></span>
 				</div>
 
-				<img src={logo} alt="Nova88" />
+				<img src={logo} alt={config.siteName} />
 				<div className="title">{i18n["lbl_Login"]}</div>
 
 				<Inputbox

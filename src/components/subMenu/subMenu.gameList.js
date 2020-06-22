@@ -42,6 +42,7 @@ const SubGameList = () => {
 				langId: userInfo.langId,
 				tpId,
 				gameId,
+				isLogin: userInfo.isLogin === true,
 				loginCallback: () => {
 					setNav(defNavPanel.login);
 				}

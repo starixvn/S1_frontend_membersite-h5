@@ -94,9 +94,9 @@ class Panel extends React.Component {
 
 	SetFavorite = (tpId, gameId) => {
 		let key = `${tpId}_${gameId}`;
-		let isRemove = this.state.favorite.includes(key);
+		let isRemove = this.state.favorite?.includes(key);
 		let newFav = isRemove
-			? this.state.favorite.filter(f => f !== key)
+			? this.state.favorite?.filter(f => f !== key)
 			: [...this.state.favorite, key];
 		if (this.mounted) {
 			this.setState({ favorite: newFav });
@@ -172,7 +172,7 @@ class Panel extends React.Component {
 	matchKeyword = (name, _keyword) => {
 		let keyword = _keyword.toLowerCase();
 		return (
-			Object.keys(name).filter(key => {
+			Object.keys(name)?.filter(key => {
 				return name[key].toLowerCase().indexOf(keyword) !== -1;
 			}).length > 0
 		);
@@ -200,7 +200,7 @@ class Panel extends React.Component {
 			);
 		};
 
-		return _gameDatas.filter(g => {
+		return _gameDatas?.filter(g => {
 			let tp = _tpList[g.tpId];
 			return (
 				(tpId === null || tp.value === tpId) && matchFilter(tp.value, g)

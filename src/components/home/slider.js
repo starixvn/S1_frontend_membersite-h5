@@ -21,13 +21,13 @@ const Autoplay = () => {
 		<Swiper {...params}>
 			<a href="#">
 				<img
-					src={`${config.imgUrl}/CMS/Nova88/Promotion/ch/banner-covid.jpg?v=Ran12ZQN84OeDyBG7pEzAHcLKtsSI5jf5CMWxIXks_k`}
+					src={`${config.imgUrl}/CMS/${config.siteName}/Promotion/ch/banner-covid.jpg?v=Ran12ZQN84OeDyBG7pEzAHcLKtsSI5jf5CMWxIXks_k`}
 					className="banner"
 				/>
 			</a>
 			<a href="#">
 				<img
-					src={`${config.imgUrl}/CMS/Nova88/Promotion/ch/banner-FTDP.jpg?v=gEAZpv-4rdevGxrPXrxva6pbRaAc-U4rATMtb-UbvqA`}
+					src={`${config.imgUrl}/CMS/${config.siteName}/Promotion/ch/banner-FTDP.jpg?v=gEAZpv-4rdevGxrPXrxva6pbRaAc-U4rATMtb-UbvqA`}
 					className="banner"
 				/>
 			</a>
