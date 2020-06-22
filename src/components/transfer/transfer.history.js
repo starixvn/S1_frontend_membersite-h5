@@ -121,11 +121,11 @@ const Panel = () => {
 
 	return (
 		<>
+			<HistoryFilter submitHandler={submitHandler} />
 			{loading ? (
 				<Loading />
 			) : (
 				<>
-					<HistoryFilter submitHandler={submitHandler} />
 					{getHistoryState ? (
 						<div className="recent open">
 							<div className="recentTransactions">
