@@ -4,9 +4,9 @@ export default process.env.NODE_ENV === "production"
 	? {
 			siteName,
 			apiURL: "",
-			openURL: "https://release.nova88.net",
-			imgUrl: "https://release.nova88.net",
-			t_and_cURL: "https://release.nova88.net",
+			openURL: "",
+			imgUrl: "",
+			t_and_cURL: "",
 			//apiURL: "https://release.nova88.net",
 			appURL: "https://m.nova88.net"
 	  }

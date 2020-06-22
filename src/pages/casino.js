@@ -69,7 +69,7 @@ class Panel extends React.Component {
 			html.offsetHeight
 		);
 
-		if (window_height + window_scrollTop >= document_height - 200) {
+		if (window_height + window_scrollTop >= document_height * 0.8) {
 			this.SetMoreItems();
 		}
 	};
@@ -327,16 +327,14 @@ class Panel extends React.Component {
 					EditSearchField={this.EditSearchField}
 				/>
 
-				{this.state.gameDatas === null ? null : (
-					<Games
-						SelectGame={this.SelectGame}
-						Games={this.state.displayGames}
-						Favorite={this.state.favorite}
-						SetFavorite={this.SetFavorite}
-						TpList={this.state.tpList}
-						i18n={this.props.i18n}
-					/>
-				)}
+				<Games
+					SelectGame={this.SelectGame}
+					Games={this.state.displayGames}
+					Favorite={this.state.favorite}
+					SetFavorite={this.SetFavorite}
+					TpList={this.state.tpList}
+					i18n={this.props.i18n}
+				/>
 
 				{this.state.selGameInfo === null ? null : (
 					<div className="slotFunction open">

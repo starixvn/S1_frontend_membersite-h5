@@ -909,7 +909,7 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 0;
-  z-index: 3;
+  z-index: 4;
   background: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2872,6 +2872,7 @@ button.clickBtn:before {
   background: rgba(0, 25, 66, 0.95);
   padding: 8vw;
   display: none;
+  z-index: 4;
 }
 
 #Loading.open {
