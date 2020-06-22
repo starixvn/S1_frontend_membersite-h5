@@ -100,6 +100,12 @@ function Join() {
 						}));
 						setSiteCurrencyState(() => currencyArr);
 					}
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
 			},
 			err => {
@@ -116,7 +122,7 @@ function Join() {
 		return () => {
 			mounted = false;
 		};
-	}, [setPopBox]);
+	}, [i18n.lbl_ImportantNote, setPopBox]);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);
@@ -180,6 +186,12 @@ function Join() {
 								msg: i18n["msg_UsernameNotAvailable"]
 							}
 						};
+					});
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: response.data.message
 					});
 				}
 			},
@@ -297,6 +309,12 @@ function Join() {
 								msg: i18n["msg_MailExisted"]
 							}
 						};
+					});
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: response.data.message
 					});
 				}
 			},

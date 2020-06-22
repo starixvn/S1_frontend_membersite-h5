@@ -29,6 +29,12 @@ const Panel = () => {
 						...prevState,
 						main: res.data.data
 					}));
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
 			},
 			err => {

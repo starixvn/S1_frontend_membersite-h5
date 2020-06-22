@@ -95,7 +95,15 @@ const LoginPage = ({ ButtonTitle }) => {
 					if (userInfo?.langId !== langId) {
 						api_GetTranslationData(langId).then(
 							res => {
-								seti18n(res.data.data);
+								if (errorCode !== 0) {
+									setPopBox({
+										isOpen: true,
+										title: i18n.lbl_ImportantNote,
+										content: res.data.message
+									});
+								} else {
+									seti18n(res.data.data);
+								}
 							},
 							err => {
 								setPopBox({

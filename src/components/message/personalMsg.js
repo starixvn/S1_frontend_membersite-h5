@@ -60,6 +60,12 @@ const Panel = () => {
 							}));
 						}
 					}
+				} else {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: res.data.message
+					});
 				}
 				if (mounted) {
 					setLoading(false);
@@ -96,6 +102,12 @@ const Panel = () => {
 								}));
 							}
 						}
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
 					setProcessing(false);
 				},
@@ -139,6 +151,12 @@ const Panel = () => {
 									res => {
 										if (res.data.errorCode === 0) {
 											setMsgCount(res.data.data);
+										} else {
+											setPopBox({
+												isOpen: true,
+												title: i18n.lbl_ImportantNote,
+												content: res.data.message
+											});
 										}
 									},
 									err => {
@@ -150,6 +168,12 @@ const Panel = () => {
 									}
 								);
 							}
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
 						}
 						setProcessing(false);
 						setOpenContentState(id);
@@ -199,6 +223,12 @@ const Panel = () => {
 							})
 						);
 						setcheckboxListState([]);
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
 				},
 				err => {
