@@ -13,6 +13,8 @@ import LIVEcasino_SA from "../styles/Nova88/img/LIVEcasino_SA.jpg";
 import LIVEcasino_AB from "../styles/Nova88/img/LIVEcasino_AB.jpg";
 import casinoNOVA from "../styles/Nova88/img/casinoNOVA.jpg";
 import casinoOW from "../styles/Nova88/img/casinoOW.jpg";
+import keno from "../styles/Nova88/img/keno.jpg";
+import lottery from "../styles/Nova88/img/lottery.jpg";
 
 const gameList = [
 	{
@@ -155,20 +157,22 @@ const gameList = [
 		gameType: "Fishing"
 	},
 	{
-		category: "keno",
+		category: "kelo",
 		items: [
 			{
 				icon: "keno",
 				gameId: 202,
 				tpId: 1,
-				imgId: casinoNOVA,
+				imgId: keno,
+				span: "KENO",
 				translation: "lbl_Keno"
 			},
 			{
 				icon: "lottery",
 				gameId: 220,
 				tpId: 1,
-				imgId: casinoNOVA,
+				imgId: lottery,
+				span: "LOTTERY",
 				translation: "lbl_Lottery"
 			}
 		],

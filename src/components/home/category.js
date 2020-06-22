@@ -23,7 +23,7 @@ const Category = () => {
 
 	const selectCategory = _category => {
 		setCategory(_category);
-		if (_category === "casino") {
+		if (_category === "casino" || _category === "kelo") {
 			setAddClass(" casinoList");
 		} else if (_category === "livecasino") {
 			setAddClass(" livecasinoList");
