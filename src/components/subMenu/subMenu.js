@@ -131,9 +131,11 @@ const SubMenu = () => {
 							<span className="amount">{msgCount}</span>
 						) : null}
 					</Link>
-					<a className="icon icon-vip">
-						<span>VIP Lv{userInfo.userLevel}</span>
-					</a>
+					{userInfo.isLogin ? (
+						<a className="icon icon-vip">
+							<span>VIP Lv{userInfo.userLevel}</span>
+						</a>
+					) : null}
 				</div>
 			</div>
 		</>
