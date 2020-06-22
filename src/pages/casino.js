@@ -62,13 +62,15 @@ class Panel extends React.Component {
 					}
 				});
 
-				for (let i = 0; i < games.length; i++) {
-					let idx = Math.floor(Math.random() * games.length);
-					let tempEle1 = games[i];
-					let tempEle2 = games[idx];
+				if (games.length) {
+					for (let i = 0; i < games.length; i++) {
+						let idx = Math.floor(Math.random() * games.length);
+						let tempEle1 = games[i];
+						let tempEle2 = games[idx];
 
-					games[i] = tempEle2;
-					games[idx] = tempEle1;
+						games[i] = tempEle2;
+						games[idx] = tempEle1;
+					}
 				}
 
 				if (this.mounted) {
@@ -244,7 +246,7 @@ class Panel extends React.Component {
 				initGameDatas,
 				initTpList
 			);
-			let restCount = _gameDatas.length - s.displayedCount;
+			let restCount = _gameDatas?.length - s.displayedCount;
 			let loadCount =
 				restCount >= eachPageItem ? eachPageItem : restCount;
 			let startIdx = s.displayedCount;
@@ -261,8 +263,8 @@ class Panel extends React.Component {
 					let displayGames = s.displayGames ?? [];
 					this.setState({
 						displayGames: [...displayGames, ...newItem],
-						totalCount: _gameDatas.length,
-						hasMore: new_count < _gameDatas.length,
+						totalCount: _gameDatas?.length,
+						hasMore: new_count < _gameDatas?.length,
 						displayedCount: new_count
 					});
 
