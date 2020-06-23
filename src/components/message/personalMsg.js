@@ -137,7 +137,7 @@ const Panel = () => {
 							let data = res.data.data;
 							setGetMsgContent(data);
 
-							if (flag !== false) {
+							if (!flag) {
 								setGetMsgList(prevState => {
 									return prevState.map(x => {
 										if (x.id === id) {
@@ -287,24 +287,33 @@ const Panel = () => {
 
 	return (
 		<>
-			{loading ? <Loading /> : null}
-			<div className="functionList">
-				<label className="checkbox">
-					<input type="checkbox" onChange={selectAll} />
-					<i
-						className={`icon icon-checkbox ${
-							isSelectedAll ? "open" : ""
-						}`}></i>
-					{i18n["lbl_SelectAll"]}
-				</label>
-				<div className="smallBtn-group">
-					<button
-						className="icon icon-bin clickBtn"
-						onClick={delMsg}></button>
-					<ReloadSpin func={GetMsgList} />
-				</div>
-			</div>
-			{arr}
+			{loading ? (
+				<Loading />
+			) : (
+				<>
+					<div className="functionList">
+						<label className="checkbox">
+							<input type="checkbox" onChange={selectAll} />
+							<i
+								className={`icon icon-checkbox ${
+									isSelectedAll ? "open" : ""
+								}`}></i>
+							{i18n["lbl_SelectAll"]}
+						</label>
+						<div className="smallBtn-group">
+							<button
+								className="icon icon-bin clickBtn"
+								onClick={delMsg}></button>
+							<ReloadSpin func={GetMsgList} />
+						</div>
+					</div>
+					{getMsgList.length > 0 ? (
+						<>{arr}</>
+					) : (
+						<div className="not-found">{i18n["msg_NoData"]}</div>
+					)}
+				</>
+			)}
 		</>
 	);
 };
