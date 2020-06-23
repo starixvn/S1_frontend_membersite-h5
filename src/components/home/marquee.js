@@ -47,7 +47,7 @@ class Marquee extends Component {
 			initWidth: 0,
 			nav: this.props.nav
 		};
-		this.unmounted = false;
+		this.isMountedRef = false;
 		this.marquee = createRef();
 		this.content = createRef();
 	}
@@ -58,6 +58,7 @@ class Marquee extends Component {
 		return true;
 	};
 	componentDidMount = () => {
+		this.isMountedRef = true;
 		this.GetAnnouncement(this.props.langId);
 		this.intervalId = setInterval(
 			this.GetAnnouncement.bind(this, this.props.langId),
@@ -66,7 +67,7 @@ class Marquee extends Component {
 	};
 	SetPos = () => {
 		if (
-			!this.unmounted &&
+			this.isMountedRef &&
 			!this.props.popBoxIsOpen &&
 			this.state.prev !== null
 		) {
@@ -83,11 +84,11 @@ class Marquee extends Component {
 		}
 	};
 	componentWillUnmount = () => {
-		this.unmounted = true;
+		this.isMountedRef = false;
 		clearInterval(this.intervalId_Pos);
 	};
 	componentDidUpdate = () => {
-		if (this.state.pos === null && !this.unmounted) {
+		if (this.state.pos === null && this.isMountedRef) {
 			let style = window.getComputedStyle(this.marquee.current, null);
 			let pos = parseFloat(style.width);
 
@@ -124,7 +125,7 @@ class Marquee extends Component {
 							this.intervalId_Pos = setInterval(this.SetPos, 25);
 						}
 
-						if (!this.unmounted) {
+						if (this.isMountedRef) {
 							this.setState({
 								datas: res.data.data.map(item => {
 									return {
@@ -136,7 +137,7 @@ class Marquee extends Component {
 							});
 						}
 					}
-				} else {
+				} else if (this.isMountedRef) {
 					this.props.setPopBox({
 						isOpen: true,
 						title: this.props.i18n.lbl_ImportantNote,
@@ -145,11 +146,13 @@ class Marquee extends Component {
 				}
 			},
 			err => {
-				this.props.setPopBox({
-					isOpen: true,
-					title: this.props.i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (this.isMountedRef) {
+					this.props.setPopBox({
+						isOpen: true,
+						title: this.props.i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+				}
 			}
 		);
 	};
