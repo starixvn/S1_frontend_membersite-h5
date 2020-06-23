@@ -22,6 +22,7 @@ const eachPageItem = 20;
 class Panel extends React.Component {
 	constructor(props) {
 		super(props);
+		this.trigger = false;
 		this.state = {
 			tpList: {},
 			hasMore: true,
@@ -61,15 +62,20 @@ class Panel extends React.Component {
 		let body = document.body;
 		let html = document.documentElement;
 
-		let document_height = Math.max(
-			body.scrollHeight,
-			body.offsetHeight,
-			html.clientHeight,
-			html.scrollHeight,
-			html.offsetHeight
-		);
+		let document_height =
+			Math.max(
+				body.scrollHeight,
+				body.offsetHeight,
+				html.clientHeight,
+				html.scrollHeight,
+				html.offsetHeight
+			) * 0.8;
 
-		if (window_height + window_scrollTop >= document_height * 0.8) {
+		if (
+			!this.trigger &&
+			window_height + window_scrollTop >= document_height
+		) {
+			this.trigger = true;
 			this.SetMoreItems();
 		}
 	};
@@ -314,6 +320,8 @@ class Panel extends React.Component {
 				}
 			}
 		}
+
+		this.trigger = false;
 	};
 
 	render() {
