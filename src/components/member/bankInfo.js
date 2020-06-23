@@ -67,7 +67,7 @@ const BankInfo = () => {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
+							content: i18n.msg_ApiServerError
 						});
 						setLoading(false);
 					}
@@ -76,7 +76,12 @@ const BankInfo = () => {
 		}
 
 		return () => (mounted = false);
-	}, [i18n.lbl_ImportantNote, setPopBox, userInfo.isLogin]);
+	}, [
+		i18n.lbl_ImportantNote,
+		i18n.msg_ApiServerError,
+		setPopBox,
+		userInfo.isLogin
+	]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -120,7 +125,7 @@ const BankInfo = () => {
 				setPopBox({
 					isOpen: true,
 					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
+					content: i18n.msg_ApiServerError
 				});
 
 				setLoading(false);
@@ -214,7 +219,7 @@ const BankInfo = () => {
 				setPopBox({
 					isOpen: true,
 					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
+					content: i18n.msg_ApiServerError
 				});
 			}
 		);
@@ -246,7 +251,7 @@ const BankInfo = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 					setLoading(false);
 				}
@@ -370,7 +375,7 @@ const BankInfo = () => {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
+							content: i18n.msg_ApiServerErrors
 						});
 						setLoading(false);
 					}

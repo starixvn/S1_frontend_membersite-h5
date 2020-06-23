@@ -13,14 +13,12 @@ import themeList from "../../datas/theme";
 import useInterval from "../hook/useInterval";
 
 export const Wrapper = ({ children }) => {
+	const [i18n, seti18n] = useState({});
 	const [userInfo, setUserInfo] = useState({
 		isLogin: null,
 		langId: GET_LANG_ID(),
-		userName: "guest"
+		userName: i18n.lbl_Guest
 	});
-
-	const [i18n, seti18n] = useState({});
-
 	const [popBox, setPopBox] = useState({
 		isOpen: false,
 		title: "",
@@ -28,12 +26,10 @@ export const Wrapper = ({ children }) => {
 		hasBtn: false,
 		btnBar: null
 	});
-
 	const [nav, setNav] = useState(null);
 	const [walletInfo, setWalletInfo] = useState({
 		main: 0
 	});
-
 	const [msgCount, setMsgCount] = useState(0);
 	const [theme, setTheme] = useState(themeList.default);
 
@@ -56,7 +52,7 @@ export const Wrapper = ({ children }) => {
 			}));
 			setPopBox({
 				isOpen: true,
-				title: "Warning",
+				title: i18n.lbl_ImportantNote,
 				content: errMsg ?? i18n.msg_ForceLogedout
 			});
 		}

@@ -66,7 +66,7 @@ export const Main = props => {
 							setPopBox({
 								isOpen: true,
 								title: i18n.lbl_ImportantNote,
-								content: "API Server Error."
+								content: i18n.msg_ApiServerError
 							});
 							setLoading(false);
 						}
@@ -78,7 +78,8 @@ export const Main = props => {
 		props.location.state,
 		i18n.lbl_ImportantNote,
 		setPopBox,
-		userInfo.isLogin
+		userInfo.isLogin,
+		i18n.msg_ApiServerError
 	]);
 
 	let rows = paymentList?.map(p => {

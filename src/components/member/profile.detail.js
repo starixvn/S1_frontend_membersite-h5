@@ -304,7 +304,7 @@ const Panel = () => {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
-									content: "API Server Error."
+									content: i18n.msg_ApiServerError
 								});
 							}
 						);
@@ -314,7 +314,7 @@ const Panel = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 				}
 			);

@@ -35,7 +35,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-promotion"></div>
 								</div>
-								<span>PROMOTION</span>
+								<span>{i18n.lbl_Promotion}</span>
 							</Link>
 						);
 					}}
@@ -51,7 +51,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-balance"></div>
 								</div>
-								<span>WALLET</span>
+								<span>{i18n.lbl_Wallet}</span>
 							</Link>
 						);
 					}}
@@ -64,7 +64,7 @@ const Footer = () => {
 					<div className="circleAnimation">
 						<div className="icon icon-contact"></div>
 					</div>
-					<span>LIVE CHAT</span>
+					<span>{i18n.LiveChat}</span>
 				</a>
 			</footer>
 		);
@@ -97,7 +97,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-promotion"></div>
 								</div>
-								<span>PROMOTION</span>
+								<span>{i18n.lbl_Promotion}</span>
 							</Link>
 						);
 					}}
@@ -113,7 +113,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-balance"></div>
 								</div>
-								<span>WALLET</span>
+								<span>{i18n.lbl_Wallet}</span>
 							</Link>
 						);
 					}}
@@ -126,7 +126,7 @@ const Footer = () => {
 					<div className="circleAnimation">
 						<div className="icon icon-contact"></div>
 					</div>
-					<span>LIVE CHAT</span>
+					<span>{i18n.LiveChat}</span>
 				</a>
 
 				<Match path={path.member.root}>
@@ -139,7 +139,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-member"></div>
 								</div>
-								<span>Member</span>
+								<span>{i18n.lbl_Me}</span>
 							</Link>
 						);
 					}}

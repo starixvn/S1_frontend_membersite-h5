@@ -70,7 +70,7 @@ const Panel = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 					setLoading(false);
 				}
@@ -80,7 +80,7 @@ const Panel = () => {
 		return () => {
 			isMountedRef.current = false;
 		};
-	}, [i18n.lbl_ImportantNote, setPopBox]);
+	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
 	const GetMsgList = () => {
 		if (!processing) {
@@ -116,7 +116,7 @@ const Panel = () => {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
+							content: i18n.msg_ApiServerError
 						});
 						setProcessing(false);
 					}
@@ -167,7 +167,7 @@ const Panel = () => {
 											setPopBox({
 												isOpen: true,
 												title: i18n.lbl_ImportantNote,
-												content: "API Server Error."
+												content: i18n.msg_ApiServerError
 											});
 										}
 									);
@@ -188,7 +188,7 @@ const Panel = () => {
 							setPopBox({
 								isOpen: true,
 								title: i18n.lbl_ImportantNote,
-								content: "API Server Error."
+								content: i18n.msg_ApiServerError
 							});
 							setProcessing(false);
 						}
@@ -245,7 +245,7 @@ const Panel = () => {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
+							content: i18n.msg_ApiServerError
 						});
 					}
 				}

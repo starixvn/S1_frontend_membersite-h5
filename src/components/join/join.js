@@ -113,8 +113,8 @@ function Join() {
 				if (mounted) {
 					setPopBox({
 						isOpen: true,
-						titleKey: "lbl_ImportantNote",
-						content: "API Server Error."
+						title: i18n.lbl_ImportantNote,
+						content: i18n.msg_ApiServerError
 					});
 				}
 			}
@@ -123,7 +123,7 @@ function Join() {
 		return () => {
 			mounted = false;
 		};
-	}, [i18n.lbl_ImportantNote, setPopBox]);
+	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);
@@ -200,7 +200,7 @@ function Join() {
 				setPopBox({
 					isOpen: true,
 					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
+					content: i18n.msg_ApiServerError
 				});
 			}
 		);
@@ -323,7 +323,7 @@ function Join() {
 				setPopBox({
 					isOpen: true,
 					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
+					content: i18n.msg_ApiServerError
 				});
 			}
 		);
@@ -442,7 +442,7 @@ function Join() {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
-									content: "API Server Error."
+									content: i18n.msg_ApiServerError
 								});
 							}
 						);
@@ -467,7 +467,7 @@ function Join() {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 				}
 			);
