@@ -1,4 +1,4 @@
-import React, { useContext, Component } from "react";
+import React, { useContext, Component, useEffect, useRef } from "react";
 import {
 	bankSlipPopBoxContext,
 	i18nContext,
@@ -25,16 +25,19 @@ const GetUploadFileName = files => {
 };
 
 class Modal extends Component {
-	state = {};
+	state = { processing: false };
+	isMountedRef = false;
 	filebox = React.createRef();
 	componentDidMount() {
 		/* eslint-disable */
+		this.isMountedRef = true;
 		this._clipboard = new ClipboardJS(".copyBtn");
 		this._clipboard.on("success", e => {});
 		this._clipboard.on("error", e => {});
 		/* eslint-enable */
 	}
 	componentWillUnmount() {
+		this.isMountedRef = false;
 		this._clipboard.destroy();
 	}
 	onCheckUpload = () => {
@@ -55,19 +58,23 @@ class Modal extends Component {
 			formData.append("Receipt", files[0]);
 			api_UploadReceipt(formData).then(
 				response => {
-					let result = response.data;
-					if (result.errorCode === 0) {
-						alert(this.props.i18n.lbl_UploadSuccess);
-					} else {
-						alert(result.message);
+					if (this.isMountedRef) {
+						let result = response.data;
+						if (result.errorCode === 0) {
+							alert(this.props.i18n.lbl_UploadSuccess);
+						} else {
+							alert(result.message);
+						}
 					}
 				},
 				err => {
-					this.props.setPopBox({
-						isOpen: true,
-						title: this.props.i18n.lbl_ImportantNote,
-						content: this.props.i18n.msg_ApiServerError
-					});
+					if (this.isMountedRef) {
+						this.props.setPopBox({
+							isOpen: true,
+							title: this.props.i18n.lbl_ImportantNote,
+							content: "API Server Error."
+						});
+					}
 				}
 			);
 		} else {
@@ -78,27 +85,38 @@ class Modal extends Component {
 		this.props.EditField(column, e.target.value);
 	};
 	SeReceipt = () => {
-		let bankSlipPopBox = this.props.bankSlipPopBox;
-		api_SetDepositReceipt(
-			bankSlipPopBox.transId,
-			moment(bankSlipPopBox.depositTime).unix(),
-			bankSlipPopBox.refId
-		).then(
-			res => {
-				if (res.data.errorCode === 0) {
-					this.props.handlePopBox();
-				} else {
-					alert(res.message);
+		if (!this.state.processing) {
+			this.setState({ processing: true });
+			let bankSlipPopBox = this.props.bankSlipPopBox;
+			api_SetDepositReceipt(
+				bankSlipPopBox.transId,
+				moment(bankSlipPopBox.depositTime).unix(),
+				bankSlipPopBox.refId
+			).then(
+				res => {
+					if (this.isMountedRef) {
+						if (res.data.errorCode === 0) {
+							this.props.handlePopBox();
+						} else {
+							alert(res.message);
+						}
+
+						this.setState({ processing: false });
+					}
+				},
+				err => {
+					if (this.isMountedRef) {
+						this.props.setPopBox({
+							isOpen: true,
+							title: this.props.i18n.lbl_ImportantNote,
+							content: "API Server Error."
+						});
+
+						this.setState({ processing: false });
+					}
 				}
-			},
-			err => {
-				this.props.setPopBox({
-					isOpen: true,
-					title: this.props.i18n.lbl_ImportantNote,
-					content: this.props.i18n.msg_ApiServerError
-				});
-			}
-		);
+			);
+		}
 	};
 	render() {
 		let bankSlipPopBox = this.props.bankSlipPopBox;
@@ -226,11 +244,20 @@ const Panel = () => {
 	const { bankSlipPopBox, setbankSlipPopBox } = useContext(
 		bankSlipPopBoxContext
 	);
+
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
 	const handlePopBox = () => {
-		if (bankSlipPopBox.closeCallBack) {
-			bankSlipPopBox.closeCallBack();
+		if (isMountedRef.current) {
+			if (bankSlipPopBox.closeCallBack) {
+				bankSlipPopBox.closeCallBack();
+			}
+			setbankSlipPopBox(() => ({ isOpen: false }));
 		}
-		setbankSlipPopBox(() => ({ isOpen: false }));
 	};
 
 	const EditField = (column, value) => {

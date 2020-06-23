@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import moment from "moment";
 import { number_format, isConvert } from "../common/common";
 import Step from "./step";
@@ -63,6 +63,11 @@ const Panel = () => {
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [pageVerify, setPageVerify] = useState(true);
 	const [loading, setLoading] = useState(true);
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	PageVerify(
 		userInfo,
@@ -74,23 +79,18 @@ const Panel = () => {
 	);
 
 	useEffect(() => {
-		let mounted = true;
-		if (mounted && redirectPath !== null) {
+		if (isMountedRef.current && redirectPath !== null) {
 			setRedirectPath(null);
 		}
-		return () => (mounted = false);
 	}, [redirectPath]);
 
 	useEffect(() => {
-		let mounted = true;
 		if (userInfo.isLogin) {
-			if (mounted) {
-				setLoading(true);
-			}
+			setLoading(true);
 
 			api_GetOnlinePaymentList().then(
 				res => {
-					if (res.data.errorCode === 0 && mounted) {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
 						setOnlineBankingList(res.data.data);
 						setAllowPayment(prevState => ({
 							...prevState,
@@ -101,7 +101,7 @@ const Panel = () => {
 					}
 				},
 				err => {
-					if (mounted) {
+					if (isMountedRef.current) {
 						setLoading(false);
 					}
 				}
@@ -109,7 +109,7 @@ const Panel = () => {
 
 			api_GetBankInfoOffList().then(
 				res => {
-					if (res.data.errorCode === 0 && mounted) {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
 						setLocalBankList(res.data.data);
 						setAllowPayment(prevState => ({
 							...prevState,
@@ -120,7 +120,7 @@ const Panel = () => {
 					}
 				},
 				err => {
-					if (mounted) {
+					if (isMountedRef.current) {
 						setLoading(false);
 					}
 				}
@@ -128,7 +128,7 @@ const Panel = () => {
 
 			api_GetMobilePayGroupList().then(
 				res => {
-					if (res.data.errorCode === 0 && mounted) {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
 						setMobilePayList(res.data.data);
 						setAllowPayment(prevState => ({
 							...prevState,
@@ -139,22 +139,18 @@ const Panel = () => {
 					}
 				},
 				err => {
-					if (mounted) {
+					if (isMountedRef.current) {
 						setLoading(false);
 					}
 				}
 			);
 
 			api_GetDepositInfoRecent().then(res => {
-				if (res.data.errorCode === 0 && mounted) {
+				if (res.data.errorCode === 0 && isMountedRef.current) {
 					setRecentDatas(res.data.data);
 				}
 			});
 		}
-
-		return () => {
-			mounted = false;
-		};
 	}, [userInfo.isLogin]);
 
 	const _isConvert = isConvert(userInfo.currencyId);
@@ -191,26 +187,30 @@ const Panel = () => {
 				setPopBox({ isOpen: false });
 				api_SetDepositCancel(transId).then(
 					res => {
-						if (res.data.errorCode === 0) {
-							api_GetDepositInfoRecent().then(res => {
-								if (res.data.errorCode === 0) {
-									setRecentDatas(res.data.data);
-								}
-							});
-						} else {
-							setPopBox({
-								isOpen: true,
-								title: i18n.lbl_ImportantNote,
-								content: res.data.message
-							});
+						if (isMountedRef.current) {
+							if (res.data.errorCode === 0) {
+								api_GetDepositInfoRecent().then(res => {
+									if (res.data.errorCode === 0) {
+										setRecentDatas(res.data.data);
+									}
+								});
+							} else {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: res.data.message
+								});
+							}
 						}
 					},
 					err => {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
-						});
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: "API Server Error."
+							});
+						}
 					}
 				);
 			};
@@ -275,22 +275,26 @@ const Panel = () => {
 	const GetDepositInfoRecent = () => {
 		api_GetDepositInfoRecent().then(
 			res => {
-				if (res.data.errorCode === 0) {
-					setRecentDatas(res.data.data);
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
+				if (isMountedRef.current) {
+					if (res.data.errorCode === 0) {
+						setRecentDatas(res.data.data);
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
 				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: "API Server Error."
-				});
+				if (isMountedRef.current) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: "API Server Error."
+					});
+				}
 			}
 		);
 	};

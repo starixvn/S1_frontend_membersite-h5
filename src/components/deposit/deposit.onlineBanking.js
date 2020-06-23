@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Step from "./step";
 import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import { Link, Redirect } from "@reach/router";
@@ -17,6 +17,11 @@ export const Main = props => {
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [pageVerify, setPageVerify] = useState(true);
 	const [loading, setLoading] = useState(true);
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	PageVerify(
 		userInfo,
@@ -28,9 +33,8 @@ export const Main = props => {
 	);
 
 	useEffect(() => {
-		let mounted = true;
 		if (props.location.state?.paymentList) {
-			if (mounted) {
+			if (isMountedRef.current) {
 				setPaymentList(props.location.state.paymentList);
 				setLoading(false);
 			}
@@ -39,7 +43,7 @@ export const Main = props => {
 				setLoading(true);
 				api_GetOnlinePaymentList().then(
 					res => {
-						if (mounted) {
+						if (isMountedRef.current) {
 							if (res.data.errorCode === 0) {
 								if (res.data.data.length > 0) {
 									setPaymentList(res.data.data);
@@ -58,7 +62,7 @@ export const Main = props => {
 						}
 					},
 					err => {
-						if (mounted) {
+						if (isMountedRef.current) {
 							setPopBox({
 								isOpen: true,
 								title: i18n.lbl_ImportantNote,
@@ -70,8 +74,6 @@ export const Main = props => {
 				);
 			}
 		}
-
-		return () => (mounted = false);
 	}, [
 		props.location.state,
 		i18n.lbl_ImportantNote,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Step from "./step";
 import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
 import { Link, Redirect } from "@reach/router";
@@ -33,6 +33,12 @@ const SetPayment = props => {
 	const [pageVerify, setPageVerify] = useState(true);
 	const [loading, setLoading] = useState(true);
 
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
 	PageVerify(
 		userInfo,
 		i18n,
@@ -43,10 +49,8 @@ const SetPayment = props => {
 	);
 
 	useEffect(() => {
-		let mounted = true;
-
 		if (props.location.state === null) {
-			if (mounted) {
+			if (isMountedRef.current) {
 				setRedirectPath(`/${path.deposit.root}`);
 				setLoading(false);
 			}
@@ -68,7 +72,7 @@ const SetPayment = props => {
 								};
 							});
 
-							if (mounted) {
+							if (isMountedRef.current) {
 								if (datas.length > 0) {
 									setBankList(datas);
 								} else {
@@ -76,7 +80,7 @@ const SetPayment = props => {
 								}
 							}
 						} else {
-							if (mounted) {
+							if (isMountedRef.current) {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
@@ -85,12 +89,12 @@ const SetPayment = props => {
 							}
 						}
 
-						if (mounted) {
+						if (isMountedRef.current) {
 							setLoading(false);
 						}
 					},
 					err => {
-						if (mounted) {
+						if (isMountedRef.current) {
 							setPopBox({
 								isOpen: true,
 								title: i18n.lbl_ImportantNote,
@@ -102,10 +106,6 @@ const SetPayment = props => {
 				);
 			}
 		}
-
-		return () => {
-			mounted = false;
-		};
 	}, [
 		props.location.state,
 		userInfo.isLogin,
@@ -120,25 +120,29 @@ const SetPayment = props => {
 				sysId: bankList[idx].id
 			}).then(
 				res => {
-					if (res.data.errorCode === 0) {
-						setSelBank({
-							idx: idx,
-							bank: res.data.data
-						});
-					} else {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							setSelBank({
+								idx: idx,
+								bank: res.data.data
+							});
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: "API Server Error."
+						});
+					}
 				}
 			);
 		}
