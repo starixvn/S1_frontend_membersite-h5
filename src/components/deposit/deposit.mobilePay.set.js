@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import {
 	i18nContext,
 	userInfoContext,
@@ -29,6 +29,12 @@ const SetMobilePay = props => {
 
 	const [pageVerify, setPageVerify] = useState(true);
 
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
 	PageVerify(
 		userInfo,
 		i18n,
@@ -39,11 +45,9 @@ const SetMobilePay = props => {
 	);
 
 	useEffect(() => {
-		let mounted = true;
-		if (mounted && props.location.state === null) {
+		if (isMountedRef.current && props.location.state === null) {
 			redirectPath(`/${path.deposit.root}`);
 		}
-		return () => (mounted = false);
 	}, [props.location.state, redirectPath]);
 
 	const VaildAmount = _amount => {

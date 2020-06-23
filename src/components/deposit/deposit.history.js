@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import {
 	api_GetDepositInfoHistory,
@@ -22,6 +22,12 @@ const Panel = () => {
 	const [loading, setLoading] = useState(false);
 
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
 	AUTO_FETCHING_DATA(
 		api_GetDepositInfoHistory,
 		filterData,
@@ -54,36 +60,45 @@ const Panel = () => {
 				PageNumber: 1
 			}).then(
 				response => {
-					const errorCode = response.data.errorCode;
-					if (errorCode !== 0) {
+					if (isMountedRef.current) {
+						const errorCode = response.data.errorCode;
+						if (errorCode !== 0) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: response.data.message
+							});
+						} else {
+							if (isMountedRef.current) {
+								setGetHistoryState(response.data.data);
+								if (
+									response.data.totalPages >=
+									response.data.pageNumber
+								) {
+									setPageInfo(() => ({
+										totalPages: response.data.totalPages,
+										pageNumber: response.data.pageNumber,
+										donePage: [1]
+									}));
+								}
+							}
+						}
+
+						setProcessing(false);
+						setLoading(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: response.data.message
+							content: "API Server Error."
 						});
-					} else {
-						setGetHistoryState(response.data.data);
-						if (
-							response.data.totalPages >= response.data.pageNumber
-						) {
-							setPageInfo(() => ({
-								totalPages: response.data.totalPages,
-								pageNumber: response.data.pageNumber,
-								donePage: [1]
-							}));
-						}
+
+						setProcessing(false);
+						setLoading(false);
 					}
-					setProcessing(false);
-					setLoading(false);
-				},
-				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
-					setProcessing(false);
-					setLoading(false);
 				}
 			);
 		}
@@ -94,30 +109,34 @@ const Panel = () => {
 			setPopBox({ isOpen: false });
 			api_SetDepositCancel(transId).then(
 				res => {
-					if (res.data.errorCode === 0) {
-						setGetHistoryState(prevState => {
-							let newD = [...prevState];
-							let idx = newD.findIndex(
-								x => x.transId === transId
-							);
-							newD[idx].status = 5;
-							return newD;
-						});
-					} else {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							setGetHistoryState(prevState => {
+								let newD = [...prevState];
+								let idx = newD.findIndex(
+									x => x.transId === transId
+								);
+								newD[idx].status = 5;
+								return newD;
+							});
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
-					setProcessing(false);
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: "API Server Error."
+						});
+						setProcessing(false);
+					}
 				}
 			);
 		};

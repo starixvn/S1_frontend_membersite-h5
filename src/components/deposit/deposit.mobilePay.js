@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import Step from "./step";
 import { Link, Redirect } from "@reach/router";
 import {
@@ -31,6 +31,12 @@ export const Main = props => {
 	const [pageVerify, setPageVerify] = useState(true);
 	const [loading, setLoading] = useState(true);
 
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
 	PageVerify(
 		userInfo,
 		i18n,
@@ -42,9 +48,8 @@ export const Main = props => {
 
 	const _isConvert = isConvert(userInfo.currencyId);
 	useEffect(() => {
-		let mounted = true;
 		if (props.location.state?.paymentList) {
-			if (mounted) {
+			if (isMountedRef.current) {
 				setLoading(false);
 				setPaymentList(props.location.state.paymentList);
 			}
@@ -53,29 +58,25 @@ export const Main = props => {
 				setLoading(true);
 				api_GetMobilePayGroupList().then(
 					res => {
-						if (res.data.errorCode === 0) {
-							if (res.data.errorCode === 0 && mounted) {
+						if (isMountedRef.current) {
+							if (res.data.errorCode === 0) {
 								if (res.data.data.length > 0) {
 									setPaymentList(res.data.data);
 								} else {
 									setRedirectPath(`/${path.deposit.root}`);
 								}
-							}
-						} else {
-							if (mounted) {
+							} else {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
 									content: res.data.message
 								});
 							}
-						}
-						if (mounted) {
 							setLoading(false);
 						}
 					},
 					err => {
-						if (mounted) {
+						if (isMountedRef.current) {
 							setLoading(false);
 							setPopBox({
 								isOpen: true,
@@ -87,8 +88,6 @@ export const Main = props => {
 				);
 			}
 		}
-
-		return () => (mounted = false);
 	}, [
 		props.location.state,
 		setPopBox,
@@ -102,24 +101,28 @@ export const Main = props => {
 			setLoading(true);
 			api_GetMobilePayInfoList(groupId).then(
 				res => {
-					if (res.data.errorCode === 0) {
-						setChannelList(res.data.data);
-					} else {
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							setChannelList(res.data.data);
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
+						setLoading(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: res.data.message
+							content: "API Server Error."
 						});
+						setLoading(false);
 					}
-					setLoading(false);
-				},
-				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
-					});
-					setLoading(false);
 				}
 			);
 		}
