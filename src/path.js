@@ -88,5 +88,11 @@ export default {
 	},
 	casino: {
 		root: "casino"
+	},
+	forgetPassword: {
+		root: "forgetPassword"
+	},
+	resetPassword: {
+		root: "resetPassword"
 	}
 };

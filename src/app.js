@@ -49,6 +49,8 @@ import PersonalMsg from "./components/message/personalMsg";
 import Announcement from "./components/message/announcement";
 
 import Casino from "./pages/casino";
+import ForgetPwd from "./components/login/forgetPwd";
+import ResetPwd from "./components/login/resetPwd";
 
 const Index = () => {
 	let history = createHistory(window);
@@ -58,6 +60,8 @@ const Index = () => {
 				<Layout>
 					<Router>
 						<Home path={path.home.root} />
+						<ForgetPwd path={path.forgetPassword.root} />
+						<ResetPwd path={path.resetPassword.root} />
 						<Promotion path={path.promotion.root} />
 						<Wallet path={path.wallet.root} />
 						<LiveChat path={path.livechat.root} />

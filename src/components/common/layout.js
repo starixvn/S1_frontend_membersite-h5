@@ -54,6 +54,16 @@ const _PageInfo = {
 		titleKey: "lbl_Casino",
 		className: "main casino",
 		hideLogo: true
+	},
+	forgetPwd: {
+		titleKey: "lbl_ForgetPassword",
+		className: "main",
+		hideLogo: true
+	},
+	resetPwd: {
+		titleKey: "lbl_ResetPassword",
+		className: "main",
+		hideLogo: true
 	}
 };
 
@@ -74,6 +84,8 @@ const Layout = ({ children }) => {
 			`/${path.message.root}/${path.message.sub.announcement.root}/*`
 		) !== null;
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
+	let _matchForgetPwd = useMatch(`/${path.forgetPassword.root}`) !== null;
+	let _matchResetPwd = useMatch(`/${path.resetPassword.root}`) !== null;
 
 	if (nav === defNavPanel.login || _matchLogin || nav === defNavPanel.join) {
 		position = { position: "fixed" };
@@ -94,6 +106,10 @@ const Layout = ({ children }) => {
 			pageInfo = _PageInfo.announcement;
 		} else if (_matchCasino) {
 			pageInfo = _PageInfo.casino;
+		} else if (_matchForgetPwd) {
+			pageInfo = _PageInfo.forgetPwd;
+		} else if (_matchResetPwd) {
+			pageInfo = _PageInfo.resetPwd;
 		}
 	}
 
