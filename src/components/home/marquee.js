@@ -148,7 +148,7 @@ class Marquee extends Component {
 				this.props.setPopBox({
 					isOpen: true,
 					title: this.props.i18n.lbl_ImportantNote,
-					content: "API Server Error."
+					content: this.props.i18n.msg_ApiServerError
 				});
 			}
 		);

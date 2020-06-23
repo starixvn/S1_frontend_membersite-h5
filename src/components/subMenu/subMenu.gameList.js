@@ -68,11 +68,11 @@ const SubGameList = () => {
 						? selectCategory.bind(null, item.category)
 						: clickGame.bind(this, { ...item })
 				}
-				isOpen={`${_open ? "open" : ""}`}
+				isOpen={`${_open ? " open" : ""}`}
 				category={item.category}
 				items={item.items}
 				translation={i18n[item.translation]}
-				itemOpen={`${_open && !item._blank ? "open" : ""}`}
+				itemOpen={`${_open && !item._blank ? " open" : ""}`}
 				clickGame={clickGame}
 				i18n={i18n}
 			/>
@@ -103,7 +103,7 @@ const ItemList = props => {
 	return (
 		<>
 			<button
-				className={`icon icon-${props.category} ${props.isOpen}`}
+				className={`icon icon-${props.category}${props.isOpen}`}
 				onClick={props.onClick}>
 				<span>{props.translation}</span>
 			</button>
@@ -115,7 +115,7 @@ const ItemList = props => {
 const Item = props => {
 	return (
 		<a
-			className={`icon icon-${props.colName} ${props.itemOpen}`}
+			className={`icon icon-${props.colName}${props.itemOpen}`}
 			onClick={props.clickGame}>
 			{props.i18n[props.translation]}
 		</a>

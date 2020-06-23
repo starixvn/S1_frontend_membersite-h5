@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { i18nContext } from "../common/context";
 
 export default () => {
+	const { i18n } = useContext(i18nContext);
+
 	return (
 		<div id="Loading" className="open">
 			<div className="container">
@@ -15,7 +18,7 @@ export default () => {
 					</div>
 				</div>
 				<h1> </h1>
-				<div className="text">Loading...</div>
+				<div className="text">{i18n.lbl_Loading}</div>
 			</div>
 		</div>
 	);

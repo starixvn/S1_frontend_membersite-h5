@@ -210,5 +210,21 @@ export default [
 	"lbl_UpdateBankInfo",
 	"lbl_Fishing",
 	"lbl_Keno",
-	"lbl_Lottery"
+	"lbl_Lottery",
+	"lbl_Loading",
+	"lbl_ABCasino",
+	"lbl_Statement",
+	"lbl_Football",
+	"lbl_Hockey",
+	"lbl_Promotion",
+	"lbl_Wallet",
+	"lbl_LiveChat",
+	"lbl_Guest",
+	"msg_ApiServerError",
+	"msg_SubmitDepositTime",
+	"msg_SelectFile",
+	"msg_ReferenceNumber",
+	"msg_WrongAmount",
+	"lbl_Me",
+	"lbl_MyAccount"
 ];

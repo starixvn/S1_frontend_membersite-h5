@@ -53,14 +53,14 @@ const gameList = [
 				gameId: 3,
 				tpId: 1,
 				imgId: gamePic7,
-				translation: "lbl_FootballBetting"
+				translation: "lbl_Football"
 			},
 			{
 				icon: "hockey",
 				gameId: 4,
 				tpId: 1,
 				imgId: gamePic9,
-				translation: "lbl_HockeyBetting"
+				translation: "lbl_Hockey"
 			},
 			{
 				icon: "tennis",
@@ -121,7 +121,7 @@ const gameList = [
 				tpId: 12,
 				imgId: LIVEcasino_AB,
 				span: "AB",
-				translation: "AB"
+				translation: "lbl_ABCasino"
 			}
 		],
 		translation: "lbl_LiveCasino"

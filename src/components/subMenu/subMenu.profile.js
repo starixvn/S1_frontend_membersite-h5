@@ -51,14 +51,14 @@ const Profile = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 				}
 			}
 		);
 
 		return () => (mounted = false);
-	}, [i18n.lbl_ImportantNote, setPopBox]);
+	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -94,7 +94,7 @@ const Profile = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 					setProcessing(false);
 				}
@@ -138,7 +138,7 @@ const Profile = () => {
 		<div className="info">
 			<div className="Avatar"></div>
 			<div className="MemberID">
-				{i18n.lbl_Welcome} {userInfo?.userName ?? "guest"}
+				{i18n.lbl_Welcome} {userInfo?.userName ?? i18n.lbl_Guest}
 			</div>
 			{userInfo.isLogin ? (
 				<Balance

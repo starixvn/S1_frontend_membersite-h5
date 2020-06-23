@@ -188,7 +188,7 @@ export const Main = props => {
 									setPopBox(prevState => ({
 										...prevState,
 										title: i18n.lbl_ImportantNote,
-										content: "Wrong amount."
+										content: i18n.msg_WrongAmount
 									}));
 								}
 							}
@@ -198,7 +198,7 @@ export const Main = props => {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
-									content: "API Server Error."
+									content: i18n.msg_ApiServerError
 								});
 							}
 						}

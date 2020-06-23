@@ -282,7 +282,7 @@ const Panel = () => {
 							this.props.setPopBox({
 								isOpen: true,
 								title: this.props.i18n.lbl_ImportantNote,
-								content: "API Server Error."
+								content: this.props.i18n.msg_ApiServerError
 							});
 						}
 					);
@@ -378,7 +378,7 @@ const Panel = () => {
 						this.props.setPopBox({
 							isOpen: true,
 							title: this.props.i18n.lbl_ImportantNote,
-							content: "API Server Error."
+							content: this.props.i18n.msg_ApiServerError
 						});
 					}
 				);

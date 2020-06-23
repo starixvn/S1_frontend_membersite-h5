@@ -81,7 +81,7 @@ export const Main = props => {
 							setPopBox({
 								isOpen: true,
 								title: i18n.lbl_ImportantNote,
-								content: "API Server Error."
+								content: i18n.msg_ApiServerError
 							});
 						}
 					}
@@ -92,7 +92,8 @@ export const Main = props => {
 		props.location.state,
 		setPopBox,
 		i18n.lbl_ImportantNote,
-		userInfo.isLogin
+		userInfo.isLogin,
+		i18n.msg_ApiServerError
 	]);
 
 	const SelectPayment = groupId => {
@@ -119,7 +120,7 @@ export const Main = props => {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: "API Server Error."
+							content: i18n.msg_ApiServerError
 						});
 						setLoading(false);
 					}

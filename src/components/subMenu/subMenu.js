@@ -106,7 +106,7 @@ const SubMenu = () => {
 							true,
 							userInfo.isLogin
 						)}>
-						Member
+						{i18n.lbl_Me}
 					</Link>
 					<Link
 						to={path.statement.root}
@@ -116,7 +116,7 @@ const SubMenu = () => {
 							true,
 							userInfo.isLogin
 						)}>
-						Statement
+						{i18n.lbl_Statement}
 					</Link>
 					<Link
 						to={path.message.root}

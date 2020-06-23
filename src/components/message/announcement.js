@@ -42,13 +42,18 @@ const Panel = () => {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: i18n.msg_ApiServerError
 					});
 					setLoading(false);
 				}
 			}
 		);
-	}, [i18n.lbl_ImportantNote, setPopBox, userInfo.langId]);
+	}, [
+		i18n.lbl_ImportantNote,
+		i18n.msg_ApiServerError,
+		setPopBox,
+		userInfo.langId
+	]);
 
 	const openItem = id => {
 		if (selectItemState === id) {

@@ -16,7 +16,7 @@ const _PageInfo = {
 		hideLogo: false
 	},
 	member: {
-		titleKey: "Member",
+		titleKey: "lbl_MyAccount",
 		className: "main",
 		hideLogo: true
 	},
