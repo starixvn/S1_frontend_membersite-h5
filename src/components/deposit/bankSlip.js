@@ -66,7 +66,7 @@ class Modal extends Component {
 					this.props.setPopBox({
 						isOpen: true,
 						title: this.props.i18n.lbl_ImportantNote,
-						content: "API Server Error."
+						content: this.props.i18n.msg_ApiServerError
 					});
 				}
 			);
@@ -95,7 +95,7 @@ class Modal extends Component {
 				this.props.setPopBox({
 					isOpen: true,
 					title: this.props.i18n.lbl_ImportantNote,
-					content: "API Server Error."
+					content: this.props.i18n.msg_ApiServerError
 				});
 			}
 		);
@@ -174,7 +174,7 @@ class Modal extends Component {
 						<i className="icon icon-folder-upload"></i>
 						{` ${
 							this.props.bankSlipPopBox.picFileName ??
-							"Select File"
+							i18n.msg_SelectFile
 						} `}
 					</label>
 					<button className="orange" onClick={this.onUploadFile}>
@@ -188,7 +188,7 @@ class Modal extends Component {
 				<div className="inputBox">
 					<i className="icon icon-calendar"></i>
 					<input
-						placeholder="Please submit your deposit time."
+						placeholder={i18n.msg_SubmitDepositTime}
 						type="datetime-local"
 						value={this.props.bankSlipPopBox.depositTime ?? ""}
 						onChange={this.EditField.bind(this, "depositTime")}
@@ -198,7 +198,7 @@ class Modal extends Component {
 				<div className="inputBox">
 					<i className="icon icon-pencil"></i>
 					<input
-						placeholder="Reference number"
+						placeholder={i18n.msg_ReferenceNumber}
 						value={this.props.bankSlipPopBox.refId ?? ""}
 						onChange={this.EditField.bind(this, "refId")}
 					/>
