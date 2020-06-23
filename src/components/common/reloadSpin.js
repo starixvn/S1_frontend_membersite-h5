@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 export default props => {
 	const [spin, setSpin] = useState(false);
+	const isMountedRef = useRef(null);
+
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	const clickSpin = () => {
 		setSpin(true);
@@ -9,7 +15,9 @@ export default props => {
 			props.func();
 		}
 		setTimeout(() => {
-			setSpin(false);
+			if (isMountedRef.current) {
+				setSpin(false);
+			}
 		}, 1500);
 	};
 
