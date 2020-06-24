@@ -226,5 +226,7 @@ export default [
 	"msg_ReferenceNumber",
 	"msg_WrongAmount",
 	"lbl_Me",
-	"lbl_MyAccount"
+	"lbl_MyAccount",
+	"lbl_ForgetPassword",
+	"lbl_ResetPassword"
 ];

@@ -23,3 +23,6 @@ export const api_GetSiteLangList = () => siteRequest.post(`/GetSiteLangList/`);
 export const api_CheckSignIn = () => siteRequest.post(`/CheckSignIn/`);
 
 export const api_GetGamelist = () => siteRequest.post(`/GetGamelist`);
+
+export const api_ForgetPwd = ({ Email }) =>
+	siteRequest.post(`/ForgetPwd`, { Email: Email });

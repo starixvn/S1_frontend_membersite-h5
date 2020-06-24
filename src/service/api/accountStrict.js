@@ -35,3 +35,8 @@ export const api_DelCustBankInfo = ({ AccountName, AccountNo, SysId }) =>
 		AccountNo,
 		SysId
 	});
+
+export const api_ResetPassword = ({ NewPassword }) =>
+	accountStrictRequest.post("/ResetPassword", {
+		NewPassword
+	});

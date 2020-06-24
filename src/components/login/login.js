@@ -11,7 +11,7 @@ import {
 	defNavPanel,
 	popBoxContext
 } from "../common/context";
-import { useMatch, Redirect } from "@reach/router";
+import { useMatch, Redirect, Link } from "@reach/router";
 import path from "../../path";
 import config from "../../config";
 
@@ -235,6 +235,19 @@ const LoginPage = ({ ButtonTitle }) => {
 					Warning={warningState.Password}
 					value={userValueState.Password}
 				/>
+
+				<div className="Terms">
+					<Link
+						to={path.forgetPassword.root}
+						onClick={handleloginPanel.bind(
+							this,
+							showPanel,
+							true,
+							showBylink
+						)}>
+						{i18n.lbl_ForgetPassword}?
+					</Link>
+				</div>
 
 				<button onClick={handleLogin}>{i18n["lbl_Login"]}</button>
 			</div>
