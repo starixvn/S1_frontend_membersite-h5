@@ -61,7 +61,7 @@ const initWarningState = {
 const defaultLangId = GET_LANG_ID();
 const currencyDefaultSelectIdx = 0;
 
-function Join() {
+const Join = () => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
@@ -173,56 +173,76 @@ function Join() {
 		const val = e.target.value;
 		let result = usernameCheck(val);
 
-		api_ExistsUserName({
-			UserName: val
-		}).then(
-			response => {
-				const res = response.data;
-				if (res.errorCode === 0 && res.data === true) {
-					setWarningState(prevState => {
-						return {
-							...prevState,
-							UserName: {
-								status: true,
-								msg: i18n["msg_UsernameNotAvailable"]
+		if (val !== "") {
+			if (result.checked) {
+				setWarningState(prevState => {
+					return {
+						...prevState,
+						[colName]: {
+							status: false,
+							msg: ""
+						}
+					};
+				});
+				api_ExistsUserName({
+					UserName: val
+				}).then(
+					response => {
+						const res = response.data;
+						if (res.errorCode === 0) {
+							if (res.data === true) {
+								setWarningState(prevState => {
+									return {
+										...prevState,
+										UserName: {
+											status: true,
+											msg:
+												i18n["msg_UsernameNotAvailable"]
+										}
+									};
+								});
+							} else {
+								setShowTipsState(prevState => {
+									return { ...prevState, UserName: false };
+								});
+								setChecklistState(prevState => {
+									return {
+										...prevState,
+										UserName: result.checked
+									};
+								});
 							}
-						};
-					});
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: response.data.message
-					});
-				}
-			},
-			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: i18n.msg_ApiServerError
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
+					},
+					err => {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
+				);
+			} else {
+				setShowTipsState(prevState => {
+					return { ...prevState, UserName: false };
+				});
+				setWarningState(prevState => {
+					return {
+						...prevState,
+						[colName]: {
+							status: !result.checked,
+							msg: result.message
+						}
+					};
 				});
 			}
-		);
-
-		setWarningState(prevState => {
-			return {
-				...prevState,
-				[colName]: {
-					status: !result.checked,
-					msg: result.message
-				}
-			};
-		});
-		setShowTipsState(prevState => {
-			return { ...prevState, UserName: false };
-		});
-		setUserValueState(prevState => {
-			return { ...prevState, UserName: val };
-		});
-		setChecklistState(prevState => {
-			return { ...prevState, UserName: true };
-		});
+		}
 	};
 
 	const passwordCheck = val => {
@@ -295,56 +315,75 @@ function Join() {
 		const val = e.target.value;
 
 		let result = emailCheck(val);
-
-		api_ExistsEmail({
-			Email: val
-		}).then(
-			response => {
-				const res = response.data;
-				if (res.errorCode === 0 && res.data === true) {
-					setWarningState(prevState => {
-						return {
-							...prevState,
-							Email: {
-								status: true,
-								msg: i18n["msg_MailExisted"]
+		if (val !== "") {
+			if (result.checked) {
+				setWarningState(prevState => {
+					return {
+						...prevState,
+						[colName]: {
+							status: false,
+							msg: ""
+						}
+					};
+				});
+				api_ExistsEmail({
+					Email: val
+				}).then(
+					response => {
+						const res = response.data;
+						if (res.errorCode === 0) {
+							if (res.data === true) {
+								setShowTipsState(prevState => {
+									return { ...prevState, Email: false };
+								});
+								setWarningState(prevState => {
+									return {
+										...prevState,
+										Email: {
+											status: true,
+											msg: i18n["msg_MailExisted"]
+										}
+									};
+								});
+							} else {
+								setChecklistState(prevState => {
+									return {
+										...prevState,
+										Email: result.checked
+									};
+								});
 							}
-						};
-					});
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: response.data.message
-					});
-				}
-			},
-			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: i18n.msg_ApiServerError
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: response.data.message
+							});
+						}
+					},
+					err => {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
+				);
+			} else {
+				setShowTipsState(prevState => {
+					return { ...prevState, Email: false };
+				});
+				setWarningState(prevState => {
+					return {
+						...prevState,
+						[colName]: {
+							status: !result.checked,
+							msg: result.message
+						}
+					};
 				});
 			}
-		);
-		setWarningState(prevState => {
-			return {
-				...prevState,
-				[colName]: {
-					status: !result.checked,
-					msg: i18n["msg_MailWrongFormat"]
-				}
-			};
-		});
-		setChecklistState(prevState => {
-			return { ...prevState, Email: result.checked };
-		});
-		setShowTipsState(prevState => {
-			return { ...prevState, Email: false };
-		});
-		setUserValueState(prevState => {
-			return { ...prevState, Email: val };
-		});
+		}
 	};
 
 	const [currencyState, setcurrencyState] = useState(
@@ -375,6 +414,10 @@ function Join() {
 		setChecklistState(prevState => {
 			return { ...prevState, Checkbox: checked };
 		});
+		setUserValueState(prevState => ({
+			...prevState,
+			Checkbox: checked
+		}));
 	};
 
 	const checklistHandler = () => {
@@ -617,7 +660,7 @@ function Join() {
 					<a target="_blank" href={TandC(userInfo.langId).rule}>
 						{i18n["lbl_RuleRegulations"]}
 					</a>
-					&nbsp; {i18n["lbl_Check18TC3"]}&nbsp;${config.siteName}
+					&nbsp; {i18n["lbl_Check18TC3"]}&nbsp;{config.siteName}
 					.&nbsp;
 					{i18n["lbl_Check18TC4"]}
 				</Checkbox>
@@ -630,6 +673,6 @@ function Join() {
 	) : (
 		<Redirect to="/" noThrow />
 	);
-}
+};
 
 export default Join;
