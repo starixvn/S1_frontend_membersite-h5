@@ -636,6 +636,7 @@ main.stopScroll {
 
 main .swiper-container {
   z-index: 4;
+  background: #fff;
 }
 
 main .banner {
@@ -1055,6 +1056,7 @@ footer > a.open .circleAnimation + span {
   font-size: 3vw;
   color: #ff5d00;
   display: block;
+  margin-top: 3vw;
 }
 
 @-webkit-keyframes zoom1 {
@@ -1721,6 +1723,18 @@ footer > a.open .circleAnimation + span {
   position: initial;
   margin-right: 2vw;
   display: inline-block;
+}
+
+.inputBox i.icon.icon-eye {
+  display: inline-block;
+  position: initial;
+  margin-right: 2vw;
+}
+
+.inputBox i.icon.icon-eye-blocked {
+  display: inline-block;
+  position: initial;
+  margin-right: 2vw;
 }
 
 .inputBox > .icon-module {
