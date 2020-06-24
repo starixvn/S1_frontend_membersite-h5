@@ -88,7 +88,7 @@ class Panel extends React.Component {
 			passive: false
 		});
 		api_GetGamelist().then(res => {
-			if (res.data.errorCode === 0 && this.mounted) {
+			if (res.data.errorCode === 0) {
 				let _tpList = {};
 				let games = [];
 				res.data.data.forEach(t => {
