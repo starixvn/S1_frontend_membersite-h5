@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Inputbox from "../common/inputbox";
 import InputboxPWD from "../common/inputbox.password";
 import Dropdown from "../common/dropdown";
@@ -65,11 +65,13 @@ const Join = () => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { nav, setNav } = useContext(navContext);
 	const [userValueState, setUserValueState] = useState(initState);
 	const [siteCurrencyState, setSiteCurrencyState] = useState([]);
 	const [warningState, setWarningState] = useState(initWarningState);
 	const [pswState, setPswState] = useState(false);
 	const [checkboxState, setCheckboxState] = useState(false);
+	const [redirectPath, setRedirectPath] = useState(null);
 
 	const [showTipsState, setShowTipsState] = useState({
 		UserName: false,
@@ -85,32 +87,43 @@ const Join = () => {
 		Checkbox: false
 	});
 
+	const isMountedRef = useRef(null);
 	useEffect(() => {
-		let mounted = true;
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath]);
+
+	useEffect(() => {
 		api_GetSiteCurrencyList().then(
 			res => {
-				if (res.data.errorCode === 0) {
-					const currencyNum = res.data.data;
-					let currencyArr = currencyNum.map(id => {
-						return { id: id, displayKey: `Currency_${id}` };
-					});
-					if (mounted) {
+				if (isMountedRef.current) {
+					if (res.data.errorCode === 0) {
+						const currencyNum = res.data.data;
+						let currencyArr = currencyNum.map(id => {
+							return { id: id, displayKey: `Currency_${id}` };
+						});
 						setUserValueState(prevState => ({
 							...prevState,
 							Currency: currencyArr[currencyDefaultSelectIdx]
 						}));
 						setSiteCurrencyState(() => currencyArr);
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
 				}
 			},
 			err => {
-				if (mounted) {
+				if (isMountedRef.current) {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
@@ -119,10 +132,6 @@ const Join = () => {
 				}
 			}
 		);
-
-		return () => {
-			mounted = false;
-		};
 	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
 	const showPswHandler = () => {
@@ -188,44 +197,51 @@ const Join = () => {
 					UserName: val
 				}).then(
 					response => {
-						const res = response.data;
-						if (res.errorCode === 0) {
-							if (res.data === true) {
-								setWarningState(prevState => {
-									return {
-										...prevState,
-										UserName: {
-											status: true,
-											msg:
-												i18n["msg_UsernameNotAvailable"]
-										}
-									};
-								});
+						if (isMountedRef.current) {
+							const res = response.data;
+							if (res.errorCode === 0) {
+								if (res.data === true) {
+									setWarningState(prevState => {
+										return {
+											...prevState,
+											UserName: {
+												status: true,
+												msg:
+													i18n.msg_UsernameNotAvailable
+											}
+										};
+									});
+								} else {
+									setShowTipsState(prevState => {
+										return {
+											...prevState,
+											UserName: false
+										};
+									});
+									setChecklistState(prevState => {
+										return {
+											...prevState,
+											UserName: result.checked
+										};
+									});
+								}
 							} else {
-								setShowTipsState(prevState => {
-									return { ...prevState, UserName: false };
-								});
-								setChecklistState(prevState => {
-									return {
-										...prevState,
-										UserName: result.checked
-									};
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: res.data.message
 								});
 							}
-						} else {
-							setPopBox({
-								isOpen: true,
-								title: i18n.lbl_ImportantNote,
-								content: res.data.message
-							});
 						}
 					},
 					err => {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: i18n.msg_ApiServerError
-						});
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerError
+							});
+						}
 					}
 				);
 			} else {
@@ -330,43 +346,47 @@ const Join = () => {
 					Email: val
 				}).then(
 					response => {
-						const res = response.data;
-						if (res.errorCode === 0) {
-							if (res.data === true) {
-								setShowTipsState(prevState => {
-									return { ...prevState, Email: false };
-								});
-								setWarningState(prevState => {
-									return {
-										...prevState,
-										Email: {
-											status: true,
-											msg: i18n["msg_MailExisted"]
-										}
-									};
-								});
+						if (isMountedRef.current) {
+							const res = response.data;
+							if (res.errorCode === 0) {
+								if (res.data === true) {
+									setShowTipsState(prevState => {
+										return { ...prevState, Email: false };
+									});
+									setWarningState(prevState => {
+										return {
+											...prevState,
+											Email: {
+												status: true,
+												msg: i18n["msg_MailExisted"]
+											}
+										};
+									});
+								} else {
+									setChecklistState(prevState => {
+										return {
+											...prevState,
+											Email: result.checked
+										};
+									});
+								}
 							} else {
-								setChecklistState(prevState => {
-									return {
-										...prevState,
-										Email: result.checked
-									};
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: response.data.message
 								});
 							}
-						} else {
-							setPopBox({
-								isOpen: true,
-								title: i18n.lbl_ImportantNote,
-								content: response.data.message
-							});
 						}
 					},
 					err => {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: i18n.msg_ApiServerError
-						});
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerError
+							});
+						}
 					}
 				);
 			} else {
@@ -461,57 +481,63 @@ const Join = () => {
 
 			api_Register(regData).then(
 				response => {
-					const errorCode = response.data.errorCode;
-					const message = response.data.message;
-					if (errorCode === 0) {
-						api_GetCustProfile().then(
-							res_custInfo => {
-								let _user = {
-									isLogin: true,
-									langId: defaultLangId,
-									userName: userValueState.UserName
-								};
-
-								if (res_custInfo.data.errorCode === 0) {
-									_user = {
-										..._user,
-										...res_custInfo.data.data
-									};
+					if (isMountedRef.current) {
+						const errorCode = response.data.errorCode;
+						const message = response.data.message;
+						if (errorCode === 0) {
+							api_GetCustProfile().then(
+								res_custInfo => {
+									if (isMountedRef.current) {
+										let _user = {
+											isLogin: true,
+											langId: defaultLangId,
+											userName: userValueState.UserName
+										};
+										if (res_custInfo.data.errorCode === 0) {
+											_user = {
+												..._user,
+												...res_custInfo.data.data
+											};
+										}
+										setUserInfo(_user);
+									}
+								},
+								err => {
+									if (isMountedRef.current) {
+										setPopBox({
+											isOpen: true,
+											title: i18n.lbl_ImportantNote,
+											content: i18n.msg_ApiServerError
+										});
+									}
 								}
-
-								setUserInfo(_user);
-							},
-							err => {
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: i18n.msg_ApiServerError
-								});
-							}
-						);
-						setNav(null);
-					} else if (
-						errorCode === -2 ||
-						errorCode === -5 ||
-						errorCode === -19
-					) {
-						setWarningState(prevState => ({
-							...prevState,
-							UserName: { status: true, msg: message }
-						}));
-					} else if (errorCode === -3) {
-						setWarningState(prevState => ({
-							...prevState,
-							Password: { status: true, msg: message }
-						}));
+							);
+							setNav(null);
+						} else if (
+							errorCode === -2 ||
+							errorCode === -5 ||
+							errorCode === -19
+						) {
+							setWarningState(prevState => ({
+								...prevState,
+								UserName: { status: true, msg: message }
+							}));
+						} else if (errorCode === -3) {
+							setWarningState(prevState => ({
+								...prevState,
+								Password: { status: true, msg: message }
+							}));
+						}
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.msg_ApiServerError
-					});
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
 				}
 			);
 		} else {
@@ -524,8 +550,6 @@ const Join = () => {
 		}
 	};
 
-	const { nav, setNav } = useContext(navContext);
-	const [redirectPath, setRedirectPath] = useState(null);
 	const handleJoinPanel = (show, reset, showBylink) => {
 		if (reset) {
 			setUserValueState({
@@ -547,23 +571,13 @@ const Join = () => {
 		}
 	};
 
-	useEffect(() => {
-		let mounted = true;
-		if (mounted && redirectPath !== null) {
-			setRedirectPath(null);
-		}
-		return () => {
-			mounted = false;
-		};
-	}, [redirectPath]);
-
 	let showBylink = useMatch(path.join.root);
 	let openPanel = showBylink || nav === defNavPanel.join;
 
 	return redirectPath === null ? (
 		<>
 			<button onClick={handleJoinPanel.bind(this, openPanel)}>
-				JOIN
+				{i18n.lbl_JoinNow}
 			</button>
 			<div className={`Join${openPanel ? " open" : ""}`}>
 				<div
@@ -582,7 +596,7 @@ const Join = () => {
 					<span></span>
 				</div>
 				<img src={logo} alt="" />
-				<div className="title">JOIN NOW</div>
+				<div className="title">{i18n.lbl_JoinNow}</div>
 
 				<Inputbox
 					icon="icon-member"

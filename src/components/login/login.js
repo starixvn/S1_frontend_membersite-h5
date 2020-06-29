@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import Inputbox from "../common/inputbox";
 import InputboxPWD from "../common/inputbox.password";
 import logo from "../../styles/Nova88/img/logo.svg";
@@ -45,7 +45,23 @@ const LoginPage = ({ ButtonTitle }) => {
 	const { i18n, seti18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { nav, setNav } = useContext(navContext);
 	const [userValueState, setUserValueState] = useState(initState);
+	const [redirectPath, setRedirectPath] = useState(null);
+	const [pswState, setPswState] = useState(false);
+	const [warningState, setWarningState] = useState(initWarningState);
+	const isMountedRef = useRef(null);
+
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath]);
 
 	const checkValueHandler = (colName, e) => {
 		let val = e.target.value;
@@ -61,13 +77,9 @@ const LoginPage = ({ ButtonTitle }) => {
 		});
 	};
 
-	const [pswState, setPswState] = useState(false);
-
 	const showPswHandler = () => {
 		setPswState(!pswState);
 	};
-
-	const [warningState, setWarningState] = useState(initWarningState);
 
 	const handleLogin = () => {
 		let checked =
@@ -96,45 +108,55 @@ const LoginPage = ({ ButtonTitle }) => {
 					if (userInfo?.langId !== langId) {
 						api_GetTranslationData(langId).then(
 							res => {
-								if (errorCode !== 0) {
-									setPopBox({
-										isOpen: true,
-										title: i18n.lbl_ImportantNote,
-										content: res.data.message
-									});
-								} else {
-									seti18n(res.data.data);
+								if (isMountedRef.current) {
+									if (errorCode !== 0) {
+										setPopBox({
+											isOpen: true,
+											title: i18n.lbl_ImportantNote,
+											content: res.data.message
+										});
+									} else {
+										seti18n(res.data.data);
+									}
 								}
 							},
 							err => {
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: i18n.msg_ApiServerError
-								});
+								if (isMountedRef.current) {
+									setPopBox({
+										isOpen: true,
+										title: i18n.lbl_ImportantNote,
+										content: i18n.msg_ApiServerError
+									});
+								}
 							}
 						);
 					}
 
-					setUserInfo(() => ({
-						...userData,
-						isLogin: isLogin
-					}));
-					setNav(null);
+					if (isMountedRef.current) {
+						setUserInfo(() => ({
+							...userData,
+							isLogin: isLogin
+						}));
+						setNav(null);
+					}
 				} else if (
 					errorCode === 1101 ||
 					errorCode === 1102 ||
 					errorCode === 9000
 				) {
-					setWarningState(prevState => ({
-						...prevState,
-						UserName: { status: true, msg: message }
-					}));
+					if (isMountedRef.current) {
+						setWarningState(prevState => ({
+							...prevState,
+							UserName: { status: true, msg: message }
+						}));
+					}
 				} else if (errorCode === 1001) {
-					setWarningState(prevState => ({
-						...prevState,
-						Password: { status: true, msg: message }
-					}));
+					if (isMountedRef.current) {
+						setWarningState(prevState => ({
+							...prevState,
+							Password: { status: true, msg: message }
+						}));
+					}
 				}
 			};
 
@@ -148,8 +170,6 @@ const LoginPage = ({ ButtonTitle }) => {
 		}
 	};
 
-	const { nav, setNav } = useContext(navContext);
-	const [redirectPath, setRedirectPath] = useState(null);
 	const handleloginPanel = (show, reset, showBylink) => {
 		if (reset) {
 			setUserValueState(initState);
@@ -165,16 +185,6 @@ const LoginPage = ({ ButtonTitle }) => {
 			});
 		}
 	};
-
-	useEffect(() => {
-		let mounted = true;
-		if (mounted && redirectPath !== null) {
-			setRedirectPath(null);
-		}
-		return () => {
-			mounted = false;
-		};
-	}, [redirectPath]);
 
 	let showBylink = useMatch(path.login.root) !== null;
 	let showPanel = showBylink || nav === defNavPanel.login;

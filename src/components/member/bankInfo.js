@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
 import { api_GetBankInfoSysList } from "../../service/api/payment";
 import {
@@ -33,37 +33,50 @@ const BankInfo = () => {
 	const [bankSelectedIdx, setBankSelectedIdx] = useState(0);
 	const [warningState, setWarningState] = useState(initWarningState);
 	const [loading, setLoading] = useState(true);
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	useEffect(() => {
-		let mounted = true;
+		if (!userInfo.accountName && isMountedRef.current) {
+			setStatus(true);
+		}
+	}, [userInfo.accountName]);
+
+	useEffect(() => {
 		if (userInfo.isLogin) {
 			setLoading(true);
 			api_GetCustBankInfo().then(
 				res => {
-					if (res.data.errorCode === 0) {
-						let data = res.data.data;
-						if (data !== null) {
-							let bankInfoDetail = data.bankInfoDetail ?? [];
-							let getBankInfoArr = bankInfoDetail.map(i => {
-								return {
-									bankName: i.bankName,
-									image: i.bankLogo,
-									accountNo: i.accountNo,
-									SysId: i.sysId
-								};
-							});
-							if (mounted) {
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							let data = res.data.data;
+							if (data !== null) {
+								let bankInfoDetail = data.bankInfoDetail ?? [];
+								let getBankInfoArr = bankInfoDetail.map(i => {
+									return {
+										bankName: i.bankName,
+										image: i.bankLogo,
+										accountNo: i.accountNo,
+										SysId: i.sysId
+									};
+								});
 								setGetBankInfo(() => getBankInfoArr);
 							}
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
 						}
-					}
-
-					if (mounted) {
 						setLoading(false);
 					}
 				},
 				err => {
-					if (mounted) {
+					if (isMountedRef.current) {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
@@ -74,8 +87,6 @@ const BankInfo = () => {
 				}
 			);
 		}
-
-		return () => (mounted = false);
 	}, [
 		i18n.lbl_ImportantNote,
 		i18n.msg_ApiServerError,
@@ -83,52 +94,48 @@ const BankInfo = () => {
 		userInfo.isLogin
 	]);
 
-	useEffect(() => {
-		let mounted = true;
-		if (!userInfo.accountName && mounted) {
-			setStatus(true);
-		}
-		return () => (mounted = false);
-	}, [userInfo.accountName]);
-
 	const toAddBankAccount = () => {
 		setLoading(true);
 		api_GetBankInfoSysList().then(
 			res => {
-				if (res.data.errorCode === 0) {
-					const data = res.data.data;
-					let bankInfoArr = data.map(i => {
-						return {
-							id: i.sysId,
-							sysId: i.sysId,
-							bankName: i.bankName,
-							image: i.bankLogo,
-							displayText: i.bankName
-						};
-					});
+				if (isMountedRef.current) {
+					if (res.data.errorCode === 0) {
+						const data = res.data.data;
+						let bankInfoArr = data.map(i => {
+							return {
+								id: i.sysId,
+								sysId: i.sysId,
+								bankName: i.bankName,
+								image: i.bankLogo,
+								displayText: i.bankName
+							};
+						});
 
-					setSiteBankInfoState(() => bankInfoArr);
-					setStatus(false);
-					setBankSelectedIdx(0);
-					setWarningState(initWarningState);
-					setUserValueState({});
-				} else {
+						setSiteBankInfoState(() => bankInfoArr);
+						setStatus(false);
+						setBankSelectedIdx(0);
+						setWarningState(initWarningState);
+						setUserValueState({});
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
+					setLoading(false);
+				}
+			},
+			err => {
+				if (isMountedRef.current) {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
-						content: res.data.message
+						content: i18n.msg_ApiServerError
 					});
-				}
-				setLoading(false);
-			},
-			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: i18n.msg_ApiServerError
-				});
 
-				setLoading(false);
+					setLoading(false);
+				}
 			}
 		);
 	};
@@ -188,39 +195,43 @@ const BankInfo = () => {
 
 		api_GetCustBankInfo().then(
 			res => {
-				if (res.data.errorCode === 0) {
-					let data = res.data.data;
-					if (data !== null) {
-						let bankInfoDetail = data.bankInfoDetail ?? [];
-						let getBankInfoArr = bankInfoDetail.map(i => {
-							return {
-								bankName: i.bankName,
-								image: i.bankLogo,
-								accountNo: i.accountNo,
-								SysId: i.sysId
-							};
+				if (isMountedRef.current) {
+					if (res.data.errorCode === 0) {
+						let data = res.data.data;
+						if (data !== null) {
+							let bankInfoDetail = data.bankInfoDetail ?? [];
+							let getBankInfoArr = bankInfoDetail.map(i => {
+								return {
+									bankName: i.bankName,
+									image: i.bankLogo,
+									accountNo: i.accountNo,
+									SysId: i.sysId
+								};
+							});
+							setGetBankInfo(preV => getBankInfoArr);
+							setUserInfo(prevState => ({
+								...prevState,
+								accountName: data.accountName
+							}));
+							setLoading(false);
+						}
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
 						});
-						setGetBankInfo(preV => getBankInfoArr);
-						setUserInfo(prevState => ({
-							...prevState,
-							accountName: data.accountName
-						}));
-						setLoading(false);
 					}
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
 				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: i18n.msg_ApiServerError
-				});
+				if (isMountedRef.current) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: i18n.msg_ApiServerError
+					});
+				}
 			}
 		);
 	};
@@ -237,23 +248,27 @@ const BankInfo = () => {
 			setPopBox({ isOpen: false });
 			api_DelCustBankInfo(removeAccountData).then(
 				res => {
-					if (res.data.errorCode === 0) {
-						GetCustBankInfo();
-					} else {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							GetCustBankInfo();
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.msg_ApiServerError
-					});
-					setLoading(false);
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+						setLoading(false);
+					}
 				}
 			);
 		};
@@ -358,26 +373,30 @@ const BankInfo = () => {
 				setLoading(true);
 				api_SetCustBankInfo(bankInfoData).then(
 					response => {
-						const errorCode = response.data.errorCode;
-						const message = response.data.message;
+						if (isMountedRef.current) {
+							const errorCode = response.data.errorCode;
+							const message = response.data.message;
 
-						if (errorCode !== 0) {
-							setPopBox({
-								isOpen: true,
-								title: i18n["lbl_ImportantNote"],
-								content: message
-							});
-						} else {
-							GetCustBankInfo();
+							if (errorCode !== 0) {
+								setPopBox({
+									isOpen: true,
+									title: i18n["lbl_ImportantNote"],
+									content: message
+								});
+							} else {
+								GetCustBankInfo();
+							}
 						}
 					},
 					err => {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: i18n.msg_ApiServerErrors
-						});
-						setLoading(false);
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerErrors
+							});
+							setLoading(false);
+						}
 					}
 				);
 				setStatus(true);

@@ -25,6 +25,7 @@ const Panel = () => {
 	const [loading, setLoading] = useState(false);
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	const isMountedRef = useRef(null);
+
 	AUTO_FETCHING_DATA(
 		api_GetMsgList,
 		{},
@@ -35,6 +36,11 @@ const Panel = () => {
 		processing,
 		setProcessing
 	);
+
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	useEffect(() => {
 		isMountedRef.current = true;
@@ -61,7 +67,6 @@ const Panel = () => {
 							content: res.data.message
 						});
 					}
-
 					setLoading(false);
 				}
 			},
@@ -76,10 +81,6 @@ const Panel = () => {
 				}
 			}
 		);
-
-		return () => {
-			isMountedRef.current = false;
-		};
 	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
 	const GetMsgList = () => {
@@ -112,7 +113,7 @@ const Panel = () => {
 					}
 				},
 				err => {
-					if (isMountedRef) {
+					if (isMountedRef.current) {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
@@ -152,23 +153,30 @@ const Panel = () => {
 
 									api_GetMsgCount().then(
 										res => {
-											if (res.data.errorCode === 0) {
-												setMsgCount(res.data.data);
-											} else {
+											if (isMountedRef.current) {
+												if (res.data.errorCode === 0) {
+													setMsgCount(res.data.data);
+												} else {
+													setPopBox({
+														isOpen: true,
+														title:
+															i18n.lbl_ImportantNote,
+														content:
+															res.data.message
+													});
+												}
+											}
+										},
+										err => {
+											if (isMountedRef.current) {
 												setPopBox({
 													isOpen: true,
 													title:
 														i18n.lbl_ImportantNote,
-													content: res.data.message
+													content:
+														i18n.msg_ApiServerError
 												});
 											}
-										},
-										err => {
-											setPopBox({
-												isOpen: true,
-												title: i18n.lbl_ImportantNote,
-												content: i18n.msg_ApiServerError
-											});
 										}
 									);
 								}

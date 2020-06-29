@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import { api_GetTransferHistory } from "../../service/api/tp";
 import { number_format, isConvert } from "../common/common";
@@ -32,6 +32,12 @@ const Panel = () => {
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	const [processing, setProcessing] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const isMountedRef = useRef(null);
+
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	AUTO_FETCHING_DATA(
 		api_GetTransferHistory,
@@ -63,35 +69,42 @@ const Panel = () => {
 				PageNumber: 1
 			}).then(
 				response => {
-					const errorCode = response.data.errorCode;
-					if (errorCode !== 0) {
+					if (isMountedRef.current) {
+						const errorCode = response.data.errorCode;
+						if (errorCode !== 0) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: response.data.message
+							});
+						} else {
+							if (isMountedRef.current) {
+								setGetHistoryState(response.data.data);
+								if (
+									response.data.totalPages >=
+									response.data.pageNumber
+								) {
+									setPageInfo(() => ({
+										totalPages: response.data.totalPages,
+										pageNumber: response.data.pageNumber
+									}));
+								}
+							}
+						}
+						setProcessing(false);
+						setLoading(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: response.data.message
+							content: i18n.msg_ApiServerError
 						});
-					} else {
-						setGetHistoryState(response.data.data);
-						if (
-							response.data.totalPages >= response.data.pageNumber
-						) {
-							setPageInfo(() => ({
-								totalPages: response.data.totalPages,
-								pageNumber: response.data.pageNumber
-							}));
-						}
+						setProcessing(false);
+						setLoading(false);
 					}
-					setProcessing(false);
-					setLoading(false);
-				},
-				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.msg_ApiServerError
-					});
-					setProcessing(false);
-					setLoading(false);
 				}
 			);
 		}

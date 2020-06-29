@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.icon";
 import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
@@ -64,8 +64,14 @@ const Panel = () => {
 	});
 
 	const country = userInfo.country ? userInfo.country : userInfo.perCountry;
-	let aCode = country ? areaCode[country].AreaCode : "";
+	const isMountedRef = useRef(null);
 
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	let aCode = country ? areaCode[country].AreaCode : "";
 	let status = defStatus.LockAll;
 	if (userInfo.accountName && !userInfo.phoneNo) {
 		status = defStatus.Phone_BDay;
@@ -276,46 +282,54 @@ const Panel = () => {
 
 			api_SetProfile(profileData).then(
 				response => {
-					const errorCode = response.data.errorCode;
-					const message = response.data.message;
+					if (isMountedRef.current) {
+						const errorCode = response.data.errorCode;
+						const message = response.data.message;
 
-					if (errorCode === 21) {
-						setWarningState(prevState => ({
-							...prevState,
-							Phone: { status: true, msg: message }
-						}));
-					} else {
-						api_GetCustProfile().then(
-							res => {
-								if (res.data.errorCode === 0) {
-									setUserInfo(prevState => ({
-										...prevState,
-										...res.data.data
-									}));
-								} else {
-									setPopBox({
-										isOpen: true,
-										title: i18n.lbl_ImportantNote,
-										content: response.data.message
-									});
+						if (errorCode === 21) {
+							setWarningState(prevState => ({
+								...prevState,
+								Phone: { status: true, msg: message }
+							}));
+						} else {
+							api_GetCustProfile().then(
+								res => {
+									if (isMountedRef.current) {
+										if (res.data.errorCode === 0) {
+											setUserInfo(prevState => ({
+												...prevState,
+												...res.data.data
+											}));
+										} else {
+											setPopBox({
+												isOpen: true,
+												title: i18n.lbl_ImportantNote,
+												content: response.data.message
+											});
+										}
+									}
+								},
+								err => {
+									if (isMountedRef.current) {
+										setPopBox({
+											isOpen: true,
+											title: i18n.lbl_ImportantNote,
+											content: i18n.msg_ApiServerError
+										});
+									}
 								}
-							},
-							err => {
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: i18n.msg_ApiServerError
-								});
-							}
-						);
+							);
+						}
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.msg_ApiServerError
-					});
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
 				}
 			);
 		}

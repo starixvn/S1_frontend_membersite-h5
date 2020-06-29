@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import {
 	i18nContext,
 	userInfoContext,
@@ -15,6 +15,12 @@ const Panel = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
 	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
+	const isMountedRef = useRef(null);
+
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
 
 	let balance = number_format(
 		walletInfo.main,
@@ -24,25 +30,29 @@ const Panel = () => {
 	const GetBalance = () => {
 		api_GetBalnace().then(
 			res => {
-				if (res.data.errorCode === 0) {
-					setWalletInfo(prevState => ({
-						...prevState,
-						main: res.data.data
-					}));
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
+				if (isMountedRef.current) {
+					if (res.data.errorCode === 0) {
+						setWalletInfo(prevState => ({
+							...prevState,
+							main: res.data.data
+						}));
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
+					}
 				}
 			},
 			err => {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: i18n.msg_ApiServerError
-				});
+				if (isMountedRef.current) {
+					setPopBox({
+						isOpen: true,
+						title: i18n.lbl_ImportantNote,
+						content: i18n.msg_ApiServerError
+					});
+				}
 			}
 		);
 	};

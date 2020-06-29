@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
 	userInfoContext,
 	i18nContext,
@@ -20,34 +20,38 @@ const Profile = () => {
 	const [userLanValue, setUserLanValue] = useState(0);
 	const [langList, setLangList] = useState([]);
 	const [processing, setProcessing] = useState(false);
+	const isMountedRef = useRef(null);
 
 	useEffect(() => {
-		let mounted = true;
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
 		api_GetSiteLangList().then(
 			res => {
-				if (res.data.errorCode === 0) {
-					const langNum = res.data.data;
-					let langArr = langNum.map(id => {
-						return {
-							langId: id.langId,
-							displayText: id.language,
-							iconClassName: `flag ${id.langId}`
-						};
-					});
-
-					if (mounted) {
+				if (isMountedRef.current) {
+					if (res.data.errorCode === 0) {
+						const langNum = res.data.data;
+						let langArr = langNum.map(id => {
+							return {
+								langId: id.langId,
+								displayText: id.language,
+								iconClassName: `flag ${id.langId}`
+							};
+						});
 						setLangList(langArr);
+					} else {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: res.data.message
+						});
 					}
-				} else {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: res.data.message
-					});
 				}
 			},
 			err => {
-				if (mounted) {
+				if (isMountedRef.current) {
 					setPopBox({
 						isOpen: true,
 						title: i18n.lbl_ImportantNote,
@@ -56,18 +60,14 @@ const Profile = () => {
 				}
 			}
 		);
-
-		return () => (mounted = false);
 	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
 	useEffect(() => {
-		let mounted = true;
 		let langId = userInfo.langId ?? GET_LANG_ID();
 		let idx = langList.findIndex(x => x.langId === langId);
-		if (idx !== -1 && mounted) {
+		if (idx !== -1 && isMountedRef.current) {
 			setUserLanValue(idx);
 		}
-		return () => (mounted = false);
 	}, [langList, userInfo.langId]);
 
 	const GetBalance = () => {
@@ -76,27 +76,31 @@ const Profile = () => {
 
 			api_GetBalnace().then(
 				res => {
-					if (res.data.errorCode === 0) {
-						setWalletInfo(prevState => ({
-							...prevState,
-							main: res.data.data
-						}));
-					} else {
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							setWalletInfo(prevState => ({
+								...prevState,
+								main: res.data.data
+							}));
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
+						setProcessing(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
 						setPopBox({
 							isOpen: true,
 							title: i18n.lbl_ImportantNote,
-							content: res.data.message
+							content: i18n.msg_ApiServerError
 						});
+						setProcessing(false);
 					}
-					setProcessing(false);
-				},
-				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.msg_ApiServerError
-					});
-					setProcessing(false);
 				}
 			);
 		}
@@ -107,20 +111,33 @@ const Profile = () => {
 			let langId = langList[idx].langId;
 			setUserLanValue(idx);
 			if (userInfo.isLogin) {
-				api_SetLanguage(langId).then(res => {
-					if (res.data.errorCode === 0) {
-						setUserInfo(prevState => ({
-							...prevState,
-							langId: langId
-						}));
-					} else {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
+				api_SetLanguage(langId).then(
+					res => {
+						if (isMountedRef.current) {
+							if (res.data.errorCode === 0) {
+								setUserInfo(prevState => ({
+									...prevState,
+									langId: langId
+								}));
+							} else {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: res.data.message
+								});
+							}
+						}
+					},
+					err => {
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerError
+							});
+						}
 					}
-				});
+				);
 			} else {
 				setUserInfo(prevState => ({
 					...prevState,

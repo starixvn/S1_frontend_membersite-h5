@@ -16,7 +16,6 @@ export default [
 	"msg_PasswordReq",
 	"lbl_Username",
 	"lbl_Password",
-	"lbl_JoinNow",
 	"lbl_UsernameTooltip",
 	"lbl_PasswordTooltip",
 	"lbl_EmailToolTip",
