@@ -45,13 +45,6 @@ const ShortcutBar = () => {
 				checkProfile={true}>
 				<span>{i18n.lbl_Withdrawal}</span>
 			</NavLink>
-			<NavLink to={path.message.root} className="icon icon-email">
-				<span>{i18n.lbl_Message}</span>
-				{msgCount ? <span className="amount">{msgCount}</span> : null}
-			</NavLink>
-			{/* <a className="icon icon-vip">
-				<span>VIP LV100</span>
-			</a> */}
 		</div>
 	);
 };
