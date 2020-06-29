@@ -69,84 +69,6 @@ body, html {
   height: 100%;
 }
 
-.close {
-  width: 6vw;
-  height: 4.5vw;
-  position: absolute;
-  -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
-  right: 4vw;
-  z-index: 1;
-}
-
-.close span {
-  position: absolute;
-  height: 2px;
-  width: 50%;
-  background: #fff;
-  opacity: 1;
-  -webkit-transition: .25s ease-in-out;
-  transition: .25s ease-in-out;
-}
-
-.close span:nth-child(even) {
-  left: 50%;
-}
-
-.close span:nth-child(odd) {
-  left: 0px;
-}
-
-.close span:nth-child(1), .close span:nth-child(2) {
-  top: 0px;
-}
-
-.close span:nth-child(3), .close span:nth-child(4) {
-  top: 8px;
-}
-
-.close span:nth-child(5), .close span:nth-child(6) {
-  top: 16px;
-}
-
-.close.open span:nth-child(1), .close.open span:nth-child(6) {
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-}
-
-.close.open span:nth-child(2), .close.open span:nth-child(5) {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-}
-
-.close.open span:nth-child(1) {
-  top: 2px;
-}
-
-.close.open span:nth-child(2) {
-  top: 2px;
-  left: calc(50% - 3px);
-}
-
-.close.open span:nth-child(3) {
-  left: -50%;
-  opacity: 0;
-}
-
-.close.open span:nth-child(4) {
-  left: 100%;
-  opacity: 0;
-}
-
-.close.open span:nth-child(5) {
-  top: 9px;
-}
-
-.close.open span:nth-child(6) {
-  top: 9px;
-  left: calc(50% - 3px);
-}
-
 header {
   width: calc(100% - 8vw);
   position: fixed;
@@ -162,6 +84,9 @@ header {
           align-items: center;
   padding: 0 4vw;
   z-index: 5;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 header > a > img {
@@ -366,22 +291,66 @@ header .Join .Terms input[type="checkbox"]:checked + label > div, header .Login 
   background: #ff5d00;
 }
 
-header .headerButton {
+header .headerInfo {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  width: 100%;
-  padding-right: 7vw;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-left: 2vw;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+header .headerInfo .MemberID {
+  font-size: 3vw;
+  color: #ff5d00;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+header .headerInfo .Balance {
+  font-size: 3vw;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header button.clickBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 5vw;
+  height: 5vw;
+  padding: 0;
+  margin-left: 2.5vw;
+}
+
+header button.clickBtn::before {
+  font-size: 3vw;
+  -webkit-transform: scale(0.75);
+          transform: scale(0.75);
+}
+
+header .headerButton {
+  margin-left: 1.5vw;
 }
 
 header .headerButton > button {
   border-radius: 3px;
   color: #ff5d00;
   height: 6.5vw;
-  min-width: 16vw;
   padding: 0 3vw;
   background: #fff;
   margin: 0 5px;
@@ -393,235 +362,55 @@ header .headerButton > button:nth-child(3) {
   color: #fff;
 }
 
-header .subMenu {
-  width: 100%;
-  height: calc(100% - 8vw);
-  position: fixed;
-  top: 0;
-  left: 0;
+header .headerButton > button.icon-exit {
+  background: #ff5d00;
   color: #fff;
-  padding: 4vw 0;
-  z-index: 0;
-  overflow-y: scroll;
-  background: rgba(0, 25, 66, 0.95);
-  visibility: hidden;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  opacity: 0;
-  pointer-events: none;
-}
-
-header .subMenu .icon-hockey:before {
-  font-size: 7vw;
-  margin: 1.5vw;
-}
-
-header .subMenu.open {
-  visibility: visible;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-header .subMenu :before {
-  font-size: 10vw;
-}
-
-header .subMenu > div {
-  width: calc(100% - 8vw);
-  border-bottom: 1px solid #ff5d00;
-  padding: 4vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-
-header .subMenu > div:last-child {
-  border-bottom: 0;
-  margin-top: 4vw;
-}
-
-header .subMenu > div.info {
-  display: inline-block;
-  font-size: 3vw;
-}
-
-header .subMenu > div.info .Avatar {
-  width: 23vw;
-  height: 23vw;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 4vw;
   border-radius: 100%;
-  border: 1px solid #ff5d00;
-  float: left;
-  margin-right: 3vw;
-  background: url(../img/avatar.jpg) no-repeat top center/cover;
-}
-
-header .subMenu > div.info .MemberID {
-  font-size: 5vw;
-  color: #ff5d00;
-  font-weight: bold;
-}
-
-header .subMenu > div.info .Balance {
-  font-size: 5vw;
-  font-weight: bold;
-}
-
-header .subMenu > div.info .Balance button.clickBtn {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   width: 7vw;
   height: 7vw;
-}
-
-header .subMenu > div.info .Balance button.clickBtn::before {
-  font-size: 4vw;
-}
-
-header .subMenu > div.info .Country {
-  margin-top: 2vw;
-}
-
-header .subMenu > div.info .Country > .icon:before {
-  margin-top: 2vw;
-  margin-right: 2vw;
-}
-
-header .subMenu > div.info .Country :before {
-  font-size: 5vw;
-  float: left;
-}
-
-header .subMenu > div.info .Country .dropdown {
-  max-width: 40vw;
-  margin-left: 2vw;
-  padding-top: 2vw;
-}
-
-header .subMenu > div.subThBar a, header .subMenu > div.memberFunction a {
-  text-align: center;
-  width: 33.33333%;
-  float: left;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-header .subMenu > div.subGameList {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-header .subMenu > div.subGameList .open .icon-nova-casino, header .subMenu > div.subGameList .open .icon-ow-casino {
-  white-space: nowrap;
-  margin-right: 3vw;
-}
-
-header .subMenu > div.subGameList .open .icon-nova-casino :before, header .subMenu > div.subGameList .open .icon-ow-casino :before {
-  font-size: 7vw;
-}
-
-header .subMenu > div.subGameList > button {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin: 1vw 0;
-  color: #fff;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-}
-
-header .subMenu > div.subGameList > button.icon-casino:before {
-  font-size: 10.6vw;
-}
-
-header .subMenu > div.subGameList > button.open {
-  font-size: 4vw;
-  background: rgba(255, 93, 0, 0.7);
-  border-radius: 10px;
-  padding: 1vw;
-  width: calc(100% - 2vw);
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-}
-
-header .subMenu > div.subGameList > button > span {
-  margin-left: 2vw;
-  border-left: 2px solid #ff5d00;
-  padding-left: 2vw;
-}
-
-header .subMenu > div.subGameList > button + div {
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  visibility: hidden;
-  opacity: 0;
-}
-
-header .subMenu > div.subGameList > button + div.open {
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  visibility: visible;
-  opacity: 1;
-}
-
-header .subMenu > div.subGameList > button + div a {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: calc(20vw - 2px);
-  height: calc(20vw - 2px);
-  float: left;
-  border: 1px solid #ff5d00;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+header .headerButton > button.icon-exit:before {
+  font-size: 4.5vw;
+}
+
+header .headerButton .icon-chat {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+header .headerButton .icon-chat .amount {
+  width: 6vw;
+  height: 6vw;
+  background: #ff5d00;
+  position: absolute;
   border-radius: 100%;
-  margin: -20vw 0 0 -30vw;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-}
-
-header .subMenu > div.subGameList > button + div a.open {
-  margin: 2vw 1.5vw 0 1.5vw;
-  -webkit-transition: 0.7s;
-  transition: 0.7s;
-  -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-}
-
-header .subMenu > div.subGameList > button + div a span {
-  -webkit-transform: scale(0.75);
-          transform: scale(0.75);
-  white-space: nowrap;
-}
-
-header .subMenu > div.subGameList > div {
-  margin-bottom: 3vw;
+  margin-left: 3vw;
+  margin-top: -3vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #fff;
+  -webkit-transform: scale(0.7);
+          transform: scale(0.7);
+  padding: 0.5vw;
 }
 
 main {
@@ -755,10 +544,10 @@ main .sideBar button div {
 }
 
 main .gameList {
-  width: calc(100% - 20vw);
+  width: calc(100% - 21vw);
   position: absolute;
-  top: 73vw;
-  left: 20vw;
+  top: 68vw;
+  left: 21vw;
   padding-bottom: 20vw;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -767,57 +556,13 @@ main .gameList {
       flex-wrap: wrap;
 }
 
-main .gameList.casinoList a {
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 calc(100% - 3vw);
-          flex: 0 0 calc(100% - 3vw);
-  margin-bottom: 2vw;
-}
-
-main .gameList.casinoList a:before {
-  font-size: 10vw;
-  bottom: unset;
-  right: unset;
-  left: 11vw;
-  top: 10vw;
-}
-
-main .gameList.casinoList a:after {
-  display: none;
-}
-
-main .gameList.casinoList a span {
-  position: absolute;
-  left: 2vw;
-  top: 21vw;
-  width: 28vw;
-  text-align: center;
-  font-weight: bold;
-}
-
-main .gameList.livecasinoList a:after {
-  border-color: transparent #ff5d00 #ff5d00 transparent;
-}
-
-main .gameList.livecasinoList a span {
-  position: absolute;
-  font-weight: bold;
-  right: 1vw;
-  z-index: 2;
-  bottom: 1vw;
-}
-
-main .gameList.livecasinoList .icon:before {
-  display: none;
-}
-
 main .gameList a {
-  margin: 1vw 0 1vw 2vw;
+  margin: 1vw auto;
   background: #fff;
   border-radius: 10px;
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 calc(50% - 3vw);
-          flex: 0 0 calc(50% - 3vw);
+      -ms-flex: 0 0 calc(100% - 3vw);
+          flex: 0 0 calc(100% - 3vw);
   -webkit-box-shadow: 1px 2px 4px 0px #5e5e5e;
           box-shadow: 1px 2px 4px 0px #5e5e5e;
   display: -webkit-box;
@@ -837,32 +582,50 @@ main .gameList a img {
   width: 100%;
 }
 
-main .gameList a:before {
+main .gameList a span {
   position: absolute;
-  right: 1vw;
-  bottom: 1vw;
-  color: #fff;
-  z-index: 2;
+  left: 8vw;
+  width: 15vw;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  text-align: center;
+  font-weight: bold;
 }
 
-main .gameList a:after {
-  content: '';
-  border-style: solid;
-  border-width: 20px 20px 20px 20px;
-  border-color: transparent #001942 #001942 transparent;
-  border-bottom-right-radius: 10px;
-  z-index: 1;
-  position: absolute;
-  right: 0;
+main .gameList a span:before {
+  font-size: 10vw;
+  font-weight: normal;
 }
 
-main .gameList a:nth-child(1):after {
-  border-color: transparent #ff5d00 #ff5d00 transparent;
+main .gameList .livecasinoList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+main .gameList .livecasinoList a {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(50% - 2.5vw);
+          flex: 0 0 calc(50% - 2.5vw);
 }
 
 main .thBar {
-  width: calc(100% - 20vw);
-  height: 16vw;
+  width: calc(100% - 22vw);
+  padding: 2vw 1vw;
   position: fixed;
   top: 55vw;
   right: 0;
@@ -881,29 +644,31 @@ main .thBar a {
           flex: 1;
   color: #001942;
   border-right: 1px solid #f3f3f3;
-  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 main .thBar a.icon:before {
-  width: 100%;
   font-size: 8vw;
   text-align: center;
   color: #ff5d00;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 main .thBar a span {
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
   font-size: 3vw;
   white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 footer {
@@ -915,7 +680,7 @@ footer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 12.8vw;
+  height: 13vw;
   border-radius: 5px 5px 0 0;
   -webkit-box-shadow: 0 0px 7px 0 rgba(0, 0, 0, 0.5);
           box-shadow: 0 0px 7px 0 rgba(0, 0, 0, 0.5);
@@ -930,9 +695,9 @@ footer > a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -944,7 +709,7 @@ footer > a {
 
 footer > a .circleAnimation {
   position: absolute;
-  margin-top: -9vw;
+  margin-top: -8vw;
   width: calc(20vw - 1px);
   height: 10vw;
   -webkit-box-pack: center;
@@ -958,7 +723,7 @@ footer > a .circleAnimation {
 
 footer > a .circleAnimation > div {
   position: relative;
-  bottom: -11vw;
+  bottom: -6vw;
 }
 
 footer > a .circleAnimation > div:before {
@@ -970,7 +735,11 @@ footer > a:last-child {
 }
 
 footer > a span {
-  display: none;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  font-size: 3vw;
+  color: #001942;
+  white-space: nowrap;
 }
 
 footer > a.open {
@@ -1047,16 +816,11 @@ footer > a.open .circleAnimation > div {
 }
 
 footer > a.open .circleAnimation > div:before {
-  font-size: 5vw;
+  font-size: 6vw;
 }
 
 footer > a.open .circleAnimation + span {
-  -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-  font-size: 3vw;
   color: #ff5d00;
-  display: block;
-  margin-top: 3vw;
 }
 
 @-webkit-keyframes zoom1 {
@@ -3415,32 +3179,48 @@ button.clickBtn:before {
   display: none;
 }
 
-.icon-email .amount {
-  width: 7vw;
-  height: 7vw;
-  background: #ff5d00;
-  position: absolute;
-  border-radius: 100%;
-  margin-left: 4vw;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  color: #fff;
-  -webkit-transform: scale(0.8);
-          transform: scale(0.8);
-  padding: 0.5vw;
-}
-
 input.error {
   border: 1px solid #ffbe00;
   -webkit-box-shadow: 0 0 0 1px white;
           box-shadow: 0 0 0 1px white;
   border-radius: 0;
+}
+
+.webmap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  line-height: 10vw;
+  margin-top: 6vw;
+  border-top: 1px solid #ff5900;
+  padding: 6vw 2vw 0;
+}
+
+.webmap div {
+  width: 48%;
+  margin-bottom: 5vw;
+}
+
+.webmap div:nth-child(even) {
+  margin-left: 3vw;
+}
+
+.webmap div span {
+  color: #fff;
+  font-weight: bold;
+  font-size: 4vw;
+  color: #ff5d00;
+}
+
+.webmap div a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.webmap div a.icon:before {
+  margin-right: 2vw;
 }
 /*# sourceMappingURL=style.css.map */
