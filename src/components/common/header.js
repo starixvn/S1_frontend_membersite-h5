@@ -1,60 +1,130 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import logoItem from "../../styles/Nova88/img/logo.svg";
 import { LOGOUT } from "../../service/auth";
-import { Redirect } from "@reach/router";
+import { Redirect, Link } from "@reach/router";
 import SubMenu from "../subMenu/subMenu";
-import { userInfoContext, i18nContext, navContext } from "../common/context";
+import {
+	userInfoContext,
+	i18nContext,
+	navContext,
+	walletInfoContext,
+	popBoxContext,
+	msgCountContext
+} from "../common/context";
+import { api_GetBalnace } from "../../service/api/account";
 import JoinPanel from "../join/join";
 import LoginPanel from "../login/login";
+import ReloadSpin from "./reloadSpin";
+import { number_format, isConvert } from "./common";
+import path from "../../path";
 
 const HeaderTitle = ({ title }) => <div className="title">{title}</div>;
 
 const Header = ({ title, hideLogo }) => {
 	return (
-		<header className={title ? "header" : ""}>
+		<header className={title ? "header" : ""} id="header">
 			{hideLogo ? null : (
 				<a href="#">
 					<img src={logoItem} alt="logo" />
 				</a>
 			)}
 			{title ? <HeaderTitle title={title} /> : <HeaderBtn />}
-			<SubMenu />
+			{/* <SubMenu /> */}
 		</header>
 	);
 };
 
-const HeaderBtn = () => {
+const HeaderBtn = props => {
 	const { i18n } = useContext(i18nContext);
-	const { setNav } = useContext(navContext);
-	const { userInfo, setUserInfo } = useContext(userInfoContext);
+	const { userInfo } = useContext(userInfoContext);
+	const { msgCount } = useContext(msgCountContext);
+	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
+	const { setPopBox } = useContext(popBoxContext);
 	const [redirectPath, setRedirectPath] = useState(null);
+	const [processing, setProcessing] = useState(false);
+	const isMountedRef = useRef(null);
 
 	useEffect(() => {
-		let mounted = true;
-		if (mounted && redirectPath !== null) {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
 			setRedirectPath(null);
 		}
-		return () => {
-			mounted = false;
-		};
 	}, [redirectPath, setRedirectPath]);
 
-	const handleLogout = () => {
-		LOGOUT(() => {
-			setUserInfo(prevState => ({
-				isLogin: false,
-				langId: prevState.langId
-			}));
-			setNav(() => null);
-			setRedirectPath("/");
-		});
+	const GetBalance = () => {
+		if (!processing) {
+			setProcessing(true);
+
+			api_GetBalnace().then(
+				res => {
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 0) {
+							setWalletInfo(prevState => ({
+								...prevState,
+								main: res.data.data
+							}));
+						} else {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						}
+						setProcessing(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+						setProcessing(false);
+					}
+				}
+			);
+		}
 	};
+
+	let balance = number_format(
+		walletInfo.main,
+		isConvert(userInfo.currencyId)
+	);
+
+	// const handleLogout = () => {
+	// 	LOGOUT(() => {
+	// 		setUserInfo(prevState => ({
+	// 			isLogin: false,
+	// 			langId: prevState.langId
+	// 		}));
+	// 		setNav(() => null);
+	// 		setRedirectPath("/");
+	// 	});
+	// };
 
 	return redirectPath === null ? (
 		userInfo?.isLogin ? (
-			<div className="headerButton">
-				<button onClick={handleLogout}>{i18n.lbl_Logout}</button>
-			</div>
+			<>
+				<HeaderInfo
+					userName={userInfo?.userName}
+					currency={i18n[`Currency_${userInfo.currencyId}`]}
+					amount={balance}
+				/>
+				<ReloadSpin func={GetBalance} />
+				<div className="headerButton">
+					{/* <button onClick={handleLogout}>{i18n.lbl_Logout}</button> */}
+					<Link to={path.message.root} className="icon icon-chat">
+						{msgCount ? (
+							<span className="amount">{msgCount}</span>
+						) : null}
+					</Link>
+				</div>
+			</>
 		) : (
 			<div className="headerButton">
 				<JoinPanel />
@@ -63,6 +133,17 @@ const HeaderBtn = () => {
 		)
 	) : (
 		<Redirect to={redirectPath} noThrow />
+	);
+};
+
+const HeaderInfo = props => {
+	return (
+		<div className="headerInfo">
+			<div className="MemberID">{props.userName}</div>
+			<div className="Balance">
+				{props.currency} {props.amount}
+			</div>
+		</div>
 	);
 };
 
