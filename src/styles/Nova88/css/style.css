@@ -69,6 +69,84 @@ body, html {
   height: 100%;
 }
 
+.close {
+  width: 6vw;
+  height: 4.5vw;
+  position: absolute;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  right: 4vw;
+  z-index: 1;
+}
+
+.close span {
+  position: absolute;
+  height: 2px;
+  width: 50%;
+  background: #fff;
+  opacity: 1;
+  -webkit-transition: .25s ease-in-out;
+  transition: .25s ease-in-out;
+}
+
+.close span:nth-child(even) {
+  left: 50%;
+}
+
+.close span:nth-child(odd) {
+  left: 0px;
+}
+
+.close span:nth-child(1), .close span:nth-child(2) {
+  top: 0px;
+}
+
+.close span:nth-child(3), .close span:nth-child(4) {
+  top: 8px;
+}
+
+.close span:nth-child(5), .close span:nth-child(6) {
+  top: 16px;
+}
+
+.close.open span:nth-child(1), .close.open span:nth-child(6) {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.close.open span:nth-child(2), .close.open span:nth-child(5) {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.close.open span:nth-child(1) {
+  top: 2px;
+}
+
+.close.open span:nth-child(2) {
+  top: 2px;
+  left: calc(50% - 3px);
+}
+
+.close.open span:nth-child(3) {
+  left: -50%;
+  opacity: 0;
+}
+
+.close.open span:nth-child(4) {
+  left: 100%;
+  opacity: 0;
+}
+
+.close.open span:nth-child(5) {
+  top: 9px;
+}
+
+.close.open span:nth-child(6) {
+  top: 9px;
+  left: calc(50% - 3px);
+}
+
 header {
   width: calc(100% - 8vw);
   position: fixed;
@@ -3222,5 +3300,11 @@ input.error {
 
 .webmap div a.icon:before {
   margin-right: 2vw;
+}
+
+span.important {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 1vw 2vw;
 }
 /*# sourceMappingURL=style.css.map */

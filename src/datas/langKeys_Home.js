@@ -252,5 +252,11 @@ export default [
 	"lbl_SocialMedia",
 	"lbl_Title",
 	"lbl_NewPassword",
-	"lbl_OldPassword"
+	"lbl_OldPassword",
+	"lbl_Notice",
+	"msg_DepositAlert",
+	"lbl_Later",
+	"lbl_DepositNow",
+	"msg_BalanceHint",
+	"msg_DepositHint"
 ];
