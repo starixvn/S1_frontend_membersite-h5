@@ -9,7 +9,7 @@ import {
 import { Link } from "@reach/router";
 import path from "../../path";
 
-const ShortcutBar = () => {
+const ShortcutBar = props => {
 	const { i18n } = useContext(i18nContext);
 	const { setNav } = useContext(navContext);
 	const { userInfo } = useContext(userInfoContext);
@@ -29,7 +29,7 @@ const ShortcutBar = () => {
 	};
 
 	return (
-		<div className="thBar">
+		<div className="thBar" ref={props._ref}>
 			<NavLink
 				to={path.deposit.root}
 				className="icon icon-deposit"
@@ -49,9 +49,6 @@ const ShortcutBar = () => {
 				<span>{i18n.lbl_Message}</span>
 				{msgCount ? <span className="amount">{msgCount}</span> : null}
 			</NavLink>
-			{/* <a className="icon icon-vip">
-				<span>VIP LV100</span>
-			</a> */}
 		</div>
 	);
 };

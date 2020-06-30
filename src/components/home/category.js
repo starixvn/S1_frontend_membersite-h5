@@ -1,36 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Component } from "react";
 import {
 	i18nContext,
 	navContext,
 	defNavPanel,
 	userInfoContext
 } from "../common/context";
-import gameList from "../../datas/gameList";
+import productList from "../../datas/productList";
 import { GET_ENTER_PAGE } from "../../service/enterPage";
 import { Redirect } from "@reach/router";
 
-const Category = () => {
+const Category = props => {
 	const { i18n } = useContext(i18nContext);
-	const [category, setCategory] = useState("sports");
-	const [addClass, setAddClass] = useState("");
-
 	const { userInfo } = useContext(userInfoContext);
 	const { setNav } = useContext(navContext);
 	const [redirect, setRedirect] = useState({
 		redirect: false,
 		path: ""
 	});
-
-	const selectCategory = _category => {
-		setCategory(_category);
-		if (_category === "casino" || _category === "kelo") {
-			setAddClass(" casinoList");
-		} else if (_category === "livecasino") {
-			setAddClass(" livecasinoList");
-		} else {
-			setAddClass("");
-		}
-	};
 
 	const clickGame = ({ tpId, gameId, path }) => {
 		if (path) {
@@ -51,72 +37,170 @@ const Category = () => {
 		}
 	};
 
-	let listArr = gameList.map(item => {
-		let _open = category === item.category;
-		return (
-			<CategoryItems
-				key={`category-${item.category}`}
-				category={item.category}
-				onClick={
-					!item._blank
-						? selectCategory.bind(null, item.category)
-						: clickGame.bind(this, { ...item })
-				}
-				isOpen={`${_open ? " open" : ""}`}
-				translation={i18n[item.translation]}
-				items={item.items}
-			/>
-		);
-	});
-
-	let itemArr = gameList
-		.filter(x => x.category === category)
-		.map(x =>
-			x.items.map(_item => {
-				return (
-					<Item
-						key={`categoryItem-tpId: ${_item.tpId}-gameId: ${_item.gameId}`}
-						colName={_item.icon}
-						clickGame={clickGame.bind(this, { ..._item })}
-						imgId={_item.imgId}
-						span={_item.span}
-					/>
-				);
-			})
-		);
-
 	return redirect.redirect ? (
 		<Redirect to={redirect.path} noThrow />
 	) : (
-		<div className="content">
-			<div className="sideBar">{listArr}</div>
-			<div className={`gameList${addClass !== "" ? addClass : ""}`}>
-				{itemArr}
-			</div>
-		</div>
+		<CateGoryContent
+			clickGame={clickGame}
+			i18n={i18n}
+			top={props.shortcutBarLocate?.bottom}
+		/>
 	);
 };
 
-const CategoryItems = props => {
+class CateGoryContent extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { category: "sports" };
+		this.mounted = false;
+		this.RefItems = {};
+		this.setCategory = false;
+		productList.forEach(item => {
+			this.RefItems[`${item.category}`] = {
+				First: React.createRef(),
+				Last: React.createRef()
+			};
+		});
+	}
+	ScrollBarListener = () => {
+		if (!this.setCategory) {
+			this.setCategory = true;
+			let currentCategory = null;
+			Object.keys(this.RefItems).forEach(k => {
+				let item =
+					this.RefItems[k].Last.current ??
+					this.RefItems[k].First.current;
+				let x = item.getBoundingClientRect();
+
+				if (
+					x.bottom >= this.props.top + 50 &&
+					currentCategory === null
+				) {
+					currentCategory = k;
+				}
+			});
+			if (this.state.category !== currentCategory) {
+				if (this.mounted) {
+					this.setState(
+						{ category: currentCategory },
+						() => (this.setCategory = false)
+					);
+				}
+			} else {
+				this.setCategory = false;
+			}
+		}
+	};
+	componentWillUnmount() {
+		this.mounted = false;
+		window.removeEventListener("mousewheel", this.ScrollBarListener, false);
+		window.removeEventListener("touchmove", this.ScrollBarListener, {
+			passive: false
+		});
+	}
+	componentDidMount() {
+		this.mounted = true;
+		window.addEventListener("mousewheel", this.ScrollBarListener, false);
+		window.addEventListener("touchmove", this.ScrollBarListener, {
+			passive: false
+		});
+	}
+	selectCategory = _category => {
+		if (this.state.category !== _category) {
+			this.setState({ category: _category });
+		}
+		let firstItem = this.RefItems[
+			_category
+		].First.current.getBoundingClientRect();
+
+		const offset_y = -this.props.top;
+		const y = firstItem.top + window.pageYOffset + offset_y;
+		window.scrollTo({ top: y, behavior: "smooth" });
+	};
+	render() {
+		let sideBarItems = [];
+		let products = [];
+
+		productList.forEach(item => {
+			let _open = this.state.category === item.category;
+			sideBarItems.push(
+				<CategoryItem
+					key={`category-${item.category}`}
+					categoryIcon={item.categoryIcon}
+					onClick={
+						!item._blank
+							? this.selectCategory.bind(null, item.category)
+							: this.props.clickGame.bind(this, { ...item })
+					}
+					isOpen={`${_open ? " open" : ""}`}
+					translation={this.props.i18n[item.translateKey]}
+				/>
+			);
+
+			let content = item.items.map((subItem, idx) => {
+				let refItem =
+					idx === 0
+						? this.RefItems[item.category].First
+						: idx === item.items.length - 1
+						? this.RefItems[item.category].Last
+						: null;
+				return (
+					<ProductItem
+						_ref={refItem}
+						key={`product-tpId_${subItem.tpId}-gameId_${subItem.gameId}`}
+						clickGame={this.props.clickGame.bind(this, {
+							...subItem
+						})}
+						img={subItem.img}
+						spanText={this.props.i18n[subItem.spanTextKey]}
+						icon={subItem.icon}
+					/>
+				);
+			});
+
+			if (item.className) {
+				products.push(
+					<div
+						key={`productGroup-${item.category}`}
+						className={item.className}>
+						{content}
+					</div>
+				);
+			} else {
+				products = [...products, ...content];
+			}
+		});
+
+		return (
+			<div className="content">
+				<div className="sideBar">{sideBarItems}</div>
+				<div className="gameList">{products}</div>
+			</div>
+		);
+	}
+}
+
+const CategoryItem = props => {
 	return (
 		<button
-			className={`icon icon-${props.category}${props.isOpen}`}
+			className={`icon icon-${props.categoryIcon}${props.isOpen}`}
 			onClick={props.onClick}>
 			<div>{props.translation}</div>
 		</button>
 	);
 };
 
-const Item = props => {
+const ProductItem = props => {
 	return (
-		<a
-			className={
-				props.colName !== "" ? `icon icon-${props.colName}` : null
-			}
-			onClick={props.clickGame}>
-			<img src={props.imgId} alt="" />
-			<span>{props.span}</span>
+		<a onClick={props.clickGame} ref={props._ref}>
+			<img src={props.img} alt={props.icon} />
+			{props.spanText ? (
+				<span className={`icon icon-${props.icon}`}>
+					{props.spanText}
+				</span>
+			) : null}
 		</a>
 	);
 };
+
 export default Category;
