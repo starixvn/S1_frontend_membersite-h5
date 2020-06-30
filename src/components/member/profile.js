@@ -1,26 +1,39 @@
-import React, { useContext, useRef, useEffect } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import {
 	i18nContext,
 	userInfoContext,
 	walletInfoContext,
-	popBoxContext
+	popBoxContext,
+	navContext
 } from "../common/context";
+import { LOGOUT } from "../../service/auth";
 import { number_format, isConvert } from "../common/common";
 import { api_GetBalnace } from "../../service/api/account";
+import { Link } from "@reach/router";
 import ProfileDetail from "./profile.detail";
 import ReloadSpin from "../common/reloadSpin";
+import path from "../../path";
+import Webmap from "./webMap";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
-	const { userInfo } = useContext(userInfoContext);
+	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { setNav } = useContext(navContext);
 	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
+	const [redirectPath, setRedirectPath] = useState(null);
 	const isMountedRef = useRef(null);
 
 	useEffect(() => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath, setRedirectPath]);
 
 	let balance = number_format(
 		walletInfo.main,
@@ -56,6 +69,18 @@ const Panel = () => {
 			}
 		);
 	};
+
+	const handleLogout = () => {
+		LOGOUT(() => {
+			setUserInfo(prevState => ({
+				isLogin: false,
+				langId: prevState.langId
+			}));
+			setNav(() => null);
+			setRedirectPath("/");
+		});
+	};
+
 	return (
 		<>
 			<div className="avatar"></div>
@@ -66,7 +91,20 @@ const Panel = () => {
 				{i18n[`Currency_${userInfo.currencyId}`]} {balance}
 				<ReloadSpin func={GetBalance} />
 			</div>
+			<div className="btn-group">
+				<button className="orange" onClick={handleLogout}>
+					{i18n.lbl_Logout}
+				</button>
+			</div>
 			<ProfileDetail />
+			<div className="btn-group">
+				<button className="blue">
+					<Link to={`/${path.changePassword.root}`}>
+						{i18n.lbl_ChangePassword}
+					</Link>
+				</button>
+			</div>
+			<Webmap />
 		</>
 	);
 };

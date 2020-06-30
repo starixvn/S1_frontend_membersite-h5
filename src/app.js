@@ -51,6 +51,7 @@ import Announcement from "./components/message/announcement";
 import Casino from "./pages/casino";
 import ForgetPwd from "./components/login/forgetPwd";
 import ResetPwd from "./components/login/resetPwd";
+import ChangePwd from "./components/member/changePwd";
 
 const Index = () => {
 	let history = createHistory(window);
@@ -62,6 +63,7 @@ const Index = () => {
 						<Home path={path.home.root} />
 						<ForgetPwd path={path.forgetPassword.root} />
 						<ResetPwd path={path.resetPassword.root} />
+						<ChangePwd path={path.changePassword.root} />
 						<Promotion path={path.promotion.root} />
 						<Wallet path={path.wallet.root} />
 						<LiveChat path={path.livechat.root} />

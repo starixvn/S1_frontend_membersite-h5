@@ -38,3 +38,6 @@ export const api_GetFavoriteGame = () =>
 	accountRequest.post("/GetFavoriteGame");
 
 export const api_GetMsgCount = () => accountRequest.post("/GetMsgCount");
+
+export const api_ChangePassword = ({ OldPassword, NewPassword }) =>
+	accountRequest.post("/ChangePassword", { OldPassword, NewPassword });

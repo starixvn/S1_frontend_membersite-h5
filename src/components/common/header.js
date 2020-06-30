@@ -1,12 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import logoItem from "../../styles/Nova88/img/logo.svg";
-import { LOGOUT } from "../../service/auth";
 import { Redirect, Link } from "@reach/router";
-import SubMenu from "../subMenu/subMenu";
+// import SubMenu from "../subMenu/subMenu";
 import {
 	userInfoContext,
 	i18nContext,
-	navContext,
 	walletInfoContext,
 	popBoxContext,
 	msgCountContext
@@ -96,17 +94,6 @@ const HeaderBtn = props => {
 		isConvert(userInfo.currencyId)
 	);
 
-	// const handleLogout = () => {
-	// 	LOGOUT(() => {
-	// 		setUserInfo(prevState => ({
-	// 			isLogin: false,
-	// 			langId: prevState.langId
-	// 		}));
-	// 		setNav(() => null);
-	// 		setRedirectPath("/");
-	// 	});
-	// };
-
 	return redirectPath === null ? (
 		userInfo?.isLogin ? (
 			<>
@@ -117,7 +104,6 @@ const HeaderBtn = props => {
 				/>
 				<ReloadSpin func={GetBalance} />
 				<div className="headerButton">
-					{/* <button onClick={handleLogout}>{i18n.lbl_Logout}</button> */}
 					<Link to={path.message.root} className="icon icon-chat">
 						{msgCount ? (
 							<span className="amount">{msgCount}</span>
