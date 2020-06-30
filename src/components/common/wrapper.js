@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as ct from "../common/context";
 import { api_GetTranslationData } from "../../service/api/site";
 import { api_GetCustProfile } from "../../service/api/accountStrict";
@@ -28,14 +28,20 @@ export const Wrapper = ({ children }) => {
 	});
 	const [nav, setNav] = useState(null);
 	const [walletInfo, setWalletInfo] = useState({
-		main: 0
+		main: null
 	});
 	const [msgCount, setMsgCount] = useState(0);
 	const [theme, setTheme] = useState(themeList.default);
 
+	const isMountedRef = useRef(null);
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
 	useEffect(() => {
 		IS_LOGGED_IN().then(isLogin => {
-			if (isLogin !== userInfo.isLogin) {
+			if (isLogin !== userInfo.isLogin && isMountedRef.current) {
 				setUserInfo(prevState => ({
 					...prevState,
 					isLogin: isLogin
@@ -45,7 +51,7 @@ export const Wrapper = ({ children }) => {
 	}, [userInfo.isLogin]);
 
 	const OnlineCheckCallBack = (errorCode, errMsg) => {
-		if (errorCode !== 0) {
+		if (errorCode !== 0 && isMountedRef.current) {
 			setUserInfo(prevState => ({
 				isLogin: false,
 				langId: prevState.langId
@@ -63,14 +69,19 @@ export const Wrapper = ({ children }) => {
 			api_onlineCheck().then(
 				res => {
 					var result = res.data;
-					if (result.errorCode !== null && result.errorCode !== 0) {
+					if (
+						result.errorCode !== null &&
+						result.errorCode !== 0 &&
+						isMountedRef.current
+					) {
 						OnlineCheckCallBack(result.errorCode, result.message);
 					}
 				},
 				error => {
 					if (
 						error.response !== null &&
-						error.response.status === 401
+						error.response.status === 401 &&
+						isMountedRef.current
 					) {
 						OnlineCheckCallBack(error.response.status);
 					}
@@ -84,7 +95,10 @@ export const Wrapper = ({ children }) => {
 		if (userInfo.isLogin) {
 			if (!userInfo.regTime) {
 				api_GetCustProfile().then(res_custInfo => {
-					if (res_custInfo.data.errorCode === 0) {
+					if (
+						res_custInfo.data.errorCode === 0 &&
+						isMountedRef.current
+					) {
 						let data = res_custInfo.data.data;
 						setUserInfo(prevState => ({
 							...prevState,
@@ -95,29 +109,30 @@ export const Wrapper = ({ children }) => {
 			}
 
 			api_GetMsgCount().then(res => {
-				if (res.data.errorCode === 0) {
+				if (res.data.errorCode === 0 && isMountedRef.current) {
 					setMsgCount(res.data.data);
 				}
 			});
 
-			api_GetBalnace().then(res => {
-				if (res.data.errorCode === 0) {
-					setWalletInfo(prevState => ({
-						...prevState,
-						main: res.data.data
-					}));
-				}
-			});
-		} else {
+			if (userInfo.userName) {
+				api_GetBalnace().then(res => {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
+						setWalletInfo(prevState => ({
+							...prevState,
+							main: res.data.data
+						}));
+					}
+				});
+			}
+		} else if (isMountedRef.current) {
 			setMsgCount(0);
 		}
-	}, [userInfo.isLogin, userInfo.regTime]);
+	}, [userInfo.isLogin, userInfo.regTime, userInfo.userName, i18n]);
 
 	useEffect(() => {
-		let mounted = true;
 		api_GetTranslationData(userInfo.langId).then(
 			res => {
-				if (mounted) {
+				if (isMountedRef.current) {
 					seti18n(() => res.data.data);
 				}
 			},
@@ -129,8 +144,6 @@ export const Wrapper = ({ children }) => {
 				}
 			}
 		);
-
-		return () => (mounted = false);
 	}, [userInfo.langId]);
 
 	return (
