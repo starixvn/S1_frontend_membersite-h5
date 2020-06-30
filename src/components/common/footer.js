@@ -3,6 +3,13 @@ import { Link, Match } from "@reach/router";
 import { userInfoContext, i18nContext } from "../common/context";
 import path from "../../path";
 
+const defChatLangSubUrl = {
+	en: 1,
+	id: 2,
+	cs: 3,
+	th: 4
+};
+
 const Footer = () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
@@ -121,7 +128,9 @@ const Footer = () => {
 
 				<a
 					target="_blank"
-					href="https://direct.lc.chat/11638088/"
+					href={`https://direct.lc.chat/11638088/${
+						defChatLangSubUrl[userInfo.langId] ?? ""
+					}`}
 					className="">
 					<div className="circleAnimation">
 						<div className="icon icon-contact"></div>
