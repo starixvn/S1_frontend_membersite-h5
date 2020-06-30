@@ -61,6 +61,7 @@ class CateGoryContent extends Component {
 				Last: React.createRef()
 			};
 		});
+		this.checkScrollTimer = null;
 	}
 	ScrollBarListener = () => {
 		if (!this.setCategory) {
@@ -79,6 +80,7 @@ class CateGoryContent extends Component {
 					currentCategory = k;
 				}
 			});
+
 			if (this.state.category !== currentCategory) {
 				if (this.mounted) {
 					this.setState(
@@ -91,12 +93,19 @@ class CateGoryContent extends Component {
 			}
 		}
 	};
+	checkScrolling = () => {
+		if (this.checkScrollTimer !== null) {
+			clearTimeout(this.checkScrollTimer);
+		}
+		this.checkScrollTimer = setTimeout(this.ScrollBarListener, 150);
+	};
 	componentWillUnmount() {
 		this.mounted = false;
 		window.removeEventListener("mousewheel", this.ScrollBarListener, false);
 		window.removeEventListener("touchmove", this.ScrollBarListener, {
 			passive: false
 		});
+		window.removeEventListener("scroll", this.checkScrolling, false);
 	}
 	componentDidMount() {
 		this.mounted = true;
@@ -104,6 +113,7 @@ class CateGoryContent extends Component {
 		window.addEventListener("touchmove", this.ScrollBarListener, {
 			passive: false
 		});
+		window.addEventListener("scroll", this.checkScrolling, false);
 	}
 	selectCategory = _category => {
 		if (this.state.category !== _category) {
