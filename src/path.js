@@ -94,5 +94,6 @@ export default {
 	},
 	resetPassword: {
 		root: "Home/ResetPassword"
-	}
+	},
+	changePassword: { root: "changePassword" }
 };

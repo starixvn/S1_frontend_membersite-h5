@@ -64,6 +64,11 @@ const _PageInfo = {
 		titleKey: "lbl_ResetPassword",
 		className: "main",
 		hideLogo: true
+	},
+	changePwd: {
+		titleKey: "lbl_ChangePassword",
+		className: "main",
+		hideLogo: true
 	}
 };
 
@@ -86,6 +91,7 @@ const Layout = ({ children }) => {
 	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
 	let _matchForgetPwd = useMatch(`/${path.forgetPassword.root}`) !== null;
 	let _matchResetPwd = useMatch(`/${path.resetPassword.root}`) !== null;
+	let _matchChangePwd = useMatch(`/${path.changePassword.root}`) !== null;
 
 	if (nav === defNavPanel.login || _matchLogin || nav === defNavPanel.join) {
 		position = { position: "fixed" };
@@ -110,6 +116,8 @@ const Layout = ({ children }) => {
 			pageInfo = _PageInfo.forgetPwd;
 		} else if (_matchResetPwd) {
 			pageInfo = _PageInfo.resetPwd;
+		} else if (_matchChangePwd) {
+			pageInfo = _PageInfo.changePwd;
 		}
 	}
 

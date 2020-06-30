@@ -45,10 +45,6 @@ const ShortcutBar = props => {
 				checkProfile={true}>
 				<span>{i18n.lbl_Withdrawal}</span>
 			</NavLink>
-			<NavLink to={path.message.root} className="icon icon-email">
-				<span>{i18n.lbl_Message}</span>
-				{msgCount ? <span className="amount">{msgCount}</span> : null}
-			</NavLink>
 		</div>
 	);
 };

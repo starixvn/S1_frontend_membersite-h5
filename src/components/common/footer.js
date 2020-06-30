@@ -25,7 +25,7 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path={path.promotion.root}>
+				{/* <Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
@@ -39,9 +39,9 @@ const Footer = () => {
 							</Link>
 						);
 					}}
-				</Match>
+				</Match> */}
 
-				<Match path={path.wallet.root}>
+				{/* <Match path={path.wallet.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
@@ -55,7 +55,7 @@ const Footer = () => {
 							</Link>
 						);
 					}}
-				</Match>
+				</Match> */}
 
 				<a
 					target="_blank"
@@ -87,7 +87,7 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<Match path={path.promotion.root}>
+				{/* <Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
@@ -101,9 +101,9 @@ const Footer = () => {
 							</Link>
 						);
 					}}
-				</Match>
+				</Match> */}
 
-				<Match path={path.wallet.root}>
+				{/* <Match path={path.wallet.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
@@ -117,7 +117,7 @@ const Footer = () => {
 							</Link>
 						);
 					}}
-				</Match>
+				</Match> */}
 
 				<a
 					target="_blank"

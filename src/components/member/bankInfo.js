@@ -141,6 +141,7 @@ const BankInfo = () => {
 	};
 
 	const toShowBankAccount = () => {
+		setLoading(false);
 		setStatus(true);
 		setPopBox({ isOpen: false });
 	};
