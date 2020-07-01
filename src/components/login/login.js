@@ -104,33 +104,33 @@ const LoginPage = ({ ButtonTitle }) => {
 		if (checked) {
 			const CallBackLogin = (errorCode, message, isLogin, userData) => {
 				if (errorCode === 0) {
-					let langId = userData.langId;
-					if (userInfo?.langId !== langId) {
-						api_GetTranslationData(langId).then(
-							res => {
-								if (isMountedRef.current) {
-									if (errorCode !== 0) {
-										setPopBox({
-											isOpen: true,
-											title: i18n.lbl_ImportantNote,
-											content: res.data.message
-										});
-									} else {
-										seti18n(res.data.data);
-									}
-								}
-							},
-							err => {
-								if (isMountedRef.current) {
-									setPopBox({
-										isOpen: true,
-										title: i18n.lbl_ImportantNote,
-										content: i18n.msg_ApiServerError
-									});
-								}
-							}
-						);
-					}
+					// let langId = userData.langId;
+					// if (userInfo?.langId !== langId) {
+					// 	api_GetTranslationData(langId).then(
+					// 		res => {
+					// 			if (isMountedRef.current) {
+					// 				if (errorCode !== 0) {
+					// 					setPopBox({
+					// 						isOpen: true,
+					// 						title: i18n.lbl_ImportantNote,
+					// 						content: res.data.message
+					// 					});
+					// 				} else {
+					// 					seti18n(res.data.data);
+					// 				}
+					// 			}
+					// 		},
+					// 		err => {
+					// 			if (isMountedRef.current) {
+					// 				setPopBox({
+					// 					isOpen: true,
+					// 					title: i18n.lbl_ImportantNote,
+					// 					content: i18n.msg_ApiServerError
+					// 				});
+					// 			}
+					// 		}
+					// 	);
+					// }
 
 					if (isMountedRef.current) {
 						setUserInfo(() => ({

@@ -23,15 +23,13 @@ export const GET_LANG_ID = userLangId => {
 			browserDefLang.startsWith("zh-tw") ||
 			browserDefLang.startsWith("zh-hk")
 		) {
-			//langId = "ch";
-			langId = "cs";
+			langId = "ch";
 		} else if (browserDefLang.startsWith("zh")) {
 			langId = "cs";
 		} else if (browserDefLang.startsWith("th")) {
 			langId = "th";
 		} else if (browserDefLang.startsWith("vi")) {
-			//langId = "vn";
-			langId = "en";
+			langId = "vn";
 		} else if (browserDefLang.startsWith("id")) {
 			langId = "id";
 		} else if (browserDefLang.startsWith("jp")) {
