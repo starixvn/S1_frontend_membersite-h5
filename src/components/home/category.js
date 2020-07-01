@@ -223,6 +223,14 @@ class CateGoryContent extends Component {
 					}
 				});
 
+			if (item.comingSoonImg && content.length % 2 !== 0) {
+				content.push(
+					<ComingSoonItem
+						key={`product-${item.category}-comingsoon`}
+						img={item.comingSoonImg}
+					/>
+				);
+			}
 			if (item.className) {
 				products.push(
 					<div
@@ -280,6 +288,14 @@ const ProductLinkItem = props => {
 			className={props.isShow ? "open" : ""}>
 			<img src={props.img} alt={props.icon ?? ""} />
 		</Link>
+	);
+};
+
+const ComingSoonItem = props => {
+	return (
+		<a className={props.isShow ? "open" : ""}>
+			<img src={props.img} alt="Coming Soon" />
+		</a>
 	);
 };
 

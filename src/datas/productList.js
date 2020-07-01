@@ -6,6 +6,8 @@ import LIVEcasino_AG from "../styles/Nova88/img/LIVEcasino_AG.jpg";
 import LIVEcasino_DG from "../styles/Nova88/img/LIVEcasino_DG.jpg";
 import LIVEcasino_SA from "../styles/Nova88/img/LIVEcasino_SA.jpg";
 import LIVEcasino_AB from "../styles/Nova88/img/LIVEcasino_AB.jpg";
+import LIVEcasino_ComingSoon from "../styles/Nova88/img/coming_soon.jpg";
+
 import keno from "../styles/Nova88/img/keno.jpg";
 import lottery from "../styles/Nova88/img/lottery.jpg";
 import fishing from "../styles/Nova88/img/fish.jpg";
@@ -51,6 +53,7 @@ const gameList = [
 		categoryIcon: "livecasino",
 		className: "casinoList",
 		translateKey: "lbl_LiveCasino",
+		comingSoonImg: LIVEcasino_ComingSoon,
 		items: [
 			{
 				gameId: 101,
@@ -84,6 +87,7 @@ const gameList = [
 		categoryIcon: "casino",
 		className: "casinoList",
 		translateKey: "lbl_Casino",
+		comingSoonImg: LIVEcasino_ComingSoon,
 		items: [
 			{
 				tpId: 6,
