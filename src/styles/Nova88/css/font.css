@@ -350,6 +350,10 @@
   content: "\e9d4";
 }
 
+.icon-contrast:before {
+  content: "\e9d5";
+}
+
 .icon-star-empty:before {
   content: "\e9d7";
 }
