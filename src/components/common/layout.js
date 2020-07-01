@@ -6,10 +6,10 @@ import { navContext, i18nContext, defNavPanel } from "../common/context";
 import "../../styles/Nova88/css/style-dark.css";
 import "../../styles/Nova88/css/style.css";
 import "../../styles/Nova88/css/font.css";
-import { useMatch } from "@reach/router";
+import { useMatch, useLocation } from "@reach/router";
 import path from "../../path";
 
-const _PageInfo = {
+const defPageInfo = {
 	default: {
 		titleKey: "",
 		className: "",
@@ -77,57 +77,36 @@ const _PageInfo = {
 	}
 };
 
+const GetPageInfo = locationPath => {
+	let pageInfoKey =
+		locationPath === "/"
+			? []
+			: Object.keys(path).filter(p => {
+					let _location = locationPath.split("/");
+					return _location?.[1] === path[p].root;
+			  });
+
+	pageInfoKey = pageInfoKey?.length > 0 ? pageInfoKey[0] : null;
+	return pageInfoKey
+		? {
+				titleKey: defPageInfo[pageInfoKey].titleKey,
+				className: defPageInfo[pageInfoKey].className,
+				hideLogo: defPageInfo[pageInfoKey].hideLogo
+		  }
+		: defPageInfo.default;
+};
+
 const Layout = ({ children }) => {
 	const { i18n } = useContext(i18nContext);
 	const { nav } = useContext(navContext);
-	let position = {};
-	let pageInfo = _PageInfo.default;
-	let _matchLogin = useMatch(`/${path.login.root}`) !== null;
-	let _matchMember = useMatch(`/${path.member.root}/*`) !== null;
-	let _matchDeposit = useMatch(`/${path.deposit.root}/*`) !== null;
-	let _matchWithdrawal = useMatch(`/${path.withdrawal.root}/*`) !== null;
-	let _matchTransfer = useMatch(`/${path.transfer.root}/*`) !== null;
-	let _matchStatement = useMatch(`/${path.statement.root}/*`) !== null;
-	let _matchMessage = useMatch(`/${path.message.root}`) !== null;
-	let _matchAnnouncement =
-		useMatch(
-			`/${path.message.root}/${path.message.sub.announcement.root}/*`
-		) !== null;
-	let _matchCasino = useMatch(`/${path.casino.root}`) !== null;
-	let _matchForgetPwd = useMatch(`/${path.forgetPassword.root}`) !== null;
-	let _matchResetPwd = useMatch(`/${path.resetPassword.root}`) !== null;
-	let _matchChangePwd = useMatch(`/${path.changePassword.root}`) !== null;
-	let _matchSetting = useMatch(`/${path.setting.root}/*`) !== null;
+	const location = useLocation();
+	let pageInfo = GetPageInfo(location.pathname);
 
-	if (nav === defNavPanel.login || _matchLogin || nav === defNavPanel.join) {
-		position = { position: "fixed" };
-	} else {
-		if (_matchMember) {
-			pageInfo = _PageInfo.member;
-		} else if (_matchDeposit) {
-			pageInfo = _PageInfo.deposit;
-		} else if (_matchWithdrawal) {
-			pageInfo = _PageInfo.withdrawal;
-		} else if (_matchTransfer) {
-			pageInfo = _PageInfo.transfer;
-		} else if (_matchStatement) {
-			pageInfo = _PageInfo.statement;
-		} else if (_matchMessage) {
-			pageInfo = _PageInfo.message;
-		} else if (_matchAnnouncement) {
-			pageInfo = _PageInfo.announcement;
-		} else if (_matchCasino) {
-			pageInfo = _PageInfo.casino;
-		} else if (_matchForgetPwd) {
-			pageInfo = _PageInfo.forgetPwd;
-		} else if (_matchResetPwd) {
-			pageInfo = _PageInfo.resetPwd;
-		} else if (_matchChangePwd) {
-			pageInfo = _PageInfo.changePwd;
-		} else if (_matchSetting) {
-			pageInfo = _PageInfo.setting;
-		}
-	}
+	let _matchLogin = useMatch(`/${path.login.root}`) !== null;
+	let position =
+		nav === defNavPanel.login || _matchLogin || nav === defNavPanel.join
+			? { position: "fixed" }
+			: {};
 
 	return (
 		<>
