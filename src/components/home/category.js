@@ -1,13 +1,16 @@
-import React, { useState, useContext, Component } from "react";
+import React, { useState, useContext, Component, useEffect } from "react";
 import {
 	i18nContext,
 	navContext,
 	defNavPanel,
-	userInfoContext
+	userInfoContext,
+	popBoxContext
 } from "../common/context";
 import productList from "../../datas/productList";
 import { GET_ENTER_PAGE } from "../../service/enterPage";
-import { Redirect } from "@reach/router";
+import { Redirect, Link } from "@reach/router";
+import { api_GetTpIds } from "../../service/api/site";
+import path from "../../path";
 
 const Category = props => {
 	const { i18n } = useContext(i18nContext);
@@ -17,6 +20,9 @@ const Category = props => {
 		redirect: false,
 		path: ""
 	});
+
+	const { setPopBox } = useContext(popBoxContext);
+	const [casinoTpIds, setCasinoTpIds] = useState(null);
 
 	const clickGame = ({ tpId, gameId, path }) => {
 		if (path) {
@@ -37,6 +43,33 @@ const Category = props => {
 		}
 	};
 
+	useEffect(() => {
+		let mounted = true;
+
+		if (userInfo.isLogin) {
+			api_GetTpIds().then(
+				res => {
+					if (res.data.errorCode === 0 && mounted) {
+						setCasinoTpIds(res.data.data);
+					}
+				},
+				err => {
+					if (mounted) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
+				}
+			);
+		}
+
+		return () => {
+			mounted = false;
+		};
+	}, [userInfo.isLogin, i18n, setPopBox]);
+
 	return redirect.redirect ? (
 		<Redirect to={redirect.path} noThrow />
 	) : (
@@ -44,6 +77,7 @@ const Category = props => {
 			clickGame={clickGame}
 			i18n={i18n}
 			top={props.shortcutBarLocate?.bottom}
+			casinoTpIds={casinoTpIds}
 		/>
 	);
 };
@@ -130,7 +164,6 @@ class CateGoryContent extends Component {
 	render() {
 		let sideBarItems = [];
 		let products = [];
-
 		productList.forEach(item => {
 			let _open = this.state.category === item.category;
 			sideBarItems.push(
@@ -147,32 +180,54 @@ class CateGoryContent extends Component {
 				/>
 			);
 
-			let content = item.items.map((subItem, idx) => {
-				let refItem =
-					idx === 0
-						? this.RefItems[item.category].First
-						: idx === item.items.length - 1
-						? this.RefItems[item.category].Last
-						: null;
-				return (
-					<ProductItem
-						_ref={refItem}
-						key={`product-tpId_${subItem.tpId}-gameId_${subItem.gameId}`}
-						clickGame={this.props.clickGame.bind(this, {
-							...subItem
-						})}
-						img={subItem.img}
-						spanText={this.props.i18n[subItem.spanTextKey]}
-						icon={subItem.icon}
-					/>
-				);
-			});
+			let content = item.items
+				.filter(subItem => {
+					return item.category === "casino"
+						? this.props.casinoTpIds === null ||
+								this.props.casinoTpIds.includes(subItem.tpId)
+						: true;
+				})
+				.map((subItem, idx) => {
+					let refItem =
+						idx === 0
+							? this.RefItems[item.category].First
+							: idx === item.items.length - 1
+							? this.RefItems[item.category].Last
+							: null;
+					let key = `product-tpId_${subItem.tpId}-gameId_${subItem.gameId}`;
+					if (subItem.parameter) {
+						return (
+							<ProductLinkItem
+								_ref={refItem}
+								isShow={!item.className && _open}
+								key={key}
+								to={path.casino.root}
+								parameter={subItem.parameter}
+								img={subItem.img}
+							/>
+						);
+					} else {
+						return (
+							<ProductItem
+								_ref={refItem}
+								isShow={!item.className && _open}
+								key={key}
+								clickGame={this.props.clickGame.bind(this, {
+									...subItem
+								})}
+								img={subItem.img}
+								spanText={this.props.i18n[subItem.spanTextKey]}
+								icon={subItem.icon}
+							/>
+						);
+					}
+				});
 
 			if (item.className) {
 				products.push(
 					<div
 						key={`productGroup-${item.category}`}
-						className={item.className}>
+						className={`${item.className}${_open ? " open" : ""}`}>
 						{content}
 					</div>
 				);
@@ -202,14 +257,29 @@ const CategoryItem = props => {
 
 const ProductItem = props => {
 	return (
-		<a onClick={props.clickGame} ref={props._ref}>
-			<img src={props.img} alt={props.icon} />
+		<a
+			onClick={props.clickGame}
+			ref={props._ref}
+			className={props.isShow ? "open" : ""}>
+			<img src={props.img} alt={props.icon ?? ""} />
 			{props.spanText ? (
 				<span className={`icon icon-${props.icon}`}>
 					{props.spanText}
 				</span>
 			) : null}
 		</a>
+	);
+};
+
+const ProductLinkItem = props => {
+	return (
+		<Link
+			to={props.to}
+			state={props.parameter}
+			ref={props._ref}
+			className={props.isShow ? "open" : ""}>
+			<img src={props.img} alt={props.icon ?? ""} />
+		</Link>
 	);
 };
 

@@ -33,7 +33,7 @@ class Panel extends React.Component {
 			gameDatas: null,
 			searchInfo: {
 				searchText: "",
-				provider: { idx: 0, value: null },
+				provider: { idx: 0, value: null, init: false },
 				gameType: { idx: 0, value: null }
 			},
 			favorite: [],
@@ -333,6 +333,7 @@ class Panel extends React.Component {
 					TpList={this.state.tpList}
 					{...this.state.searchInfo}
 					EditSearchField={this.EditSearchField}
+					DefaultProvider={this.props.locationState?.tpId}
 				/>
 
 				<Games
@@ -373,12 +374,19 @@ class Panel extends React.Component {
 	}
 }
 
-const IndexPage = () => {
+const IndexPage = props => {
 	const { i18n } = useContext(i18nContext);
 	const { setNav } = useContext(navContext);
 	const { userInfo } = useContext(userInfoContext);
 
-	return <Panel i18n={i18n} userInfo={userInfo} setNav={setNav} />;
+	return (
+		<Panel
+			i18n={i18n}
+			userInfo={userInfo}
+			setNav={setNav}
+			locationState={props.location.state}
+		/>
+	);
 };
 
 export default IndexPage;

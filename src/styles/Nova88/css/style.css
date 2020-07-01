@@ -422,44 +422,21 @@ header button.clickBtn::before {
 }
 
 header .headerButton {
-  margin-left: 1.5vw;
+  margin-left: 2vw;
 }
 
 header .headerButton > button {
   border-radius: 3px;
   color: #ff5d00;
-  height: 6.5vw;
-  padding: 0 3vw;
+  padding: 1vw 3vw;
   background: #fff;
-  margin: 0 5px;
+  margin-left: 5px;
   font-size: 3vw;
 }
 
 header .headerButton > button:nth-child(3) {
   background: #ff5d00;
   color: #fff;
-}
-
-header .headerButton > button.icon-exit {
-  background: #ff5d00;
-  color: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding-left: 4vw;
-  border-radius: 100%;
-  width: 7vw;
-  height: 7vw;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-header .headerButton > button.icon-exit:before {
-  font-size: 4.5vw;
 }
 
 header .headerButton .icon-chat {
@@ -641,8 +618,6 @@ main .gameList a {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 calc(100% - 3vw);
           flex: 0 0 calc(100% - 3vw);
-  -webkit-box-shadow: 1px 2px 4px 0px #5e5e5e;
-          box-shadow: 1px 2px 4px 0px #5e5e5e;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -654,6 +629,13 @@ main .gameList a {
           align-items: flex-end;
   position: relative;
   overflow: hidden;
+  opacity: 0.85;
+}
+
+main .gameList a.open {
+  -webkit-box-shadow: 1px 2px 4px 0px #5e5e5e;
+          box-shadow: 1px 2px 4px 0px #5e5e5e;
+  opacity: 1;
 }
 
 main .gameList a img {
@@ -687,18 +669,23 @@ main .gameList a span:before {
   font-weight: normal;
 }
 
-main .gameList .livecasinoList {
+main .gameList .casinoList {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  padding: 0 1.2vw;
 }
 
-main .gameList .livecasinoList a {
+main .gameList .casinoList.open a {
+  opacity: 1;
+}
+
+main .gameList .casinoList a {
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 calc(50% - 2.5vw);
-          flex: 0 0 calc(50% - 2.5vw);
+      -ms-flex: 0 0 calc(50% - 1.5vw);
+          flex: 0 0 calc(50% - 1.5vw);
 }
 
 main .thBar {
@@ -997,24 +984,6 @@ footer > a.open .circleAnimation + span {
   }
 }
 
-@-webkit-keyframes gl {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes gl {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .dropdown {
   background: transparent;
   border: 1px solid #ff5d00;
@@ -1262,7 +1231,7 @@ footer > a.open .circleAnimation + span {
 
 .title {
   color: #fff;
-  font-size: 4vw;
+  font-size: 5vw;
   font-weight: bold;
 }
 
@@ -1298,7 +1267,7 @@ footer > a.open .circleAnimation + span {
   height: 12vw;
   border-bottom: 3px solid transparent;
   color: #fff;
-  font-size: 3vw;
+  font-size: 4vw;
 }
 
 .tag a.open {
@@ -1390,8 +1359,10 @@ footer > a.open .circleAnimation + span {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  width: 7vw;
-  height: 7vw;
+  width: 6vw;
+  height: 6vw;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
 }
 
 .balance button.clickBtn::before {
@@ -3272,7 +3243,6 @@ input.error {
       flex-wrap: wrap;
   line-height: 10vw;
   margin-top: 6vw;
-  border-top: 1px solid #ff5900;
   padding: 6vw 2vw 0;
 }
 

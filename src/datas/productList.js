@@ -6,11 +6,16 @@ import LIVEcasino_AG from "../styles/Nova88/img/LIVEcasino_AG.jpg";
 import LIVEcasino_DG from "../styles/Nova88/img/LIVEcasino_DG.jpg";
 import LIVEcasino_SA from "../styles/Nova88/img/LIVEcasino_SA.jpg";
 import LIVEcasino_AB from "../styles/Nova88/img/LIVEcasino_AB.jpg";
-import casinoNOVA from "../styles/Nova88/img/casinoNOVA.jpg";
-import casinoOW from "../styles/Nova88/img/casinoOW.jpg";
 import keno from "../styles/Nova88/img/keno.jpg";
 import lottery from "../styles/Nova88/img/lottery.jpg";
 import fishing from "../styles/Nova88/img/fish.jpg";
+
+import casino_GPI from "../styles/Nova88/img/casino_GPI.jpg";
+import casino_ow from "../styles/Nova88/img/casino_ow.jpg";
+import casino_PG from "../styles/Nova88/img/casino_PG.jpg";
+import casino_PP from "../styles/Nova88/img/casino_PP.jpg";
+import casino_SG from "../styles/Nova88/img/casino_SG.jpg";
+import casino_YGG from "../styles/Nova88/img/casino_YGG.jpg";
 
 const gameList = [
 	{
@@ -44,7 +49,7 @@ const gameList = [
 	{
 		category: "livecasino",
 		categoryIcon: "livecasino",
-		className: "livecasinoList",
+		className: "casinoList",
 		translateKey: "lbl_LiveCasino",
 		items: [
 			{
@@ -77,20 +82,38 @@ const gameList = [
 	{
 		category: "casino",
 		categoryIcon: "casino",
+		className: "casinoList",
 		translateKey: "lbl_Casino",
 		items: [
 			{
-				icon: "nova-casino",
-				path: path.casino.root,
-				img: casinoNOVA,
-				spanTextKey: "lbl_SelfCasino"
+				tpId: 6,
+				parameter: { tpId: 6 },
+				img: casino_GPI
 			},
 			{
-				icon: "ow-casino",
-				gameId: 1,
-				tpId: 208,
-				img: casinoOW,
-				spanTextKey: "lbl_OWCasino"
+				tpId: 14,
+				parameter: { tpId: 14 },
+				img: casino_PG
+			},
+			{
+				tpId: 5,
+				parameter: { tpId: 5 },
+				img: casino_PP
+			},
+			{
+				tpId: 10,
+				parameter: { tpId: 10 },
+				img: casino_SG
+			},
+			{
+				tpId: 8,
+				parameter: { tpId: 8 },
+				img: casino_YGG
+			},
+			{
+				gameId: 208,
+				tpId: 1,
+				img: casino_ow
 			}
 		]
 	},

@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { i18nContext } from "../common/context";
 import GameTypes from "./defGameType";
 import Dropdown from "../common/dropdown";
 
 const SearchBox = props => {
 	const { i18n } = useContext(i18nContext);
-
 	const [openAdvance, setOpenAdvance] = useState(false);
 
 	const gameTypeList = [
@@ -26,6 +25,21 @@ const SearchBox = props => {
 		})
 	];
 
+	useEffect(() => {
+		if (!props.provider?.init) {
+			const defaultProviderIdx = providerList.findIndex(
+				p => p.id === props.DefaultProvider
+			);
+			if (defaultProviderIdx !== -1) {
+				props.EditSearchField("provider", {
+					idx: defaultProviderIdx,
+					value: providerList[defaultProviderIdx].id,
+					init: true
+				});
+			}
+		}
+	}, [i18n, props, providerList]);
+
 	const HandleOpenAdvance = () => {
 		setOpenAdvance(prevState => !prevState);
 	};
@@ -37,7 +51,8 @@ const SearchBox = props => {
 	const SelectProvider = idx => {
 		props.EditSearchField("provider", {
 			idx: idx,
-			value: providerList[idx].id
+			value: providerList[idx].id,
+			init: true
 		});
 	};
 

@@ -26,3 +26,5 @@ export const api_GetGamelist = () => siteRequest.post(`/GetGamelist`);
 
 export const api_ForgetPwd = ({ Email }) =>
 	siteRequest.post(`/ForgetPwd`, { Email: Email });
+
+export const api_GetTpIds = () => siteRequest.post(`/GetTpIds`);

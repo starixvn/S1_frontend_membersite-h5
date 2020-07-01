@@ -326,6 +326,10 @@
   content: "\e992";
 }
 
+.icon-cog:before {
+  content: "\e994";
+}
+
 .icon-bin:before {
   content: "\e9ac";
 }
