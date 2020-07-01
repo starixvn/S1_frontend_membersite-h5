@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Redirect, Link, useMatch } from "@reach/router";
 import { i18nContext, userInfoContext } from "./context";
 
-const IndexPage = ({ defTabs, children }) => {
+const IndexPage = ({ defTabs, children, beforeLogin }) => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
 	const [redirectPath, setRedirectPath] = useState(null);
@@ -24,14 +24,14 @@ const IndexPage = ({ defTabs, children }) => {
 
 	useEffect(() => {
 		let mounted = true;
-		if (mounted && userInfo.isLogin === false) {
+		if (mounted && userInfo.isLogin === false && !beforeLogin) {
 			setRedirectPath("/");
 		}
 
 		return () => {
 			mounted = false;
 		};
-	}, [userInfo.isLogin, setRedirectPath]);
+	}, [userInfo.isLogin, setRedirectPath, beforeLogin]);
 
 	if (redirectPath !== null) {
 		return <Redirect to="/" noThrow />;

@@ -15,7 +15,11 @@ const defTabs = {
 };
 
 const IndexPage = props => {
-	return <TabPage defTabs={defTabs}>{props.children}</TabPage>;
+	return (
+		<TabPage defTabs={defTabs} beforeLogin={true}>
+			{props.children}
+		</TabPage>
+	);
 };
 
 export default IndexPage;
