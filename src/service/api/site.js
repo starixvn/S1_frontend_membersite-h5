@@ -28,3 +28,6 @@ export const api_ForgetPwd = ({ Email }) =>
 	siteRequest.post(`/ForgetPwd`, { Email: Email });
 
 export const api_GetTpIds = () => siteRequest.post(`/GetTpIds`);
+
+export const api_GetBanner = FolderName =>
+	siteRequest.post(`/GetBanner`, `FolderName=${FolderName}`);
