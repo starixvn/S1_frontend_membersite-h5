@@ -11,7 +11,7 @@ const GetCookie = name => {
 
 export const GET_LANG_ID = userLangId => {
 	let siteDefLangId = "en";
-	let siteLangList = ["en", "cs", "ch", "th", "id"];
+	let siteLangList = ["en", "cs", "th", "id"];
 
 	let langId = userLangId ? userLangId : GetCookie("LangId");
 	let browserDefLang =
@@ -23,13 +23,15 @@ export const GET_LANG_ID = userLangId => {
 			browserDefLang.startsWith("zh-tw") ||
 			browserDefLang.startsWith("zh-hk")
 		) {
-			langId = "ch";
+			//langId = "ch";
+			langId = "cs";
 		} else if (browserDefLang.startsWith("zh")) {
 			langId = "cs";
 		} else if (browserDefLang.startsWith("th")) {
 			langId = "th";
 		} else if (browserDefLang.startsWith("vi")) {
-			langId = "vn";
+			//langId = "vn";
+			langId = "en";
 		} else if (browserDefLang.startsWith("id")) {
 			langId = "id";
 		} else if (browserDefLang.startsWith("jp")) {

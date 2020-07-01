@@ -48,22 +48,6 @@ const Footer = () => {
 					}}
 				</Match> */}
 
-				{/* <Match path={path.wallet.root}>
-					{props => {
-						let isMatch = props.match !== null;
-						return (
-							<Link
-								to={path.wallet.root}
-								className={isMatch ? "open" : ""}>
-								<div className="circleAnimation">
-									<div className="icon icon-balance"></div>
-								</div>
-								<span>{i18n.lbl_Wallet}</span>
-							</Link>
-						);
-					}}
-				</Match> */}
-
 				<a
 					target="_blank"
 					href="https://direct.lc.chat/11638088/"
@@ -75,7 +59,11 @@ const Footer = () => {
 				</a>
 				<Match path={path.setting.root}>
 					{props => {
-						let isMatch = props.match !== null;
+						let isMatch =
+							props.location.pathname ===
+								`/${path.setting.root}` ||
+							props.location.pathname ===
+								`/${path.setting.root}/${path.setting.sub.other.root}`;
 						return (
 							<Link
 								to={path.setting.root}
@@ -125,22 +113,6 @@ const Footer = () => {
 					}}
 				</Match> */}
 
-				{/* <Match path={path.wallet.root}>
-					{props => {
-						let isMatch = props.match !== null;
-						return (
-							<Link
-								to={path.wallet.root}
-								className={isMatch ? "open" : ""}>
-								<div className="circleAnimation">
-									<div className="icon icon-balance"></div>
-								</div>
-								<span>{i18n.lbl_Wallet}</span>
-							</Link>
-						);
-					}}
-				</Match> */}
-
 				<a
 					target="_blank"
 					href={`https://direct.lc.chat/11638088/${
@@ -155,7 +127,11 @@ const Footer = () => {
 
 				<Match path={path.member.root}>
 					{props => {
-						let isMatch = props.match !== null;
+						let isMatch =
+							props.location.pathname ===
+								`/${path.member.root}` ||
+							props.location.pathname ===
+								`/${path.member.root}/${path.member.sub.bankInfo.root}`;
 						return (
 							<Link
 								to={path.member.root}
@@ -170,7 +146,11 @@ const Footer = () => {
 				</Match>
 				<Match path={path.setting.root}>
 					{props => {
-						let isMatch = props.match !== null;
+						let isMatch =
+							props.location.pathname ===
+								`/${path.setting.root}` ||
+							props.location.pathname ===
+								`/${path.setting.root}/${path.setting.sub.other.root}`;
 						return (
 							<Link
 								to={path.setting.root}
