@@ -74,6 +74,11 @@ const defPageInfo = {
 		titleKey: "setting",
 		className: "main",
 		hideLogo: true
+	},
+	promotion: {
+		titleKey: "promotion",
+		className: "main promotions",
+		hideLogo: true
 	}
 };
 
@@ -87,11 +92,12 @@ const GetPageInfo = locationPath => {
 			  });
 
 	pageInfoKey = pageInfoKey?.length > 0 ? pageInfoKey[0] : null;
-	return pageInfoKey
+	let pageInfo = defPageInfo[pageInfoKey] ?? null;
+	return pageInfoKey && pageInfo
 		? {
-				titleKey: defPageInfo[pageInfoKey].titleKey,
-				className: defPageInfo[pageInfoKey].className,
-				hideLogo: defPageInfo[pageInfoKey].hideLogo
+				titleKey: pageInfo.titleKey,
+				className: pageInfo.className,
+				hideLogo: pageInfo.hideLogo
 		  }
 		: defPageInfo.default;
 };

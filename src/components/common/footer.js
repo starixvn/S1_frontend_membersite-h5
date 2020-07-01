@@ -32,7 +32,7 @@ const Footer = () => {
 					}}
 				</Match>
 
-				{/* <Match path={path.promotion.root}>
+				<Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
@@ -46,7 +46,7 @@ const Footer = () => {
 							</Link>
 						);
 					}}
-				</Match> */}
+				</Match>
 
 				<a
 					target="_blank"
@@ -97,7 +97,7 @@ const Footer = () => {
 					}}
 				</Match>
 
-				{/* <Match path={path.promotion.root}>
+				<Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
 						return (
@@ -111,7 +111,7 @@ const Footer = () => {
 							</Link>
 						);
 					}}
-				</Match> */}
+				</Match>
 
 				<a
 					target="_blank"
