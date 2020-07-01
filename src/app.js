@@ -53,6 +53,10 @@ import ForgetPwd from "./components/login/forgetPwd";
 import ResetPwd from "./components/login/resetPwd";
 import ChangePwd from "./components/member/changePwd";
 
+import Setting from "./pages/setting.js";
+import SettingInfo from "./components/setting/settingInfo";
+import Other from "./components/setting/other";
+
 const Index = () => {
 	let history = createHistory(window);
 	return (
@@ -123,6 +127,10 @@ const Index = () => {
 							/>
 						</Message>
 						<Casino path={path.casino.root} />
+						<Setting path={path.setting.root}>
+							<SettingInfo path={path.setting.sub.root} />
+							<Other path={path.setting.sub.other.root} />
+						</Setting>
 					</Router>
 				</Layout>
 			</LocationProvider>

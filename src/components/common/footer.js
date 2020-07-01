@@ -73,6 +73,21 @@ const Footer = () => {
 					</div>
 					<span>{i18n.LiveChat}</span>
 				</a>
+				<Match path={path.setting.root}>
+					{props => {
+						let isMatch = props.match !== null;
+						return (
+							<Link
+								to={path.setting.root}
+								className={isMatch ? "open" : ""}>
+								<div className="circleAnimation">
+									<div className="icon icon-cog"></div>
+								</div>
+								<span>{i18n.lbl_Me}</span>
+							</Link>
+						);
+					}}
+				</Match>
 			</footer>
 		);
 	} else {
@@ -147,6 +162,21 @@ const Footer = () => {
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
 									<div className="icon icon-member"></div>
+								</div>
+								<span>{i18n.lbl_Me}</span>
+							</Link>
+						);
+					}}
+				</Match>
+				<Match path={path.setting.root}>
+					{props => {
+						let isMatch = props.match !== null;
+						return (
+							<Link
+								to={path.setting.root}
+								className={isMatch ? "open" : ""}>
+								<div className="circleAnimation">
+									<div className="icon icon-cog"></div>
 								</div>
 								<span>{i18n.lbl_Me}</span>
 							</Link>

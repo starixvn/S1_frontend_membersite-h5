@@ -95,5 +95,14 @@ export default {
 	resetPassword: {
 		root: "Home/ResetPassword"
 	},
-	changePassword: { root: "changePassword" }
+	changePassword: { root: "changePassword" },
+	setting: {
+		root: "setting",
+		sub: {
+			root: "/",
+			other: {
+				root: "other"
+			}
+		}
+	}
 };
