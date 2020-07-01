@@ -252,5 +252,7 @@ export default [
 	"lbl_SocialMedia",
 	"lbl_Title",
 	"lbl_NewPassword",
-	"lbl_OldPassword"
+	"lbl_OldPassword",
+	"msg_ConfirmRealNameAlert",
+	"msg_GoToDepositPage"
 ];
