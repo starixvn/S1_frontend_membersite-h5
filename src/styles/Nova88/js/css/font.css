@@ -42,6 +42,38 @@
   margin-bottom: 1vw;
 }
 
+.icon-chat:before {
+  content: "\e935";
+}
+
+.icon-bubbles:before {
+  content: "\e935";
+}
+
+.icon-talk:before {
+  content: "\e935";
+}
+
+.icon-message:before {
+  content: "\e935";
+}
+
+.icon-conversation:before {
+  content: "\e935";
+}
+
+.icon-moon:before {
+  content: "\e91d";
+}
+
+.icon-message-typing:before {
+  content: "\e933";
+}
+
+.icon-cake:before {
+  content: "\e91e";
+}
+
 .icon-kelo:before {
   content: "\e931";
 }
@@ -210,14 +242,6 @@
   content: "\e910";
 }
 
-.icon-cake:before {
-  content: "\e91e";
-}
-
-.icon-moon:before {
-  content: "\e91d";
-}
-
 .icon-home:before {
   content: "\e900";
 }
@@ -302,6 +326,10 @@
   content: "\e992";
 }
 
+.icon-cog:before {
+  content: "\e994";
+}
+
 .icon-bin:before {
   content: "\e9ac";
 }
@@ -320,6 +348,10 @@
 
 .icon-sun:before {
   content: "\e9d4";
+}
+
+.icon-contrast:before {
+  content: "\e9d5";
 }
 
 .icon-star-empty:before {
@@ -346,6 +378,10 @@
   content: "\ea10";
 }
 
+.icon-exit:before {
+  content: "\ea14";
+}
+
 .icon-circle-right:before {
   content: "\ea42";
 }
@@ -364,6 +400,18 @@
 
 .icon-new-tab:before {
   content: "\ea7e";
+}
+
+.icon-facebook2:before {
+  content: "\ea91";
+}
+
+.icon-instagram:before {
+  content: "\ea92";
+}
+
+.icon-twitter:before {
+  content: "\ea96";
 }
 
 .icon-IcoMoon:before {
