@@ -254,5 +254,11 @@ export default [
 	"lbl_NewPassword",
 	"lbl_OldPassword",
 	"msg_ConfirmRealNameAlert",
-	"msg_GoToDepositPage"
+	"msg_GoToDepositPage",
+	"lbl_Notice",
+	"msg_DepositAlert",
+	"lbl_Later",
+	"lbl_DepositNow",
+	"msg_BalanceHint",
+	"msg_DepositHint"
 ];

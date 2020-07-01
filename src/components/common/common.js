@@ -57,3 +57,20 @@ export const checkAmount = (amount, minAmount, maxAmount, _isConvert, i18n) => {
 
 	return { status: status, msg: msg };
 };
+
+export const setCookie = (cookieName, cookieValue, exdays) => {
+	let d = new Date();
+	d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+	var expires = "expires=" + d.toUTCString();
+	document.cookie =
+		cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+};
+
+export const readCookie = cookieName => {
+	let result = document.cookie.split(`${cookieName}=`);
+	if (result.length === 2) {
+		return result[1].split("; ")[0];
+	} else {
+		return null;
+	}
+};
