@@ -5,12 +5,12 @@ import path from "../path";
 const defTabs = {
 	default: {
 		to: `/${path.setting.root}`,
-		displayKey: "Setting",
+		displayKey: "lbl_Setting",
 		excludeMath: path.setting.sub.other.root
 	},
 	other: {
 		to: path.setting.sub.other.root,
-		displayKey: "Ohter"
+		displayKey: "lbl_Other"
 	}
 };
 

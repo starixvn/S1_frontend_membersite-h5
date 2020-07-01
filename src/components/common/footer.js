@@ -83,7 +83,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-cog"></div>
 								</div>
-								<span>{i18n.lbl_Me}</span>
+								<span>{i18n.lbl_Setting}</span>
 							</Link>
 						);
 					}}
@@ -178,7 +178,7 @@ const Footer = () => {
 								<div className="circleAnimation">
 									<div className="icon icon-cog"></div>
 								</div>
-								<span>{i18n.lbl_Me}</span>
+								<span>{i18n.lbl_Setting}</span>
 							</Link>
 						);
 					}}
