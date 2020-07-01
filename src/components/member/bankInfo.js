@@ -355,16 +355,13 @@ const BankInfo = () => {
 
 	const checkSubmitHandler = () => {
 		let checked = true;
-		if (status === false) {
-			if (!userInfo.accountName) {
-				checked = realNameCheck() && bankAccountCheck();
-			} else {
-				checked = bankAccountCheck();
-			}
-		}
 
-		if (checked) {
-			if (status === false) {
+		const SetCustBankInfo = (checked, hidePopBox) => {
+			if (hidePopBox) {
+				setPopBox({ isOpen: false });
+			}
+
+			if (checked) {
 				let bankInfoData = {
 					AccountName:
 						userInfo.accountName ?? userValueState.RealName,
@@ -387,6 +384,7 @@ const BankInfo = () => {
 							} else {
 								GetCustBankInfo();
 							}
+							setLoading(false);
 						}
 					},
 					err => {
@@ -401,6 +399,42 @@ const BankInfo = () => {
 					}
 				);
 				setStatus(true);
+			}
+		};
+
+		if (status === false) {
+			if (!userInfo.accountName) {
+				checked = realNameCheck() && bankAccountCheck();
+
+				const closePopbox = status => {
+					setPopBox({ isOpen: false });
+				};
+
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: i18n.msg_ConfirmRealNameAlert,
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={closePopbox}>
+								{i18n["lbl_Cancel"]}
+							</button>
+							<button
+								className="orange"
+								onClick={SetCustBankInfo.bind(
+									this,
+									checked,
+									true
+								)}>
+								{i18n["lbl_Submit"]}
+							</button>
+						</div>
+					)
+				});
+			} else {
+				checked = bankAccountCheck();
+				SetCustBankInfo(checked, false);
 			}
 		}
 	};

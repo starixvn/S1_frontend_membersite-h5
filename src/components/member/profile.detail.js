@@ -1,4 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
+import { Redirect } from "@reach/router";
 import Inputbox from "../common/inputbox";
 import Dropdown from "../common/dropdown.icon";
 import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
@@ -9,6 +10,7 @@ import {
 	api_SetProfile,
 	api_GetCustProfile
 } from "../../service/api/accountStrict";
+import path from "../../path";
 
 const defStatus = {
 	LockAll: "LockAll",
@@ -65,11 +67,18 @@ const Panel = () => {
 
 	const country = userInfo.country ? userInfo.country : userInfo.perCountry;
 	const isMountedRef = useRef(null);
+	const [redirectPath, setRedirectPath] = useState(null);
 
 	useEffect(() => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(`/${path.member.root}`);
+		}
+	}, [redirectPath]);
 
 	let aCode = country ? areaCode[country].AreaCode : "";
 	let status = defStatus.LockAll;
@@ -270,68 +279,131 @@ const Panel = () => {
 		}
 
 		if (checked) {
-			let profileData = {
-				AccountName: userValueState.RealName,
-				Birth_d: `${day}`,
-				Birth_m: `${month}`,
-				Birth_y: `${year}`,
-				CountryCode: country,
-				AreaCode: aCode,
-				PhoneNo: userValueState.Phone
+			const closePopbox = ({ _redirectPath }) => {
+				setPopBox({ isOpen: false });
+				if (_redirectPath) {
+					setRedirectPath(_redirectPath);
+				}
 			};
 
-			api_SetProfile(profileData).then(
-				response => {
-					if (isMountedRef.current) {
-						const errorCode = response.data.errorCode;
-						const message = response.data.message;
+			const setProfile = () => {
+				let profileData = {
+					AccountName: userValueState.RealName,
+					Birth_d: `${day}`,
+					Birth_m: `${month}`,
+					Birth_y: `${year}`,
+					CountryCode: country,
+					AreaCode: aCode,
+					PhoneNo: userValueState.Phone
+				};
 
-						if (errorCode === 21) {
-							setWarningState(prevState => ({
-								...prevState,
-								Phone: { status: true, msg: message }
-							}));
-						} else {
-							api_GetCustProfile().then(
-								res => {
-									if (isMountedRef.current) {
-										if (res.data.errorCode === 0) {
-											setUserInfo(prevState => ({
-												...prevState,
-												...res.data.data
-											}));
-										} else {
+				api_SetProfile(profileData).then(
+					response => {
+						if (isMountedRef.current) {
+							const errorCode = response.data.errorCode;
+							const message = response.data.message;
+
+							if (errorCode === 0) {
+								api_GetCustProfile().then(
+									res => {
+										if (isMountedRef.current) {
+											if (res.data.errorCode === 0) {
+												setUserInfo(prevState => ({
+													...prevState,
+													...res.data.data
+												}));
+											} else {
+												setPopBox({
+													isOpen: true,
+													title:
+														i18n.lbl_ImportantNote,
+													content:
+														response.data.message
+												});
+											}
+										}
+									},
+									err => {
+										if (isMountedRef.current) {
 											setPopBox({
 												isOpen: true,
 												title: i18n.lbl_ImportantNote,
-												content: response.data.message
+												content: i18n.msg_ApiServerError
 											});
 										}
 									}
-								},
-								err => {
-									if (isMountedRef.current) {
-										setPopBox({
-											isOpen: true,
-											title: i18n.lbl_ImportantNote,
-											content: i18n.msg_ApiServerError
-										});
-									}
-								}
-							);
+								);
+								setPopBox({
+									isOpen: true,
+									title: i18n.msg_Updatesuccessful,
+									content: i18n.msg_GoToDepositPage,
+									hasBtn: true,
+									btnBar: (
+										<div className="btn-group">
+											<button
+												className="blue"
+												onClick={closePopbox}>
+												{i18n["lbl_Cancel"]}
+											</button>
+											<button
+												className="orange"
+												onClick={closePopbox.bind(
+													null,
+													{
+														_redirectPath: `/${path.deposit.root}`
+													}
+												)}>
+												{i18n["lbl_Confirm"]}
+											</button>
+										</div>
+									)
+								});
+							} else if (errorCode === 21) {
+								setWarningState(prevState => ({
+									...prevState,
+									Phone: { status: true, msg: message }
+								}));
+							} else {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: message
+								});
+							}
+						}
+					},
+					err => {
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerError
+							});
 						}
 					}
-				},
-				err => {
-					if (isMountedRef.current) {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: i18n.msg_ApiServerError
-						});
-					}
-				}
-			);
+				);
+			};
+
+			if (status === defStatus.Phone_BDay) {
+				setProfile();
+			} else {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: i18n.msg_ConfirmRealNameAlert,
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={closePopbox}>
+								{i18n["lbl_Cancel"]}
+							</button>
+							<button className="orange" onClick={setProfile}>
+								{i18n["lbl_Submit"]}
+							</button>
+						</div>
+					)
+				});
+			}
 		}
 	};
 
@@ -352,7 +424,9 @@ const Panel = () => {
 			);
 		});
 
-	return (
+	return redirectPath !== null ? (
+		<Redirect to={redirectPath} noThrow />
+	) : (
 		<>
 			{status !== defStatus.LockAll ? (
 				<>
