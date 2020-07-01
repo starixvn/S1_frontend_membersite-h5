@@ -21,19 +21,12 @@ const Panel = () => {
 	const { setPopBox } = useContext(popBoxContext);
 	const { setNav } = useContext(navContext);
 	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
-	const [redirectPath, setRedirectPath] = useState(null);
 	const isMountedRef = useRef(null);
 
 	useEffect(() => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
-
-	useEffect(() => {
-		if (isMountedRef.current && redirectPath !== null) {
-			setRedirectPath(null);
-		}
-	}, [redirectPath, setRedirectPath]);
 
 	let balance = number_format(
 		walletInfo.main,
@@ -77,7 +70,6 @@ const Panel = () => {
 				langId: prevState.langId
 			}));
 			setNav(() => null);
-			setRedirectPath("/");
 		});
 	};
 
