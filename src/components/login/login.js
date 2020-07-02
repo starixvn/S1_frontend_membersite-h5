@@ -246,7 +246,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					value={userValueState.Password}
 				/>
 
-				<div className="Terms">
+				{/* <div className="Terms">
 					<Link
 						to={path.forgetPassword.root}
 						onClick={handleloginPanel.bind(
@@ -257,7 +257,7 @@ const LoginPage = ({ ButtonTitle }) => {
 						)}>
 						{i18n.lbl_ForgetPassword}?
 					</Link>
-				</div>
+				</div> */}
 
 				<button onClick={handleLogin}>{i18n["lbl_Login"]}</button>
 			</div>
