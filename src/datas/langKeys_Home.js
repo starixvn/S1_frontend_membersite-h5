@@ -260,5 +260,9 @@ export default [
 	"lbl_Later",
 	"lbl_DepositNow",
 	"msg_BalanceHint",
-	"msg_DepositHint"
+	"msg_DepositHint",
+	"lbl_Setting",
+	"lbl_Other",
+	"lbl_Themes",
+	"lbl_Languages"
 ];

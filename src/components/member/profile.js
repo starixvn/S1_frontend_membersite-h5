@@ -1,25 +1,21 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import {
 	i18nContext,
 	userInfoContext,
 	walletInfoContext,
-	popBoxContext,
-	navContext
+	popBoxContext
 } from "../common/context";
-import { LOGOUT } from "../../service/auth";
 import { number_format, isConvert } from "../common/common";
 import { api_GetBalnace } from "../../service/api/account";
 import { Link } from "@reach/router";
 import ProfileDetail from "./profile.detail";
 import ReloadSpin from "../common/reloadSpin";
 import path from "../../path";
-import Webmap from "./webMap";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
-	const { userInfo, setUserInfo } = useContext(userInfoContext);
+	const { userInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
-	const { setNav } = useContext(navContext);
 	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
 	const isMountedRef = useRef(null);
 
@@ -63,16 +59,6 @@ const Panel = () => {
 		);
 	};
 
-	const handleLogout = () => {
-		LOGOUT(() => {
-			setUserInfo(prevState => ({
-				isLogin: false,
-				langId: prevState.langId
-			}));
-			setNav(() => null);
-		});
-	};
-
 	return (
 		<>
 			<div className="avatar"></div>
@@ -83,11 +69,6 @@ const Panel = () => {
 				{i18n[`Currency_${userInfo.currencyId}`]} {balance}
 				<ReloadSpin func={GetBalance} />
 			</div>
-			<div className="btn-group">
-				<button className="orange" onClick={handleLogout}>
-					{i18n.lbl_Logout}
-				</button>
-			</div>
 			<ProfileDetail />
 			<div className="btn-group">
 				<button className="blue">
@@ -96,7 +77,6 @@ const Panel = () => {
 					</Link>
 				</button>
 			</div>
-			<Webmap />
 		</>
 	);
 };

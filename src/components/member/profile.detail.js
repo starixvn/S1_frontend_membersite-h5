@@ -5,7 +5,6 @@ import Dropdown from "../common/dropdown.icon";
 import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
 import areaCode from "../../datas/areaCode";
 import moment from "moment";
-import ThemeMode from "./profile.themeMode";
 import {
 	api_SetProfile,
 	api_GetCustProfile
@@ -496,8 +495,6 @@ const Panel = () => {
 					) : null}
 				</>
 			) : null}
-
-			{status === defStatus.LockAll ? <ThemeMode /> : null}
 
 			<div className="info">
 				<ul>{arr}</ul>
