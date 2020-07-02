@@ -80,8 +80,95 @@ const Panel = () => {
 				setLoading(false);
 				setPageVerify(false);
 			}
-		} else {
-			KycCheck(true);
+		} else if (userInfo.isLogin) {
+			const CheckBankInfo = async () => {
+				let result = await api_GetCustBankInfo().then(res => {
+					let hasBankInfo = false;
+					if (res.data.errorCode === 0) {
+						if (res.data.data?.bankInfoDetail) {
+							if (isMountedRef.current) {
+								setbankInfo(() => ({
+									accountName: res.data.data.accountName,
+									bankList: res.data.data.bankInfoDetail
+								}));
+								setSelBank(res.data.data.bankInfoDetail?.[0]);
+								if (!pageVerify) {
+									setPageVerify(true);
+								}
+							}
+							hasBankInfo = true;
+						} else {
+							const ClosePopBox = () => {
+								setPopBox({ isOpen: false });
+								setRedirectPath(
+									`/${path.member.root}/${path.member.sub.bankInfo.root}`
+								);
+							};
+
+							if (isMountedRef.current) {
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: i18n.lbl_UpdateBankInfo,
+									hasBtn: true,
+									hideCloseBtn: true,
+									btnBar: (
+										<div className="btn-group">
+											<button
+												className="blue"
+												onClick={ClosePopBox}>
+												{i18n.lbl_UpdateBankDetail}
+											</button>
+										</div>
+									)
+								});
+
+								setPageVerify(false);
+							}
+						}
+					}
+
+					return hasBankInfo;
+				});
+
+				return result;
+			};
+
+			CheckBankInfo().then(hasBankInfo => {
+				if (hasBankInfo) {
+					KycCheck(true).then(kycProcess => {
+						if (!kycProcess) {
+							if (userInfo.isLogin) {
+								api_GetWithdrawalAvailableBalance().then(
+									res => {
+										if (
+											res.data.errorCode === 0 &&
+											isMountedRef.current
+										) {
+											setBalanceInfo(res.data.data);
+											setLoading(false);
+										}
+									},
+									err => {
+										if (isMountedRef.current) {
+											setLoading(false);
+										}
+									}
+								);
+
+								api_GetWithdrawalInfoRecent().then(res => {
+									if (
+										res.data.errorCode === 0 &&
+										isMountedRef.current
+									) {
+										setRecentDatas(res.data.data);
+									}
+								});
+							}
+						}
+					});
+				}
+			});
 		}
 	}, [
 		userInfo.accountName,
@@ -90,7 +177,8 @@ const Panel = () => {
 		userInfo.currencyId,
 		userInfo.isLogin,
 		i18n,
-		setPopBox
+		setPopBox,
+		pageVerify
 	]);
 
 	const KycCheck = async UpdatePageVerify => {
@@ -112,91 +200,6 @@ const Panel = () => {
 
 		return executeKycProcess;
 	};
-
-	useEffect(() => {
-		if (userInfo.isLogin) {
-			setLoading(true);
-			api_GetWithdrawalAvailableBalance().then(
-				res => {
-					if (res.data.errorCode === 0 && isMountedRef.current) {
-						setBalanceInfo(res.data.data);
-						setLoading(false);
-					}
-				},
-				err => {
-					if (isMountedRef.current) {
-						setLoading(false);
-					}
-				}
-			);
-
-			api_GetCustBankInfo().then(
-				res => {
-					if (res.data.errorCode === 0) {
-						if (res.data.data !== null) {
-							if (res.data.data.bankInfoDetail) {
-								if (isMountedRef.current) {
-									setbankInfo(() => ({
-										accountName: res.data.data.accountName,
-										bankList: res.data.data.bankInfoDetail
-									}));
-									setSelBank(
-										res.data.data.bankInfoDetail?.[0]
-									);
-									if (!pageVerify) {
-										setPageVerify(true);
-									}
-								}
-							} else {
-								const ClosePopBox = () => {
-									setPopBox({ isOpen: false });
-									setRedirectPath(
-										`/${path.member.root}/${path.member.sub.bankInfo.root}`
-									);
-								};
-
-								if (isMountedRef.current) {
-									setPopBox({
-										isOpen: true,
-										title: i18n.lbl_ImportantNote,
-										content: i18n.lbl_UpdateBankInfo,
-										hasBtn: true,
-										hideCloseBtn: true,
-										btnBar: (
-											<div className="btn-group">
-												<button
-													className="blue"
-													onClick={ClosePopBox}>
-													{i18n.lbl_UpdateBankDetail}
-												</button>
-											</div>
-										)
-									});
-
-									setPageVerify(false);
-								}
-							}
-						}
-					}
-
-					if (isMountedRef.current) {
-						setLoading(false);
-					}
-				},
-				err => {
-					if (isMountedRef.current) {
-						setLoading(false);
-					}
-				}
-			);
-
-			api_GetWithdrawalInfoRecent().then(res => {
-				if (res.data.errorCode === 0 && isMountedRef.current) {
-					setRecentDatas(res.data.data);
-				}
-			});
-		}
-	}, [i18n, setPopBox, userInfo.isLogin, pageVerify]);
 
 	const GetBalance = () => {
 		if (pageVerify) {
