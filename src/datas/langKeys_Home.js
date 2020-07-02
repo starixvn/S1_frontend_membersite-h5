@@ -264,5 +264,7 @@ export default [
 	"lbl_Setting",
 	"lbl_Other",
 	"lbl_Themes",
-	"lbl_Languages"
+	"lbl_Languages",
+	"msg_ForceLogedoutHint",
+	"lbl_Details"
 ];

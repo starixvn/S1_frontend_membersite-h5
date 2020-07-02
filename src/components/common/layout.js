@@ -71,7 +71,7 @@ const defPageInfo = {
 		hideLogo: true
 	},
 	setting: {
-		titleKey: "setting",
+		titleKey: "lbl_Setting",
 		className: "main",
 		hideLogo: true
 	},

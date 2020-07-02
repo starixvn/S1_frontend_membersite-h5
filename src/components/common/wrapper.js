@@ -59,7 +59,7 @@ export const Wrapper = ({ children }) => {
 			setPopBox({
 				isOpen: true,
 				title: i18n.lbl_ImportantNote,
-				content: errMsg ?? i18n.msg_ForceLogedout
+				content: errMsg ?? i18n.msg_ForceLogedoutHint
 			});
 		}
 	};
