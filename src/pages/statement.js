@@ -22,6 +22,7 @@ const IndexPage = () => {
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	const [processing, setProcessing] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [clickSubmit, setClickSubmit] = useState(false);
 	const isMountedRef = useRef(null);
 
 	useEffect(() => {
@@ -37,7 +38,8 @@ const IndexPage = () => {
 		setPageInfo,
 		setPopBox,
 		processing,
-		setProcessing
+		setProcessing,
+		clickSubmit
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {
@@ -53,6 +55,8 @@ const IndexPage = () => {
 				};
 				setFilterData(transactionData);
 			}
+
+			setClickSubmit(true);
 			api_GetStatement({
 				...transactionData,
 				PageNumber: 1
@@ -102,7 +106,7 @@ const IndexPage = () => {
 	let arr = getHistoryState?.map(item => {
 		return (
 			<TransactionHistory
-				key={`statementHistory-${item.refTransId}`}
+				key={`statementHistory-${item.refTransId}-${item.direction}`}
 				createTime={item.createTime}
 				typeName={item.typeName}
 				_isConvert={_isConvert}

@@ -34,7 +34,8 @@ const Panel = () => {
 		setPageInfo,
 		setPopBox,
 		processing,
-		setProcessing
+		setProcessing,
+		true
 	);
 
 	useEffect(() => {

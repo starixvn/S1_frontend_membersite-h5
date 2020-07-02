@@ -22,6 +22,7 @@ const Panel = () => {
 	const [loading, setLoading] = useState(false);
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	const isMountedRef = useRef(null);
+	const [clickSubmit, setClickSubmit] = useState(false);
 
 	useEffect(() => {
 		isMountedRef.current = true;
@@ -35,7 +36,8 @@ const Panel = () => {
 		setPageInfo,
 		setPopBox,
 		processing,
-		setProcessing
+		setProcessing,
+		clickSubmit
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {
@@ -52,6 +54,7 @@ const Panel = () => {
 				setFilterData(transactionData);
 			}
 
+			setClickSubmit(true);
 			api_GetWithdrawalInfoHistory({
 				...transactionData,
 				PageNumber: 1

@@ -20,6 +20,7 @@ const Panel = () => {
 	const [filterData, setFilterData] = useState(null);
 	const [processing, setProcessing] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [clickSubmit, setClickSubmit] = useState(false);
 
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	const isMountedRef = useRef(null);
@@ -36,7 +37,8 @@ const Panel = () => {
 		setPageInfo,
 		setPopBox,
 		processing,
-		setProcessing
+		setProcessing,
+		clickSubmit
 	);
 
 	const submitHandler = (startDay, endDay, isUnix) => {
@@ -54,7 +56,7 @@ const Panel = () => {
 			}
 
 			setFilterData(transactionData);
-
+			setClickSubmit(true);
 			api_GetDepositInfoHistory({
 				...transactionData,
 				PageNumber: 1
