@@ -3,12 +3,14 @@ import { i18nContext, popBoxContext } from "../common/context";
 import { api_UploadCustPhotoId } from "../../service/api/accountStrict";
 import { Redirect } from "@reach/router";
 import path from "../../path";
+import Loading from "../common/loading";
 
 export default () => {
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [processing, setProcessing] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [file, setFile] = useState(null);
 	const isMountedRef = useRef(null);
 
@@ -29,6 +31,8 @@ export default () => {
 	};
 
 	const onUploadFile = () => {
+		setLoading(true);
+
 		if (file !== null && !processing) {
 			setProcessing(true);
 			let formData = new FormData();
@@ -47,6 +51,7 @@ export default () => {
 							});
 						}
 						setProcessing(false);
+						setLoading(false);
 					}
 				},
 				err => {
@@ -57,6 +62,7 @@ export default () => {
 							content: i18n.msg_ApiServerError
 						});
 						setProcessing(false);
+						setLoading(false);
 					}
 				}
 			);
@@ -65,6 +71,8 @@ export default () => {
 
 	return redirectPath !== null ? (
 		<Redirect to={redirectPath} noThrow />
+	) : loading ? (
+		<Loading />
 	) : (
 		<>
 			<div className="step">
