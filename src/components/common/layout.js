@@ -79,6 +79,16 @@ const defPageInfo = {
 		titleKey: "lbl_Promotion",
 		className: "main promotions",
 		hideLogo: true
+	},
+	kyc: {
+		titleKey: "lbl_SubmitPhotoId",
+		className: "main kyc",
+		hideLogo: true
+	},
+	kycWaiting: {
+		titleKey: "lbl_SubmitPhotoId",
+		className: "main kyc",
+		hideLogo: true
 	}
 };
 
