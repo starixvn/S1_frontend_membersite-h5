@@ -71,13 +71,23 @@ const defPageInfo = {
 		hideLogo: true
 	},
 	setting: {
-		titleKey: "setting",
+		titleKey: "lbl_Setting",
 		className: "main",
 		hideLogo: true
 	},
 	promotion: {
-		titleKey: "promotion",
+		titleKey: "lbl_Promotion",
 		className: "main promotions",
+		hideLogo: true
+	},
+	kyc: {
+		titleKey: "lbl_SubmitPhotoId",
+		className: "main kyc",
+		hideLogo: true
+	},
+	kycWaiting: {
+		titleKey: "lbl_SubmitPhotoId",
+		className: "main kyc",
 		hideLogo: true
 	}
 };
