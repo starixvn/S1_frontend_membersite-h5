@@ -10,6 +10,7 @@ import LIVEcasino_ComingSoon from "../styles/Nova88/img/coming_soon.jpg";
 
 import keno from "../styles/Nova88/img/keno.jpg";
 import lottery from "../styles/Nova88/img/lottery.jpg";
+import id4d from "../styles/Nova88/img/id4d.jpg";
 import fishing from "../styles/Nova88/img/fish.jpg";
 
 import casino_GPI from "../styles/Nova88/img/casino_GPI.jpg";
@@ -140,6 +141,13 @@ const gameList = [
 		categoryIcon: "kelo",
 		translateKey: "lbl_KenoAndLottery",
 		items: [
+			{
+				icon: "lottery",
+				gameId: 223,
+				tpId: 1,
+				img: id4d,
+				spanTextKey: "lbl_Indo4d"
+			},
 			{
 				icon: "keno",
 				gameId: 202,

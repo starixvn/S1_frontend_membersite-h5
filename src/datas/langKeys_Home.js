@@ -280,5 +280,6 @@ export default [
 	"lbl_SubmitPhotoId",
 	"lbl_Success",
 	"msg_ForceLogedoutHint",
-	"lbl_Details"
+	"lbl_Details",
+	"lbl_Indo4d"
 ];
