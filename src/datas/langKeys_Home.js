@@ -264,5 +264,18 @@ export default [
 	"lbl_Setting",
 	"lbl_Other",
 	"lbl_Themes",
-	"lbl_Languages"
+	"lbl_Languages",
+	"lbl_WaitKYCHint",
+	"lbl_SubmitPhotoIdList",
+	"lbl_WaitKYC",
+	"lbl_NationalIdentityCard",
+	"lbl_Passport",
+	"lbl_DrivingLicense",
+	"lbl_BirthCertificate",
+	"lbl_KYCSubmitHint",
+	"lbl_UploadPhotoId",
+	"lbl_SelectFile",
+	"lbl_SubmitPhotoIdHint",
+	"lbl_SubmitPhotoId",
+	"lbl_Success"
 ];

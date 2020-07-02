@@ -40,3 +40,10 @@ export const api_ResetPassword = ({ NewPassword }) =>
 	accountStrictRequest.post("/ResetPassword", {
 		NewPassword
 	});
+
+export const api_UploadCustPhotoId = formData =>
+	accountStrictRequest.post("/UploadCustPhotoId", formData, {
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
+	});

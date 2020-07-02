@@ -104,5 +104,11 @@ export default {
 				root: "other"
 			}
 		}
+	},
+	kyc: {
+		root: "kyc"
+	},
+	kycWaiting: {
+		root: "kycWaiting"
 	}
 };

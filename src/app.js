@@ -57,6 +57,9 @@ import Setting from "./pages/setting.js";
 import SettingInfo from "./components/setting/settingInfo";
 import Other from "./components/setting/other";
 
+import Kyc from "./components/withdrawal/kyc";
+import KycWaiting from "./components/withdrawal/kycWaiting";
+
 const Index = () => {
 	let history = createHistory(window);
 	return (
@@ -113,6 +116,8 @@ const Index = () => {
 								path={path.withdrawal.sub.history.root}
 							/>
 						</Withdrawal>
+						<Kyc path={path.kyc.root} />
+						<KycWaiting path={path.kycWaiting.root} />
 						<Transfer path={path.transfer.root}>
 							<TransferHome path={path.transfer.sub.root} />
 							<TransferHistory
