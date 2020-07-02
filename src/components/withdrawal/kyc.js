@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { i18nContext, popBoxContext } from "../common/context";
 import { api_UploadCustPhotoId } from "../../service/api/accountStrict";
+import { api_KycCheck } from "../../service/api/payment";
 import { Redirect } from "@reach/router";
 import path from "../../path";
 
@@ -22,6 +23,18 @@ export default () => {
 			setRedirectPath(null);
 		}
 	}, [redirectPath]);
+
+	useEffect(() => {
+		api_KycCheck().then(res => {
+			if (isMountedRef.current) {
+				if (res.data.errorCode === 2) {
+					setRedirectPath(`/${path.kycWaiting.root}`);
+				} else if (res.data.errorCode !== 1) {
+					setRedirectPath(`/${path.withdrawal.root}`);
+				}
+			}
+		});
+	});
 
 	const onChangeUpload = e => {
 		let newFile = e.target.files[0];

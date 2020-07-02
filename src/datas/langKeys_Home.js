@@ -127,6 +127,7 @@ export default [
 	"lbl_WithdrawalStatus5",
 	"lbl_WithdrawalStatus6",
 	"lbl_WithdrawalStatus7",
+	"lbl_WithdrawalStatus8",
 	"lbl_Wallet_Saba",
 	"lbl_MainWallet",
 	"lbl_Direction",

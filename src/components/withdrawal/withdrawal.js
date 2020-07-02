@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
 import { number_format, isConvert, checkAmount } from "../common/common";
 import {
@@ -8,7 +8,8 @@ import {
 import {
 	api_WithdrawalReq,
 	api_GetWithdrawalInfoRecent,
-	api_SetWithdrawalCancel
+	api_SetWithdrawalCancel,
+	api_KycCheck
 } from "../../service/api/payment";
 import InputBox from "../common/inputbox";
 import config from "../../config";
@@ -37,58 +38,51 @@ const Panel = () => {
 	const [pageVerify, setPageVerify] = useState(true);
 	const [loading, setLoading] = useState(true);
 
+	const isMountedRef = useRef(null);
 	useEffect(() => {
-		let mounted = true;
-		if (mounted && redirectPath !== null) {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
 			setRedirectPath(null);
 		}
-		return () => (mounted = false);
 	}, [redirectPath]);
 
 	useEffect(() => {
-		let mounted = true;
-		if (mounted) {
-			if (
-				userInfo.isLogin &&
-				userInfo.currencyId &&
-				(!userInfo.accountName ||
-					!userInfo.birth_d ||
-					!userInfo.phoneNo)
-			) {
-				const ClosePopBox = () => {
-					setPopBox({ isOpen: false });
-					setRedirectPath(`/${path.member.root}`);
-				};
+		if (
+			userInfo.isLogin &&
+			userInfo.currencyId &&
+			(!userInfo.accountName || !userInfo.birth_d || !userInfo.phoneNo)
+		) {
+			const ClosePopBox = () => {
+				setPopBox({ isOpen: false });
+				setRedirectPath(`/${path.member.root}`);
+			};
 
-				if (mounted) {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.lbl_UpdatePersonalInfo,
-						hasBtn: true,
-						hideCloseBtn: true,
-						btnBar: (
-							<div className="btn-group">
-								<button className="blue" onClick={ClosePopBox}>
-									{i18n.lbl_UpdatePersonalDetail}
-								</button>
-							</div>
-						)
-					});
+			if (isMountedRef.current) {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: i18n.lbl_UpdatePersonalInfo,
+					hasBtn: true,
+					hideCloseBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={ClosePopBox}>
+								{i18n.lbl_UpdatePersonalDetail}
+							</button>
+						</div>
+					)
+				});
 
-					setLoading(false);
-					setPageVerify(false);
-				}
-			} else {
-				if (mounted) {
-					setPageVerify(true);
-				}
+				setLoading(false);
+				setPageVerify(false);
 			}
+		} else {
+			KycCheck(true);
 		}
-
-		return () => {
-			mounted = false;
-		};
 	}, [
 		userInfo.accountName,
 		userInfo.birth_d,
@@ -99,19 +93,38 @@ const Panel = () => {
 		setPopBox
 	]);
 
+	const KycCheck = async UpdatePageVerify => {
+		let executeKycProcess = await api_KycCheck().then(res => {
+			if (isMountedRef.current) {
+				if (res.data.errorCode === 1) {
+					setRedirectPath(`/${path.kyc.root}`);
+				} else if (res.data.errorCode === 2) {
+					setRedirectPath(`/${path.kycWaiting.root}`);
+				} else {
+					if (isMountedRef.current && UpdatePageVerify) {
+						setPageVerify(true);
+					}
+				}
+			}
+
+			return res.data.errorCode === 1 || res.data.errorCode === 2;
+		});
+
+		return executeKycProcess;
+	};
+
 	useEffect(() => {
-		let mounted = true;
 		if (userInfo.isLogin) {
 			setLoading(true);
 			api_GetWithdrawalAvailableBalance().then(
 				res => {
-					if (res.data.errorCode === 0 && mounted) {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
 						setBalanceInfo(res.data.data);
 						setLoading(false);
 					}
 				},
 				err => {
-					if (mounted) {
+					if (isMountedRef.current) {
 						setLoading(false);
 					}
 				}
@@ -122,7 +135,7 @@ const Panel = () => {
 					if (res.data.errorCode === 0) {
 						if (res.data.data !== null) {
 							if (res.data.data.bankInfoDetail) {
-								if (mounted) {
+								if (isMountedRef.current) {
 									setbankInfo(() => ({
 										accountName: res.data.data.accountName,
 										bankList: res.data.data.bankInfoDetail
@@ -142,7 +155,7 @@ const Panel = () => {
 									);
 								};
 
-								if (mounted) {
+								if (isMountedRef.current) {
 									setPopBox({
 										isOpen: true,
 										title: i18n.lbl_ImportantNote,
@@ -166,31 +179,29 @@ const Panel = () => {
 						}
 					}
 
-					if (mounted) {
+					if (isMountedRef.current) {
 						setLoading(false);
 					}
 				},
 				err => {
-					if (mounted) {
+					if (isMountedRef.current) {
 						setLoading(false);
 					}
 				}
 			);
 
 			api_GetWithdrawalInfoRecent().then(res => {
-				if (res.data.errorCode === 0 && mounted) {
+				if (res.data.errorCode === 0 && isMountedRef.current) {
 					setRecentDatas(res.data.data);
 				}
 			});
 		}
-
-		return () => (mounted = false);
 	}, [i18n, setPopBox, userInfo.isLogin, pageVerify]);
 
 	const GetBalance = () => {
 		if (pageVerify) {
 			api_GetWithdrawalAvailableBalance().then(res => {
-				if (res.data.errorCode === 0) {
+				if (res.data.errorCode === 0 && isMountedRef.current) {
 					setBalanceInfo(res.data.data);
 				}
 			});
@@ -238,52 +249,69 @@ const Panel = () => {
 				const RedirectToNext = (accountNo, _real_amount, sysId) => {
 					api_WithdrawalReq(accountNo, _real_amount, sysId).then(
 						res => {
-							if (res.data.errorCode === 0) {
-								setAmount("");
-								api_GetWithdrawalInfoRecent().then(res => {
-									if (res.data.errorCode === 0) {
-										setRecentDatas(res.data.data);
+							if (isMountedRef.current) {
+								if (
+									res.data.errorCode === 0 ||
+									res.data.errorCode === 2
+								) {
+									let kycProcess = KycCheck(false);
+									if (!kycProcess) {
+										setAmount("");
+										api_GetWithdrawalInfoRecent().then(
+											res => {
+												if (
+													res.data.errorCode === 0 &&
+													isMountedRef.current
+												) {
+													setRecentDatas(
+														res.data.data
+													);
+												}
+											}
+										);
 									}
-								});
-								setPopBox({ isOpen: false });
-							} else {
-								let content = res.data.message;
-								if (res.data.errorCode === -1) {
-									content = `${
-										i18n.lbl_RolloverOver
-									}: ${number_format(
-										parseFloat(res.data.message),
-										_isConvert
-									)}`;
-								} else if (res.data.errorCode === -2) {
-									content = `${
-										i18n.lbl_DepositOver
-									}: ${number_format(
-										parseFloat(res.data.message),
-										_isConvert
-									)}`;
-								} else if (res.data.errorCode === -3) {
-									content = `${
-										i18n.lbl_WithdrawalOver
-									}: ${number_format(
-										parseFloat(res.data.message),
-										_isConvert
-									)}`;
+									setPopBox({ isOpen: false });
+								} else {
+									let content = res.data.message;
+									if (res.data.errorCode === -1) {
+										content = `${
+											i18n.lbl_RolloverOver
+										}: ${number_format(
+											parseFloat(res.data.message),
+											_isConvert
+										)}`;
+									} else if (res.data.errorCode === -2) {
+										content = `${
+											i18n.lbl_DepositOver
+										}: ${number_format(
+											parseFloat(res.data.message),
+											_isConvert
+										)}`;
+									} else if (res.data.errorCode === -3) {
+										content = `${
+											i18n.lbl_WithdrawalOver
+										}: ${number_format(
+											parseFloat(res.data.message),
+											_isConvert
+										)}`;
+									}
+									setPopBox({
+										isOpen: true,
+										title: i18n.lbl_ImportantNote,
+										content: content,
+										hasBtn: false
+									});
 								}
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: content,
-									hasBtn: false
-								});
 							}
 						},
 						err => {
-							this.props.setPopBox({
-								isOpen: true,
-								title: this.props.i18n.lbl_ImportantNote,
-								content: this.props.i18n.msg_ApiServerError
-							});
+							if (isMountedRef.current) {
+								this.props.setPopBox({
+									isOpen: true,
+									title: this.props.i18n.lbl_ImportantNote,
+									content: this.props.i18n.msg_ApiServerError
+								});
+							}
 						}
 					);
 				};
@@ -360,26 +388,30 @@ const Panel = () => {
 				setPopBox({ isOpen: false });
 				api_SetWithdrawalCancel(transId).then(
 					res => {
-						if (res.data.errorCode === 0) {
-							api_GetWithdrawalInfoRecent().then(res => {
-								if (res.data.errorCode === 0) {
-									setRecentDatas(res.data.data);
-								}
-							});
-						} else {
-							this.props.setPopBox({
-								isOpen: true,
-								title: this.props.i18n.lbl_ImportantNote,
-								content: res.data.message
-							});
+						if (isMountedRef.current) {
+							if (res.data.errorCode === 0) {
+								api_GetWithdrawalInfoRecent().then(res => {
+									if (res.data.errorCode === 0) {
+										setRecentDatas(res.data.data);
+									}
+								});
+							} else {
+								this.props.setPopBox({
+									isOpen: true,
+									title: this.props.i18n.lbl_ImportantNote,
+									content: res.data.message
+								});
+							}
 						}
 					},
 					err => {
-						this.props.setPopBox({
-							isOpen: true,
-							title: this.props.i18n.lbl_ImportantNote,
-							content: this.props.i18n.msg_ApiServerError
-						});
+						if (isMountedRef.current) {
+							this.props.setPopBox({
+								isOpen: true,
+								title: this.props.i18n.lbl_ImportantNote,
+								content: this.props.i18n.msg_ApiServerError
+							});
+						}
 					}
 				);
 			};

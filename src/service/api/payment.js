@@ -83,3 +83,5 @@ export const api_GetWithdrawalInfoRecent = () =>
 
 export const api_SetWithdrawalCancel = TransId =>
 	paymentRequest.post("/SetWithdrawalCancel", { TransId });
+
+export const api_KycCheck = () => paymentRequest.post("/KycCheck");

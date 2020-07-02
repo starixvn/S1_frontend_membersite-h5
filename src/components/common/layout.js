@@ -86,7 +86,7 @@ const defPageInfo = {
 		hideLogo: true
 	},
 	kycWaiting: {
-		titleKey: "lbl_SubmitPhotoId",
+		titleKey: "lbl_WaitKYC",
 		className: "main kyc",
 		hideLogo: true
 	}

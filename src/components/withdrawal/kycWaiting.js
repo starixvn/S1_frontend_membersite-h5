@@ -1,10 +1,40 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { i18nContext } from "../common/context";
+import { api_KycCheck } from "../../service/api/payment";
+import { Redirect } from "@reach/router";
+import path from "../../path";
 
 export default () => {
 	const { i18n } = useContext(i18nContext);
+	const [redirectPath, setRedirectPath] = useState(null);
+	const isMountedRef = useRef(null);
 
-	return (
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath]);
+
+	useEffect(() => {
+		api_KycCheck().then(res => {
+			if (isMountedRef.current) {
+				if (res.data.errorCode === 1) {
+					setRedirectPath(`/${path.kyc.root}`);
+				} else if (res.data.errorCode !== 2) {
+					setRedirectPath(`/${path.withdrawal.root}`);
+				}
+			}
+		});
+	});
+
+	return redirectPath !== null ? (
+		<Redirect to={redirectPath} noThrow />
+	) : (
 		<>
 			<div className="step">
 				<div className="stepLine">
@@ -22,11 +52,7 @@ export default () => {
 				</div>
 			</div>
 			<div className="icon icon-like"></div>
-			<span className="text-center">
-				{i18n.lbl_WaitKYC}
-				<br />
-				{i18n.lbl_WaitKYCHint}
-			</span>
+			<span className="text-center">{i18n.lbl_WaitKYCHint}</span>
 		</>
 	);
 };
