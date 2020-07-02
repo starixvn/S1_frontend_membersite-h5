@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { userInfoContext } from "../components/common/context";
+import { userInfoContext, i18nContext } from "../components/common/context";
 import { api_GetBanner } from "../service/api/site";
 import config from "../config";
 
 const IndexPage = () => {
 	const { userInfo } = useContext(userInfoContext);
+	const { i18n } = useContext(i18nContext);
 	const [promotion, setPromotion] = useState([]);
 
 	useEffect(() => {
@@ -49,7 +50,7 @@ const IndexPage = () => {
 				<div className="protitle">{p.title?.[lang]}</div>
 				<div className="text"></div>
 				<div className="btn-group">
-					<button className="orange">DETAILS</button>
+					<button className="orange">{i18n.lbl_Details}</button>
 				</div>
 			</a>
 		);

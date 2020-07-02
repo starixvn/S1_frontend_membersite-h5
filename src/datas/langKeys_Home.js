@@ -277,5 +277,7 @@ export default [
 	"lbl_SelectFile",
 	"lbl_SubmitPhotoIdHint",
 	"lbl_SubmitPhotoId",
-	"lbl_Success"
+	"lbl_Success",
+	"msg_ForceLogedoutHint",
+	"lbl_Details"
 ];

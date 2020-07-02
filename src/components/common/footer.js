@@ -55,7 +55,7 @@ const Footer = () => {
 					<div className="circleAnimation">
 						<div className="icon icon-contact"></div>
 					</div>
-					<span>{i18n.LiveChat}</span>
+					<span>{i18n.lbl_LiveChat}</span>
 				</a>
 				<Match path={path.setting.root}>
 					{props => {
@@ -122,7 +122,7 @@ const Footer = () => {
 					<div className="circleAnimation">
 						<div className="icon icon-contact"></div>
 					</div>
-					<span>{i18n.LiveChat}</span>
+					<span>{i18n.lbl_LiveChat}</span>
 				</a>
 
 				<Match path={path.member.root}>
