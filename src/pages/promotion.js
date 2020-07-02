@@ -11,7 +11,11 @@ const IndexPage = () => {
 		let mounted = true;
 		api_GetBanner("Promotion").then(res => {
 			if (res.data.errorCode === 0 && mounted) {
-				setPromotion(res.data.data);
+				setPromotion(
+					res.data.data.filter(b => {
+						return b.isBonus === true;
+					})
+				);
 			}
 		});
 
@@ -19,34 +23,34 @@ const IndexPage = () => {
 	}, [userInfo]);
 
 	return promotion.map(p => {
-		let content = (
-			<>
+		let lang = p.lang.includes(userInfo.langId) ? userInfo.langId : "en";
+		let actionLinkByLang = p.actionLinkByLang?.find(
+			a => a.lang === userInfo.langId
+		);
+		let actionLink = actionLinkByLang
+			? actionLinkByLang.link
+			: p.actionLink;
+
+		let href = `${config.t_and_cURL}${
+			p.urlWithLang ? `/${lang}` : ""
+		}/${actionLink}`;
+
+		return (
+			<a
+				href={href}
+				className="promodule"
+				target="_blank"
+				rel="noopener noreferrer"
+				key={`promotion-${userInfo.langId}-${p.img}`}>
 				<img
-					src={`${config.imgUrl}/CMS/Nova88/Promotion/${userInfo.langId}/${p.imgName}`}
+					src={`${config.imgUrl}/CMS/Nova88/Promotion/${lang}/${p.img}`}
 					alt={p.imgName}
 				/>
-				<div className="protitle">{p.title}</div>
+				<div className="protitle">{p.title?.[lang]}</div>
 				<div className="text"></div>
 				<div className="btn-group">
 					<button className="orange">DETAILS</button>
 				</div>
-			</>
-		);
-		return p.href ? (
-			<a
-				href={p.href}
-				className="promodule"
-				target="_blank"
-				rel="noopener noreferrer"
-				key={`promotion-${userInfo.langId}-${p.imgName}`}>
-				{content}
-			</a>
-		) : (
-			<a
-				href="#"
-				className="promodule"
-				key={`promotion-${userInfo.langId}-${p.imgName}`}>
-				{content}
 			</a>
 		);
 	});

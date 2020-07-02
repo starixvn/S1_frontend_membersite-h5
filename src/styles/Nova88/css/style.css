@@ -3371,6 +3371,13 @@ span.important {
   border: 1px dotted #ff5d00;
   margin-bottom: 3vw;
   background: rgba(0, 0, 0, 0.3);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .promotions a.promodule .protitle {
@@ -3450,6 +3457,15 @@ span.important {
   line-height: 20px;
 }
 
+.kyc .step {
+  width: 50%;
+  margin: 5vw auto;
+}
+
+.kyc .text-org {
+  text-align: left;
+}
+
 .kyc .btn-group {
   margin: 3vw 0;
 }
@@ -3461,5 +3477,20 @@ span.important {
 .kyc ul li {
   list-style: decimal;
   margin-left: 4vw;
+}
+
+.kyc .icon-like {
+  color: #fff;
+  margin: 2vw auto;
+  text-align: center;
+}
+
+.kyc .icon-like:before {
+  font-size: 13vw;
+}
+
+.text-center {
+  text-align: center;
+  color: #fff;
 }
 /*# sourceMappingURL=style.css.map */

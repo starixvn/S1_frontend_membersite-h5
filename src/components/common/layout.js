@@ -76,7 +76,7 @@ const defPageInfo = {
 		hideLogo: true
 	},
 	promotion: {
-		titleKey: "promotion",
+		titleKey: "lbl_Promotion",
 		className: "main promotions",
 		hideLogo: true
 	}
