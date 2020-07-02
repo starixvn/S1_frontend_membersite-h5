@@ -42,6 +42,18 @@
   margin-bottom: 1vw;
 }
 
+.icon-like:before {
+  content: "\e936";
+}
+
+.icon-thumbs-up:before {
+  content: "\e936";
+}
+
+.icon-approve:before {
+  content: "\e936";
+}
+
 .icon-chat:before {
   content: "\e935";
 }
