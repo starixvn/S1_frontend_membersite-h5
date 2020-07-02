@@ -45,7 +45,7 @@ const defPageInfo = {
 		className: "main Message",
 		hideLogo: true
 	},
-	announcement: {
+	[`/message/announcement`]: {
 		titleKey: "lbl_Message",
 		className: "main Announcement",
 		hideLogo: true
@@ -93,23 +93,28 @@ const defPageInfo = {
 };
 
 const GetPageInfo = locationPath => {
-	let pageInfoKey =
-		locationPath === "/"
-			? []
-			: Object.keys(path).filter(p => {
-					let _location = locationPath.split("/");
-					return _location?.[1] === path[p].root;
-			  });
+	let result = defPageInfo[locationPath];
+	if (result) {
+		return result;
+	} else {
+		let pageInfoKey =
+			locationPath === "/"
+				? []
+				: Object.keys(path).filter(p => {
+						let _location = locationPath.split("/");
+						return _location?.[1] === path[p].root;
+				  });
 
-	pageInfoKey = pageInfoKey?.length > 0 ? pageInfoKey[0] : null;
-	let pageInfo = defPageInfo[pageInfoKey] ?? null;
-	return pageInfoKey && pageInfo
-		? {
-				titleKey: pageInfo.titleKey,
-				className: pageInfo.className,
-				hideLogo: pageInfo.hideLogo
-		  }
-		: defPageInfo.default;
+		pageInfoKey = pageInfoKey?.length > 0 ? pageInfoKey[0] : null;
+		let pageInfo = defPageInfo[pageInfoKey] ?? null;
+		return pageInfoKey && pageInfo
+			? {
+					titleKey: pageInfo.titleKey,
+					className: pageInfo.className,
+					hideLogo: pageInfo.hideLogo
+			  }
+			: defPageInfo.default;
+	}
 };
 
 const Layout = ({ children }) => {
