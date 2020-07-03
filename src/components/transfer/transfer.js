@@ -77,36 +77,44 @@ const Panel = () => {
 	}, [setWalletInfo]);
 
 	const GetWalletInfo = () => {
-		setLoading(true);
-
-		api_GetWalletInfo().then(res => {
-			if (res.data.errorCode === 0) {
-				let data = res.data.data;
-				if (data !== null) {
-					let mainWallet = {
-						id: 0,
-						displayKey: "lbl_MainWallet",
-						balance: data.balance
-					};
-					let tpWalletsArr = data.tpWallets.map(i => {
-						return {
-							id: i.tpId,
-							displayKey: i.displayKey,
-							balance: i.balance
+		api_GetWalletInfo().then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let data = res.data.data;
+					if (data !== null) {
+						let mainWallet = {
+							id: 0,
+							displayKey: "lbl_MainWallet",
+							balance: data.balance
 						};
-					});
+						let tpWalletsArr = data.tpWallets.map(i => {
+							return {
+								id: i.tpId,
+								displayKey: i.displayKey,
+								balance: i.balance
+							};
+						});
 
-					if (isMountedRef.current) {
-						setGetWalletInfo([mainWallet, ...tpWalletsArr]);
-
-						setWalletInfo(prevState => ({
-							...prevState,
-							main: data.balance
-						}));
+						if (isMountedRef.current) {
+							setGetWalletInfo([mainWallet, ...tpWalletsArr]);
+							setWalletInfo(prevState => ({
+								...prevState,
+								main: data.balance
+							}));
+						}
 					}
 				}
+
+				if (isMountedRef.current) {
+					setLoading(false);
+				}
+			},
+			err => {
+				if (isMountedRef.current) {
+					setLoading(false);
+				}
 			}
-		});
+		);
 	};
 
 	const GetTransferRecent = () => {
@@ -198,8 +206,6 @@ const Panel = () => {
 							setAmount("1");
 							GetTransferRecent();
 						}
-
-						setLoading(false);
 					}
 				},
 				err => {
