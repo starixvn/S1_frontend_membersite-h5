@@ -1,5 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { i18nContext, userInfoContext, popBoxContext } from "../common/context";
+import React, { useContext, useEffect, useState, useRef } from "react";
+import {
+	i18nContext,
+	userInfoContext,
+	popBoxContext,
+	walletInfoContext
+} from "../common/context";
 import { api_GetWalletInfo } from "../../service/api/account";
 import { api_Transfer, api_GetTransferRecent } from "../../service/api/tp";
 import { isConvert, checkAmount, number_format } from "../common/common";
@@ -13,6 +18,7 @@ const Panel = () => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { setWalletInfo } = useContext(walletInfoContext);
 	const _isConvert = isConvert(userInfo.currencyId);
 
 	const [getWalletInfo, setGetWalletInfo] = useState([]);
@@ -22,45 +28,57 @@ const Panel = () => {
 	const [toSelectedIdx, setToSelectedIdx] = useState(1);
 	const [recentDatas, setRecentDatas] = useState([]);
 	const [loading, setLoading] = useState(true);
-
+	const isMountedRef = useRef(null);
 	useEffect(() => {
-		let mounted = true;
-		api_GetWalletInfo().then(res => {
-			if (res.data.errorCode === 0) {
-				let data = res.data.data;
-				if (data !== null) {
-					let mainWallet = {
-						id: 0,
-						displayKey: "lbl_MainWallet",
-						balance: data.balance
-					};
-					let tpWalletsArr = data.tpWallets.map(i => {
-						return {
-							id: i.tpId,
-							displayKey: i.displayKey,
-							balance: i.balance
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+	useEffect(() => {
+		api_GetWalletInfo().then(
+			res => {
+				if (res.data.errorCode === 0) {
+					let data = res.data.data;
+					if (data !== null) {
+						let mainWallet = {
+							id: 0,
+							displayKey: "lbl_MainWallet",
+							balance: data.balance
 						};
-					});
+						let tpWalletsArr = data.tpWallets.map(i => {
+							return {
+								id: i.tpId,
+								displayKey: i.displayKey,
+								balance: i.balance
+							};
+						});
 
-					if (mounted) {
-						setGetWalletInfo([mainWallet, ...tpWalletsArr]);
+						if (isMountedRef.current) {
+							setGetWalletInfo([mainWallet, ...tpWalletsArr]);
+						}
 					}
 				}
+
+				if (isMountedRef.current) {
+					setLoading(false);
+				}
+			},
+			err => {
+				if (isMountedRef.current) {
+					setLoading(false);
+				}
 			}
-			setLoading(false);
-		});
+		);
 
 		api_GetTransferRecent().then(res => {
-			if (res.data.errorCode === 0 && mounted) {
+			if (res.data.errorCode === 0 && isMountedRef.current) {
 				setRecentDatas(res.data.data);
 			}
-			setLoading(false);
 		});
-
-		return () => (mounted = false);
-	}, []);
+	}, [setWalletInfo]);
 
 	const GetWalletInfo = () => {
+		setLoading(true);
+
 		api_GetWalletInfo().then(res => {
 			if (res.data.errorCode === 0) {
 				let data = res.data.data;
@@ -77,7 +95,15 @@ const Panel = () => {
 							balance: i.balance
 						};
 					});
-					setGetWalletInfo([mainWallet, ...tpWalletsArr]);
+
+					if (isMountedRef.current) {
+						setGetWalletInfo([mainWallet, ...tpWalletsArr]);
+
+						setWalletInfo(prevState => ({
+							...prevState,
+							main: data.balance
+						}));
+					}
 				}
 			}
 		});
@@ -85,7 +111,7 @@ const Panel = () => {
 
 	const GetTransferRecent = () => {
 		api_GetTransferRecent().then(res => {
-			if (res.data.errorCode === 0) {
+			if (res.data.errorCode === 0 && isMountedRef.current) {
 				setRecentDatas(res.data.data);
 			}
 		});
@@ -153,23 +179,35 @@ const Panel = () => {
 				? Number(amount) * 1000
 				: Number(amount);
 
+			setLoading(true);
 			api_Transfer({
 				TpId: getWalletInfo[fromSelectedIdx].TpId ?? 1,
 				amount: real_amount,
 				direction: direction
-			}).then(res => {
-				if (res.data.errorCode !== 0) {
-					setPopBox({
-						isOpen: true,
-						title: i18n["lbl_ImportantNote"],
-						content: res.data.message
-					});
-				} else {
-					GetWalletInfo();
-					setAmount("1");
-					GetTransferRecent();
+			}).then(
+				res => {
+					if (isMountedRef.current) {
+						if (res.data.errorCode !== 0) {
+							setPopBox({
+								isOpen: true,
+								title: i18n["lbl_ImportantNote"],
+								content: res.data.message
+							});
+						} else {
+							GetWalletInfo();
+							setAmount("1");
+							GetTransferRecent();
+						}
+
+						setLoading(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
+						setLoading(false);
+					}
 				}
-			});
+			);
 		}
 	};
 
