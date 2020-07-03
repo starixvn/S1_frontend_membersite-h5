@@ -39,7 +39,7 @@ export const GET_ENTER_PAGE = ({
 
 	if (tpId === 1) {
 		if (gameId === 43) {
-			result = setResult("", true, _ACTION_TYPE.blank, tpId, gameId);
+			result = setResult("", true, _ACTION_TYPE.redirect, tpId, gameId);
 		} else if (gameId < 100) {
 			result = setResult("", false, _ACTION_TYPE.redirect, tpId, gameId);
 		} else if (gameId === 161 || gameId === 180) {
