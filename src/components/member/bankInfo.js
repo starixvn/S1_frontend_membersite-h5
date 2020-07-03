@@ -290,6 +290,7 @@ const BankInfo = () => {
 				</div>
 			)
 		});
+		setLoading(false);
 	};
 
 	const realNameCheck = () => {
