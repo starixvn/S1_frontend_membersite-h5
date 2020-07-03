@@ -629,7 +629,7 @@ main .gameList a {
           align-items: flex-end;
   position: relative;
   overflow: hidden;
-  opacity: 0.85;
+  opacity: 0.6;
 }
 
 main .gameList a.open {
@@ -715,6 +715,9 @@ main .thBar a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 main .thBar a.icon:before {
