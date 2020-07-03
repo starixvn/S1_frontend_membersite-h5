@@ -131,7 +131,7 @@ class CateGoryContent extends Component {
 		if (this.checkScrollTimer !== null) {
 			clearTimeout(this.checkScrollTimer);
 		}
-		this.checkScrollTimer = setTimeout(this.ScrollBarListener, 150);
+		this.checkScrollTimer = setTimeout(this.ScrollBarListener, 10);
 	};
 	componentWillUnmount() {
 		this.mounted = false;

@@ -92,14 +92,9 @@ const gameList = [
 		comingSoonImg: LIVEcasino_ComingSoon,
 		items: [
 			{
-				tpId: 6,
-				parameter: { tpId: 6 },
-				img: casino_GPI
-			},
-			{
-				tpId: 14,
-				parameter: { tpId: 14 },
-				img: casino_PG
+				gameId: 208,
+				tpId: 1,
+				img: casino_ow
 			},
 			{
 				tpId: 5,
@@ -112,9 +107,9 @@ const gameList = [
 				img: casino_SG
 			},
 			{
-				tpId: 8,
-				parameter: { tpId: 8 },
-				img: casino_YGG
+				tpId: 14,
+				parameter: { tpId: 14 },
+				img: casino_PG
 			},
 			{
 				tpId: 9,
@@ -122,9 +117,14 @@ const gameList = [
 				img: casino_JOKER
 			},
 			{
-				gameId: 208,
-				tpId: 1,
-				img: casino_ow
+				tpId: 8,
+				parameter: { tpId: 8 },
+				img: casino_YGG
+			},
+			{
+				tpId: 6,
+				parameter: { tpId: 6 },
+				img: casino_GPI
 			}
 		]
 	},
