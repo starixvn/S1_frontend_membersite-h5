@@ -55,17 +55,17 @@ const defPageInfo = {
 		className: "main casino",
 		hideLogo: true
 	},
-	forgetPwd: {
+	forgetPassword: {
 		titleKey: "lbl_ForgetPassword",
 		className: "main",
 		hideLogo: true
 	},
-	resetPwd: {
+	resetPassword: {
 		titleKey: "lbl_ResetPassword",
 		className: "main",
 		hideLogo: true
 	},
-	changePwd: {
+	changePassword: {
 		titleKey: "lbl_ChangePassword",
 		className: "main",
 		hideLogo: true
