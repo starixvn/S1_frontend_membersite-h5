@@ -46,7 +46,7 @@ const gameList = [
 	},
 	{
 		category: "virtualsports",
-		categoryIcon: "virtualsports",
+		categoryIcon: "e-sports",
 		translateKey: "lbl_eSports",
 		items: [
 			{
