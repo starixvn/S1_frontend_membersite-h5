@@ -29,5 +29,5 @@ export const api_ForgetPwd = ({ Email }) =>
 
 export const api_GetTpIds = () => siteRequest.post(`/GetTpIds`);
 
-export const api_GetBanner = FolderName =>
-	siteRequest.post(`/GetBanner`, `FolderName=${FolderName}`);
+export const api_GetBanner = (FolderName, lang) =>
+	siteRequest.post(`/GetBanner/${lang}`, `FolderName=${FolderName}`);

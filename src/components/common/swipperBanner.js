@@ -18,7 +18,7 @@ const Panel = ({ ImgFolder }) => {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetBanner(ImgFolder).then(res => {
+		api_GetBanner(ImgFolder, userInfo.langId).then(res => {
 			if (res.data.errorCode === 0 && mounted) {
 				setBanner(res.data.data);
 			}
@@ -28,10 +28,12 @@ const Panel = ({ ImgFolder }) => {
 	}, [userInfo, ImgFolder]);
 
 	const ClickLink = (tpId, gameId, lang, href, isOuterLink, urlWithLang) => {
-		if (tpId === null) {
-			if (href === "Casino/Lobby") {
-				window.location.href = `/${path.casino.root}`;
-			} else if (href === "Promotion/Index") {
+		if (href === "Casino/Lobby") {
+			window.location.href = `/${path.casino.root}${
+				tpId ? `/${tpId}` : ""
+			}`;
+		} else if (tpId === null) {
+			if (href === "Promotion/Index") {
 				window.location.href = `/${path.promotion.root}`;
 			} else if (href === "Home/Register") {
 			} else {

@@ -67,7 +67,7 @@ const Index = () => {
 			<LocationProvider history={history}>
 				<Layout>
 					<Router>
-						<Home path={path.home.root} />
+						<Home path={path.home.root} default />
 						<ForgetPwd path={path.forgetPassword.root} />
 						<ResetPwd path={path.resetPassword.root} />
 						<ChangePwd path={path.changePassword.root} />
@@ -131,7 +131,8 @@ const Index = () => {
 								path={path.message.sub.announcement.root}
 							/>
 						</Message>
-						<Casino path={path.casino.root} />
+						<Casino path={`${path.casino.root}`} />
+						<Casino path={`${path.casino.root}/:tpId`} />
 						<Setting path={path.setting.root}>
 							<SettingInfo path={path.setting.sub.root} />
 							<Other path={path.setting.sub.other.root} />
