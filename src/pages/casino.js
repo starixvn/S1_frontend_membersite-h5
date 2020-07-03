@@ -399,6 +399,7 @@ const IndexPage = props => {
 	const { userInfo } = useContext(userInfoContext);
 
 	let tpId = props.tpId ?? props.location.state?.tpId;
+	tpId = typeof tpId === "string" && !isNaN(tpId) ? Number(tpId) : tpId;
 	return (
 		<Panel i18n={i18n} userInfo={userInfo} setNav={setNav} tpId={tpId} />
 	);
