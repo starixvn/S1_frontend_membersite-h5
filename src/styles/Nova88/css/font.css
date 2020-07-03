@@ -42,48 +42,20 @@
   margin-bottom: 1vw;
 }
 
-.icon-like:before {
-  content: "\e936";
+.icon-member:before {
+  font-size: 6.3vw !important;
 }
 
-.icon-thumbs-up:before {
-  content: "\e936";
+.icon-cog:before {
+  font-size: 6.3vw !important;
 }
 
-.icon-approve:before {
-  content: "\e936";
+.icon-virtual-Sports:before {
+  content: "\e93a";
 }
 
-.icon-chat:before {
-  content: "\e935";
-}
-
-.icon-bubbles:before {
-  content: "\e935";
-}
-
-.icon-talk:before {
-  content: "\e935";
-}
-
-.icon-message:before {
-  content: "\e935";
-}
-
-.icon-conversation:before {
-  content: "\e935";
-}
-
-.icon-moon:before {
-  content: "\e91d";
-}
-
-.icon-message-typing:before {
-  content: "\e933";
-}
-
-.icon-cake:before {
-  content: "\e91e";
+.icon-statement1:before {
+  content: "\e938";
 }
 
 .icon-statement:before {
@@ -250,12 +222,60 @@
   content: "\e90e";
 }
 
-.icon-virtualsports:before {
+.icon-e-sports:before {
   content: "\e90f";
 }
 
 .icon-withdrawal:before {
   content: "\e910";
+}
+
+.icon-gift:before {
+  content: "\e939";
+}
+
+.icon-like:before {
+  content: "\e936";
+}
+
+.icon-thumbs-up:before {
+  content: "\e936";
+}
+
+.icon-approve:before {
+  content: "\e936";
+}
+
+.icon-chat:before {
+  content: "\e935";
+}
+
+.icon-bubbles:before {
+  content: "\e935";
+}
+
+.icon-talk:before {
+  content: "\e935";
+}
+
+.icon-message:before {
+  content: "\e935";
+}
+
+.icon-conversation:before {
+  content: "\e935";
+}
+
+.icon-moon:before {
+  content: "\e91d";
+}
+
+.icon-message-typing:before {
+  content: "\e933";
+}
+
+.icon-cake:before {
+  content: "\e91e";
 }
 
 .icon-home:before {
@@ -344,6 +364,10 @@
 
 .icon-cog:before {
   content: "\e994";
+}
+
+.icon-cogs:before {
+  content: "\e995";
 }
 
 .icon-bin:before {

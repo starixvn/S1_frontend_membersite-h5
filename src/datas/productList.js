@@ -1,6 +1,6 @@
-import path from "../path";
 import sport from "../styles/Nova88/img/sport.jpg";
 import virtual_sports from "../styles/Nova88/img/virtual_sports.jpg";
+import eSports from "../styles/Nova88/img/e-sports.jpg";
 import LIVEcasino_PP from "../styles/Nova88/img/LIVEcasino_PP.jpg";
 import LIVEcasino_AG from "../styles/Nova88/img/LIVEcasino_AG.jpg";
 import LIVEcasino_DG from "../styles/Nova88/img/LIVEcasino_DG.jpg";
@@ -36,7 +36,7 @@ const gameList = [
 				spanTextKey: "lbl_Sports"
 			},
 			{
-				icon: "virtualsports",
+				icon: "virtual_Sports",
 				gameId: 180,
 				tpId: 1,
 				img: virtual_sports,
@@ -50,9 +50,9 @@ const gameList = [
 		translateKey: "lbl_eSports",
 		items: [
 			{
-				icon: "virtualsports",
+				icon: "e_sports",
 				gameId: 43,
-				img: virtual_sports,
+				img: eSports,
 				tpId: 1,
 				spanTextKey: "lbl_eSports"
 			}

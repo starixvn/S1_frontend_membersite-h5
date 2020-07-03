@@ -31,7 +31,7 @@ export const Wrapper = ({ children }) => {
 		main: null
 	});
 	const [msgCount, setMsgCount] = useState(0);
-	const [theme, setTheme] = useState(themeList.default);
+	const [theme, setTheme] = useState(themeList.dark);
 
 	const isMountedRef = useRef(null);
 	useEffect(() => {
