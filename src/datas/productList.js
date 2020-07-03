@@ -12,6 +12,7 @@ import keno from "../styles/Nova88/img/keno.jpg";
 import lottery from "../styles/Nova88/img/lottery.jpg";
 import id4d from "../styles/Nova88/img/id4d.jpg";
 import fishing from "../styles/Nova88/img/fish.jpg";
+import number_game from "../styles/Nova88/img/number_game.jpg";
 
 import casino_GPI from "../styles/Nova88/img/casino_GPI.jpg";
 import casino_ow from "../styles/Nova88/img/casino_ow.jpg";
@@ -33,6 +34,13 @@ const gameList = [
 				tpId: 1,
 				img: sport,
 				spanTextKey: "lbl_Sports"
+			},
+			{
+				icon: "virtualsports",
+				gameId: 180,
+				tpId: 1,
+				img: virtual_sports,
+				spanTextKey: "lbl_VirtualSports"
 			}
 		]
 	},
@@ -167,6 +175,13 @@ const gameList = [
 				tpId: 1,
 				img: lottery,
 				spanTextKey: "lbl_Lottery"
+			},
+			{
+				icon: "lottery",
+				gameId: 161,
+				tpId: 1,
+				img: number_game,
+				spanTextKey: "lbl_NumberGame"
 			}
 		]
 	}

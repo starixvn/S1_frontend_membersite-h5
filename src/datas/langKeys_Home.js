@@ -277,5 +277,6 @@ export default [
 	"lbl_Success",
 	"msg_ForceLogedoutHint",
 	"lbl_Details",
-	"lbl_Indo4d"
+	"lbl_Indo4d",
+	"lbl_NumberGame"
 ];
