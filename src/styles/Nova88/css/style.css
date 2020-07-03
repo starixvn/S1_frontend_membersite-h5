@@ -1945,15 +1945,20 @@ footer > a.open .circleAnimation + span {
   width: calc(100% - 16vw);
 }
 
+.icon-pencil + input {
+  text-align: right;
+}
+
 input {
   background: transparent;
   border: 1px solid #ff5d00;
   border-radius: 3px;
-  padding: 3vw 0 3vw 8vw;
+  padding: 3vw 9vw;
   width: 100%;
   color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-size: 4vw;
 }
 
 input::-webkit-input-placeholder {
