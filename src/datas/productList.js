@@ -36,7 +36,7 @@ const gameList = [
 				spanTextKey: "lbl_Sports"
 			},
 			{
-				icon: "virtual-Sports",
+				icon: "virtual-sports",
 				gameId: 180,
 				tpId: 1,
 				img: virtual_sports,

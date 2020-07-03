@@ -1,3 +1,7 @@
+html.dark body {
+  background: #333;
+}
+
 html.dark header {
   background: #191919;
 }
@@ -5,6 +9,10 @@ html.dark header {
 html.dark header .Join, html.dark header .Login {
   color: #fff;
   background: rgba(25, 25, 25, 0.95);
+}
+
+html.dark main .swiper-container {
+  background: #000;
 }
 
 html.dark main #Marquee {
