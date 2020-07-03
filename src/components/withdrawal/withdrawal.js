@@ -54,7 +54,7 @@ const Panel = () => {
 		if (
 			userInfo.isLogin &&
 			userInfo.currencyId &&
-			(!userInfo.accountName || !userInfo.birth_d || !userInfo.phoneNo)
+			(!userInfo.accountName || !userInfo.phoneNo)
 		) {
 			const ClosePopBox = () => {
 				setPopBox({ isOpen: false });
