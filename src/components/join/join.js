@@ -54,8 +54,16 @@ const initWarningState = {
 		status: false
 	},
 	Checkbox: {
-		status: false
+		status: false,
+		msg: ""
 	}
+};
+
+const initChecklistState = {
+	UserName: false,
+	Password: false,
+	Email: false,
+	Checkbox: false
 };
 
 const defaultLangId = GET_LANG_ID();
@@ -80,12 +88,7 @@ const Join = () => {
 		Currency: false
 	});
 
-	const [checklistState, setChecklistState] = useState({
-		UserName: false,
-		Password: false,
-		Email: false,
-		Checkbox: false
-	});
+	const [checklistState, setChecklistState] = useState(initChecklistState);
 
 	const isMountedRef = useRef(null);
 	useEffect(() => {
@@ -438,6 +441,15 @@ const Join = () => {
 			...prevState,
 			Checkbox: checked
 		}));
+		setWarningState(prevState => {
+			return {
+				...prevState,
+				Checkbox: {
+					status: !checked,
+					msg: i18n.lbl_Check18TCTooltip
+				}
+			};
+		});
 	};
 
 	const checklistHandler = () => {
@@ -446,8 +458,10 @@ const Join = () => {
 		let UserName = usernameCheck(userValueState.UserName);
 		let Password = passwordCheck(userValueState.Password);
 		let Email = emailCheck(userValueState.Email);
+		let Checkbox = checkboxState;
 
-		checked = UserName.checked && Password.checked && Email.checked;
+		checked =
+			UserName.checked && Password.checked && Email.checked && Checkbox;
 
 		for (let i in checklistState) {
 			if (checklistState[i] === false) {
@@ -559,6 +573,7 @@ const Join = () => {
 			setWarningState(initWarningState);
 			setcurrencyState(currencyDefaultSelectIdx);
 			setCheckboxState(false);
+			setChecklistState(initChecklistState);
 		}
 
 		if (showBylink) {
@@ -663,7 +678,9 @@ const Join = () => {
 
 				<Checkbox
 					Checked={checkboxState}
-					className="Terms"
+					className={`Terms${
+						warningState.Checkbox.status ? " error" : ""
+					}`}
 					checkboxHandler={checkboxHandler}
 					id="c1">
 					{i18n["lbl_Check18TC1"]} &nbsp;
@@ -678,10 +695,16 @@ const Join = () => {
 					.&nbsp;
 					{i18n["lbl_Check18TC4"]}
 				</Checkbox>
-
-				<button onClick={checklistHandler}>
-					{i18n["lbl_JoinNow"]}
-				</button>
+				{warningState.Checkbox.status ? (
+					<div className="JoinRule open">
+						{i18n.lbl_Check18TCTooltip}
+					</div>
+				) : null}
+				<div className="btn-group">
+					<button onClick={checklistHandler}>
+						{i18n["lbl_JoinNow"]}
+					</button>
+				</div>
 			</div>
 		</>
 	) : (
