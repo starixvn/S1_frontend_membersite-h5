@@ -98,7 +98,7 @@ class Panel extends React.Component {
 					_tpList[t.value] = { ...t };
 					if (t.gameList.data) {
 						t.gameList.data.forEach(g => {
-							if (t.value === this.props.locationState?.tpId) {
+							if (t.value === this.props.tpId) {
 								hasPromo =
 									hasPromo === false
 										? g.promotion === 1
@@ -352,7 +352,7 @@ class Panel extends React.Component {
 					TpList={this.state.tpList}
 					{...this.state.searchInfo}
 					EditSearchField={this.EditSearchField}
-					DefaultProvider={this.props.locationState?.tpId}
+					DefaultProvider={this.props.tpId}
 				/>
 
 				<Games
@@ -398,13 +398,9 @@ const IndexPage = props => {
 	const { setNav } = useContext(navContext);
 	const { userInfo } = useContext(userInfoContext);
 
+	let tpId = props.tpId ?? props.location.state?.tpId;
 	return (
-		<Panel
-			i18n={i18n}
-			userInfo={userInfo}
-			setNav={setNav}
-			locationState={props.location.state}
-		/>
+		<Panel i18n={i18n} userInfo={userInfo} setNav={setNav} tpId={tpId} />
 	);
 };
 
