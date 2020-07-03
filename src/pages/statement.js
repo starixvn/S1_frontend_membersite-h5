@@ -11,6 +11,7 @@ import HistoryFilter from "../components/common/historyFilter";
 import ReloadSpin from "../components/common/reloadSpin";
 import AUTO_FETCHING_DATA from "../service/autoFetchingData";
 import Loading from "../components/common/loading";
+import { Redirect } from "@reach/router";
 
 const IndexPage = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -24,11 +25,24 @@ const IndexPage = () => {
 	const [loading, setLoading] = useState(false);
 	const [clickSubmit, setClickSubmit] = useState(false);
 	const isMountedRef = useRef(null);
+	const [redirectPath, setRedirectPath] = useState(null);
 
 	useEffect(() => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath, setRedirectPath]);
+
+	useEffect(() => {
+		if (isMountedRef.current && userInfo.isLogin === false) {
+			setRedirectPath("/");
+		}
+	}, [userInfo.isLogin, setRedirectPath]);
 
 	AUTO_FETCHING_DATA(
 		api_GetStatement,
@@ -120,7 +134,9 @@ const IndexPage = () => {
 		);
 	});
 
-	return (
+	return redirectPath !== null ? (
+		<Redirect to="/" noThrow />
+	) : (
 		<>
 			<HistoryFilter submitHandler={submitHandler} />
 			{loading ? (
