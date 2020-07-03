@@ -36,7 +36,7 @@ const gameList = [
 				spanTextKey: "lbl_Sports"
 			},
 			{
-				icon: "virtual_Sports",
+				icon: "virtual-Sports",
 				gameId: 180,
 				tpId: 1,
 				img: virtual_sports,
@@ -50,7 +50,7 @@ const gameList = [
 		translateKey: "lbl_eSports",
 		items: [
 			{
-				icon: "e_sports",
+				icon: "e-sports",
 				gameId: 43,
 				img: eSports,
 				tpId: 1,
