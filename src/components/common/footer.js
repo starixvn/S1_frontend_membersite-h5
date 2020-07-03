@@ -16,22 +16,6 @@ const Footer = () => {
 	if (userInfo.isLogin === false) {
 		return (
 			<footer>
-				<Match path={path.home.root}>
-					{props => {
-						let isMatch = props.match !== null;
-						return (
-							<Link
-								to={path.home.root}
-								className={isMatch ? "open" : ""}>
-								<div className="circleAnimation">
-									<div className="icon icon-home"></div>
-								</div>
-								<span>{i18n.lbl_Home}</span>
-							</Link>
-						);
-					}}
-				</Match>
-
 				<Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
@@ -48,7 +32,23 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<a
+				<Match path={path.home.root}>
+					{props => {
+						let isMatch = props.match !== null;
+						return (
+							<Link
+								to={path.home.root}
+								className={isMatch ? "open" : ""}>
+								<div className="circleAnimation">
+									<div className="icon icon-home"></div>
+								</div>
+								<span>{i18n.lbl_Home}</span>
+							</Link>
+						);
+					}}
+				</Match>
+
+				{/* <a
 					target="_blank"
 					href="https://direct.lc.chat/11638088/"
 					className="">
@@ -56,7 +56,7 @@ const Footer = () => {
 						<div className="icon icon-contact"></div>
 					</div>
 					<span>{i18n.lbl_LiveChat}</span>
-				</a>
+				</a> */}
 				<Match path={path.setting.root}>
 					{props => {
 						let isMatch =
@@ -81,22 +81,6 @@ const Footer = () => {
 	} else {
 		return (
 			<footer>
-				<Match path={path.home.root}>
-					{props => {
-						let isMatch = props.match !== null;
-						return (
-							<Link
-								to={path.home.root}
-								className={isMatch ? "open" : ""}>
-								<div className="circleAnimation">
-									<div className="icon icon-home"></div>
-								</div>
-								<span>{i18n.lbl_Home}</span>
-							</Link>
-						);
-					}}
-				</Match>
-
 				<Match path={path.promotion.root}>
 					{props => {
 						let isMatch = props.match !== null;
@@ -113,7 +97,39 @@ const Footer = () => {
 					}}
 				</Match>
 
-				<a
+				<Match path={path.statement.root}>
+					{props => {
+						let isMatch = props.match !== null;
+						return (
+							<Link
+								to={path.statement.root}
+								className={isMatch ? "open" : ""}>
+								<div className="circleAnimation">
+									<div className="icon icon-statement"></div>
+								</div>
+								<span>{i18n.lbl_Statement}</span>
+							</Link>
+						);
+					}}
+				</Match>
+
+				<Match path={path.home.root}>
+					{props => {
+						let isMatch = props.match !== null;
+						return (
+							<Link
+								to={path.home.root}
+								className={isMatch ? "open" : ""}>
+								<div className="circleAnimation">
+									<div className="icon icon-home"></div>
+								</div>
+								<span>{i18n.lbl_Home}</span>
+							</Link>
+						);
+					}}
+				</Match>
+
+				{/* <a
 					target="_blank"
 					href={`https://direct.lc.chat/11638088/${
 						defChatLangSubUrl[userInfo.langId] ?? ""
@@ -123,7 +139,7 @@ const Footer = () => {
 						<div className="icon icon-contact"></div>
 					</div>
 					<span>{i18n.lbl_LiveChat}</span>
-				</a>
+				</a> */}
 
 				<Match path={path.member.root}>
 					{props => {

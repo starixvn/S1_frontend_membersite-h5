@@ -86,6 +86,10 @@
   content: "\e91e";
 }
 
+.icon-statement:before {
+  content: "\e937";
+}
+
 .icon-kelo:before {
   content: "\e931";
 }

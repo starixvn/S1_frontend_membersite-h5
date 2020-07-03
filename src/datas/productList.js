@@ -19,6 +19,7 @@ import casino_PG from "../styles/Nova88/img/casino_PG.jpg";
 import casino_PP from "../styles/Nova88/img/casino_PP.jpg";
 import casino_SG from "../styles/Nova88/img/casino_SG.jpg";
 import casino_YGG from "../styles/Nova88/img/casino_YGG.jpg";
+import casino_JOKER from "../styles/Nova88/img/casino_JOKER.jpg";
 
 const gameList = [
 	{
@@ -114,6 +115,11 @@ const gameList = [
 				tpId: 8,
 				parameter: { tpId: 8 },
 				img: casino_YGG
+			},
+			{
+				tpId: 9,
+				parameter: { tpId: 9 },
+				img: casino_JOKER
 			},
 			{
 				gameId: 208,
