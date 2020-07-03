@@ -91,10 +91,23 @@ class Panel extends React.Component {
 			if (res.data.errorCode === 0) {
 				let _tpList = {};
 				let games = [];
+
+				let hasPromo = false;
+				let hasFeature = false;
 				res.data.data.forEach(t => {
 					_tpList[t.value] = { ...t };
 					if (t.gameList.data) {
 						t.gameList.data.forEach(g => {
+							if (t.value === this.props.locationState?.tpId) {
+								hasPromo =
+									hasPromo === false
+										? g.promotion === 1
+										: hasPromo;
+								hasFeature =
+									hasFeature === false
+										? g.featured === true
+										: hasFeature;
+							}
 							games.push({
 								tpId: t.value,
 								...g
@@ -115,10 +128,16 @@ class Panel extends React.Component {
 				}
 
 				if (this.mounted) {
+					let nav = hasPromo
+						? defNav.PROMO.key
+						: hasFeature
+						? defNav.FEATURED.key
+						: defNav.ALLGAMES.key;
 					this.setState(
 						{
 							tpList: _tpList,
-							gameDatas: games
+							gameDatas: games,
+							selNav: nav
 						},
 						() => {
 							this.SetMoreItems();
