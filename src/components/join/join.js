@@ -81,6 +81,8 @@ const Join = () => {
 	const [checkboxState, setCheckboxState] = useState(false);
 	const [redirectPath, setRedirectPath] = useState(null);
 
+	const [hideCurrency, setHideCurrency] = useState(false);
+
 	const [showTipsState, setShowTipsState] = useState({
 		UserName: false,
 		Password: false,
@@ -95,6 +97,14 @@ const Join = () => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
+
+	useEffect(() => {
+		let AffId = getUrlParameter("AffId") || getCookie("AffId");
+
+		if (AffId && isMountedRef) {
+			setHideCurrency(true);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (isMountedRef.current && redirectPath !== null) {
@@ -487,11 +497,9 @@ const Join = () => {
 				UserLang: defaultLangId
 			};
 
-			regData["refId"] = getUrlParameter("refId") || getCookie("refId");
-
-			regData["affId"] = getUrlParameter("affId") || getCookie("affId");
-
-			regData["aff"] = getUrlParameter("aff");
+			regData["RefId"] = getUrlParameter("RefId") || getCookie("RefId");
+			regData["AffId"] = getUrlParameter("AffId") || getCookie("AffId");
+			regData["Aff"] = getUrlParameter("Aff") || getCookie("Aff");
 
 			api_Register(regData).then(
 				response => {
@@ -654,27 +662,25 @@ const Join = () => {
 					Warning={warningState.Email}
 					value={userValueState.Email}></Inputbox>
 
-				{/* {getUrlParameter("affId") === "" && getCookie("affId") === ""
-					? true
-					: null( */}
-				<div className="inputBox">
-					<Dropdown
-						mainKey="join-curr"
-						colName={colName[3]}
-						selectedIdx={currencyState}
-						options={siteCurrencyState}
-						clickDropdown={showTipsHandler}
-						onSelectItem={dropdownStateHandler}
-						value={userValueState.Currency}
-						i18n={i18n}></Dropdown>
-					<Tips
-						Icon="icon-coin-dollar"
-						IsOpen={showTipsState.Currency}
-						ClassName="JoinRule">
-						{i18n["lbl_PreferredCurrencyToolTip"]}
-					</Tips>
-				</div>
-				{/* )} */}
+				{hideCurrency ? null : (
+					<div className="inputBox">
+						<Dropdown
+							mainKey="join-curr"
+							colName={colName[3]}
+							selectedIdx={currencyState}
+							options={siteCurrencyState}
+							clickDropdown={showTipsHandler}
+							onSelectItem={dropdownStateHandler}
+							value={userValueState.Currency}
+							i18n={i18n}></Dropdown>
+						<Tips
+							Icon="icon-coin-dollar"
+							IsOpen={showTipsState.Currency}
+							ClassName="JoinRule">
+							{i18n["lbl_PreferredCurrencyToolTip"]}
+						</Tips>
+					</div>
+				)}
 
 				<Checkbox
 					Checked={checkboxState}

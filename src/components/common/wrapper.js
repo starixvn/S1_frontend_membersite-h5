@@ -11,6 +11,7 @@ import { IS_LOGGED_IN } from "../../service/auth";
 import { GET_LANG_ID } from "../../service/language";
 import themeList from "../../datas/theme";
 import useInterval from "../hook/useInterval";
+import { getUrlParameter, setCookie, deleteCookie } from "../common/common";
 
 export const Wrapper = ({ children }) => {
 	const [i18n, seti18n] = useState({});
@@ -38,6 +39,26 @@ export const Wrapper = ({ children }) => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
+
+	useEffect(() => {
+		let AffId = getUrlParameter("AffId");
+		let RefId = getUrlParameter("RefId");
+		let Aff = getUrlParameter("Aff");
+
+		if (AffId) {
+			setCookie("AffId", AffId, 7);
+			deleteCookie("RefId");
+			deleteCookie("Aff");
+		} else if (RefId) {
+			setCookie("RefId", RefId, 7);
+			deleteCookie("AffId");
+			deleteCookie("Aff");
+		} else if (Aff) {
+			setCookie("Aff", Aff, 7);
+			deleteCookie("AffId");
+			deleteCookie("RefId");
+		}
+	}, []);
 
 	useEffect(() => {
 		IS_LOGGED_IN().then(isLogin => {
