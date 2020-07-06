@@ -71,14 +71,15 @@ class Marquee extends Component {
 			!this.props.popBoxIsOpen &&
 			this.state.prev !== null
 		) {
-			let style = window.getComputedStyle(this.content.current, null);
+			// let style = window.getComputedStyle(this.content.current, null);
+			// let outerBox = parseFloat(style.width);
+			let style = window.getComputedStyle(this.marquee.current, null);
 			let outerBox = parseFloat(style.width);
-
 			this.setState(prev => {
-				if (prev.pos >= outerBox) {
-					return { pos: -prev.initWidth };
+				if (prev.pos <= -outerBox) {
+					return { pos: 0 };
 				} else {
-					return { pos: prev.pos + 1.5 };
+					return { pos: prev.pos - 1.5 };
 				}
 			});
 		}
@@ -190,7 +191,7 @@ class Marquee extends Component {
 			);
 		});
 
-		let style = this.state.pos === null ? {} : { right: this.state.pos };
+		let style = this.state.pos === null ? {} : { left: this.state.pos };
 		return (
 			<div id="Marquee">
 				<div className="icon icon-marquee"></div>
