@@ -587,10 +587,6 @@ main .sideBar button.icon:before {
   line-height: 7vw;
 }
 
-main .sideBar button div {
-  font-size: 4vw;
-}
-
 main .gameList {
   width: calc(100% - 21vw);
   position: absolute;
@@ -655,7 +651,6 @@ main .gameList a span {
       align-content: center;
   text-align: center;
   font-weight: bold;
-  font-size: 4vw;
 }
 
 main .gameList a span:before {
@@ -773,7 +768,6 @@ footer > a {
 
 footer > a .circleAnimation {
   position: absolute;
-  margin-top: -10vw;
   width: calc(20vw - 1px);
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -782,11 +776,12 @@ footer > a .circleAnimation {
       -ms-flex-align: center;
           align-items: center;
   color: #001942;
+  top: -9vw;
 }
 
 footer > a .circleAnimation > div {
   position: relative;
-  bottom: -6vw;
+  bottom: -10vw;
 }
 
 footer > a .circleAnimation > div:before {
@@ -800,6 +795,7 @@ footer > a:last-child {
 footer > a span {
   color: #001942;
   white-space: nowrap;
+  margin-bottom: 1vw;
 }
 
 footer > a.open {
@@ -815,7 +811,6 @@ footer > a.open .circleAnimation {
   display: -ms-flexbox;
   display: flex;
   color: #fff;
-  padding-top: 3.9vw;
 }
 
 footer > a.open .circleAnimation:before {
@@ -873,6 +868,7 @@ footer > a.open .circleAnimation > div {
           align-items: center;
   color: #fff;
   position: initial;
+  margin-top: 3.735vw;
 }
 
 footer > a.open .circleAnimation > div:before {
@@ -1132,7 +1128,6 @@ footer > a.open .circleAnimation + span {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   position: relative;
-  font-size: 4vw;
   padding-right: 9vw;
   width: calc(100% - 13vw - 2px);
   min-height: 20px;
@@ -1197,7 +1192,6 @@ footer > a.open .circleAnimation + span {
 
 .title {
   color: #fff;
-  font-size: 4vw;
   font-weight: bold;
 }
 
@@ -1233,7 +1227,6 @@ footer > a.open .circleAnimation + span {
   height: 12vw;
   border-bottom: 3px solid transparent;
   color: #fff;
-  font-size: 4vw;
 }
 
 .tag a.open {
@@ -1522,7 +1515,6 @@ footer > a.open .circleAnimation + span {
   color: #fff;
   border-radius: 3px;
   padding: 2vw 3vw;
-  font-size: 4vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1711,7 +1703,6 @@ footer > a.open .circleAnimation + span {
   width: 8vw;
   height: 8vw;
   background: #ff5d00;
-  font-size: 4vw;
   font-weight: bold;
 }
 
@@ -1925,19 +1916,15 @@ footer > a.open .circleAnimation + span {
 }
 
 .bankSlip {
-  position: fixed;
+  position: absolute;
   background: rgba(0, 25, 66, 0.95);
   top: 0;
   left: 0;
-  padding: 0 8vw;
-  height: 100%;
+  padding: 12vw 8vw 23vw;
   z-index: 4;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -3195,7 +3182,6 @@ input.error {
 .webmap div span {
   color: #fff;
   font-weight: bold;
-  font-size: 4vw;
   color: #ff5d00;
 }
 
