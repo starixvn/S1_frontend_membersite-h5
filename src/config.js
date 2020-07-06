@@ -6,9 +6,7 @@ export default process.env.NODE_ENV === "production"
 			apiURL: "",
 			openURL: "",
 			imgUrl: "",
-			t_and_cURL: "",
-			//apiURL: "https://release.nova88.net",
-			appURL: "https://m.nova88.net"
+			t_and_cURL: ""
 	  }
 	: {
 			siteName,

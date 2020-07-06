@@ -7,9 +7,10 @@ export const _ACTION_TYPE = {
 };
 
 export const GET_CASINO_ENTER_PAGE = (tpId, gameId, isFree, langId) => {
-	let homeUrl = `${config.appURL}`;
-	let signupUrl = `${config.appURL}/${path.join.root}`;
-	let LoginUrl = `${config.appURL}/${path.login.root}`;
+	const appUrl = window.location.href;
+	let homeUrl = `${appUrl}`;
+	let signupUrl = `${appUrl}${path.join.root}`;
+	let LoginUrl = `${appUrl}${path.login.root}`;
 	let entPageUrl = `${config.openURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}`;
 	window
 		.open(
@@ -29,11 +30,12 @@ export const GET_ENTER_PAGE = ({
 	isLogin,
 	loginCallback
 }) => {
-	let homeUrl = `${config.appURL}`;
-	let signupUrl = `${config.appURL}/${path.join.root}`;
-	let LoginUrl = `${config.appURL}/${path.login.root}`;
+	const appUrl = window.location.href;
+	let homeUrl = `${appUrl}`;
+	let signupUrl = `${appUrl}${path.join.root}`;
+	let LoginUrl = `${appUrl}${path.login.root}`;
 	let lobbyUrl = ``;
-	let cashierUrl = `${config.appURL}/${path.deposit.root}`;
+	let cashierUrl = `${appUrl}${path.deposit.root}`;
 	let entPageUrl = `${config.openURL}/${langId}/entPage?homeUrl=${homeUrl}&signupUrl=${signupUrl}&LoginUrl=${LoginUrl}&tpId=${tpId}&gameId=${gameId}&CashierUrl=${cashierUrl}&&LobbyUrl=${lobbyUrl}`;
 	let result = setResult("", true, _ACTION_TYPE.blank);
 
