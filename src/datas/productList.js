@@ -153,7 +153,7 @@ const gameList = [
 	{
 		category: "kelo",
 		categoryIcon: "kelo",
-		translateKey: "lbl_KenoAndLottery",
+		translateKey: "lbl_Lottery",
 		items: [
 			{
 				icon: "lottery",
