@@ -160,7 +160,8 @@ const gameList = [
 				gameId: 223,
 				tpId: 1,
 				img: id4d,
-				spanTextKey: "lbl_Indo4d"
+				spanTextKey: "lbl_Indo4d",
+				allowCurrency: [4, 15]
 			},
 			{
 				icon: "keno",

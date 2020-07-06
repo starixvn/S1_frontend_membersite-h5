@@ -24,7 +24,7 @@ const Footer = () => {
 								to={path.promotion.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
-									<div className="icon icon-promotion"></div>
+									<div className="icon icon-gift"></div>
 								</div>
 								<span>{i18n.lbl_Promotion}</span>
 							</Link>
@@ -89,7 +89,7 @@ const Footer = () => {
 								to={path.promotion.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
-									<div className="icon icon-promotion"></div>
+									<div className="icon icon-gift"></div>
 								</div>
 								<span>{i18n.lbl_Promotion}</span>
 							</Link>
@@ -105,7 +105,7 @@ const Footer = () => {
 								to={path.statement.root}
 								className={isMatch ? "open" : ""}>
 								<div className="circleAnimation">
-									<div className="icon icon-statement"></div>
+									<div className="icon icon-statement1"></div>
 								</div>
 								<span>{i18n.lbl_Statement}</span>
 							</Link>

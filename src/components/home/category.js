@@ -78,6 +78,7 @@ const Category = props => {
 			i18n={i18n}
 			top={props.shortcutBarLocate?.bottom}
 			casinoTpIds={casinoTpIds}
+			userCurrencyId={userInfo.currencyId}
 		/>
 	);
 };
@@ -115,7 +116,10 @@ class CateGoryContent extends Component {
 				}
 			});
 
-			if (this.state.category !== currentCategory) {
+			if (
+				currentCategory !== null &&
+				this.state.category !== currentCategory
+			) {
 				if (this.mounted) {
 					this.setState(
 						{ category: currentCategory },
@@ -182,10 +186,21 @@ class CateGoryContent extends Component {
 
 			let content = item.items
 				.filter(subItem => {
-					return item.category === "casino"
-						? this.props.casinoTpIds === null ||
-								this.props.casinoTpIds.includes(subItem.tpId)
-						: true;
+					let allowCurrency =
+						this.props.userCurrencyId === null ||
+						this.props.userCurrencyId === undefined ||
+						subItem.allowCurrency === undefined ||
+						subItem.allowCurrency.includes(
+							this.props.userCurrencyId
+						);
+
+					return (
+						allowCurrency &&
+						(item.category === "casino"
+							? this.props.casinoTpIds === null ||
+							  this.props.casinoTpIds.includes(subItem.tpId)
+							: true)
+					);
 				})
 				.map((subItem, idx) => {
 					let refItem =
