@@ -60,7 +60,7 @@ const defPageInfo = {
 		className: "main",
 		hideLogo: true
 	},
-	resetPassword: {
+	[`/Home/ResetPassword`]: {
 		titleKey: "lbl_ResetPassword",
 		className: "main",
 		hideLogo: true

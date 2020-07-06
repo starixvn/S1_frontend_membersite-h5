@@ -1,14 +1,75 @@
-import React, { useState, useContext } from "react";
-import { i18nContext, popBoxContext } from "../common/context";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
 import { api_ResetPassword } from "../../service/api/accountStrict";
+import { api_CheckResetPwdToken } from "../../service/api/site";
 import Inputbox from "../common/inputbox.password";
+import { getUrlParameter } from "../common/common";
+import { Redirect } from "@reach/router";
 
 export default () => {
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
+	const { setUserInfo } = useContext(userInfoContext);
 	const [newPsw, setNewPsw] = useState("");
 	const [pswState, setPswState] = useState(false);
 	const [warning, setWarning] = useState({ status: false, msg: "" });
+	const [redirectPath, setRedirectPath] = useState(null);
+	const isMountedRef = useRef(null);
+
+	useEffect(() => {
+		isMountedRef.current = true;
+		return () => (isMountedRef.current = false);
+	});
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath]);
+
+	useEffect(() => {
+		let key = getUrlParameter("key");
+		if (key) {
+			api_CheckResetPwdToken(key).then(
+				res => {
+					if (isMountedRef.current) {
+						if (res.data.errorCode === 1) {
+							setRedirectPath("/");
+							setUserInfo(prevState => ({
+								...prevState,
+								isLogin: true
+							}));
+						} else if (res.data.errorCode === 0) {
+							setUserInfo(prevState => ({
+								...prevState,
+								isLogin: true
+							}));
+						} else {
+							setRedirectPath("/");
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerError
+							});
+						}
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
+				}
+			);
+		} else {
+			if (isMountedRef.current) {
+				setRedirectPath("/");
+			}
+		}
+	}, [redirectPath, i18n, setPopBox, setUserInfo]);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);
@@ -44,35 +105,54 @@ export default () => {
 	const clickSubmit = () => {
 		if (newPsw === "") {
 			setWarning({ status: true, msg: i18n.msg_PasswordVaildate });
-		} else if (warning.status === true) {
+		} else if (warning.status === false) {
 			api_ResetPassword({ NewPassword: newPsw }).then(
 				res => {
-					if (res.data.errorCode !== 0) {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
-					} else {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: res.data.message
-						});
+					if (isMountedRef.current) {
+						if (res.data.errorCode !== 0) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message
+							});
+						} else {
+							const RedirectToHome = () => {
+								setRedirectPath("/");
+								setPopBox({ isOpen: false });
+							};
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: res.data.message,
+								hideCloseBtn: true,
+								hasBtn: true,
+								btnBar: (
+									<div className="btn-group">
+										<button
+											className="orange"
+											onClick={RedirectToHome}>
+											OK
+										</button>
+									</div>
+								)
+							});
+						}
 					}
 				},
 				err => {
-					setPopBox({
-						isOpen: true,
-						title: i18n.lbl_ImportantNote,
-						content: i18n.msg_ApiServerError
-					});
+					if (isMountedRef.current) {
+						setPopBox({
+							isOpen: true,
+							title: i18n.lbl_ImportantNote,
+							content: i18n.msg_ApiServerError
+						});
+					}
 				}
 			);
 		}
 	};
 
-	return (
+	return redirectPath === null ? (
 		<>
 			<Inputbox
 				icon="icon-key"
@@ -92,5 +172,7 @@ export default () => {
 				</button>
 			</div>
 		</>
+	) : (
+		<Redirect to={redirectPath} noThrow />
 	);
 };

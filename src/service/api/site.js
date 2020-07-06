@@ -31,3 +31,6 @@ export const api_GetTpIds = () => siteRequest.post(`/GetTpIds`);
 
 export const api_GetBanner = (FolderName, lang) =>
 	siteRequest.post(`/GetBanner/${lang}`, `FolderName=${FolderName}`);
+
+export const api_CheckResetPwdToken = key =>
+	siteRequest.post(`/CheckResetPwdToken`, `key=${key}`);
