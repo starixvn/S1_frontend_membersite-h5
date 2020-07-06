@@ -785,7 +785,7 @@ footer > a .circleAnimation {
 
 footer > a .circleAnimation > div {
   position: relative;
-  bottom: -10vw;
+  bottom: -9.5vw;
 }
 
 footer > a .circleAnimation > div:before {
@@ -1135,7 +1135,6 @@ footer > a.open .circleAnimation + span {
   position: relative;
   padding-right: 9vw;
   width: calc(100% - 13vw - 2px);
-  height: 32px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
