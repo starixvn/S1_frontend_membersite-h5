@@ -1109,6 +1109,7 @@ footer > a.open .circleAnimation + span {
   color: #fff;
   background: rgba(0, 25, 66, 0.95);
   padding: 8vw;
+  overflow: auto;
   display: none;
 }
 
@@ -1147,7 +1148,7 @@ footer > a.open .circleAnimation + span {
 #popup .popTxt {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  line-height: 7vw;
+  line-height: 6vw;
   width: calc(100% - 8vw - 2px);
 }
 
