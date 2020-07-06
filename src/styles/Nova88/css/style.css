@@ -582,9 +582,13 @@ main .sideBar button.open {
 
 main .sideBar button.icon:before {
   width: 100%;
-  font-size: 7vw;
+  font-size: 8vw;
   text-align: center;
   line-height: 7vw;
+}
+
+main .sideBar button.icon div {
+  font-size: 4vw;
 }
 
 main .gameList {
@@ -634,7 +638,7 @@ main .gameList a img {
 main .gameList a span {
   position: absolute;
   left: 5vw;
-  width: 20vw;
+  width: 17vw;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   display: -webkit-box;
@@ -796,6 +800,7 @@ footer > a span {
   color: #001942;
   white-space: nowrap;
   margin-bottom: 1vw;
+  font-size: 3.2vw;
 }
 
 footer > a.open {
@@ -1131,6 +1136,13 @@ footer > a.open .circleAnimation + span {
   padding-right: 9vw;
   width: calc(100% - 13vw - 2px);
   min-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  padding-bottom: 1vw;
+  word-break: break-word;
 }
 
 #popup .popTxt {
@@ -1227,6 +1239,7 @@ footer > a.open .circleAnimation + span {
   height: 12vw;
   border-bottom: 3px solid transparent;
   color: #fff;
+  font-size: 5vw;
 }
 
 .tag a.open {
@@ -1527,6 +1540,7 @@ footer > a.open .circleAnimation + span {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  font-size: 4vw;
 }
 
 .btn-group button i, .btn-group a i {
@@ -1930,6 +1944,7 @@ footer > a.open .circleAnimation + span {
       -ms-flex-direction: column;
           flex-direction: column;
   width: calc(100% - 16vw);
+  min-height: calc(100% - 35vw);
 }
 
 .icon-pencil + input {
