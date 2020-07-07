@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { i18nContext, popBoxContext } from "../common/context";
 import { api_ForgetPwd } from "../../service/api/site";
 import Inputbox from "../common/inputbox";
+import { Redirect } from "@reach/router";
+import path from "../../path";
 
 export default () => {
 	const { i18n } = useContext(i18nContext);
@@ -9,6 +11,13 @@ export default () => {
 	const [userEmail, setUserEmail] = useState("");
 	const [warning, setWarning] = useState({ status: false, msg: "" });
 	const isMountedRef = useRef(null);
+	const [redirectPath, setRedirectPath] = useState(null);
+
+	useEffect(() => {
+		if (isMountedRef.current && redirectPath !== null) {
+			setRedirectPath(null);
+		}
+	}, [redirectPath]);
 	useEffect(() => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
@@ -73,7 +82,11 @@ export default () => {
 		}
 	};
 
-	return (
+	const ClickBack = () => {
+		setRedirectPath(`/${path.login.root}`);
+	};
+
+	return redirectPath === null ? (
 		<>
 			<Inputbox
 				icon="icon-email"
@@ -86,11 +99,15 @@ export default () => {
 				ClassName="LoginRule"
 			/>
 			<div className="btn-group">
-				<button className="white">{i18n.lbl_Back}</button>
+				<button className="white" onClick={ClickBack}>
+					{i18n.lbl_Back}
+				</button>
 				<button className="orange" onClick={clickSubmit}>
 					{i18n.lbl_Submit}
 				</button>
 			</div>
 		</>
+	) : (
+		<Redirect to={redirectPath} noThrow />
 	);
 };
