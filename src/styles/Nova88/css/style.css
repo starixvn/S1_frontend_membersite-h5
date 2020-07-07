@@ -1135,17 +1135,16 @@ footer > a.open .circleAnimation + span {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   position: relative;
-  padding-right: 9vw;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  padding-bottom: 1vw;
   word-break: break-word;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 0 9vw 0 4vw;
+  padding: 0 9vw 1vw 4vw;
 }
 
 #popup .popTxt {
