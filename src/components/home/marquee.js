@@ -9,6 +9,8 @@ import {
 	i18nContext
 } from "../common/context";
 import { GET_LANG_ID } from "../../service/language";
+import path from "../../path";
+import { Redirect } from "@reach/router";
 
 const Panel = () => {
 	const { nav, setNav } = useContext(navContext);
@@ -45,7 +47,8 @@ class Marquee extends Component {
 			hover: false,
 			pos: null,
 			initWidth: 0,
-			nav: this.props.nav
+			nav: this.props.nav,
+			redirectPath: null
 		};
 		this.isMountedRef = false;
 		this.marquee = createRef();
@@ -165,20 +168,26 @@ class Marquee extends Component {
 	ClickMarquee = item => {
 		if (this.props.userIsLogin) {
 			let content = item.content.split("\\n").join("　");
+			const GoToAnnouncement = () => {
+				this.props.setPopBox({
+					isOpen: false
+				});
+				this.setState({
+					redirectPath: `/${path.message.root}/${path.message.sub.announcement.root}`
+				});
+			};
 			this.props.setPopBox({
 				isOpen: true,
 				title: item.subject,
-				content: content
-				// hasBtn: true,
-				// btnBar: (
-				// 	<div className="btn-group">
-				// 		<Link
-				// 			className="blue"
-				// 			to={`/${path.message.root}/${path.message.sub.announcement.root}`}>
-				// 			More
-				// 		</Link>
-				// 	</div>
-				// )
+				content: content,
+				hasBtn: true,
+				btnBar: (
+					<div className="btn-group">
+						<button className="blue" onClick={GoToAnnouncement}>
+							{this.props.i18n["lbl_More"] ?? "More"}
+						</button>
+					</div>
+				)
 			});
 		} else {
 			this.props.OpenLoginPanel();
@@ -197,7 +206,7 @@ class Marquee extends Component {
 		});
 
 		let style = this.state.pos === null ? {} : { left: this.state.pos };
-		return (
+		return this.state.redirectPath === null ? (
 			<div id="Marquee">
 				<div className="icon icon-marquee"></div>
 				<div ref={this.content} className="marquee-box">
@@ -209,6 +218,8 @@ class Marquee extends Component {
 					</div>
 				</div>
 			</div>
+		) : (
+			<Redirect to={this.state.redirectPath} noThrow />
 		);
 	}
 }
