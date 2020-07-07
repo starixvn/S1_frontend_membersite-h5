@@ -77,7 +77,12 @@ class Marquee extends Component {
 			let outerBox = parseFloat(style.width);
 			this.setState(prev => {
 				if (prev.pos <= -outerBox) {
-					return { pos: 0 };
+					let _style = window.getComputedStyle(
+						this.content.current,
+						null
+					);
+					let contentBox = parseFloat(_style.width);
+					return { pos: contentBox };
 				} else {
 					return { pos: prev.pos - 1.5 };
 				}
