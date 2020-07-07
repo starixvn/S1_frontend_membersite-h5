@@ -24,7 +24,7 @@ const IndexPage = () => {
 				</p>
 			);
 		});
-	return row;
+	return <div className="info">{row}</div>;
 };
 
 export default IndexPage;
