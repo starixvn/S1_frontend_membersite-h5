@@ -60,6 +60,8 @@ import Other from "./components/setting/other";
 import Kyc from "./components/withdrawal/kyc";
 import KycWaiting from "./components/withdrawal/kycWaiting";
 
+import Whoami from "./pages/whoami";
+
 const Index = () => {
 	let history = createHistory(window);
 	return (
@@ -137,6 +139,7 @@ const Index = () => {
 							<SettingInfo path={path.setting.sub.root} />
 							<Other path={path.setting.sub.other.root} />
 						</Setting>
+						<Whoami path={path.whoami.root} />
 					</Router>
 				</Layout>
 			</LocationProvider>

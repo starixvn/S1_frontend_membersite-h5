@@ -34,3 +34,5 @@ export const api_GetBanner = (FolderName, lang) =>
 
 export const api_CheckResetPwdToken = key =>
 	siteRequest.post(`/CheckResetPwdToken`, `key=${key}`);
+
+export const api_WhoAMI = key => siteRequest.post(`/WhoAMI`);

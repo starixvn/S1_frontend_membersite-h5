@@ -89,6 +89,11 @@ const defPageInfo = {
 		titleKey: "lbl_WaitKYC",
 		className: "main kyc",
 		hideLogo: true
+	},
+	whoami: {
+		titleKey: "Who AM I",
+		className: "main",
+		hideLogo: true
 	}
 };
 

@@ -110,5 +110,8 @@ export default {
 	},
 	kycWaiting: {
 		root: "kycWaiting"
+	},
+	whoami: {
+		root: "whoami"
 	}
 };
