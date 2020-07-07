@@ -1125,8 +1125,9 @@ footer > a.open .circleAnimation + span {
 }
 
 #popup .close {
-  top: 4vw;
-  right: 2vw;
+  -webkit-transform: translateY(50%);
+          transform: translateY(50%);
+  right: 1vw;
 }
 
 #popup .popTit {
@@ -1135,7 +1136,6 @@ footer > a.open .circleAnimation + span {
   border-top-right-radius: 5px;
   position: relative;
   padding-right: 9vw;
-  width: calc(100% - 13vw - 2px);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -1143,6 +1143,9 @@ footer > a.open .circleAnimation + span {
   -webkit-box-orient: vertical;
   padding-bottom: 1vw;
   word-break: break-word;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0 9vw 0 4vw;
 }
 
 #popup .popTxt {
@@ -3481,5 +3484,116 @@ span.important {
 .text-center {
   text-align: center;
   color: #fff;
+}
+
+.Straight-lock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 5vw;
+  width: calc(100% - 10vw);
+  height: calc(100% - 10vw);
+  background: #001942;
+  z-index: 9;
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.Straight-lock .icon {
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Straight-lock .icon-mobile {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Straight-lock .icon-mobile:before {
+  font-size: 10vw;
+}
+
+.Straight-lock i {
+  position: absolute;
+  -webkit-animation-name: reload1;
+          animation-name: reload1;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+.Straight-lock i:before {
+  font-size: 2vw;
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+  color: #ff5d00;
+}
+
+.Straight-lock .text {
+  margin-top: 2vw;
+  text-align: center;
+  font-size: 2vw;
+  line-height: 4vw;
+}
+
+@-webkit-keyframes reload1 {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
+            transform: rotate(-359deg);
+  }
+}
+
+@keyframes reload1 {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
+            transform: rotate(-359deg);
+  }
+}
+
+@media (orientation: landscape) {
+  #root {
+    display: none;
+  }
+  .Straight-lock {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
 }
 /*# sourceMappingURL=style.css.map */

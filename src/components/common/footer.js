@@ -129,7 +129,7 @@ const Footer = () => {
 					}}
 				</Match>
 
-				{/* <a
+				<a
 					target="_blank"
 					href={`https://direct.lc.chat/11638088/${
 						defChatLangSubUrl[userInfo.langId] ?? ""
@@ -139,7 +139,7 @@ const Footer = () => {
 						<div className="icon icon-contact"></div>
 					</div>
 					<span>{i18n.lbl_LiveChat}</span>
-				</a> */}
+				</a>
 
 				<Match path={path.member.root}>
 					{props => {
