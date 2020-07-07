@@ -1,6 +1,6 @@
 import React from "react";
 import path from "./path";
-import langKeys_Home from "./datas/langKeys_Home";
+import langKeys from "./datas/langKeys";
 import { Wrapper } from "./components/common/wrapper";
 import PopBox from "./components/common/popbox";
 import { Router, createHistory, LocationProvider } from "@reach/router";
@@ -63,7 +63,7 @@ import KycWaiting from "./components/withdrawal/kycWaiting";
 const Index = () => {
 	let history = createHistory(window);
 	return (
-		<Wrapper pageLangKeys={langKeys_Home}>
+		<Wrapper pageLangKeys={langKeys}>
 			<LocationProvider history={history}>
 				<Layout>
 					<Router>

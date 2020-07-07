@@ -1,5 +1,5 @@
 import { siteRequest } from "./base";
-import langKeys from "../../datas/langKeys_Home";
+import langKeys from "../../datas/langKeys";
 
 export const api_GetTranslationData = (langId, data) =>
 	siteRequest.post(

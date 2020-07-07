@@ -14,7 +14,10 @@ import useInterval from "../hook/useInterval";
 import { getUrlParameter, setCookie, deleteCookie } from "../common/common";
 
 export const Wrapper = ({ children }) => {
-	const [i18n, seti18n] = useState({});
+	const [i18n, seti18n] = useState({
+		lbl_ImportantNote: "Important Note",
+		msg_ApiServerError: "API Server Error"
+	});
 	const [userInfo, setUserInfo] = useState({
 		isLogin: null,
 		langId: GET_LANG_ID(),
