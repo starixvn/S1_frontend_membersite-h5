@@ -50,6 +50,34 @@
   font-size: 6.3vw !important;
 }
 
+.icon-paytrust88:before {
+  font-size: 5vw !important;
+}
+
+.icon-JDpay:before {
+  font-size: 4vw !important;
+}
+
+.icon-Unionpay:before {
+  content: "\e93d";
+}
+
+.icon-Alipay:before {
+  content: "\e93e";
+}
+
+.icon-JDpay:before {
+  content: "\e940";
+}
+
+.icon-ThaiQR:before {
+  content: "\e941";
+}
+
+.icon-WeChatPay:before {
+  content: "\e943";
+}
+
 .icon-virtual-sports:before {
   content: "\e93a";
 }
@@ -120,6 +148,10 @@
 
 .icon-VNPay:before {
   content: "\e924";
+}
+
+.icon-paytrust88:before {
+  content: "\e93c";
 }
 
 .icon-MOMO:before {
@@ -228,6 +260,10 @@
 
 .icon-withdrawal:before {
   content: "\e910";
+}
+
+.icon-QQpay:before {
+  content: "\e944";
 }
 
 .icon-gift:before {
@@ -440,6 +476,10 @@
 
 .icon-new-tab:before {
   content: "\ea7e";
+}
+
+.icon-facebook:before {
+  content: "\ea90";
 }
 
 .icon-facebook2:before {
