@@ -3,8 +3,7 @@ import {
 	i18nContext,
 	navContext,
 	defNavPanel,
-	userInfoContext,
-	msgCountContext
+	userInfoContext
 } from "../common/context";
 import { Link } from "@reach/router";
 import path from "../../path";
@@ -13,7 +12,6 @@ const ShortcutBar = props => {
 	const { i18n } = useContext(i18nContext);
 	const { setNav } = useContext(navContext);
 	const { userInfo } = useContext(userInfoContext);
-	const { msgCount } = useContext(msgCountContext);
 
 	const ShowLogin = () => {
 		setNav(defNavPanel.login);
