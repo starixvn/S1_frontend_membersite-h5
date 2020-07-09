@@ -278,5 +278,9 @@ export default [
 	"msg_ForceLogedoutHint",
 	"lbl_Details",
 	"lbl_Indo4d",
-	"lbl_NumberGame"
+	"lbl_NumberGame",
+	"lbl_RotationHint_1",
+	"lbl_RotationHint_2",
+	"lbl_RotationHint_3",
+	"lbl_RotationHint_4"
 ];
