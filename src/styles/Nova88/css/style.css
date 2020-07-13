@@ -3585,7 +3585,7 @@ span.important {
   }
 }
 
-@media (orientation: landscape) and (min-height: 320px) {
+@media (orientation: landscape) and (min-height: 319px) {
   header, main, footer {
     display: none;
   }
