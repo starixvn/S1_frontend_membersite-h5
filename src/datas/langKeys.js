@@ -282,5 +282,6 @@ export default [
 	"lbl_RotationHint_1",
 	"lbl_RotationHint_2",
 	"lbl_RotationHint_3",
-	"lbl_RotationHint_4"
+	"lbl_RotationHint_4",
+	"lbl_Bonus"
 ];

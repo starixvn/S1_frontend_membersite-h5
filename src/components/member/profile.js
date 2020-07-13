@@ -6,7 +6,7 @@ import {
 	popBoxContext
 } from "../common/context";
 import { number_format, isConvert } from "../common/common";
-import { api_GetBalnace, api_GetWalletInfo } from "../../service/api/account";
+import { api_GetWalletInfo } from "../../service/api/account";
 import { Link } from "@reach/router";
 import ProfileDetail from "./profile.detail";
 import ReloadSpin from "../common/reloadSpin";
@@ -35,7 +35,8 @@ const Panel = () => {
 							return {
 								id: i.tpId,
 								displayKey: i.displayKey,
-								balance: i.balance
+								balance: i.balance,
+								bonus: i.bonus
 							};
 						});
 
@@ -45,7 +46,10 @@ const Panel = () => {
 								main: data.balance
 							}));
 
-							setSabaWallet(tpWalletsArr?.[0].balance);
+							setSabaWallet({
+								balance: tpWalletsArr?.[0].balance,
+								bonus: tpWalletsArr?.[0].bonus
+							});
 						}
 					}
 				}
@@ -87,7 +91,10 @@ const Panel = () => {
 								main: data.balance
 							}));
 
-							setSabaWallet(tpWalletsArr?.[0].balance);
+							setSabaWallet({
+								balance: tpWalletsArr?.[0].balance,
+								bonus: tpWalletsArr?.[0].bonus
+							});
 						}
 					}
 				}
@@ -102,34 +109,6 @@ const Panel = () => {
 				}
 			}
 		);
-
-		// api_GetBalnace().then(
-		// 	res => {
-		// 		if (isMountedRef.current) {
-		// 			if (res.data.errorCode === 0) {
-		// 				setWalletInfo(prevState => ({
-		// 					...prevState,
-		// 					main: res.data.data
-		// 				}));
-		// 			} else {
-		// 				setPopBox({
-		// 					isOpen: true,
-		// 					title: i18n.lbl_ImportantNote,
-		// 					content: res.data.message
-		// 				});
-		// 			}
-		// 		}
-		// 	},
-		// 	err => {
-		// 		if (isMountedRef.current) {
-		// 			setPopBox({
-		// 				isOpen: true,
-		// 				title: i18n.lbl_ImportantNote,
-		// 				content: i18n.msg_ApiServerError
-		// 			});
-		// 		}
-		// 	}
-		// );
 	};
 
 	return (
@@ -142,7 +121,10 @@ const Panel = () => {
 				<div className="info">
 					<span className="title">{i18n["lbl_MainWallet"]}</span>
 					<div>
-						{i18n[`Currency_${userInfo.currencyId}`]} {balance}
+						<span className="text-org">
+							{i18n[`Currency_${userInfo.currencyId}`]}
+						</span>{" "}
+						{balance}
 					</div>
 				</div>
 				<ReloadSpin func={GetBalance} />
@@ -152,9 +134,20 @@ const Panel = () => {
 					<div className="info">
 						<span className="title">{i18n["lbl_Wallet_Saba"]}</span>
 						<div>
-							{i18n[`Currency_${userInfo.currencyId}`]}{" "}
+							<span className="text-org">
+								{i18n[`Currency_${userInfo.currencyId}`]}
+							</span>{" "}
 							{number_format(
-								sabaWallet,
+								sabaWallet.balance,
+								isConvert(userInfo.currencyId)
+							)}
+						</div>
+						<div>
+							<span className="text-org">
+								{i18n["lbl_Bonus"]}
+							</span>{" "}
+							{number_format(
+								sabaWallet.bonus,
 								isConvert(userInfo.currencyId)
 							)}
 						</div>
