@@ -136,7 +136,7 @@ const Layout = ({ children }) => {
 
 	return (
 		<>
-			{/* <RotationHint i18n={i18n} /> */}
+			<RotationHint i18n={i18n} />
 			<Header
 				title={i18n[pageInfo.titleKey] ?? pageInfo.titleKey}
 				hideLogo={pageInfo.hideLogo}
@@ -149,24 +149,24 @@ const Layout = ({ children }) => {
 	);
 };
 
-// const RotationHint = ({ i18n }) => {
-// 	return (
-// 		<div className="Straight-lock">
-// 			<div className="icon icon-mobile">
-// 				<i className="icon icon-spinner11"></i>
-// 			</div>
-// 			<div className="text">
-// 				{i18n.lbl_RotationHint_1}
-// 				<br></br>
-// 				{i18n.lbl_RotationHint_2}
-// 				<br></br>
-// 				<span className="text-org">{i18n.lbl_RotationHint_3}</span>
-// 				<br></br>
-// 				{i18n.lbl_RotationHint_4}
-// 			</div>
-// 		</div>
-// 	);
-// };
+const RotationHint = ({ i18n }) => {
+	return (
+		<div className="Straight-lock">
+			<div className="icon icon-mobile">
+				<i className="icon icon-spinner11"></i>
+			</div>
+			<div className="text">
+				{i18n.lbl_RotationHint_1}
+				<br></br>
+				{i18n.lbl_RotationHint_2}
+				<br></br>
+				<span className="text-org">{i18n.lbl_RotationHint_3}</span>
+				<br></br>
+				{i18n.lbl_RotationHint_4}
+			</div>
+		</div>
+	);
+};
 
 Layout.propTypes = {
 	children: PropTypes.node.isRequired
