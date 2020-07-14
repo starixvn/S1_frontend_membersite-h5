@@ -282,5 +282,9 @@ export default [
 	"lbl_RotationHint_1",
 	"lbl_RotationHint_2",
 	"lbl_RotationHint_3",
-	"lbl_RotationHint_4"
+	"lbl_RotationHint_4",
+	"lbl_Welcome",
+	"lbl_Close",
+	"msg_CreditSignUpHint_1",
+	"msg_CreditSignUpHint_2"
 ];

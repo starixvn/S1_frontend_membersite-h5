@@ -10,7 +10,7 @@ const IndexPage = () => {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetBanner("Promotion").then(res => {
+		api_GetBanner("Promotion", "").then(res => {
 			if (res.data.errorCode === 0 && mounted) {
 				setPromotion(
 					res.data.data.filter(b => {

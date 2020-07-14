@@ -3485,15 +3485,83 @@ span.important {
   color: #fff;
 }
 
+#welcome {
+  width: calc(100% - 16vw);
+  height: calc(100% - 16vw);
+  position: fixed;
+  z-index: 9;
+  color: #fff;
+  background: rgba(0, 25, 66, 0.95);
+  padding: 8vw;
+  overflow: auto;
+  display: none;
+  left: 0;
+  top: 0;
+}
+
+#welcome > div {
+  border: 1px solid #ff5d00;
+}
+
+#welcome .wecTit {
+  background: #ff5d00;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 2vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#welcome .wecTit:before {
+  display: none;
+}
+
+#welcome .wecTit:after {
+  content: "\ea0d";
+}
+
+#welcome .wecBanner {
+  width: 100%;
+  border-top: 0;
+  border-bottom: 0;
+  line-height: 0;
+  float: left;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#welcome .wecBanner img {
+  width: 100%;
+}
+
+#welcome .wecBanner .swiper-container, #welcome .wecBanner .swiper-pagination {
+  position: static;
+}
+
+#welcome .wecTxt {
+  padding: 2vw;
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: calc(100% - 4vw - 2px);
+  word-wrap: break-word;
+  float: left;
+}
+
 .Straight-lock {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   padding: 5vw;
-  width: calc(100% - 10vw);
-  height: calc(100% - 10vw);
   background: #001942;
   z-index: 9;
   display: none;
@@ -3507,6 +3575,19 @@ span.important {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.Straight-lock.in {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.Straight-lock.right .img-rotate {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -webkit-filter: FlipH;
+  filter: FlipH;
 }
 
 .Straight-lock .icon {
@@ -3582,17 +3663,6 @@ span.important {
   100% {
     -webkit-transform: rotate(-359deg);
             transform: rotate(-359deg);
-  }
-}
-
-@media (orientation: landscape) and (min-height: 319px) {
-  header, main, footer {
-    display: none;
-  }
-  .Straight-lock {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
   }
 }
 /*# sourceMappingURL=style.css.map */

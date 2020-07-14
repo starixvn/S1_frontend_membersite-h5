@@ -3,7 +3,7 @@
   src: url("../fonts/icomoon.woff?v=202003") format("woff");
 }
 
-.icon:before {
+.icon:before, .icon:after {
   font-family: 'icomoon';
   font-size: 5vw;
 }
