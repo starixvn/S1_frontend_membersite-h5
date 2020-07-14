@@ -11,6 +11,45 @@ import {
 import { GET_ENTER_PAGE } from "../../service/enterPage";
 import path from "../../path";
 
+export const ClickLink = (
+	tpId,
+	gameId,
+	lang,
+	href,
+	isOuterLink,
+	urlWithLang,
+	isLogin,
+	setNav
+) => {
+	if (href === "Casino/Lobby") {
+		window.location.href = `/${path.casino.root}${tpId ? `/${tpId}` : ""}`;
+	} else if (tpId === null) {
+		if (href === "Promotion/Index") {
+			window.location.href = `/${path.promotion.root}`;
+		} else if (href === "Home/Register") {
+		} else {
+			window.open(
+				isOuterLink
+					? href
+					: `${config.t_and_cURL}${
+							urlWithLang ? `/${lang}` : ""
+					  }/${href}`,
+				"_blank"
+			);
+		}
+	} else {
+		GET_ENTER_PAGE({
+			langId: lang,
+			tpId,
+			gameId,
+			isLogin: isLogin === true,
+			loginCallback: () => {
+				setNav(defNavPanel.login);
+			}
+		});
+	}
+};
+
 const Panel = ({ ImgFolder }) => {
 	const [banner, setBanner] = useState([]);
 	const { userInfo } = useContext(userInfoContext);
@@ -18,7 +57,7 @@ const Panel = ({ ImgFolder }) => {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetBanner(ImgFolder, userInfo.langId).then(res => {
+		api_GetBanner(ImgFolder, "", userInfo.langId).then(res => {
 			if (res.data.errorCode === 0 && mounted) {
 				setBanner(res.data.data);
 			}
@@ -26,38 +65,6 @@ const Panel = ({ ImgFolder }) => {
 
 		return () => (mounted = false);
 	}, [userInfo, ImgFolder]);
-
-	const ClickLink = (tpId, gameId, lang, href, isOuterLink, urlWithLang) => {
-		if (href === "Casino/Lobby") {
-			window.location.href = `/${path.casino.root}${
-				tpId ? `/${tpId}` : ""
-			}`;
-		} else if (tpId === null) {
-			if (href === "Promotion/Index") {
-				window.location.href = `/${path.promotion.root}`;
-			} else if (href === "Home/Register") {
-			} else {
-				window.open(
-					isOuterLink
-						? href
-						: `${config.t_and_cURL}${
-								urlWithLang ? `/${lang}` : ""
-						  }/${href}`,
-					"_blank"
-				);
-			}
-		} else {
-			GET_ENTER_PAGE({
-				langId: userInfo.langId,
-				tpId,
-				gameId,
-				isLogin: userInfo.isLogin === true,
-				loginCallback: () => {
-					setNav(defNavPanel.login);
-				}
-			});
-		}
-	};
 
 	let rows = banner.map(b => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
@@ -77,7 +84,9 @@ const Panel = ({ ImgFolder }) => {
 					lang,
 					actionLink,
 					b.outerLink === true,
-					b.urlWithLang
+					b.urlWithLang,
+					userInfo.isLogin,
+					setNav
 				)}
 				key={`${lang}-${b.img}`}>
 				<img

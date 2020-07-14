@@ -9,7 +9,8 @@ import {
 	api_ExistsUserName,
 	api_ExistsEmail,
 	api_Register,
-	api_GetSiteCurrencyList
+	api_GetSiteCurrencyList,
+	api_GetBanner
 } from "../../service/api/site";
 import { api_GetCustProfile } from "../../service/api/accountStrict";
 import { getUrlParameter } from "../common/common";
@@ -26,6 +27,7 @@ import TandC from "../../service/t_and_c";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
 import config from "../../config";
+import PromoPopup from "./join.promotion";
 
 const colName = ["UserName", "Password", "Email", "Currency"];
 
@@ -80,6 +82,7 @@ const Join = () => {
 	const [pswState, setPswState] = useState(false);
 	const [checkboxState, setCheckboxState] = useState(false);
 	const [redirectPath, setRedirectPath] = useState(null);
+	const [banner, setBanner] = useState([]);
 
 	const [hideCurrency, setHideCurrency] = useState(false);
 
@@ -91,6 +94,7 @@ const Join = () => {
 	});
 
 	const [checklistState, setChecklistState] = useState(initChecklistState);
+	const [promoPopup, setPromoPopup] = useState(false);
 
 	const isMountedRef = useRef(null);
 	useEffect(() => {
@@ -99,8 +103,23 @@ const Join = () => {
 	});
 
 	useEffect(() => {
-		let AffId = getUrlParameter("AffId") || getCookie("AffId");
+		let refId = getCookie("RefId");
+		let showBylink = window.location.pathname === `/${path.join.root}`;
+		let openPanel = showBylink || nav === defNavPanel.join;
+		if (refId && openPanel) {
+			api_GetBanner("Promotion", refId, userInfo.langId).then(res => {
+				if (res.data.errorCode === 0 && isMountedRef.current) {
+					if (res.data.data.length > 0) {
+						setBanner(res.data.data);
+						setPromoPopup(true);
+					}
+				}
+			});
+		}
+	}, [nav, userInfo.langId]);
 
+	useEffect(() => {
+		let AffId = getUrlParameter("AffId") || getCookie("AffId");
 		if (AffId && isMountedRef) {
 			setHideCurrency(true);
 		}
@@ -597,6 +616,10 @@ const Join = () => {
 	let showBylink = useMatch(path.join.root);
 	let openPanel = showBylink || nav === defNavPanel.join;
 
+	const ClosePromoPopup = () => {
+		setPromoPopup(false);
+	};
+
 	return redirectPath === null ? (
 		<>
 			<button onClick={handleJoinPanel.bind(this, openPanel)}>
@@ -712,6 +735,13 @@ const Join = () => {
 					</button>
 				</div>
 			</div>
+			<PromoPopup
+				banner={banner}
+				ImgFolder="Promotion"
+				ClickClose={ClosePromoPopup}
+				title={i18n.lbl_Welcome}
+				isOpen={promoPopup}
+			/>
 		</>
 	) : (
 		<Redirect to="/" noThrow />
