@@ -45,7 +45,10 @@ const Panel = () => {
 								main: data.balance
 							}));
 
-							setSabaWallet(tpWalletsArr?.[0].balance);
+							let _saba_balance = tpWalletsArr?.[0]?.balance;
+							setSabaWallet(
+								isNaN(_saba_balance) ? 0 : _saba_balance
+							);
 						}
 					}
 				}
@@ -86,8 +89,10 @@ const Panel = () => {
 								...prevState,
 								main: data.balance
 							}));
-
-							setSabaWallet(tpWalletsArr?.[0].balance);
+							let _saba_balance = tpWalletsArr?.[0]?.balance;
+							setSabaWallet(
+								isNaN(_saba_balance) ? 0 : _saba_balance
+							);
 						}
 					}
 				}
