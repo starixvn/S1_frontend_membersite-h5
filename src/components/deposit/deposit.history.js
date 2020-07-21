@@ -1,5 +1,10 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { i18nContext, popBoxContext, userInfoContext } from "../common/context";
+import {
+	i18nContext,
+	popBoxContext,
+	userInfoContext,
+	bankSlipPopBoxContext
+} from "../common/context";
 import {
 	api_GetDepositInfoHistory,
 	api_SetDepositCancel
@@ -21,6 +26,7 @@ const Panel = () => {
 	const [processing, setProcessing] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [clickSubmit, setClickSubmit] = useState(false);
+	const { setbankSlipPopBox } = useContext(bankSlipPopBoxContext);
 
 	const [pageInfo, setPageInfo] = useState({ pageNumber: 0, totalPages: 0 });
 	const isMountedRef = useRef(null);
@@ -165,6 +171,31 @@ const Panel = () => {
 		});
 	};
 
+	const SubmitProof = ({
+		bankInfo,
+		depositRep,
+		amount,
+		transId,
+		picFileName,
+		refId
+	}) => {
+		let { currencyId, ...restBankInfo } = bankInfo;
+		let { accountName, accountNo } = depositRep;
+		setbankSlipPopBox(() => ({
+			depositTime: `${moment().format("yyyy-MM-DDT")}${moment().format(
+				"HH:mm"
+			)}`,
+			...restBankInfo,
+			transId: transId,
+			accountNo: accountNo,
+			accountName: accountName,
+			isOpen: true,
+			amount: number_format(amount, _isConvert),
+			picFileName: picFileName,
+			refId: refId
+		}));
+	};
+
 	let arr = getHistoryState?.map(item => {
 		return (
 			<TransactionHistory
@@ -173,6 +204,7 @@ const Panel = () => {
 				className="info"
 				_isConvert={_isConvert}
 				ClickCancel={ClickCancel.bind(this, item.transId)}
+				SubmitProof={SubmitProof.bind(this, { ...item })}
 			/>
 		);
 	});
