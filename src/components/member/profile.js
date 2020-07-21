@@ -122,7 +122,8 @@ const Panel = () => {
 					<span className="title">{i18n["lbl_MainWallet"]}</span>
 					<div>
 						<span className="text-org">
-							{i18n[`Currency_${userInfo.currencyId}`]}
+							{i18n[`Currency_${userInfo.currencyId}`]}{" "}
+							{i18n["lbl_Cash"]}
 						</span>{" "}
 						{balance}
 					</div>
@@ -136,6 +137,7 @@ const Panel = () => {
 						<div>
 							<span className="text-org">
 								{i18n[`Currency_${userInfo.currencyId}`]}
+								{i18n["lbl_Cash"]}
 							</span>{" "}
 							{number_format(
 								sabaWallet.balance,
@@ -144,6 +146,7 @@ const Panel = () => {
 						</div>
 						<div>
 							<span className="text-org">
+								{i18n[`Currency_${userInfo.currencyId}`]}{" "}
 								{i18n["lbl_Bonus"]}
 							</span>{" "}
 							{number_format(
