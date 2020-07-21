@@ -10,11 +10,11 @@ const IndexPage = () => {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetBanner("Promotion", "").then(res => {
+		api_GetBanner("Promotion", "", userInfo.langId).then(res => {
 			if (res.data.errorCode === 0 && mounted) {
 				setPromotion(
 					res.data.data.filter(b => {
-						return b.isBonus === true;
+						return b.isBonus === true || b.fromDB === true;
 					})
 				);
 			}
@@ -24,10 +24,13 @@ const IndexPage = () => {
 	}, [userInfo]);
 
 	return promotion.map(p => {
-		let lang = p.lang.includes(userInfo.langId) ? userInfo.langId : "en";
-		let actionLinkByLang = p.actionLinkByLang?.find(
-			a => a.lang === userInfo.langId
-		);
+		let lang =
+			p.fromDB || p.lang.includes(userInfo.langId)
+				? userInfo.langId
+				: "en";
+		let actionLinkByLang = p.fromDB
+			? null
+			: p.actionLinkByLang?.find(a => a.lang === userInfo.langId);
 		let actionLink = actionLinkByLang
 			? actionLinkByLang.link
 			: p.actionLink;
@@ -36,6 +39,10 @@ const IndexPage = () => {
 			p.urlWithLang ? `/${lang}` : ""
 		}/${actionLink}`;
 
+		let imgSRC = p.fromDB
+			? p.imgURL
+			: `${config.imgUrl}/CMS/Nova88/Promotion/${lang}/${p.img}`;
+
 		return (
 			<a
 				href={href}
@@ -43,10 +50,7 @@ const IndexPage = () => {
 				target="_blank"
 				rel="noopener noreferrer"
 				key={`promotion-${userInfo.langId}-${p.img}`}>
-				<img
-					src={`${config.imgUrl}/CMS/Nova88/Promotion/${lang}/${p.img}`}
-					alt={p.imgName}
-				/>
+				<img src={imgSRC} alt={p.imgName ?? ""} />
 				<div className="protitle">{p.title?.[lang]}</div>
 				<div className="text"></div>
 				<div className="btn-group">
