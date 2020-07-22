@@ -6,7 +6,7 @@ import {
 	popBoxContext
 } from "../common/context";
 import { number_format, isConvert } from "../common/common";
-import { api_GetBalnace, api_GetWalletInfo } from "../../service/api/account";
+import { api_GetWalletInfo } from "../../service/api/account";
 import { Link } from "@reach/router";
 import ProfileDetail from "./profile.detail";
 import ReloadSpin from "../common/reloadSpin";
@@ -45,10 +45,12 @@ const Panel = () => {
 								main: data.balance
 							}));
 
-							let _saba_balance = tpWalletsArr?.[0]?.balance;
-							setSabaWallet(
-								isNaN(_saba_balance) ? 0 : _saba_balance
-							);
+							if (tpWalletsArr.length > 0) {
+								let _saba_balance = tpWalletsArr?.[0]?.balance;
+								setSabaWallet(
+									isNaN(_saba_balance) ? 0 : _saba_balance
+								);
+							}
 						}
 					}
 				}
@@ -89,10 +91,13 @@ const Panel = () => {
 								...prevState,
 								main: data.balance
 							}));
-							let _saba_balance = tpWalletsArr?.[0]?.balance;
-							setSabaWallet(
-								isNaN(_saba_balance) ? 0 : _saba_balance
-							);
+
+							if (tpWalletsArr.length > 0) {
+								let _saba_balance = tpWalletsArr?.[0]?.balance;
+								setSabaWallet(
+									isNaN(_saba_balance) ? 0 : _saba_balance
+								);
+							}
 						}
 					}
 				}
