@@ -2293,6 +2293,7 @@ button.clickBtn:before {
   transition: 0.7s;
   opacity: 0;
   height: 0;
+  line-height: 0;
 }
 
 .functionList ~ .account .content.open {
@@ -2303,6 +2304,7 @@ button.clickBtn:before {
   height: auto;
   border-top: 1px solid #ff5d00;
   padding-top: 2vw;
+  line-height: normal;
 }
 
 .checkbox {
@@ -3592,49 +3594,44 @@ span.important {
 
 .Straight-lock .icon {
   color: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .Straight-lock .icon-mobile {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .Straight-lock .icon-mobile:before {
   font-size: 10vw;
 }
 
-.Straight-lock i {
+.Straight-lock i.icon-spinner11 {
   position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+}
+
+.Straight-lock i.icon-spinner11:before {
+  font-size: 2vw;
+  color: #ff5d00;
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
   -webkit-animation-name: reload1;
           animation-name: reload1;
   -webkit-animation-duration: 1s;
           animation-duration: 1s;
   -webkit-animation-iteration-count: infinite;
           animation-iteration-count: infinite;
-}
-
-.Straight-lock i:before {
-  font-size: 2vw;
-  -webkit-transform: scaleX(-1);
-          transform: scaleX(-1);
-  color: #ff5d00;
 }
 
 .Straight-lock .text {
@@ -3650,8 +3647,8 @@ span.important {
             transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(-359deg);
-            transform: rotate(-359deg);
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
   }
 }
 
@@ -3661,8 +3658,8 @@ span.important {
             transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(-359deg);
-            transform: rotate(-359deg);
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
   }
 }
 /*# sourceMappingURL=style.css.map */

@@ -29,16 +29,18 @@ const ShortcutBar = props => {
 	return (
 		<div className="thBar" ref={props._ref}>
 			<NavLink
-				to={path.deposit.root}
+				to={`/${path.deposit.root}`}
 				className="icon icon-deposit"
 				checkProfile={true}>
 				<span>{i18n.lbl_Deposit}</span>
 			</NavLink>
-			<NavLink to={path.transfer.root} className="icon icon-transfer">
+			<NavLink
+				to={`/${path.transfer.root}`}
+				className="icon icon-transfer">
 				<span>{i18n.lbl_Transfer}</span>
 			</NavLink>
 			<NavLink
-				to={path.withdrawal.root}
+				to={`/${path.withdrawal.root}`}
 				className="icon icon-withdrawal"
 				checkProfile={true}>
 				<span>{i18n.lbl_Withdrawal}</span>

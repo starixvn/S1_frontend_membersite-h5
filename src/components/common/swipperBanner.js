@@ -68,13 +68,20 @@ const Panel = ({ ImgFolder }) => {
 
 	let rows = banner.map(b => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
-		let lang = b.lang.includes(userInfo.langId) ? userInfo.langId : "en";
-		let actionLinkByLang = b.actionLinkByLang?.find(
-			a => a.lang === userInfo.langId
-		);
+		let lang =
+			b.fromDB || b.lang.includes(userInfo.langId)
+				? userInfo.langId
+				: "en";
+		let actionLinkByLang = b.fromDB
+			? null
+			: b.actionLinkByLang?.find(a => a.lang === userInfo.langId);
 		let actionLink = actionLinkByLang
 			? actionLinkByLang.link
 			: b.actionLink;
+		let imgSRC = b.fromDB
+			? b.imgURL
+			: `${config.imgUrl}/CMS/${config.siteName}/${_imgFolder}/${lang}/${b.img}`;
+
 		return (
 			<button
 				onClick={ClickLink.bind(
@@ -89,11 +96,7 @@ const Panel = ({ ImgFolder }) => {
 					setNav
 				)}
 				key={`${lang}-${b.img}`}>
-				<img
-					src={`${config.imgUrl}/CMS/${config.siteName}/${_imgFolder}/${lang}/${b.img}`}
-					className="banner"
-					alt={b.img}
-				/>
+				<img src={imgSRC} className="banner" alt={b.img ?? ""} />
 			</button>
 		);
 	});

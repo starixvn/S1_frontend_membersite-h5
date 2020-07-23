@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, Component } from "react";
 import PropTypes from "prop-types";
 import Footer from "./footer";
 import Header from "./header";
@@ -149,24 +149,59 @@ const Layout = ({ children }) => {
 	);
 };
 
-const RotationHint = ({ i18n }) => {
-	return (
-		<div className="Straight-lock">
-			<div className="icon icon-mobile">
-				<i className="icon icon-spinner11"></i>
+class RotationHint extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { rotateClass: this.rotationChange() };
+	}
+	rotationChange = () => {
+		switch (window.orientation) {
+			case 0:
+				return "";
+			case -90:
+				return "in right";
+			case 90:
+				return "in";
+			case 180:
+				return "";
+			default:
+				return "";
+		}
+	};
+	componentDidMount() {
+		window.addEventListener("orientationchange", this.OnRotate);
+	}
+	componentWillMount() {
+		window.removeEventListener("orientationchange", this.OnRotate);
+	}
+	OnRotate = () => {
+		let rotateClass = this.rotationChange();
+		this.setState({ rotateClass: rotateClass });
+	};
+	render() {
+		return (
+			<div
+				className={`Straight-lock${
+					this.state.rotateClass ? ` ${this.state.rotateClass}` : ""
+				}`}>
+				<div className="icon icon-mobile img-rotate">
+					<i className="icon icon-spinner11"></i>
+				</div>
+				<div className="text">
+					{this.props.i18n.lbl_RotationHint_1}
+					<br></br>
+					{this.props.i18n.lbl_RotationHint_2}
+					<br></br>
+					<span className="text-org">
+						{this.props.i18n.lbl_RotationHint_3}
+					</span>
+					<br></br>
+					{this.props.i18n.lbl_RotationHint_4}
+				</div>
 			</div>
-			<div className="text">
-				{i18n.lbl_RotationHint_1}
-				<br></br>
-				{i18n.lbl_RotationHint_2}
-				<br></br>
-				<span className="text-org">{i18n.lbl_RotationHint_3}</span>
-				<br></br>
-				{i18n.lbl_RotationHint_4}
-			</div>
-		</div>
-	);
-};
+		);
+	}
+}
 
 Layout.propTypes = {
 	children: PropTypes.node.isRequired

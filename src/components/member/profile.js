@@ -46,10 +46,15 @@ const Panel = () => {
 								main: data.balance
 							}));
 
-							setSabaWallet({
-								balance: tpWalletsArr?.[0].balance,
-								bonus: tpWalletsArr?.[0].bonus
-							});
+							if (tpWalletsArr.length > 0) {
+								let _saba_balance = tpWalletsArr?.[0]?.balance;
+								setSabaWallet({
+									balance: isNaN(_saba_balance)
+										? 0
+										: _saba_balance,
+									bonus: tpWalletsArr?.[0].bonus
+								});
+							}
 						}
 					}
 				}
@@ -91,10 +96,15 @@ const Panel = () => {
 								main: data.balance
 							}));
 
-							setSabaWallet({
-								balance: tpWalletsArr?.[0].balance,
-								bonus: tpWalletsArr?.[0].bonus
-							});
+							if (tpWalletsArr.length > 0) {
+								let _saba_balance = tpWalletsArr?.[0]?.balance;
+								setSabaWallet({
+									balance: isNaN(_saba_balance)
+										? 0
+										: _saba_balance,
+									bonus: tpWalletsArr?.[0].bonus
+								});
+							}
 						}
 					}
 				}
