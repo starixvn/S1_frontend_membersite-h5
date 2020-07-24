@@ -297,7 +297,7 @@ const ProductItem = props => {
 const ProductLinkItem = props => {
 	return (
 		<Link
-			to={props.to}
+			to={`/${props.to}`}
 			state={props.parameter}
 			ref={props._ref}
 			className={props.isShow ? "open" : ""}>
