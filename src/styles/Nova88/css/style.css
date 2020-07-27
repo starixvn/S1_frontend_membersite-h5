@@ -1945,6 +1945,7 @@ footer > a.open .circleAnimation + span {
           justify-content: space-between;
   position: relative;
   background: rgba(255, 93, 0, 0.2);
+  width: calc(100% - 2vw - 2px);
 }
 
 .text-white-border-org span {
