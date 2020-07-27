@@ -2120,7 +2120,7 @@ button.clickBtn:before {
   margin-top: 1vw;
 }
 
-.tip button {
+.tip a {
   color: #ff5d00;
   text-decoration: underline;
   margin-left: 10px;

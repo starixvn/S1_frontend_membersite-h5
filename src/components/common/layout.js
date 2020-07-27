@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, Component } from "react";
+import React, { useContext, Component } from "react";
 import PropTypes from "prop-types";
 import Footer from "./footer";
 import Header from "./header";

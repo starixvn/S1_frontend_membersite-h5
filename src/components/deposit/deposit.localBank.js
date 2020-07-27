@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import Step from "./step";
 import { Link, Redirect } from "@reach/router";
 import DropdownIMG from "../common/dropdown.image";
-import Dropdown from "../common/dropdown";
 import config from "../../config";
 import {
 	i18nContext,
@@ -21,6 +20,7 @@ import moment from "moment";
 import PageVerify from "./deposit.pageVerify";
 import path from "../../path";
 import Loading from "../common/loading";
+import Promotion from "./deposit.promotion";
 
 export const Panel = props => props.children;
 
@@ -287,6 +287,7 @@ export const Main = props => {
 					onChange={EditAmount}
 					Warning={warning}
 				/>
+				<Promotion />
 				<div className="btn-group">
 					<Link to="../" className="white">
 						{i18n.lbl_Back}
