@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import Step from "./step";
 import { Link, Redirect } from "@reach/router";
 import DropdownIMG from "../common/dropdown.image";
+import Dropdown from "../common/dropdown";
 import config from "../../config";
 import {
 	i18nContext,
@@ -263,7 +264,7 @@ export const Main = props => {
 				<Step step={3} total={2} />
 				<div className="inputBox">
 					<DropdownIMG
-						mainKey={"onlineBanking-bankList"}
+						mainKey={"localBank-bankList"}
 						onSelectItem={SelectBank}
 						options={bankList}
 						selectedIdx={selBank?.idx}

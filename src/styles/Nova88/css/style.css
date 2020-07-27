@@ -1931,6 +1931,27 @@ footer > a.open .circleAnimation + span {
   text-align: center;
 }
 
+.text-white-border-org {
+  color: #fff;
+  font-size: 12px;
+  margin: 0 0 5px;
+  border: 1px solid #ff5d00;
+  padding: 3vw 1vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+  background: rgba(255, 93, 0, 0.2);
+}
+
+.text-white-border-org span {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
 .bankSlip {
   position: absolute;
   background: rgba(0, 25, 66, 0.95);
@@ -2096,6 +2117,14 @@ button.clickBtn:before {
 }
 
 .tip {
+  margin-top: 1vw;
+}
+
+.tip button {
+  color: #ff5d00;
+  text-decoration: underline;
+  margin-left: 10px;
+  float: right;
   margin-top: 1vw;
 }
 
