@@ -59,7 +59,8 @@ export default () => {
 					<div className="tip">
 						<a
 							href={`${config.apiURL}/Promotion/Bonus?BonusCode=${promoList[selPromoIdx].bonusCode}`}
-							target="_blank">
+							target="_blank"
+							rel="noopener noreferrer">
 							More Info
 						</a>
 					</div>
