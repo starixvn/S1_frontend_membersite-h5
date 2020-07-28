@@ -67,9 +67,19 @@ const gameList = [
 		comingSoonImg: LIVEcasino_ComingSoon,
 		items: [
 			{
+				gameId: 4,
+				tpId: 4,
+				img: LIVEcasino_DG
+			},
+			{
 				gameId: 101,
 				tpId: 5,
 				img: LIVEcasino_PP
+			},
+			{
+				gameId: 15,
+				tpId: 15,
+				img: LIVEcasino_AE
 			},
 			{
 				gameId: 3,
@@ -77,24 +87,14 @@ const gameList = [
 				img: LIVEcasino_AG
 			},
 			{
-				gameId: 4,
-				tpId: 4,
-				img: LIVEcasino_DG
-			},
-			{
-				gameId: 2,
-				tpId: 2,
-				img: LIVEcasino_SA
-			},
-			{
 				gameId: 12,
 				tpId: 12,
 				img: LIVEcasino_AB
 			},
 			{
-				gameId: 15,
-				tpId: 15,
-				img: LIVEcasino_AE
+				gameId: 2,
+				tpId: 2,
+				img: LIVEcasino_SA
 			}
 		]
 	},
