@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import Swiper from "react-id-swiper";
-import "../../styles/Nova88/css/swiper.css";
 import config from "../../config";
 import { api_GetBanner } from "../../service/api/site";
 import {
@@ -69,7 +68,7 @@ const Panel = ({ ImgFolder }) => {
 	let rows = banner.map(b => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
 		let lang =
-			b.fromDB || b.lang.includes(userInfo.langId)
+			b.fromDB || b.lang?.includes(userInfo.langId)
 				? userInfo.langId
 				: "en";
 		let actionLinkByLang = b.fromDB

@@ -10,16 +10,13 @@ import { LOGOUT } from "../../service/auth";
 import { api_SetLanguage } from "../../service/api/account";
 import ThemeMode from "../member/profile.themeMode";
 import path from "../../path";
-import csPic from "../../styles/Nova88/img/cs.jpg";
-import enPic from "../../styles/Nova88/img/en.jpg";
-import thPic from "../../styles/Nova88/img/th.jpg";
-import idPic from "../../styles/Nova88/img/id.jpg";
+import { siteInfo } from "../../config";
 
 const languageList = [
-	{ value: "cs", displayText: "简体中文", img: csPic },
-	{ value: "en", displayText: "English", img: enPic },
-	{ value: "th", displayText: "ภาษาไทย", img: thPic },
-	{ value: "id", displayText: "Indonesian", img: idPic }
+	{ value: "cs", displayText: "简体中文", img: "cs.jpg" },
+	{ value: "en", displayText: "English", img: "en.jpg" },
+	{ value: "th", displayText: "ภาษาไทย", img: "th.jpg" },
+	{ value: "id", displayText: "Indonesian", img: "id.jpg" }
 ];
 
 export default () => {
@@ -144,7 +141,10 @@ const Item = props => {
 		<div
 			className={`${props.userLanguage === props.value ? "open" : ""}`}
 			onClick={props.selectLanguage.bind(null, props.value)}>
-			<img src={props.img} alt="" />
+			<img
+				src={`./styles/${siteInfo().siteName}/img/${props.img}`}
+				alt=""
+			/>
 			<span className="text">{props.displayText}</span>
 		</div>
 	);

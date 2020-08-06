@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { userInfoContext, i18nContext } from "../common/context";
 import TandC from "../../service/t_and_c";
+import { siteInfo } from "../../config";
 
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
-
+	let _siteInfo = siteInfo();
 	return (
 		<div className="webmap">
 			<div>
@@ -52,19 +53,19 @@ export default () => {
 			<div>
 				<span>{i18n.lbl_SocialMedia}</span>
 				<a
-					href="https://www.facebook.com/nova88official/"
+					href={_siteInfo.fb}
 					target="_blank"
 					className="icon icon-facebook2">
 					{i18n.lbl_Facebook}
 				</a>
 				<a
-					href="https://twitter.com/nova88official"
+					href={_siteInfo.twitter}
 					target="_blank"
 					className="icon icon-twitter">
 					{i18n.lbl_Twitter}
 				</a>
 				<a
-					href="https://www.instagram.com/nova88.net_official/"
+					href={_siteInfo.ig}
 					target="_blank"
 					className="icon icon-instagram">
 					{i18n.lbl_Instagram}

@@ -13,6 +13,8 @@ import InputBox from "../common/inputbox";
 import Dropdown from "../common/dropdown";
 import ReloadSpin from "../common/reloadSpin";
 import Loading from "../common/loading";
+import { defPopBoxType } from "../common/popbox";
+import { Redirect } from "@reach/router";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -28,11 +30,33 @@ const Panel = () => {
 	const [toSelectedIdx, setToSelectedIdx] = useState(1);
 	const [recentDatas, setRecentDatas] = useState([]);
 	const [loading, setLoading] = useState(true);
+
+	const [redirectPath, setRedirectPath] = useState(null);
+	const [pageVerify, setPageVerify] = useState(true);
+
 	const isMountedRef = useRef(null);
 	useEffect(() => {
 		isMountedRef.current = true;
 		return () => (isMountedRef.current = false);
 	});
+
+	// useEffect(() => {
+	// 	setPageVerify(false);
+	// 	const RedirectToHome = () => {
+	// 		setRedirectPath(`/`);
+	// 		setPopBox({ isOpen: false });
+	// 	};
+	// 	setPopBox({
+	// 		isOpen: true,
+	// 		popBoxType: defPopBoxType.TurnoverAccumulated,
+	// 		currencyId: userInfo.currencyId,
+	// 		hideCloseBtn: true,
+	// 		turnover: 50,
+	// 		rollover: 300,
+	// 		func_ClickOK: RedirectToHome
+	// 	});
+	// }, [setPopBox, userInfo.currencyId]);
+
 	useEffect(() => {
 		api_GetWalletInfo().then(
 			res => {
@@ -217,82 +241,91 @@ const Panel = () => {
 		}
 	};
 
-	return loading ? (
-		<Loading />
+	return redirectPath === null ? (
+		loading ? (
+			<Loading />
+		) : pageVerify ? (
+			<>
+				<div className="account">
+					<div className="info">
+						<span className="title">{i18n["lbl_MainWallet"]}</span>
+						<div>
+							{number_format(
+								getWalletInfo[0]?.balance,
+								_isConvert
+							)}
+						</div>
+					</div>
+					<ReloadSpin func={GetWalletInfo} />
+				</div>
+				<div className="account">
+					<div className="info">
+						<span className="title">{i18n["lbl_Wallet_Saba"]}</span>
+						<div>
+							{number_format(
+								getWalletInfo[1]?.balance === undefined
+									? 0
+									: getWalletInfo[1]?.balance,
+								_isConvert
+							)}
+						</div>
+					</div>
+					<ReloadSpin func={GetWalletInfo} />
+				</div>
+
+				<div className="inputBox">
+					<Dropdown
+						mainKey="transfer-From"
+						options={getWalletInfo}
+						placeholder={i18n["lbl_TransferFrom"]}
+						selectedIdx={fromSelectedIdx}
+						i18n={i18n}
+						onSelectItem={selectItem}
+						colName="transferFrom"
+					/>
+				</div>
+
+				<div className="inputBox">
+					<Dropdown
+						mainKey="transfer-To"
+						options={getWalletInfo}
+						placeholder={i18n["lbl_TransferTo"]}
+						selectedIdx={toSelectedIdx}
+						onSelectItem={selectItem}
+						i18n={i18n}
+						colName="transferTo"
+					/>
+				</div>
+
+				<div className="inputBox">
+					<InputBox
+						icon="icon-pencil"
+						value={amount}
+						inputType="tel"
+						onChange={EditAmount}
+						Warning={warning}
+					/>
+				</div>
+
+				<div className="btn-group">
+					<button className="blue" onClick={setMaxAmount}>
+						{i18n["lbl_MaxAmount"]}
+					</button>
+					<button className="orange" onClick={clickSubmit}>
+						{i18n["lbl_Transfer"]}
+					</button>
+				</div>
+
+				<RecentDatas
+					datas={recentDatas}
+					GetRecentDatas={GetTransferRecent}
+				/>
+			</>
+		) : (
+			<></>
+		)
 	) : (
-		<>
-			<div className="account">
-				<div className="info">
-					<span className="title">{i18n["lbl_MainWallet"]}</span>
-					<div>
-						{number_format(getWalletInfo[0]?.balance, _isConvert)}
-					</div>
-				</div>
-				<ReloadSpin func={GetWalletInfo} />
-			</div>
-			<div className="account">
-				<div className="info">
-					<span className="title">{i18n["lbl_Wallet_Saba"]}</span>
-					<div>
-						{number_format(
-							getWalletInfo[1]?.balance === undefined
-								? 0
-								: getWalletInfo[1]?.balance,
-							_isConvert
-						)}
-					</div>
-				</div>
-				<ReloadSpin func={GetWalletInfo} />
-			</div>
-
-			<div className="inputBox">
-				<Dropdown
-					mainKey="transfer-From"
-					options={getWalletInfo}
-					placeholder={i18n["lbl_TransferFrom"]}
-					selectedIdx={fromSelectedIdx}
-					i18n={i18n}
-					onSelectItem={selectItem}
-					colName="transferFrom"
-				/>
-			</div>
-
-			<div className="inputBox">
-				<Dropdown
-					mainKey="transfer-To"
-					options={getWalletInfo}
-					placeholder={i18n["lbl_TransferTo"]}
-					selectedIdx={toSelectedIdx}
-					onSelectItem={selectItem}
-					i18n={i18n}
-					colName="transferTo"
-				/>
-			</div>
-
-			<div className="inputBox">
-				<InputBox
-					icon="icon-pencil"
-					value={amount}
-					inputType="tel"
-					onChange={EditAmount}
-					Warning={warning}
-				/>
-			</div>
-
-			<div className="btn-group">
-				<button className="blue" onClick={setMaxAmount}>
-					{i18n["lbl_MaxAmount"]}
-				</button>
-				<button className="orange" onClick={clickSubmit}>
-					{i18n["lbl_Transfer"]}
-				</button>
-			</div>
-
-			<RecentDatas
-				datas={recentDatas}
-				GetRecentDatas={GetTransferRecent}
-			/>
-		</>
+		<Redirect to={redirectPath} noThrow />
 	);
 };
 
