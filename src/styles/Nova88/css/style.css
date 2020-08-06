@@ -1859,6 +1859,8 @@ footer > a.open .circleAnimation + span {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .account .bankLogo {
@@ -3691,5 +3693,60 @@ span.important {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
   }
+}
+
+.progressBarModule {
+  width: calc(100% - 4vw);
+  margin-top: 2vw;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2vw;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.progressBarModule .bounsName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 1vw;
+  font-weight: bold;
+}
+
+.progressBarModule .progressBar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.progressBarModule .progressBar .bar {
+  height: 1vw;
+  border: 1px solid #ff5d00;
+  border-radius: 10px;
+  margin-top: 2vw;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+}
+
+.progressBarModule .progressBar .bar .progress {
+  background: #ff5d00;
+  height: 100%;
+}
+
+.progressBarModule .progressBar .percentage {
+  text-align: right;
+  color: #ff5d00;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  min-width: 11vw;
+}
+
+.progressBarModule .turnover {
+  color: #fff;
+}
+
+.progressBarModule .turnover span {
+  color: #ff5d00;
 }
 /*# sourceMappingURL=style.css.map */
