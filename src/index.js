@@ -5,11 +5,6 @@ import { render } from "react-snapshot";
 import { Helmet } from "react-helmet";
 import { siteInfo } from "./config";
 
-// import "./styles/Nova88/css/style-dark.css";
-// import "./styles/Nova88/css/style.css";
-// import "./styles/Nova88/css/font.css";
-// import "./styles/Nova88/css/swiper.css";
-
 const _siteInfo = siteInfo();
 
 class Content extends Component {
