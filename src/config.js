@@ -29,7 +29,7 @@ export const siteInfo = () => {
 					},
 					ig: {
 						icon: "instagram",
-						link: "https://www.instagram.com/nova88official",
+						link: "https://www.instagram.com/nova88.net_official",
 						displayKey: "lbl_Instagram"
 					}
 				}
