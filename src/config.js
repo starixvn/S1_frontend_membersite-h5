@@ -1,9 +1,9 @@
-const sites = {
+export const sites = {
 	Goal123: "Goal123",
 	Nova88: "Nova88"
 };
 
-const siteName = sites.Nova88;
+export const siteName = sites.Nova88;
 
 export const siteInfo = () => {
 	switch (siteName) {
