@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import Swiper from "react-id-swiper";
-import "../../styles/Nova88/css/swiper.css";
 import config from "../../config";
 import { api_GetBanner } from "../../service/api/site";
 import {

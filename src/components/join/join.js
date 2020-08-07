@@ -4,7 +4,6 @@ import InputboxPWD from "../common/inputbox.password";
 import Dropdown from "../common/dropdown";
 import Checkbox from "../common/checkbox";
 import Tips from "./tips";
-import logo from "../../styles/Nova88/img/logo.svg";
 import {
 	api_ExistsUserName,
 	api_ExistsEmail,
@@ -26,7 +25,7 @@ import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
-import config from "../../config";
+import config, { siteInfo } from "../../config";
 import PromoPopup from "./join.promotion";
 
 const colName = ["UserName", "Password", "Email", "Currency"];
@@ -641,7 +640,12 @@ const Join = () => {
 					<span></span>
 					<span></span>
 				</div>
-				<img src={logo} alt="" />
+				<img
+					src={`./styles/${siteInfo().siteName}/img/${
+						siteInfo().logo
+					}`}
+					alt=""
+				/>
 				<div className="title">{i18n.lbl_JoinNow}</div>
 
 				<Inputbox

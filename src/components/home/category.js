@@ -11,6 +11,7 @@ import { GET_ENTER_PAGE } from "../../service/enterPage";
 import { Redirect, Link } from "@reach/router";
 import { api_GetTpIds } from "../../service/api/site";
 import path from "../../path";
+import { siteInfo } from "../../config";
 
 const Category = props => {
 	const { i18n } = useContext(i18nContext);
@@ -284,7 +285,10 @@ const ProductItem = props => {
 			onClick={props.clickGame}
 			ref={props._ref}
 			className={props.isShow ? "open" : ""}>
-			<img src={props.img} alt={props.icon ?? ""} />
+			<img
+				src={`./styles/${siteInfo().siteName}/img/${props.img}`}
+				alt={props.icon ?? ""}
+			/>
 			{props.spanText ? (
 				<span className={`icon icon-${props.icon}`}>
 					{props.spanText}
@@ -301,7 +305,10 @@ const ProductLinkItem = props => {
 			state={props.parameter}
 			ref={props._ref}
 			className={props.isShow ? "open" : ""}>
-			<img src={props.img} alt={props.icon ?? ""} />
+			<img
+				src={`./styles/${siteInfo().siteName}/img/${props.img}`}
+				alt={props.icon ?? ""}
+			/>
 		</Link>
 	);
 };
@@ -309,7 +316,10 @@ const ProductLinkItem = props => {
 const ComingSoonItem = props => {
 	return (
 		<a className={props.isShow ? "open" : ""}>
-			<img src={props.img} alt="Coming Soon" />
+			<img
+				src={`./styles/${siteInfo().siteName}/img/${props.img}`}
+				alt="Coming Soon"
+			/>
 		</a>
 	);
 };

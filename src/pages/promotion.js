@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { userInfoContext, i18nContext } from "../components/common/context";
 import { api_GetBanner } from "../service/api/site";
-import config from "../config";
+import config, { siteInfo } from "../config";
 
 const IndexPage = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -41,7 +41,9 @@ const IndexPage = () => {
 
 		let imgSRC = p.fromDB
 			? p.imgURL
-			: `${config.imgUrl}/CMS/Nova88/Promotion/${lang}/${p.img}`;
+			: `${config.imgUrl}/CMS/${siteInfo().siteName}/Promotion/${lang}/${
+					p.img
+			  }`;
 
 		return (
 			<a

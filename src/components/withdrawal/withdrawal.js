@@ -85,10 +85,7 @@ const Panel = () => {
 				let result = await api_GetCustBankInfo().then(res => {
 					let hasBankInfo = false;
 					if (res.data.errorCode === 0) {
-						if (
-							res.data.data?.bankInfoDetail &&
-							res.data.data?.bankInfoDetail.length > 0
-						) {
+						if (res.data.data?.bankInfoDetail) {
 							if (isMountedRef.current) {
 								setbankInfo(() => ({
 									accountName: res.data.data.accountName,
