@@ -64,7 +64,7 @@ export default () => {
 					{i18n.lbl_Twitter}
 				</a>
 				<a
-					href="https://www.instagram.com/nova88official"
+					href="https://www.instagram.com/nova88.net_official/"
 					target="_blank"
 					className="icon icon-instagram">
 					{i18n.lbl_Instagram}

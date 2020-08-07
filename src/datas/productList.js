@@ -6,6 +6,7 @@ import LIVEcasino_AG from "../styles/Nova88/img/LIVEcasino_AG.jpg";
 import LIVEcasino_DG from "../styles/Nova88/img/LIVEcasino_DG.jpg";
 import LIVEcasino_SA from "../styles/Nova88/img/LIVEcasino_SA.jpg";
 import LIVEcasino_AB from "../styles/Nova88/img/LIVEcasino_AB.jpg";
+import LIVEcasino_AE from "../styles/Nova88/img/LIVEcasino_AE.jpg";
 import LIVEcasino_ComingSoon from "../styles/Nova88/img/coming_soon.jpg";
 
 import keno from "../styles/Nova88/img/keno.jpg";
@@ -66,9 +67,19 @@ const gameList = [
 		comingSoonImg: LIVEcasino_ComingSoon,
 		items: [
 			{
+				gameId: 4,
+				tpId: 4,
+				img: LIVEcasino_DG
+			},
+			{
 				gameId: 101,
 				tpId: 5,
 				img: LIVEcasino_PP
+			},
+			{
+				gameId: 15,
+				tpId: 15,
+				img: LIVEcasino_AE
 			},
 			{
 				gameId: 3,
@@ -76,19 +87,14 @@ const gameList = [
 				img: LIVEcasino_AG
 			},
 			{
-				gameId: 4,
-				tpId: 4,
-				img: LIVEcasino_DG
+				gameId: 12,
+				tpId: 12,
+				img: LIVEcasino_AB
 			},
 			{
 				gameId: 2,
 				tpId: 2,
 				img: LIVEcasino_SA
-			},
-			{
-				gameId: 12,
-				tpId: 12,
-				img: LIVEcasino_AB
 			}
 		]
 	},
