@@ -1,51 +1,59 @@
-import React from "react";
+import React, { Component } from "react";
 import App from "./app";
 //import * as serviceWorker from "./serviceWorker";
 import { render } from "react-snapshot";
 import { Helmet } from "react-helmet";
-import config, { siteInfo } from "./config";
+import { siteInfo } from "./config";
+
+// import "./styles/Nova88/css/style-dark.css";
+// import "./styles/Nova88/css/style.css";
+// import "./styles/Nova88/css/font.css";
+// import "./styles/Nova88/css/swiper.css";
 
 const _siteInfo = siteInfo();
 
-render(
-	<>
-		<Helmet>
-			<title>{_siteInfo.siteName}</title>
-			<meta name="description" content={_siteInfo.description} />
-			<link rel="manifest" href={`${_siteInfo.siteName}_manifest.json`} />
-			<link
-				rel="apple-touch-icon"
-				sizes="256x256"
-				href={`./styles/${_siteInfo.siteName}/img/${_siteInfo.iosIcon}`}
-			/>
-			<link
-				rel="icon"
-				href={`./styles/${_siteInfo.siteName}/img/favicon.ico`}
-			/>
-		</Helmet>
-		<React.StrictMode>
+class Content extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { loaded: false };
+	}
+	componentDidMount = () => {
+		this.importStyle().then(() => {
+			this.setState({ loaded: true });
+		});
+	};
+	importStyle = async () => {
+		await import(`./styles/${_siteInfo.siteName}/css/style-dark.css`);
+		await import(`./styles/${_siteInfo.siteName}/css/style.css`);
+		await import(`./styles/${_siteInfo.siteName}/css/font.css`);
+		await import(`./styles/${_siteInfo.siteName}/css/swiper.css`);
+	};
+	render() {
+		return (
 			<>
-				<link
-					href={`./styles/${config.siteName}/css/style-dark.css`}
-					rel="stylesheet"
-				/>
-				<link
-					href={`./styles/${config.siteName}/css/style.css`}
-					rel="stylesheet"
-				/>
-				<link
-					href={`./styles/${config.siteName}/css/font.css`}
-					rel="stylesheet"
-				/>
-				<link
-					href={`./styles/${config.siteName}/css/swiper.css`}
-					rel="stylesheet"
-				/>
+				<Helmet>
+					<title>{_siteInfo.siteName}</title>
+					<meta name="description" content={_siteInfo.description} />
+					<link
+						rel="manifest"
+						href={`/${_siteInfo.siteName}_manifest.json`}
+					/>
+					<link
+						rel="apple-touch-icon"
+						sizes="256x256"
+						href={`./styles/${_siteInfo.siteName}/img/${_siteInfo.iosIcon}`}
+					/>
+				</Helmet>
+				{this.state.loaded === true ? (
+					<React.StrictMode>
+						<App />
+					</React.StrictMode>
+				) : null}
 			</>
-			<App />
-		</React.StrictMode>
-	</>,
-	document.getElementById("root")
-);
+		);
+	}
+}
+
+render(<Content />, document.getElementById("root"));
 
 //serviceWorker.register();
