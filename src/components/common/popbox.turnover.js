@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { i18nContext } from "../common/context";
 import { number_format } from "../common/common";
 
-export default ({ currencyId, turnover, rollover, func_ClickOK }) => {
+export default ({ currencyId, turnover, rollover }) => {
 	const { i18n } = useContext(i18nContext);
-	let currency = i18n[`Currency-${currencyId}`];
+	let currency = i18n[`Currency_${currencyId}`];
 	let percentage =
-		turnover > rollover ? 100 : Math.round((turnover / rollover) * 100);
+		turnover > rollover ? 100 : ((turnover / rollover) * 100).toFixed(2);
 
 	return (
 		<div className="popTxt">
@@ -32,14 +32,9 @@ export default ({ currencyId, turnover, rollover, func_ClickOK }) => {
 								className="progress"
 								style={{ width: `${percentage}%` }}></div>
 						</div>
-						<div className="percentage">`${percentage}%`</div>
+						<div className="percentage">{percentage}%</div>
 					</div>
 				</div>
-			</div>
-			<div className="btn-group">
-				<button className="orange" onClick={func_ClickOK}>
-					{i18n["lbl_OK"]}
-				</button>
 			</div>
 		</div>
 	);
