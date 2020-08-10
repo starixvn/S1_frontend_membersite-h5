@@ -33,7 +33,7 @@ const Nova88Loading = ({ loadingDisplayText }) => {
 					</div>
 				</div>
 				<h1> </h1>
-				<div className="text">{loadingDisplayText}</div>
+				<div className="text">{loadingDisplayText}...</div>
 			</div>
 		</div>
 	);
