@@ -12,9 +12,9 @@ const Panel = () => {
 	return (
 		<>
 			<div className="avatar"></div>
-			<div className="viplv">
+			{/* <div className="viplv">
 				<i className="icon icon-vip"></i>VIP Lv{userInfo.userLevel}
-			</div>
+			</div> */}
 			<ProfileWallet />
 			<ProfileDetail />
 			<div className="btn-group">
