@@ -145,9 +145,9 @@ const Panel = () => {
 	return (
 		<>
 			<div className="avatar"></div>
-			<div className="viplv">
+			{/* <div className="viplv">
 				<i className="icon icon-vip"></i>VIP Lv{userInfo.userLevel}
-			</div>
+			</div> */}
 			<div className="account">
 				<div className="info">
 					<span className="title">{i18n["lbl_MainWallet"]}</span>
