@@ -36,7 +36,7 @@ const IndexPage = () => {
 			: p.actionLink;
 
 		let href = `${config.t_and_cURL}${
-			p.urlWithLang ? `/${lang}` : ""
+			p.urlWithLang || p.fromDB ? `/${lang}` : ""
 		}/${actionLink}`;
 
 		let imgSRC = p.fromDB
