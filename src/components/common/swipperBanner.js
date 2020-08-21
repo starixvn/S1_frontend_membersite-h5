@@ -66,7 +66,7 @@ const Panel = ({ ImgFolder }) => {
 		return () => (mounted = false);
 	}, [userInfo, ImgFolder]);
 
-	let rows = banner.map(b => {
+	let rows = banner?.map(b => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
 		let lang =
 			b.fromDB || b.lang.includes(userInfo.langId)
