@@ -76,11 +76,6 @@ const Panel = () => {
 	const [monthSelectedIdx, setMonthSelectedIdx] = useState();
 	const [daySelectedIdx, setDaySelectedIdx] = useState();
 
-	const [checklistState, setChecklistState] = useState({
-		RealName: false,
-		Phone: false
-	});
-
 	const country = userInfo.country ? userInfo.country : userInfo.perCountry;
 	const isMountedRef = useRef(null);
 	const [redirectPath, setRedirectPath] = useState(null);
@@ -199,7 +194,7 @@ const Panel = () => {
 	const checkRealName = val => {
 		let checked = true;
 		let message = "";
-		if (val === "") {
+		if (val === "" || val === null || val === undefined) {
 			checked = false;
 			message = i18n["msg_EnterRealName"];
 		}
@@ -229,9 +224,6 @@ const Panel = () => {
 				}
 			};
 		});
-		setChecklistState(prevState => {
-			return { ...prevState, [col]: result.checked };
-		});
 	};
 
 	const EditField = (col, e) => {
@@ -240,16 +232,6 @@ const Panel = () => {
 			...prevState,
 			[col]: val
 		}));
-
-		if (status === defStatus.Phone_BDay) {
-			setChecklistState(prevState => {
-				return { ...prevState, RealName: true };
-			});
-		} else if (status === defStatus.RealName) {
-			setChecklistState(prevState => {
-				return { ...prevState, Phone: true };
-			});
-		}
 	};
 
 	const checkSubmitHandler = _status => {
@@ -300,29 +282,6 @@ const Panel = () => {
 					};
 				});
 				checked = checked ? result.checked : false;
-			}
-		}
-
-		if (_status !== defStatus.BDay) {
-			for (let i in checklistState) {
-				if (checklistState[i] === false) {
-					let message = "";
-					checked = false;
-					setWarningState(prevState => {
-						if (i === "RealName") {
-							message = i18n["msg_EnterRealName"];
-						} else if (i === "Phone") {
-							message = i18n["msg_EnterPhoneNumber"];
-						}
-						return {
-							...prevState,
-							[i]: {
-								status: true,
-								msg: message
-							}
-						};
-					});
-				}
 			}
 		}
 
