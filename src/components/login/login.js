@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import Inputbox from "../common/inputbox";
 import InputboxPWD from "../common/inputbox.password";
-import logo from "../../styles/Nova88/img/logo.svg";
 import { LOGIN } from "../../service/auth";
-import { api_GetTranslationData } from "../../service/api/site";
 import {
 	userInfoContext,
 	i18nContext,
@@ -11,9 +9,9 @@ import {
 	defNavPanel,
 	popBoxContext
 } from "../common/context";
-import { useMatch, Redirect, Link } from "@reach/router";
+import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
-import config from "../../config";
+import config, { siteInfo } from "../../config";
 
 const initState = {
 	UserName: "",
@@ -42,9 +40,8 @@ const warningLangKey = {
 };
 
 const LoginPage = ({ ButtonTitle }) => {
-	const { i18n, seti18n } = useContext(i18nContext);
-	const { userInfo, setUserInfo } = useContext(userInfoContext);
-	const { setPopBox } = useContext(popBoxContext);
+	const { i18n } = useContext(i18nContext);
+	const { setUserInfo } = useContext(userInfoContext);
 	const { nav, setNav } = useContext(navContext);
 	const [userValueState, setUserValueState] = useState(initState);
 	const [redirectPath, setRedirectPath] = useState(null);
@@ -104,34 +101,6 @@ const LoginPage = ({ ButtonTitle }) => {
 		if (checked) {
 			const CallBackLogin = (errorCode, message, isLogin, userData) => {
 				if (errorCode === 0) {
-					// let langId = userData.langId;
-					// if (userInfo?.langId !== langId) {
-					// 	api_GetTranslationData(langId).then(
-					// 		res => {
-					// 			if (isMountedRef.current) {
-					// 				if (errorCode !== 0) {
-					// 					setPopBox({
-					// 						isOpen: true,
-					// 						title: i18n.lbl_ImportantNote,
-					// 						content: res.data.message
-					// 					});
-					// 				} else {
-					// 					seti18n(res.data.data);
-					// 				}
-					// 			}
-					// 		},
-					// 		err => {
-					// 			if (isMountedRef.current) {
-					// 				setPopBox({
-					// 					isOpen: true,
-					// 					title: i18n.lbl_ImportantNote,
-					// 					content: i18n.msg_ApiServerError
-					// 				});
-					// 			}
-					// 		}
-					// 	);
-					// }
-
 					if (isMountedRef.current) {
 						setUserInfo(() => ({
 							...userData,
@@ -219,7 +188,12 @@ const LoginPage = ({ ButtonTitle }) => {
 					<span></span>
 				</div>
 
-				<img src={logo} alt={config.siteName} />
+				<img
+					src={`./styles/${siteInfo().siteName}/img/${
+						siteInfo().logo
+					}`}
+					alt={config.siteName}
+				/>
 				<div className="title">{i18n["lbl_Login"]}</div>
 
 				<Inputbox

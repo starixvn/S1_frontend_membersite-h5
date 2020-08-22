@@ -1,28 +1,3 @@
-import sport from "../styles/Nova88/img/sport.jpg";
-import virtual_sports from "../styles/Nova88/img/virtual_sports.jpg";
-import eSports from "../styles/Nova88/img/e-sports.jpg";
-import LIVEcasino_PP from "../styles/Nova88/img/LIVEcasino_PP.jpg";
-import LIVEcasino_AG from "../styles/Nova88/img/LIVEcasino_AG.jpg";
-import LIVEcasino_DG from "../styles/Nova88/img/LIVEcasino_DG.jpg";
-import LIVEcasino_SA from "../styles/Nova88/img/LIVEcasino_SA.jpg";
-import LIVEcasino_AB from "../styles/Nova88/img/LIVEcasino_AB.jpg";
-import LIVEcasino_AE from "../styles/Nova88/img/LIVEcasino_AE.jpg";
-import LIVEcasino_ComingSoon from "../styles/Nova88/img/coming_soon.jpg";
-
-import keno from "../styles/Nova88/img/keno.jpg";
-import lottery from "../styles/Nova88/img/lottery.jpg";
-import id4d from "../styles/Nova88/img/id4d.jpg";
-import fishing from "../styles/Nova88/img/fish.jpg";
-import number_game from "../styles/Nova88/img/number_game.jpg";
-
-import casino_GPI from "../styles/Nova88/img/casino_GPI.jpg";
-import casino_ow from "../styles/Nova88/img/casino_ow.jpg";
-import casino_PG from "../styles/Nova88/img/casino_PG.jpg";
-import casino_PP from "../styles/Nova88/img/casino_PP.jpg";
-import casino_SG from "../styles/Nova88/img/casino_SG.jpg";
-import casino_YGG from "../styles/Nova88/img/casino_YGG.jpg";
-import casino_JOKER from "../styles/Nova88/img/casino_JOKER.jpg";
-
 const gameList = [
 	{
 		category: "sports",
@@ -33,14 +8,14 @@ const gameList = [
 				icon: "soccer",
 				gameId: 1,
 				tpId: 1,
-				img: sport,
+				img: `sport.jpg`,
 				spanTextKey: "lbl_Sports"
 			},
 			{
 				icon: "virtual-sports",
 				gameId: 180,
 				tpId: 1,
-				img: virtual_sports,
+				img: `virtual_sports.jpg`,
 				spanTextKey: "lbl_VirtualSports"
 			}
 		]
@@ -53,7 +28,7 @@ const gameList = [
 			{
 				icon: "e-sports",
 				gameId: 43,
-				img: eSports,
+				img: `e-sports.jpg`,
 				tpId: 1,
 				spanTextKey: "lbl_eSports"
 			}
@@ -64,37 +39,37 @@ const gameList = [
 		categoryIcon: "livecasino",
 		className: "casinoList",
 		translateKey: "lbl_LiveCasino",
-		comingSoonImg: LIVEcasino_ComingSoon,
+		comingSoonImg: `coming_soon.jpg`,
 		items: [
 			{
 				gameId: 4,
 				tpId: 4,
-				img: LIVEcasino_DG
+				img: "LIVEcasino_DG.jpg"
 			},
 			{
 				gameId: 101,
 				tpId: 5,
-				img: LIVEcasino_PP
+				img: "LIVEcasino_PP.jpg"
 			},
 			{
 				gameId: 15,
 				tpId: 15,
-				img: LIVEcasino_AE
+				img: "LIVEcasino_AE.jpg"
 			},
 			{
 				gameId: 3,
 				tpId: 3,
-				img: LIVEcasino_AG
+				img: "LIVEcasino_AG.jpg"
 			},
 			{
 				gameId: 12,
 				tpId: 12,
-				img: LIVEcasino_AB
+				img: "LIVEcasino_AB.jpg"
 			},
 			{
 				gameId: 2,
 				tpId: 2,
-				img: LIVEcasino_SA
+				img: "LIVEcasino_SA.jpg"
 			}
 		]
 	},
@@ -103,42 +78,42 @@ const gameList = [
 		categoryIcon: "casino",
 		className: "casinoList",
 		translateKey: "lbl_Casino",
-		comingSoonImg: LIVEcasino_ComingSoon,
+		comingSoonImg: `coming_soon.jpg`,
 		items: [
 			{
 				gameId: 208,
 				tpId: 1,
-				img: casino_ow
+				img: "casino_ow.jpg"
 			},
 			{
 				tpId: 5,
 				parameter: { tpId: 5 },
-				img: casino_PP
+				img: "casino_PP.jpg"
 			},
 			{
 				tpId: 10,
 				parameter: { tpId: 10 },
-				img: casino_SG
+				img: "casino_SG.jpg"
 			},
 			{
 				tpId: 14,
 				parameter: { tpId: 14 },
-				img: casino_PG
+				img: "casino_PG.jpg"
 			},
 			{
 				tpId: 9,
 				parameter: { tpId: 9 },
-				img: casino_JOKER
+				img: "casino_JOKER.jpg"
 			},
 			{
 				tpId: 8,
 				parameter: { tpId: 8 },
-				img: casino_YGG
+				img: "casino_YGG.jpg"
 			},
 			{
 				tpId: 6,
 				parameter: { tpId: 6 },
-				img: casino_GPI
+				img: "casino_GPI.jpg"
 			}
 		]
 	},
@@ -151,7 +126,7 @@ const gameList = [
 				icon: "game",
 				gameId: 10,
 				tpId: 7,
-				img: fishing,
+				img: "fish.jpg",
 				spanTextKey: "lbl_Fishing"
 			}
 		]
@@ -165,7 +140,7 @@ const gameList = [
 				icon: "lottery",
 				gameId: 223,
 				tpId: 1,
-				img: id4d,
+				img: "id4d.jpg",
 				spanTextKey: "lbl_Indo4d",
 				allowCurrency: [4, 15]
 			},
@@ -173,21 +148,21 @@ const gameList = [
 				icon: "keno",
 				gameId: 202,
 				tpId: 1,
-				img: keno,
+				img: `keno.jpg`,
 				spanTextKey: "lbl_Keno"
 			},
 			{
 				icon: "lottery",
 				gameId: 220,
 				tpId: 1,
-				img: lottery,
+				img: "lottery.jpg",
 				spanTextKey: "lbl_Lottery"
 			},
 			{
 				icon: "lottery",
 				gameId: 161,
 				tpId: 1,
-				img: number_game,
+				img: "number_game.jpg",
 				spanTextKey: "lbl_NumberGame"
 			}
 		]

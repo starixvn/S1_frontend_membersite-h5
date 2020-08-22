@@ -1,10 +1,26 @@
 import React, { useContext } from "react";
 import { userInfoContext, i18nContext } from "../common/context";
 import TandC from "../../service/t_and_c";
+import { siteInfo } from "../../config";
 
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
+	let _siteInfo = siteInfo();
+
+	let socialMedia =
+		_siteInfo.socialMedia &&
+		Object.values(_siteInfo.socialMedia).map(v => {
+			return (
+				<a
+					key={`other-socialMedia-${v.displayKey}`}
+					href={v.link}
+					target="_blank"
+					className={`icon icon-${v.icon}`}>
+					{i18n[v.displayKey]}
+				</a>
+			);
+		});
 
 	return (
 		<div className="webmap">
@@ -49,27 +65,12 @@ export default () => {
 					{i18n.lbl_ContactUs}
 				</a>
 			</div>
-			<div>
-				<span>{i18n.lbl_SocialMedia}</span>
-				<a
-					href="https://www.facebook.com/nova88official/"
-					target="_blank"
-					className="icon icon-facebook2">
-					{i18n.lbl_Facebook}
-				</a>
-				<a
-					href="https://twitter.com/nova88official"
-					target="_blank"
-					className="icon icon-twitter">
-					{i18n.lbl_Twitter}
-				</a>
-				<a
-					href="https://www.instagram.com/nova88.net_official/"
-					target="_blank"
-					className="icon icon-instagram">
-					{i18n.lbl_Instagram}
-				</a>
-			</div>
+			{socialMedia && socialMedia.length > 0 ? (
+				<div>
+					<span>{i18n.lbl_SocialMedia}</span>
+					{socialMedia}
+				</div>
+			) : null}
 		</div>
 	);
 };
