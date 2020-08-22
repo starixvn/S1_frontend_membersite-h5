@@ -192,7 +192,7 @@ const Panel = () => {
 
 			setLoading(true);
 			api_Transfer({
-				TpId: getWalletInfo[fromSelectedIdx].id ?? 1,
+				TpId: 1,
 				amount: real_amount,
 				direction: direction
 			}).then(
