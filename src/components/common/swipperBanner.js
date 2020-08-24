@@ -69,7 +69,7 @@ const Panel = ({ ImgFolder }) => {
 	let rows = banner?.map(b => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
 		let lang =
-			b.fromDB || b.lang.includes(userInfo.langId)
+			b.fromDB || b.lang?.includes(userInfo.langId)
 				? userInfo.langId
 				: "en";
 		let actionLinkByLang = b.fromDB
