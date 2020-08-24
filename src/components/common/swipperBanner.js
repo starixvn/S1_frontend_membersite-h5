@@ -49,21 +49,23 @@ export const ClickLink = (
 	}
 };
 
-const Panel = ({ ImgFolder }) => {
+const Panel = ({ ImgFolder, filterHideInHome = false }) => {
 	const [banner, setBanner] = useState([]);
 	const { userInfo } = useContext(userInfoContext);
 	const { setNav } = useContext(navContext);
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetBanner(ImgFolder, "", userInfo.langId).then(res => {
-			if (res.data.errorCode === 0 && mounted) {
-				setBanner(res.data.data);
+		api_GetBanner(ImgFolder, "", userInfo.langId, filterHideInHome).then(
+			res => {
+				if (res.data.errorCode === 0 && mounted) {
+					setBanner(res.data.data);
+				}
 			}
-		});
+		);
 
 		return () => (mounted = false);
-	}, [userInfo, ImgFolder]);
+	}, [userInfo, ImgFolder, filterHideInHome]);
 
 	let rows = banner?.map(b => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
