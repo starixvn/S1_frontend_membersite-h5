@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import logoItem from "../../styles/Nova88/img/logo.svg";
 import { Redirect, Link } from "@reach/router";
 // import SubMenu from "../subMenu/subMenu";
 import {
@@ -15,6 +14,7 @@ import LoginPanel from "../login/login";
 import ReloadSpin from "./reloadSpin";
 import { number_format, isConvert } from "./common";
 import path from "../../path";
+import { siteInfo } from "../../config";
 
 const HeaderTitle = ({ title }) => <div className="title">{title}</div>;
 
@@ -23,7 +23,12 @@ const Header = ({ title, hideLogo }) => {
 		<header className={title ? "header" : ""} id="header">
 			{hideLogo ? null : (
 				<a href="#">
-					<img src={logoItem} alt="logo" />
+					<img
+						src={`./styles/${siteInfo().siteName}/img/${
+							siteInfo().logo
+						}`}
+						alt="logo"
+					/>
 				</a>
 			)}
 			{title ? <HeaderTitle title={title} /> : <HeaderBtn />}

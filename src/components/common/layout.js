@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useRef, Component } from "react";
+import React, { useContext, Component } from "react";
 import PropTypes from "prop-types";
 import Footer from "./footer";
 import Header from "./header";
 import { navContext, i18nContext, defNavPanel } from "../common/context";
-import "../../styles/Nova88/css/style-dark.css";
-import "../../styles/Nova88/css/style.css";
-import "../../styles/Nova88/css/font.css";
 import { useMatch, useLocation } from "@reach/router";
 import path from "../../path";
 
