@@ -67,7 +67,7 @@ const Panel = ({ ImgFolder, filterHideInHome = false }) => {
 		return () => (mounted = false);
 	}, [userInfo, ImgFolder, filterHideInHome]);
 
-	let rows = banner?.map(b => {
+	let rows = banner?.map((b, b_idx) => {
 		let _imgFolder = b.imgFolder ?? ImgFolder;
 		let lang =
 			b.fromDB || b.lang?.includes(userInfo.langId)
@@ -96,7 +96,7 @@ const Panel = ({ ImgFolder, filterHideInHome = false }) => {
 					userInfo.isLogin,
 					setNav
 				)}
-				key={`${lang}-${b.img}`}>
+				key={`${lang}-${b.img}-${b_idx}`}>
 				<img src={imgSRC} className="banner" alt={b.img ?? ""} />
 			</button>
 		);
