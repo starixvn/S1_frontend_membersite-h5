@@ -1191,6 +1191,10 @@ footer > a.open .circleAnimation + span {
   background: rgba(255, 93, 0, 0.1);
 }
 
+#popup .popTxt .btn-group {
+  margin-top: 5vw;
+}
+
 .header {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -1377,7 +1381,7 @@ footer > a.open .circleAnimation + span {
 .info ul li {
   float: left;
   width: 50%;
-  line-height: 20px;
+  line-height: 24px;
 }
 
 .info ul li span {
@@ -1388,6 +1392,28 @@ footer > a.open .circleAnimation + span {
 
 .info ul li span.title {
   color: #ff5d00;
+}
+
+.info ul li span.title button.icon, .info ul li span.title i.icon {
+  border-radius: 100%;
+  background: #ff5d00;
+  color: white;
+  width: 4.6vw;
+  height: 4.6vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: auto auto auto 2vw;
+}
+
+.info ul li span.title button.icon:before, .info ul li span.title i.icon:before {
+  font-size: 12px;
 }
 
 .info.infoBlack {
@@ -3748,5 +3774,33 @@ span.important {
 
 .progressBarModule .turnover span {
   color: #ff5d00;
+}
+
+.otp {
+  margin: 0;
+}
+
+.otp input {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  padding: 0 3vw;
+}
+
+.otpBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 3vw;
+  background: #ff5d00;
+  border-radius: 5px;
+  padding: 1vw;
+}
+
+.otpBtn span {
+  color: white;
 }
 /*# sourceMappingURL=style.css.map */

@@ -70,6 +70,11 @@ const gameList = [
 				gameId: 2,
 				tpId: 2,
 				img: "LIVEcasino_SA.jpg"
+			},
+			{
+				gameId: 18,
+				tpId: 18,
+				img: "LIVEcasino_EB.jpg"
 			}
 		]
 	},
