@@ -1,5 +1,4 @@
 export const sites = {
-	Goal123: "Goal123",
 	Nova88: "Nova88"
 };
 
@@ -33,17 +32,6 @@ export const siteInfo = () => {
 						displayKey: "lbl_Instagram"
 					}
 				}
-			};
-
-		case sites.Goal123:
-			return {
-				siteName: "Goal123",
-				siteDefaultLang: "en",
-				siteLangList: ["en", "vn"],
-				logo: "logo.png",
-				description:
-					"Nova88 is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.",
-				iosIcon: "Nova88_256_2.png"
 			};
 
 		default:

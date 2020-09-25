@@ -25,8 +25,9 @@ import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
-import config, { siteInfo } from "../../config";
+import config from "../../config";
 import PromoPopup from "./join.promotion";
+import Logo from "../../styles/img/logo.svg";
 
 const colName = ["UserName", "Password", "Email", "Currency"];
 
@@ -640,12 +641,7 @@ const Join = () => {
 					<span></span>
 					<span></span>
 				</div>
-				<img
-					src={`./styles/${siteInfo().siteName}/img/${
-						siteInfo().logo
-					}`}
-					alt=""
-				/>
+				<img src={Logo} alt={config.siteName} />
 				<div className="title">{i18n.lbl_JoinNow}</div>
 
 				<Inputbox

@@ -141,10 +141,7 @@ const Item = props => {
 		<div
 			className={`${props.userLanguage === props.value ? "open" : ""}`}
 			onClick={props.selectLanguage.bind(null, props.value)}>
-			<img
-				src={`./styles/${siteInfo().siteName}/img/${props.img}`}
-				alt=""
-			/>
+			<img src={props.img} alt={props.value} />
 			<span className="text">{props.displayText}</span>
 		</div>
 	);
