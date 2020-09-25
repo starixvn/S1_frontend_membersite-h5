@@ -6,12 +6,12 @@ import {
 	userInfoContext,
 	i18nContext,
 	navContext,
-	defNavPanel,
-	popBoxContext
+	defNavPanel
 } from "../common/context";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
-import config, { siteInfo } from "../../config";
+import config from "../../config";
+import Logo from "../../styles/img/logo.svg";
 
 const initState = {
 	UserName: "",
@@ -188,12 +188,7 @@ const LoginPage = ({ ButtonTitle }) => {
 					<span></span>
 				</div>
 
-				<img
-					src={`./styles/${siteInfo().siteName}/img/${
-						siteInfo().logo
-					}`}
-					alt={config.siteName}
-				/>
+				<img src={Logo} alt={config.siteName} />
 				<div className="title">{i18n["lbl_Login"]}</div>
 
 				<Inputbox
