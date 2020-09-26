@@ -633,7 +633,7 @@ main .gameList a img {
 main .gameList a span {
   position: absolute;
   left: 4vw;
-  width: 25vw;
+  width: 23vw;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   display: -webkit-box;
@@ -659,7 +659,7 @@ main .gameList a span:before {
 }
 
 main .gameList a span.icon-affiliate {
-  width: 27vw;
+  width: 31vw;
 }
 
 main .gameList .space {
