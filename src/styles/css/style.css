@@ -61,7 +61,7 @@ body, html {
   overflow-x: hidden;
   background: #f3f3f3;
   height: 100%;
-  font-size: 4vw;
+  font-size: 12px;
   font-family: 'Microsoft YaHei',sans-serif;
 }
 
@@ -584,11 +584,6 @@ main .sideBar button.icon:before {
   width: 100%;
   font-size: 8vw;
   text-align: center;
-  line-height: 7vw;
-}
-
-main .sideBar button.icon div {
-  font-size: 4vw;
 }
 
 main .gameList {
@@ -637,8 +632,8 @@ main .gameList a img {
 
 main .gameList a span {
   position: absolute;
-  left: 5vw;
-  width: 17vw;
+  left: 4vw;
+  width: 25vw;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   display: -webkit-box;
@@ -660,6 +655,16 @@ main .gameList a span {
 main .gameList a span:before {
   font-size: 12vw;
   font-weight: normal;
+  padding: 0 3vw;
+}
+
+main .gameList a span.icon-affiliate {
+  width: 27vw;
+}
+
+main .gameList .space {
+  height: 100vw;
+  background: transparent;
 }
 
 main .gameList .casinoList {
@@ -727,7 +732,6 @@ main .thBar a.icon:before {
 }
 
 main .thBar a span {
-  font-size: 3.5vw;
   white-space: nowrap;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -800,7 +804,6 @@ footer > a span {
   color: #001942;
   white-space: nowrap;
   margin-bottom: 1vw;
-  font-size: 3.2vw;
 }
 
 footer > a.open {
@@ -1568,7 +1571,6 @@ footer > a.open .circleAnimation + span {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 4vw;
 }
 
 .btn-group button i, .btn-group a i {
@@ -1961,7 +1963,6 @@ footer > a.open .circleAnimation + span {
 
 .text-white-border-org {
   color: #fff;
-  font-size: 12px;
   margin: 0 0 5px;
   border: 1px solid #ff5d00;
   padding: 3vw 1vw;
@@ -2012,7 +2013,6 @@ input {
   color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-size: 4vw;
 }
 
 input::-webkit-input-placeholder {
@@ -2076,7 +2076,7 @@ button.clickBtn {
 }
 
 button.clickBtn:before {
-  font-size: 4vw;
+  font-size: 3vw;
 }
 
 .infoStates {
@@ -3466,7 +3466,6 @@ span.important {
   background: #ff5d00;
   padding: 0 2vw;
   border-radius: 3px;
-  font-size: 12px;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -3693,7 +3692,7 @@ span.important {
 }
 
 .Straight-lock i.icon-spinner11:before {
-  font-size: 2vw;
+  font-size: 3vw;
   color: #ff5d00;
   -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
@@ -3708,7 +3707,6 @@ span.important {
 .Straight-lock .text {
   margin-top: 2vw;
   text-align: center;
-  font-size: 2vw;
   line-height: 4vw;
 }
 
@@ -3818,5 +3816,11 @@ span.important {
 
 .otpBtn span {
   color: white;
+}
+
+.affiliate {
+  position: absolute;
+  left: 5vw;
+  bottom: 3vw;
 }
 /*# sourceMappingURL=style.css.map */

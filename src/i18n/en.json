@@ -297,5 +297,8 @@
 	"lbl_TurnoverAccumulated": "Turnover Accumulated",
 	"lbl_Req": "Req.",
 	"lbl_PromoJoinNow": "Join Now",
-	"lbl_GoNow": "Go Now!"
+  "lbl_GoNow": "Go Now!",
+  "lbl_Affiliate":"Affiliate",
+  "lbl_SiteAffiliate":"Nova88 Affiliate",
+  "lbl_AffiliateDesc":"Your Partner to Success"
 }

@@ -11,7 +11,6 @@ import { GET_ENTER_PAGE } from "../../service/enterPage";
 import { Redirect, Link } from "@reach/router";
 import { api_GetTpIds } from "../../service/api/site";
 import path from "../../path";
-import { siteInfo } from "../../config";
 
 const Category = props => {
 	const { i18n } = useContext(i18nContext);
@@ -231,9 +230,13 @@ class CateGoryContent extends Component {
 								clickGame={this.props.clickGame.bind(this, {
 									...subItem
 								})}
-								img={subItem.img}
 								spanText={this.props.i18n[subItem.spanTextKey]}
-								icon={subItem.icon}
+								descText={
+									subItem.descTextKey
+										? this.props.i18n[subItem.descTextKey]
+										: ""
+								}
+								{...subItem}
 							/>
 						);
 					}
@@ -280,7 +283,28 @@ const CategoryItem = props => {
 };
 
 const ProductItem = props => {
-	return (
+	return props.href ? (
+		<>
+			<a
+				href={props.href}
+				target="_blank"
+				ref={props._ref}
+				className={props.isShow ? "open" : ""}>
+				<img src={props.img} alt={props.icon ?? ""} />
+				{props.spanText ? (
+					<span className={`icon icon-${props.icon}`}>
+						{props.spanText}
+					</span>
+				) : null}
+				{props.descText ? (
+					<div className={props.descClassName}>
+						Your Partner to Success
+					</div>
+				) : null}
+			</a>
+			{props.addSpaceInBelow ? <a href="" className="space"></a> : null}
+		</>
+	) : (
 		<a
 			onClick={props.clickGame}
 			ref={props._ref}
@@ -290,6 +314,11 @@ const ProductItem = props => {
 				<span className={`icon icon-${props.icon}`}>
 					{props.spanText}
 				</span>
+			) : null}
+			{props.descText ? (
+				<div className={props.descClassName}>
+					Your Partner to Success
+				</div>
 			) : null}
 		</a>
 	);

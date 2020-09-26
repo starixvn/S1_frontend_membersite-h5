@@ -9,6 +9,7 @@ export const siteInfo = () => {
 		case sites.Nova88:
 			return {
 				siteName: "Nova88",
+				affiliateLink: "https://aff.nova88.net",
 				siteDefaultLang: "en",
 				siteLangList: ["en", "cs", "th", "id"],
 				logo: "logo.svg",

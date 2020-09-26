@@ -21,6 +21,8 @@ import id4d from "../styles/img/id4d.jpg";
 import Keno from "../styles/img/keno.jpg";
 import Lottery from "../styles/img/lottery.jpg";
 import number_game from "../styles/img/number_game.jpg";
+import affiliate from "../styles/img/affiliate.jpg";
+import { siteInfo } from "../config";
 
 const gameList = [
 	{
@@ -193,6 +195,22 @@ const gameList = [
 				tpId: 1,
 				img: number_game,
 				spanTextKey: "lbl_NumberGame"
+			}
+		]
+	},
+	{
+		category: "affiliate",
+		categoryIcon: "affiliate",
+		translateKey: "lbl_Affiliate",
+		items: [
+			{
+				icon: "affiliate",
+				href: siteInfo().affiliateLink,
+				img: affiliate,
+				spanTextKey: "lbl_SiteAffiliate",
+				descTextKey: "lbl_AffiliateDesc",
+				descClassName: "affiliate",
+				addSpaceInBelow: true
 			}
 		]
 	}
