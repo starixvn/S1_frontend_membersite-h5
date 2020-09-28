@@ -659,7 +659,9 @@ main .gameList a span:before {
 }
 
 main .gameList a span.icon-affiliate {
-  width: 31vw;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  text-align: left;
 }
 
 main .gameList .space {
