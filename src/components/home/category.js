@@ -79,6 +79,7 @@ const Category = props => {
 			top={props.shortcutBarLocate?.bottom}
 			casinoTpIds={casinoTpIds}
 			userCurrencyId={userInfo.currencyId}
+			langId={userInfo.langId}
 		/>
 	);
 };
@@ -90,12 +91,15 @@ class CateGoryContent extends Component {
 		this.mounted = false;
 		this.RefItems = {};
 		this.setCategory = false;
-		productList.forEach(item => {
-			this.RefItems[`${item.category}`] = {
-				First: React.createRef(),
-				Last: React.createRef()
-			};
-		});
+
+		let _productList = productList({ langId: this.props.langId });
+		_productList &&
+			_productList.forEach(item => {
+				this.RefItems[`${item.category}`] = {
+					First: React.createRef(),
+					Last: React.createRef()
+				};
+			});
 		this.checkScrollTimer = null;
 	}
 	ScrollBarListener = () => {
@@ -168,100 +172,108 @@ class CateGoryContent extends Component {
 	render() {
 		let sideBarItems = [];
 		let products = [];
-		productList.forEach(item => {
-			let _open = this.state.category === item.category;
-			sideBarItems.push(
-				<CategoryItem
-					key={`category-${item.category}`}
-					categoryIcon={item.categoryIcon}
-					onClick={
-						!item._blank
-							? this.selectCategory.bind(null, item.category)
-							: this.props.clickGame.bind(this, { ...item })
-					}
-					isOpen={`${_open ? " open" : ""}`}
-					translation={this.props.i18n[item.translateKey]}
-				/>
-			);
-
-			let content = item.items
-				.filter(subItem => {
-					let allowCurrency =
-						this.props.userCurrencyId === null ||
-						this.props.userCurrencyId === undefined ||
-						subItem.allowCurrency === undefined ||
-						subItem.allowCurrency.includes(
-							this.props.userCurrencyId
-						);
-
-					return (
-						allowCurrency &&
-						(item.category === "casino"
-							? this.props.casinoTpIds === null ||
-							  this.props.casinoTpIds.includes(subItem.tpId)
-							: true)
-					);
-				})
-				.map((subItem, idx) => {
-					let refItem =
-						idx === 0
-							? this.RefItems[item.category].First
-							: idx === item.items.length - 1
-							? this.RefItems[item.category].Last
-							: null;
-					let key = `product-tpId_${subItem.tpId}-gameId_${subItem.gameId}`;
-					if (subItem.parameter) {
-						return (
-							<ProductLinkItem
-								_ref={refItem}
-								isShow={!item.className && _open}
-								key={key}
-								to={path.casino.root}
-								parameter={subItem.parameter}
-								img={subItem.img}
-							/>
-						);
-					} else {
-						return (
-							<ProductItem
-								_ref={refItem}
-								isShow={!item.className && _open}
-								key={key}
-								clickGame={this.props.clickGame.bind(this, {
-									...subItem
-								})}
-								spanText={this.props.i18n[subItem.spanTextKey]}
-								descText={
-									subItem.descTextKey
-										? this.props.i18n[subItem.descTextKey]
-										: ""
-								}
-								{...subItem}
-							/>
-						);
-					}
-				});
-
-			if (item.comingSoonImg && content.length % 2 !== 0) {
-				content.push(
-					<ComingSoonItem
-						key={`product-${item.category}-comingsoon`}
-						img={item.comingSoonImg}
+		let _productList = productList({ langId: this.props.langId });
+		_productList &&
+			_productList.forEach(item => {
+				let _open = this.state.category === item.category;
+				sideBarItems.push(
+					<CategoryItem
+						key={`category-${item.category}`}
+						categoryIcon={item.categoryIcon}
+						onClick={
+							!item._blank
+								? this.selectCategory.bind(null, item.category)
+								: this.props.clickGame.bind(this, { ...item })
+						}
+						isOpen={`${_open ? " open" : ""}`}
+						translation={this.props.i18n[item.translateKey]}
 					/>
 				);
-			}
-			if (item.className) {
-				products.push(
-					<div
-						key={`productGroup-${item.category}`}
-						className={`${item.className}${_open ? " open" : ""}`}>
-						{content}
-					</div>
-				);
-			} else {
-				products = [...products, ...content];
-			}
-		});
+
+				let content = item.items
+					.filter(subItem => {
+						let allowCurrency =
+							this.props.userCurrencyId === null ||
+							this.props.userCurrencyId === undefined ||
+							subItem.allowCurrency === undefined ||
+							subItem.allowCurrency.includes(
+								this.props.userCurrencyId
+							);
+
+						return (
+							allowCurrency &&
+							(item.category === "casino"
+								? this.props.casinoTpIds === null ||
+								  this.props.casinoTpIds.includes(subItem.tpId)
+								: true)
+						);
+					})
+					.map((subItem, idx) => {
+						let refItem =
+							idx === 0
+								? this.RefItems[item.category].First
+								: idx === item.items.length - 1
+								? this.RefItems[item.category].Last
+								: null;
+						let key = `product-tpId_${subItem.tpId}-gameId_${subItem.gameId}`;
+						if (subItem.parameter) {
+							return (
+								<ProductLinkItem
+									_ref={refItem}
+									isShow={!item.className && _open}
+									key={key}
+									to={path.casino.root}
+									parameter={subItem.parameter}
+									img={subItem.img}
+								/>
+							);
+						} else {
+							return (
+								<ProductItem
+									_ref={refItem}
+									isShow={!item.className && _open}
+									key={key}
+									clickGame={this.props.clickGame.bind(this, {
+										...subItem
+									})}
+									spanText={
+										this.props.i18n[subItem.spanTextKey]
+									}
+									descText={
+										subItem.descTextKey
+											? this.props.i18n[
+													subItem.descTextKey
+											  ]
+											: ""
+									}
+									{...subItem}
+								/>
+							);
+						}
+					});
+
+				if (item.comingSoonImg && content.length % 2 !== 0) {
+					content.push(
+						<ComingSoonItem
+							key={`product-${item.category}-comingsoon`}
+							img={item.comingSoonImg}
+						/>
+					);
+				}
+				if (item.className) {
+					products.push(
+						<div
+							key={`productGroup-${item.category}`}
+							className={`${item.className}${
+								_open ? " open" : ""
+							}`}>
+							{content}
+						</div>
+					);
+				} else {
+					products = [...products, ...content];
+				}
+			});
 
 		return (
 			<div className="content">
@@ -283,6 +295,7 @@ const CategoryItem = props => {
 };
 
 const ProductItem = props => {
+	console.log(props.descText);
 	return props.href ? (
 		<>
 			<a
@@ -297,9 +310,7 @@ const ProductItem = props => {
 					</span>
 				) : null}
 				{props.descText ? (
-					<div className={props.descClassName}>
-						Your Partner to Success
-					</div>
+					<div className={props.descClassName}>{props.descText}</div>
 				) : null}
 			</a>
 			{props.addSpaceInBelow ? <a href="" className="space"></a> : null}
@@ -316,9 +327,7 @@ const ProductItem = props => {
 				</span>
 			) : null}
 			{props.descText ? (
-				<div className={props.descClassName}>
-					Your Partner to Success
-				</div>
+				<div className={props.descClassName}>{props.descText}</div>
 			) : null}
 		</a>
 	);

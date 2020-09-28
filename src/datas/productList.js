@@ -24,7 +24,7 @@ import number_game from "../styles/img/number_game.jpg";
 import affiliate from "../styles/img/affiliate.jpg";
 import { siteInfo } from "../config";
 
-const gameList = [
+const gameList = ({ langId }) => [
 	{
 		category: "sports",
 		categoryIcon: "sports",
@@ -205,7 +205,7 @@ const gameList = [
 		items: [
 			{
 				icon: "affiliate",
-				href: siteInfo().affiliateLink,
+				href: `${siteInfo().affiliateLink}/?lang=${langId}`,
 				img: affiliate,
 				spanTextKey: "lbl_SiteAffiliate",
 				descTextKey: "lbl_AffiliateDesc",
