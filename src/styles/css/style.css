@@ -479,10 +479,18 @@ main .swiper-container {
   background: #fff;
 }
 
+main .swiper-container .swiper-slide.swiper-slide-active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 main .banner {
   background: #fff;
-  width: 100%;
-  height: auto;
+  height: 37.5vw;
   display: block;
   top: 12vw;
   z-index: 3;
