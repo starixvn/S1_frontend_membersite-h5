@@ -76,7 +76,10 @@ const Panel = () => {
 	const [monthSelectedIdx, setMonthSelectedIdx] = useState();
 	const [daySelectedIdx, setDaySelectedIdx] = useState();
 
-	const country = userInfo.country ? userInfo.country : userInfo.perCountry;
+	const country =
+		userInfo.country && userInfo.country !== "null"
+			? userInfo.country
+			: userInfo.perCountry;
 	const isMountedRef = useRef(null);
 	const [redirectPath, setRedirectPath] = useState(null);
 
@@ -130,7 +133,10 @@ const Panel = () => {
 		{
 			infoTitle: "country",
 			colTitle: i18n["lbl_Country"],
-			content: i18n[`lbl_Country${userInfo.country}`]
+			content:
+				userInfo.country && userInfo.country !== "null"
+					? i18n[`lbl_Country${userInfo.country}`]
+					: i18n[`lbl_Country${userInfo.perCountry}`]
 		},
 		{
 			infoTitle: "email",
@@ -397,7 +403,11 @@ const Panel = () => {
 				);
 			};
 
-			if (status === defStatus.Phone_BDay || status === defStatus.BDay) {
+			if (
+				status === defStatus.Phone_BDay ||
+				status === defStatus.BDay ||
+				!userInfo.birth_d
+			) {
 				setProfile();
 			} else {
 				setPopBox({
@@ -458,7 +468,8 @@ const Panel = () => {
 
 					{status === defStatus.RealName_Phone_BDay ||
 					status === defStatus.Phone_BDay ||
-					status === defStatus.BDay ? (
+					status === defStatus.BDay ||
+					!userInfo.birth_d ? (
 						<Birthday
 							i18n={i18n}
 							userValueState={userValueState}
