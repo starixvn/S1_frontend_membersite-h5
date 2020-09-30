@@ -5,7 +5,8 @@ import {
 	userInfoContext,
 	i18nContext,
 	popBoxContext,
-	msgCountContext
+	msgCountContext,
+	walletInfoContext
 } from "../common/context";
 import { api_GetWalletInfo } from "../../service/api/account";
 import JoinPanel from "../join/join";
@@ -35,7 +36,7 @@ const HeaderBtn = props => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
 	const { msgCount } = useContext(msgCountContext);
-	const [allBalance, setALLBalance] = useState(null);
+	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [processing, setProcessing] = useState(false);
@@ -69,17 +70,18 @@ const HeaderBtn = props => {
 							let _data = res.data.data;
 							let mainWalletBalance = _data.balance;
 
-							let otherWalletBalance = 0;
-							let otherWalletArr = _data.tpWallets?.map(i => {
-								return i.balance;
-							});
-							otherWalletArr.forEach(balance => {
-								otherWalletBalance += balance;
-							});
-
-							setALLBalance(
-								mainWalletBalance + otherWalletBalance
+							let otherWalletBalance = _data.tpWallets?.reduce(
+								(prev, curr) => {
+									return prev + curr.balance;
+								},
+								0
 							);
+
+							setWalletInfo(prevState => ({
+								...prevState,
+								allBalance:
+									mainWalletBalance + otherWalletBalance
+							}));
 						} else {
 							setPopBox({
 								isOpen: true,
@@ -104,10 +106,9 @@ const HeaderBtn = props => {
 		}
 	};
 
-	let balance =
-		allBalance === null
-			? 0
-			: number_format(allBalance, isConvert(userInfo.currencyId));
+	let balance = !walletInfo.allBalance
+		? 0
+		: number_format(walletInfo.allBalance, isConvert(userInfo.currencyId));
 
 	return redirectPath === null ? (
 		userInfo?.isLogin ? (
