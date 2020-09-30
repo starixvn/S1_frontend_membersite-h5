@@ -4,11 +4,10 @@ import { Redirect, Link } from "@reach/router";
 import {
 	userInfoContext,
 	i18nContext,
-	walletInfoContext,
 	popBoxContext,
 	msgCountContext
 } from "../common/context";
-import { api_GetBalnace } from "../../service/api/account";
+import { api_GetWalletInfo } from "../../service/api/account";
 import JoinPanel from "../join/join";
 import LoginPanel from "../login/login";
 import ReloadSpin from "./reloadSpin";
@@ -36,7 +35,7 @@ const HeaderBtn = props => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo } = useContext(userInfoContext);
 	const { msgCount } = useContext(msgCountContext);
-	const { walletInfo, setWalletInfo } = useContext(walletInfoContext);
+	const [allBalance, setALLBalance] = useState(null);
 	const { setPopBox } = useContext(popBoxContext);
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [processing, setProcessing] = useState(false);
@@ -48,6 +47,12 @@ const HeaderBtn = props => {
 	});
 
 	useEffect(() => {
+		if (userInfo.isLogin) {
+			GetBalance();
+		}
+	}, [userInfo.isLogin]);
+
+	useEffect(() => {
 		if (isMountedRef.current && redirectPath !== null) {
 			setRedirectPath(null);
 		}
@@ -57,14 +62,24 @@ const HeaderBtn = props => {
 		if (!processing) {
 			setProcessing(true);
 
-			api_GetBalnace().then(
+			api_GetWalletInfo().then(
 				res => {
 					if (isMountedRef.current) {
 						if (res.data.errorCode === 0) {
-							setWalletInfo(prevState => ({
-								...prevState,
-								main: res.data.data
-							}));
+							let _data = res.data.data;
+							let mainWalletBalance = _data.balance;
+
+							let otherWalletBalance = 0;
+							let otherWalletArr = _data.tpWallets?.map(i => {
+								return i.balance;
+							});
+							otherWalletArr.forEach(balance => {
+								otherWalletBalance += balance;
+							});
+
+							setALLBalance(
+								mainWalletBalance + otherWalletBalance
+							);
 						} else {
 							setPopBox({
 								isOpen: true,
@@ -89,10 +104,10 @@ const HeaderBtn = props => {
 		}
 	};
 
-	let balance = number_format(
-		walletInfo.main,
-		isConvert(userInfo.currencyId)
-	);
+	let balance =
+		allBalance === null
+			? 0
+			: number_format(allBalance, isConvert(userInfo.currencyId));
 
 	return redirectPath === null ? (
 		userInfo?.isLogin ? (
