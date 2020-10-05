@@ -300,5 +300,10 @@
   "lbl_GoNow": "Go Now!",
   "lbl_Affiliate":"Affiliates",
   "lbl_SiteAffiliate":"Nova88 Affiliate",
-  "lbl_AffiliateDesc":"Your Partner to Success"
+  "lbl_AffiliateDesc":"Your Partner to Success",
+  "lbl_PrefferedCurrency":"Preferred Currency",
+  "lbl_PhoneRequired": "Please fill in the phone field",
+  "lbl_PhoneTooltip": "Please enter your phone number, it can not change once enter!",
+  "msg_PhoneExisted":"Phone number already exists.",
+	"lbl_RemindPrefferedCurrency":"Preffered Currency is required."
 }
