@@ -295,7 +295,6 @@ const CategoryItem = props => {
 };
 
 const ProductItem = props => {
-	console.log(props.descText);
 	return props.href ? (
 		<>
 			<a

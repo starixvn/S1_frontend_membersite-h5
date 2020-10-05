@@ -5,6 +5,7 @@ import config, { siteInfo } from "../config";
 import { api_promotion_GetPromotionListV2 } from "../service/api/promotion";
 import path from "../path";
 import { Link } from "@reach/router";
+import StaticPromotionList from "../datas/promotionList";
 
 const IndexPage = () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -13,32 +14,32 @@ const IndexPage = () => {
 
 	useEffect(() => {
 		let mounted = true;
-		api_GetBanner("Promotion", "", userInfo.langId).then(res => {
-			if (res.data.errorCode === 0 && mounted) {
-				setPromotion(
-					res.data.data.filter(b => {
-						return b.isBonus === true || b.fromDB === true;
-					})
-				);
-			}
-		});
-
-		// api_promotion_GetPromotionListV2({ langId: userInfo.langId }).then(
-		// 	res => {
-		// 		if (res.data.errorCode === 0 && mounted) {
-		// 			let result = res.data.data.sort((a, b) => {
-		// 				return a.periodFrom > b.periodFrom ? -1 : 1;
-		// 			});
-
-		// 			setPromotion(result);
-		// 		}
+		// api_GetBanner("Promotion", "", userInfo.langId).then(res => {
+		// 	if (res.data.errorCode === 0 && mounted) {
+		// 		setPromotion(
+		// 			res.data.data.filter(b => {
+		// 				return b.isBonus === true || b.fromDB === true;
+		// 			})
+		// 		);
 		// 	}
-		// );
+		// });
+
+		api_promotion_GetPromotionListV2({ langId: userInfo.langId }).then(
+			res => {
+				if (res.data.errorCode === 0 && mounted) {
+					let result = res.data.data.sort((a, b) => {
+						return a.periodFrom > b.periodFrom ? -1 : 1;
+					});
+
+					setPromotion(result);
+				}
+			}
+		);
 
 		return () => (mounted = false);
 	}, [userInfo]);
 
-	return promotion.map(p => {
+	let rows = promotion.map(p => {
 		if (p.actionLink?.startsWith("Promotion/Bonus?")) {
 			let lang =
 				p.fromDB || p.lang.includes(userInfo.langId)
@@ -94,6 +95,34 @@ const IndexPage = () => {
 			);
 		}
 	});
+
+	let staticRows = StaticPromotionList.map(p => {
+		return (
+			<a
+				href={p.bannerLink?.[userInfo.langId]}
+				target="_blank"
+				rel="noopener noreferrer"
+				className="promodule"
+				key={`static-promotion-${userInfo.langId}-${p.bonusCode}`}>
+				<img
+					src={p.imgUrl?.[userInfo.langId]}
+					alt={p.bonusCode ?? ""}
+				/>
+				<div className="protitle"></div>
+				<div className="text"></div>
+				<div className="btn-group">
+					<button className="orange">{i18n.lbl_Details}</button>
+				</div>
+			</a>
+		);
+	});
+
+	return (
+		<>
+			{rows}
+			{staticRows}
+		</>
+	);
 };
 
 export default IndexPage;
