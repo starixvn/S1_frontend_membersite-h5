@@ -57,7 +57,9 @@ export class DropdownBox extends Component {
 				className={`dropdown${this.state.isOpen ? " open" : ""}`}
 				onClick={this.ClickDropdown}>
 				<button className="btn">
-					<span className="text">{selected}</span>
+					<span className="text">
+						{this.props.defaultOption ?? selected}
+					</span>
 				</button>
 				<div
 					className={`dropdown-container${
