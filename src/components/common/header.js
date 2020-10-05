@@ -14,8 +14,7 @@ import LoginPanel from "../login/login";
 import ReloadSpin from "./reloadSpin";
 import { number_format, isConvert } from "./common";
 import path from "../../path";
-import config from "../../config";
-// import Logo from "../../styles/img/logo.svg";
+import Logo from "../../styles/img/logo.svg";
 
 const HeaderTitle = ({ title }) => <div className="title">{title}</div>;
 
@@ -25,7 +24,7 @@ const Header = ({ title, hideLogo }) => {
 			{hideLogo ? null : (
 				<a href="#">
 					<img
-						src={`${config.imgUrl}/SiteSkin/${config.siteName}/common/images/logo_midautumn.png`}
+						src={Logo}
 						alt="logo"
 					/>
 				</a>
