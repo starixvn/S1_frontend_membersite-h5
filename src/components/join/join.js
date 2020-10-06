@@ -30,7 +30,7 @@ import path from "../../path";
 import config from "../../config";
 import PromoPopup from "./join.promotion";
 import Logo from "../../styles/img/logo.svg";
-import { initValue, initStatus, currencyToAreacode } from "./join.data";
+import { initValue, initStatus, currencyToAreacode } from "./join.def";
 import areaCode from "../../datas/areaCode";
 
 const defaultLangId = GET_LANG_ID();
