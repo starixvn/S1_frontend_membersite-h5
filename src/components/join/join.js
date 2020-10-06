@@ -197,7 +197,7 @@ const Join = () => {
 		let checked = true;
 		let msg = "";
 
-		if (val === "") {
+		if (!val) {
 			checked = false;
 			msg = "msg_UsernameReq";
 		} else if (val.length < 6 || val.length > 18) {
@@ -220,7 +220,7 @@ const Join = () => {
 		let msg = "";
 		const regx = /^[a-zA-Z0-9@$*!%#?&]*$/;
 
-		if (val === "") {
+		if (!val) {
 			checked = false;
 			msg = "msg_PasswordReq";
 		} else if (val.length < 6 || val.length > 18) {
@@ -239,15 +239,11 @@ const Join = () => {
 		let msg = "";
 		const regx = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
 
-		if (val === "") {
-			checked = false;
-			msg = "msg_MailWrongFormat";
-		} else if (!regx.test(val)) {
+		if (!val || !regx.test(val)) {
 			checked = false;
 			msg = "msg_MailWrongFormat";
 		} else {
 			const res = await api_ExistsEmail({ Email: val });
-
 			if (res.data.errorCode === 0 && res.data.data === true) {
 				checked = false;
 				msg = "msg_MailExisted";
@@ -262,7 +258,7 @@ const Join = () => {
 		let msg = "";
 		const regx = /^[0-9\s]*$/;
 
-		if (val === "") {
+		if (!val) {
 			checked = false;
 			msg = "lbl_PhoneRequired";
 		} else if (!regx.test(val)) {
