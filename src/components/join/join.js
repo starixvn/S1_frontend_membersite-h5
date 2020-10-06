@@ -134,6 +134,29 @@ const Join = () => {
 		setPswState(!pswState);
 	};
 
+	const showOnFocusTip = col => {
+		let checked = status[col].checked;
+		let msg = "";
+
+		if (col === "UserName") {
+			msg = "lbl_UsernameTooltip";
+		} else if (col === "Password") {
+			msg = "lbl_PasswordTooltip";
+		} else if (col === "Email") {
+			msg = "lbl_EmailToolTip";
+		} else if (col === "Phone") {
+			msg = "lbl_PhoneTooltip";
+		}
+
+		setStatus(prev => ({
+			...prev,
+			[col]: {
+				checked: checked,
+				msg: i18n[msg]
+			}
+		}));
+	};
+
 	const checkValue = async (col, e) => {
 		let val = e.target.value;
 		let checked = true;
@@ -514,6 +537,7 @@ const Join = () => {
 					ClassName="JoinRule"
 					placeholder={i18n["lbl_Username"]}
 					value={userValue.UserName}
+					onFocus={showOnFocusTip.bind(null, "UserName")}
 					onBlur={checkValue.bind(null, "UserName")}
 					onChange={EditField.bind(null, "UserName")}
 					checked={status.UserName.checked}
@@ -526,6 +550,7 @@ const Join = () => {
 					showPsw={pswState}
 					placeholder={i18n["lbl_Password"]}
 					value={userValue.Password}
+					onFocus={showOnFocusTip.bind(null, "Password")}
 					onBlur={checkValue.bind(null, "Password")}
 					onChange={EditField.bind(null, "Password")}
 					showPswHandler={showPswHandler}
@@ -537,6 +562,7 @@ const Join = () => {
 					ClassName="JoinRule"
 					placeholder={i18n["lbl_Email"]}
 					value={userValue.Email}
+					onFocus={showOnFocusTip.bind(null, "Email")}
 					onBlur={checkValue.bind(null, "Email")}
 					onChange={EditField.bind(null, "Email")}
 					checked={status.Email.checked}
@@ -577,6 +603,7 @@ const Join = () => {
 							placeholder={i18n["lbl_Phone"]}
 							value={userValue.Phone}
 							areaCode={_areaCode}
+							onFocus={showOnFocusTip.bind(null, "Phone")}
 							onBlur={checkValue.bind(null, "Phone")}
 							onChange={EditField.bind(null, "Phone")}
 							checked={status.Phone.checked}></Inputbox>
@@ -619,6 +646,7 @@ const Join = () => {
 					<button onClick={clickSubmit}>{i18n["lbl_JoinNow"]}</button>
 				</div>
 			</div>
+
 			<PromoPopup
 				banner={banner}
 				ImgFolder="Promotion"
