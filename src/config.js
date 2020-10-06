@@ -4,12 +4,25 @@ export const sites = {
 
 export const siteName = sites.Nova88;
 
-export const siteInfo = () => {
+const getAffiliate = langId => {
+	if (typeof window === `undefined`) return "";
+
+	let fullPath = window.location.hostname;
+	let arr = fullPath.split(".");
+
+	return arr.length === 3
+		? `https://aff.${arr
+				.filter((p, idx) => idx !== 0)
+				.join(".")}/?lang=${langId}`
+		: `https://aff.${arr.join(".")}/?lang=${langId}`;
+};
+
+export const siteInfo = langId => {
 	switch (siteName) {
 		case sites.Nova88:
 			return {
 				siteName: "Nova88",
-				affiliateLink: `https://aff.${window.location.hostname}`,
+				affiliateLink: getAffiliate(langId),
 				siteDefaultLang: "en",
 				siteLangList: ["en", "cs", "th", "id"],
 				logo: "logo.svg",
