@@ -305,5 +305,6 @@
     "lbl_PhoneRequired": "请填写电话栏位",
     "lbl_PhoneTooltip": "请输入您的电话号码，输入后将无法更改！",
     "msg_PhoneExisted":"电话号码已存在。",
-	"lbl_RemindPrefferedCurrency":"请选择首选货币"
+    "lbl_RemindPrefferedCurrency":"请选择首选货币",
+	"lbl_ProfileModifyWarning": "为确保帐户安全，个人资料填写后，将无法修改。"
 }

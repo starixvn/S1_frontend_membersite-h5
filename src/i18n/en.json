@@ -305,5 +305,6 @@
   "lbl_PhoneRequired": "Please fill in the phone field",
   "lbl_PhoneTooltip": "Please enter your phone number, it can not change once enter!",
   "msg_PhoneExisted":"Phone number already exists.",
-	"lbl_RemindPrefferedCurrency":"Preffered Currency is required."
+  "lbl_RemindPrefferedCurrency":"Preffered Currency is required.",
+  "lbl_ProfileModifyWarning": "Ensure account security, personal information cannot be modified after filling."
 }
