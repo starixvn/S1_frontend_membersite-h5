@@ -11,7 +11,7 @@ import {
 } from "../../service/api/accountStrict";
 import { api_ExistsPhoneNo } from "../../service/api/site";
 import path from "../../path";
-import { monthOptions, initStatus, initValue } from "./profile.data";
+import { monthOptions, initStatus, initValue } from "./profile.def";
 
 const Panel = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
@@ -67,7 +67,10 @@ const Panel = () => {
 			content: userInfo.userName
 		},
 		{
-			infoTitle: "country",
+			infoTitle:
+				userInfo.country && userInfo.country !== "null"
+					? "country"
+					: "perCountry",
 			colTitle: i18n["lbl_Country"],
 			content:
 				userInfo.country && userInfo.country !== "null"
