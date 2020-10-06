@@ -300,5 +300,11 @@
     "lbl_GoNow": "Go Now!",
     "lbl_Affiliate":"Affiliates",
     "lbl_SiteAffiliate":"Nova88 Affiliate",
-    "lbl_AffiliateDesc":"Partner Anda menuju Sukses"
+    "lbl_AffiliateDesc":"Partner Anda menuju Sukses",
+    "lbl_PrefferedCurrency":"Mata Uang Pilihan",
+    "lbl_PhoneRequired": "Harap isi kolom ponsel",
+    "lbl_PhoneTooltip": "Silakan masukkan nomor handphone anda, tidak dapat di ganti setelah menekan enter",
+    "msg_PhoneExisted":"Nomor telepon sudah digunakan",
+  "lbl_RemindPrefferedCurrency":"Mata Uang Pilihan wajib diisi.",
+  "lbl_ProfileModifyWarning": "Pastikan keamanan akun Anda, Data Anda tidak dapat diubah atau modifikasi setelah diajukan"
   }

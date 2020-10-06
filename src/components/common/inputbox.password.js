@@ -19,16 +19,16 @@ const Inputbox = props => {
 						!props.showPsw ? "icon-eye-blocked" : "icon-eye"
 					}`}
 					onClick={props.showPswHandler}></i>
-				{props.Warning.status ? (
+				{props.checked === false || props.Warning?.status ? (
 					<i className="icon icon-warning"></i>
 				) : null}
 			</div>
-			{props.showTips ? (
+			{props.showTips || props.tip ? (
 				<div
 					className={`${props.ClassName}${
-						props.showTips ? " open" : ""
+						props.showTips || props.tip ? " open" : ""
 					}`}>
-					{props.Tips}
+					{props.tip ? props.tip : props.Tips}
 				</div>
 			) : props.Warning?.status ? (
 				<div
