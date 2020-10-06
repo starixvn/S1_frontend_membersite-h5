@@ -200,22 +200,15 @@ const Join = () => {
 		if (val === "") {
 			checked = false;
 			msg = "msg_UsernameReq";
-		} else if (val !== "") {
-			if (val.length < 6 || val.length > 18) {
-				checked = false;
-				msg = "msg_UsernameLength";
-			}
-		}
-
-		if (checked === true) {
+		} else if (val.length < 6 || val.length > 18) {
+			checked = false;
+			msg = "msg_UsernameLength";
+		} else {
 			const res = await api_ExistsUserName({ UserName: val });
-			if (isMountedRef.current) {
-				if (res.data.errorCode === 0) {
-					if (res.data.data === true) {
-						checked = false;
-						msg = "msg_UsernameNotAvailable";
-					}
-				}
+
+			if (res.data.errorCode === 0 && res.data.data === true) {
+				checked = false;
+				msg = "msg_UsernameNotAvailable";
 			}
 		}
 
@@ -225,20 +218,19 @@ const Join = () => {
 	const passwordCheck = val => {
 		let checked = true;
 		let msg = "";
-
 		const regx = /^[a-zA-Z0-9@$*!%#?&]*$/;
+
 		if (val === "") {
 			checked = false;
 			msg = "msg_PasswordReq";
-		} else if (val != null) {
-			if (val.length < 6 || val.length > 18) {
-				checked = false;
-				msg = "msg_PasswordLength";
-			} else if (!regx.test(val)) {
-				checked = false;
-				msg = "msg_PasswordVaildate";
-			}
+		} else if (val.length < 6 || val.length > 18) {
+			checked = false;
+			msg = "msg_PasswordLength";
+		} else if (!regx.test(val)) {
+			checked = false;
+			msg = "msg_PasswordVaildate";
 		}
+
 		return { checked, msg };
 	};
 
@@ -250,22 +242,15 @@ const Join = () => {
 		if (val === "") {
 			checked = false;
 			msg = "msg_MailWrongFormat";
-		} else if (val !== "") {
-			if (!regx.test(val)) {
-				checked = false;
-				msg = "msg_MailWrongFormat";
-			}
-		}
-
-		if (checked === true) {
+		} else if (!regx.test(val)) {
+			checked = false;
+			msg = "msg_MailWrongFormat";
+		} else {
 			const res = await api_ExistsEmail({ Email: val });
-			if (isMountedRef.current) {
-				if (res.data.errorCode === 0) {
-					if (res.data.data === true) {
-						checked = false;
-						msg = "msg_MailExisted";
-					}
-				}
+
+			if (res.data.errorCode === 0 && res.data.data === true) {
+				checked = false;
+				msg = "msg_MailExisted";
 			}
 		}
 
@@ -283,20 +268,15 @@ const Join = () => {
 		} else if (!regx.test(val)) {
 			checked = false;
 			msg = "lbl_PhoneTooltip";
-		}
-
-		if (checked) {
+		} else {
 			const res = await api_ExistsPhoneNo({
 				AreaCode: _areaCode,
 				Phone: val
 			});
-			if (isMountedRef.current) {
-				if (res.data.errorCode === 0) {
-					if (res.data.data === true) {
-						checked = false;
-						msg = "msg_PhoneExisted";
-					}
-				}
+
+			if (res.data.errorCode === 0 && res.data.data === true) {
+				checked = false;
+				msg = "msg_PhoneExisted";
 			}
 		}
 
