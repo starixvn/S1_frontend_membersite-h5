@@ -14,6 +14,7 @@ import moment from "moment";
 import { Link, Redirect } from "@reach/router";
 import path from "../path";
 import ReloadSpin from "../components/common/reloadSpin";
+import { isExpiry } from "../components/common/promotion.common";
 
 const promoStatus = {
 	running: 1,
@@ -259,6 +260,15 @@ export default () => {
 
 	if (promotionInfo === null) return null;
 
+	let _isExpiry = false;
+
+	if (promotionInfo !== null) {
+		_isExpiry = isExpiry({
+			...promotionInfo,
+			isLogin: userInfo.isLogin
+		});
+	}
+
 	let expiryTime = moment.duration(
 		moment
 			.unix(
@@ -291,7 +301,7 @@ export default () => {
 				<Link className="btn-check" to={`/${path.login.root}`}>
 					{i18n.lbl_PromoJoinNow}
 				</Link>
-			) : userInfo.isLogin && !promotionInfo.isJoin ? (
+			) : userInfo.isLogin && !promotionInfo.isJoin && !_isExpiry ? (
 				<button
 					className="btn-check"
 					onClick={onJoinPromotion.bind(this, promotionInfo)}>
