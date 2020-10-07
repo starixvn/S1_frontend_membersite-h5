@@ -134,7 +134,7 @@ export default () => {
 			} else if (
 				_promo.canJoin &&
 				!_promo.isJoin &&
-				_promo.result &&
+				_promo.result === 1 &&
 				_promo.requiredAmount > 0
 			) {
 				setPopBox({
