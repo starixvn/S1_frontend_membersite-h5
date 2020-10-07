@@ -306,5 +306,13 @@
     "lbl_PhoneTooltip": "กรุณากรอกหมายเลขโทรศัพท์ของคุณ และไม่สามารถเปลี่ยนแปลงได้ภายหลัง",
     "msg_PhoneExisted":"หมายเลขนี้ได้ทำการลงทะเบียนแล้ว",
     "lbl_RemindPrefferedCurrency":"ต้องระบุสกุลเงินที่ต้องการ",
-    "lbl_ProfileModifyWarning": "เพื่อความปลอดภัย ข้อมูลส่วนตัวทั้งหมดจะไม่สามารถแก้ไขได้หลังจากใส่ข้อมูลสำเร็จแล้ว"
+    "lbl_ProfileModifyWarning": "เพื่อความปลอดภัย ข้อมูลส่วนตัวทั้งหมดจะไม่สามารถแก้ไขได้หลังจากใส่ข้อมูลสำเร็จแล้ว",
+    "lbl_MobileVerify": "ยืนยันหมายเลขโทรศัพท์",
+    "msg_OTPSendCode": "เราได้ส่งรหัสยืนยันไปยังมือถือที่ลงทะเบียนของคุณแล้ว โปรดตรวจสอบมือถือของคุณและใส่รหัสยืนยันด้านล่าง",
+    "lbl_Retransmit": "ส่งใหม่อีกครั้ง",
+	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
+	"msg_VerifyCodeTip":"Please enter the verification number",
+	"msg_OTP_Invalid": "Invalid OTP Code"
+    
+
 }

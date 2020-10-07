@@ -38,7 +38,7 @@ html.dark main .thBar {
 }
 
 html.dark main .thBar a {
-  color: #ff5d00;
+  color: #F77A00;
   border-right: 1px solid #333;
 }
 
@@ -69,7 +69,7 @@ html.dark footer a .circleAnimation, html.dark footer a span {
 }
 
 html.dark footer a.open {
-  border-bottom: 2px solid #ff5d00;
+  border-bottom: 2px solid #F77A00;
 }
 
 html.dark footer a.open .circleAnimation {
