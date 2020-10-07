@@ -18,12 +18,17 @@ const Inputbox = props => {
 				}
 				max={props.max ? props.max : null}
 			/>
-			{props.Warning?.status ? (
+			{props.checked === false || props.Warning?.status ? (
 				<div className="icon-module">
 					<i className="icon icon-warning"></i>
 				</div>
 			) : null}
-			{props.showTips ? (
+			{props.tip ? (
+				<div
+					className={`${props.ClassName}${props.tip ? " open" : ""}`}>
+					{props.tip}
+				</div>
+			) : props.showTips ? (
 				<div
 					className={`${props.ClassName}${
 						props.showTips ? " open" : ""

@@ -7,9 +7,11 @@ import Tips from "./tips";
 import {
 	api_ExistsUserName,
 	api_ExistsEmail,
-	api_Register,
+	// api_Register,
+	api_Signup,
 	api_GetSiteCurrencyList,
-	api_GetBanner
+	api_GetBanner,
+	api_ExistsPhoneNo
 } from "../../service/api/site";
 import { api_GetCustProfile } from "../../service/api/accountStrict";
 import { getUrlParameter } from "../common/common";
@@ -28,72 +30,27 @@ import path from "../../path";
 import config from "../../config";
 import PromoPopup from "./join.promotion";
 import Logo from "../../styles/img/logo.svg";
-
-const colName = ["UserName", "Password", "Email", "Currency"];
-
-const initState = {
-	UserName: "",
-	Password: "",
-	Email: "",
-	Currency: null,
-	Checkbox: false
-};
-
-const initWarningState = {
-	UserName: {
-		status: false,
-		msg: ""
-	},
-	Password: {
-		status: false,
-		msg: ""
-	},
-	Email: {
-		status: false,
-		msg: ""
-	},
-	Currency: {
-		status: false
-	},
-	Checkbox: {
-		status: false,
-		msg: ""
-	}
-};
-
-const initChecklistState = {
-	UserName: false,
-	Password: false,
-	Email: false,
-	Checkbox: false
-};
+import { initValue, initStatus, currencyToAreacode } from "./join.def";
+import areaCode from "../../datas/areaCode";
 
 const defaultLangId = GET_LANG_ID();
-const currencyDefaultSelectIdx = 0;
 
 const Join = () => {
 	const { i18n } = useContext(i18nContext);
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const { setPopBox } = useContext(popBoxContext);
 	const { nav, setNav } = useContext(navContext);
-	const [userValueState, setUserValueState] = useState(initState);
-	const [siteCurrencyState, setSiteCurrencyState] = useState([]);
-	const [warningState, setWarningState] = useState(initWarningState);
+	const [userValue, setUserValue] = useState(initValue);
+	const [siteCurrency, setSiteCurrencyState] = useState([]);
+	const [status, setStatus] = useState(initStatus);
 	const [pswState, setPswState] = useState(false);
-	const [checkboxState, setCheckboxState] = useState(false);
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [banner, setBanner] = useState([]);
-
 	const [hideCurrency, setHideCurrency] = useState(false);
+	const [defaultOption, setDefaultOption] = useState(
+		i18n.lbl_PrefferedCurrency
+	);
 
-	const [showTipsState, setShowTipsState] = useState({
-		UserName: false,
-		Password: false,
-		Email: false,
-		Currency: false
-	});
-
-	const [checklistState, setChecklistState] = useState(initChecklistState);
 	const [promoPopup, setPromoPopup] = useState(false);
 
 	const isMountedRef = useRef(null);
@@ -140,10 +97,6 @@ const Join = () => {
 						let currencyArr = currencyNum.map(id => {
 							return { id: id, displayKey: `Currency_${id}` };
 						});
-						setUserValueState(prevState => ({
-							...prevState,
-							Currency: currencyArr[currencyDefaultSelectIdx]
-						}));
 						setSiteCurrencyState(() => currencyArr);
 					} else {
 						setPopBox({
@@ -166,361 +119,284 @@ const Join = () => {
 		);
 	}, [i18n.lbl_ImportantNote, i18n.msg_ApiServerError, setPopBox]);
 
+	let _currencyId = siteCurrency[userValue.Currency]?.id;
+
+	let currencyToCountryCode = _currencyId
+		? currencyToAreacode[_currencyId]
+		: null;
+
+	const _areaCode =
+		currencyToCountryCode !== null
+			? areaCode[currencyToCountryCode]?.AreaCode
+			: null;
+
 	const showPswHandler = () => {
 		setPswState(!pswState);
 	};
 
-	const showTipsHandler = col => {
-		if (warningState[col].status === true) {
-			setShowTipsState(prevState => {
-				Object.keys(prevState).forEach(_col => {
-					prevState[_col] = false;
-				});
-				return {
-					...prevState
-				};
-			});
-		} else {
-			setShowTipsState(prevState => {
-				Object.keys(prevState).forEach(_col => {
-					prevState[_col] = _col === col;
-				});
-				return {
-					...prevState
-				};
-			});
+	const showOnFocusTip = col => {
+		let checked = status[col].checked;
+		let msg = "";
+
+		if (col === "UserName") {
+			msg = "lbl_UsernameTooltip";
+		} else if (col === "Password") {
+			msg = "lbl_PasswordTooltip";
+		} else if (col === "Email") {
+			msg = "lbl_EmailToolTip";
+		} else if (col === "Phone") {
+			msg = "lbl_PhoneTooltip";
 		}
+
+		setStatus(prev => ({
+			...prev,
+			[col]: {
+				checked: checked,
+				msg: i18n[msg]
+			}
+		}));
 	};
 
-	const usernameCheck = val => {
-		let checked = false;
-		let message = "";
-		if (val === "") {
+	const checkValue = async (col, e) => {
+		let val = e.target.value;
+		let checked = true;
+		let msg = "";
+
+		if (col === "UserName") {
+			let result = await usernameCheck(val);
+			checked = result.checked;
+			msg = result.msg;
+		} else if (col === "Password") {
+			let result = passwordCheck(val);
+			checked = result.checked;
+			msg = result.msg;
+		} else if (col === "Email") {
+			let result = await emailCheck(val);
+			checked = result.checked;
+			msg = result.msg;
+		} else if (col === "Currency") {
+			let result = currencyCheck();
+			checked = result.checked;
+			msg = result.msg;
+		} else if (col === "Phone") {
+			let result = await phoneCheck(val);
+			checked = result.checked;
+			msg = result.msg;
+		}
+
+		setStatus(prev => ({
+			...prev,
+			[col]: {
+				checked: checked,
+				msg: i18n[msg]
+			}
+		}));
+	};
+
+	const usernameCheck = async val => {
+		let checked = true;
+		let msg = "";
+
+		if (!val) {
 			checked = false;
-			message = i18n["msg_UsernameReq"];
-		} else if (val != null) {
-			if (val.length < 6 || val.length > 18) {
+			msg = "msg_UsernameReq";
+		} else if (val.length < 6 || val.length > 18) {
+			checked = false;
+			msg = "msg_UsernameLength";
+		} else {
+			const res = await api_ExistsUserName({ UserName: val });
+
+			if (res.data.errorCode === 0 && res.data.data === true) {
 				checked = false;
-				message = i18n["msg_UsernameLength"];
-			} else {
-				checked = true;
+				msg = "msg_UsernameNotAvailable";
 			}
 		}
 
-		return { checked, message };
-	};
-
-	const checkUsernameHandler = (colName, e) => {
-		const val = e.target.value;
-		let result = usernameCheck(val);
-
-		if (val !== "") {
-			if (result.checked) {
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						[colName]: {
-							status: false,
-							msg: ""
-						}
-					};
-				});
-				api_ExistsUserName({
-					UserName: val
-				}).then(
-					response => {
-						if (isMountedRef.current) {
-							const res = response.data;
-							if (res.errorCode === 0) {
-								if (res.data === true) {
-									setWarningState(prevState => {
-										return {
-											...prevState,
-											UserName: {
-												status: true,
-												msg:
-													i18n.msg_UsernameNotAvailable
-											}
-										};
-									});
-								} else {
-									setShowTipsState(prevState => {
-										return {
-											...prevState,
-											UserName: false
-										};
-									});
-									setChecklistState(prevState => {
-										return {
-											...prevState,
-											UserName: result.checked
-										};
-									});
-								}
-							} else {
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: res.data.message
-								});
-							}
-						}
-					},
-					err => {
-						if (isMountedRef.current) {
-							setPopBox({
-								isOpen: true,
-								title: i18n.lbl_ImportantNote,
-								content: i18n.msg_ApiServerError
-							});
-						}
-					}
-				);
-			} else {
-				setShowTipsState(prevState => {
-					return { ...prevState, UserName: false };
-				});
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						[colName]: {
-							status: !result.checked,
-							msg: result.message
-						}
-					};
-				});
-			}
-		}
+		return { checked, msg };
 	};
 
 	const passwordCheck = val => {
-		let checked = false;
-		let message = "";
-
+		let checked = true;
+		let msg = "";
 		const regx = /^[a-zA-Z0-9@$*!%#?&]*$/;
-		if (val === "") {
+
+		if (!val) {
 			checked = false;
-			message = i18n["msg_PasswordReq"];
-		} else if (val != null) {
-			if (val.length < 6 || val.length > 18) {
-				checked = false;
-				message = i18n["msg_PasswordLength"];
-			} else if (!regx.test(val)) {
-				checked = false;
-				message = i18n["msg_PasswordVaildate"];
-			} else {
-				checked = true;
-			}
+			msg = "msg_PasswordReq";
+		} else if (val.length < 6 || val.length > 18) {
+			checked = false;
+			msg = "msg_PasswordLength";
+		} else if (!regx.test(val)) {
+			checked = false;
+			msg = "msg_PasswordVaildate";
 		}
-		return { checked, message };
+
+		return { checked, msg };
 	};
 
-	const checkPasswordHandler = (colName, e) => {
-		const val = e.target.value;
-
-		let result = passwordCheck(val);
-		setWarningState(prevState => {
-			return {
-				...prevState,
-				[colName]: {
-					status: !result.checked,
-					msg: result.message
-				}
-			};
-		});
-		setShowTipsState(prevState => {
-			return { ...prevState, Password: false };
-		});
-		setUserValueState(prevState => {
-			return { ...prevState, Password: val };
-		});
-		setChecklistState(prevState => {
-			return { ...prevState, Password: result.checked };
-		});
-	};
-
-	const emailCheck = val => {
-		let checked = false;
-		let message = "";
+	const emailCheck = async val => {
+		let checked = true;
+		let msg = "";
 		const regx = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
 
-		if (val === "") {
+		if (!val || !regx.test(val)) {
 			checked = false;
-			message = i18n["msg_MailWrongFormat"];
-		} else if (val != null) {
-			if (!regx.test(val)) {
+			msg = "msg_MailWrongFormat";
+		} else {
+			const res = await api_ExistsEmail({ Email: val });
+			if (res.data.errorCode === 0 && res.data.data === true) {
 				checked = false;
-				message = i18n["msg_MailWrongFormat"];
-			} else {
-				checked = true;
+				msg = "msg_MailExisted";
 			}
 		}
 
-		return { checked, message };
+		return { checked, msg };
 	};
 
-	const checkEmailHandler = (colName, e) => {
-		const val = e.target.value;
+	const phoneCheck = async val => {
+		let checked = true;
+		let msg = "";
+		const regx = /^[0-9\s]*$/;
 
-		let result = emailCheck(val);
-		if (val !== "") {
-			if (result.checked) {
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						[colName]: {
-							status: false,
-							msg: ""
-						}
-					};
-				});
-				api_ExistsEmail({
-					Email: val
-				}).then(
-					response => {
-						if (isMountedRef.current) {
-							const res = response.data;
-							if (res.errorCode === 0) {
-								if (res.data === true) {
-									setShowTipsState(prevState => {
-										return { ...prevState, Email: false };
-									});
-									setWarningState(prevState => {
-										return {
-											...prevState,
-											Email: {
-												status: true,
-												msg: i18n["msg_MailExisted"]
-											}
-										};
-									});
-								} else {
-									setChecklistState(prevState => {
-										return {
-											...prevState,
-											Email: result.checked
-										};
-									});
-								}
-							} else {
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: response.data.message
-								});
-							}
-						}
-					},
-					err => {
-						if (isMountedRef.current) {
-							setPopBox({
-								isOpen: true,
-								title: i18n.lbl_ImportantNote,
-								content: i18n.msg_ApiServerError
-							});
-						}
-					}
-				);
-			} else {
-				setShowTipsState(prevState => {
-					return { ...prevState, Email: false };
-				});
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						[colName]: {
-							status: !result.checked,
-							msg: result.message
-						}
-					};
-				});
+		if (!val) {
+			checked = false;
+			msg = "lbl_PhoneRequired";
+		} else if (!regx.test(val)) {
+			checked = false;
+			msg = "lbl_PhoneTooltip";
+		} else {
+			const res = await api_ExistsPhoneNo({
+				AreaCode: _areaCode,
+				Phone: val
+			});
+
+			if (res.data.errorCode === 0 && res.data.data === true) {
+				checked = false;
+				msg = "msg_PhoneExisted";
 			}
 		}
+
+		return { checked, msg };
 	};
 
-	const [currencyState, setcurrencyState] = useState(
-		currencyDefaultSelectIdx
-	);
+	const currencyCheck = () => {
+		let checked = true;
+		let msg = "";
 
-	const dropdownStateHandler = i => {
-		setcurrencyState(i);
-		setShowTipsState(prevState => {
-			return { ...prevState, Currency: false };
-		});
-		setUserValueState(prevState => {
-			return { ...prevState, Currency: siteCurrencyState[i] };
+		if (defaultOption !== null) {
+			checked = false;
+			msg = "lbl_RemindPrefferedCurrency";
+		}
+
+		return { checked, msg };
+	};
+
+	const onSelectItem = i => {
+		setDefaultOption(null);
+
+		setUserValue(prev => {
+			return { ...prev, Currency: i };
 		});
 	};
 
-	const EditField = (colName, e) => {
+	const EditField = (col, e) => {
 		let val = e.target.value;
-		setUserValueState(prevState => ({
+		setUserValue(prevState => ({
 			...prevState,
-			[colName]: val
+			[col]: val
 		}));
 	};
 
 	const checkboxHandler = () => {
-		let checked = !checkboxState;
-		setCheckboxState(checked);
-		setChecklistState(prevState => {
-			return { ...prevState, Checkbox: checked };
-		});
-		setUserValueState(prevState => ({
+		let checked = !userValue.Checkbox;
+		setUserValue(prevState => ({
 			...prevState,
 			Checkbox: checked
 		}));
-		setWarningState(prevState => {
-			return {
-				...prevState,
-				Checkbox: {
-					status: !checked,
-					msg: i18n.lbl_Check18TCTooltip
-				}
-			};
-		});
 	};
 
-	const checklistHandler = () => {
-		let checked = true;
+	const checkAll = async () => {
+		return await Promise.all([
+			usernameCheck(userValue.UserName),
+			phoneCheck(userValue.Phone),
+			emailCheck(userValue.Email)
+		]).then(
+			res => {
+				let _usernameCheck = res[0];
+				let _phoneCheck = res[1];
+				let _emailCheck = res[2];
+				let _passwordCheck = passwordCheck(userValue.Password);
+				let _currencyCheck = currencyCheck();
+				let _checkboxCheck = userValue.Checkbox;
 
-		let UserName = usernameCheck(userValueState.UserName);
-		let Password = passwordCheck(userValueState.Password);
-		let Email = emailCheck(userValueState.Email);
-		let Checkbox = checkboxState;
+				let checked =
+					_usernameCheck.checked &&
+					_passwordCheck.checked &&
+					_phoneCheck.checked &&
+					_emailCheck.checked &&
+					_currencyCheck.checked &&
+					_checkboxCheck;
 
-		checked =
-			UserName.checked && Password.checked && Email.checked && Checkbox;
-
-		for (let i in checklistState) {
-			if (checklistState[i] === false) {
-				checked = false;
-				setWarningState(prevState => {
-					return {
-						...prevState,
-						[i]: {
-							status: true,
-							msg: i.message
+				if (!checked) {
+					let checkboxMsg = "";
+					if (!_checkboxCheck) {
+						checkboxMsg = "lbl_Check18TCTooltip";
+					}
+					setStatus(prev => ({
+						...prev,
+						UserName: {
+							checked: _usernameCheck.checked,
+							msg: i18n[_usernameCheck.msg]
+						},
+						Password: {
+							checked: _passwordCheck.checked,
+							msg: i18n[_passwordCheck.msg]
+						},
+						Phone: {
+							checked: _phoneCheck.checked,
+							msg: i18n[_phoneCheck.msg]
+						},
+						Email: {
+							checked: _emailCheck.checked,
+							msg: i18n[_emailCheck.msg]
+						},
+						Currency: {
+							checked: _currencyCheck.checked,
+							msg: i18n[_currencyCheck.msg]
+						},
+						Checkbox: {
+							checked: _checkboxCheck,
+							msg: i18n[checkboxMsg]
 						}
-					};
-				});
+					}));
+				}
+				return checked;
+			},
+			err => {
+				return false;
 			}
-		}
+		);
+	};
+
+	const clickSubmit = async () => {
+		let checked = await checkAll();
 
 		if (checked) {
 			let regData = {
-				UserName: userValueState.UserName,
-				Userpwd: userValueState.Password,
-				Email: userValueState.Email,
-				CurrencyId: userValueState.Currency.id,
-				UserLang: defaultLangId
+				UserName: userValue.UserName,
+				Userpwd: userValue.Password,
+				Email: userValue.Email,
+				PhoneNo: userValue.Phone,
+				CurrencyId: _currencyId,
+				UserLang: defaultLangId,
+				AreaCode: _areaCode
 			};
 
 			regData["RefId"] = getUrlParameter("RefId") || getCookie("RefId");
 			regData["AffId"] = getUrlParameter("AffId") || getCookie("AffId");
 			regData["Aff"] = getUrlParameter("Aff") || getCookie("Aff");
 
-			api_Register(regData).then(
+			api_Signup(regData, defaultLangId).then(
 				response => {
 					if (isMountedRef.current) {
 						const errorCode = response.data.errorCode;
@@ -532,7 +408,7 @@ const Join = () => {
 										let _user = {
 											isLogin: true,
 											langId: defaultLangId,
-											userName: userValueState.UserName
+											userName: userValue.UserName
 										};
 										if (res_custInfo.data.errorCode === 0) {
 											_user = {
@@ -559,12 +435,12 @@ const Join = () => {
 							errorCode === -5 ||
 							errorCode === -19
 						) {
-							setWarningState(prevState => ({
+							setStatus(prevState => ({
 								...prevState,
 								UserName: { status: true, msg: message }
 							}));
 						} else if (errorCode === -3) {
-							setWarningState(prevState => ({
+							setStatus(prevState => ({
 								...prevState,
 								Password: { status: true, msg: message }
 							}));
@@ -581,26 +457,14 @@ const Join = () => {
 					}
 				}
 			);
-		} else {
-			setWarningState(prevState => ({
-				...prevState,
-				UserName: { status: !UserName.checked, msg: UserName.message },
-				Password: { status: !Password.checked, msg: Password.message },
-				Email: { status: !Email.checked, msg: Email.message }
-			}));
 		}
 	};
 
 	const handleJoinPanel = (show, reset, showBylink) => {
 		if (reset) {
-			setUserValueState({
-				...initState,
-				Currency: siteCurrencyState[currencyDefaultSelectIdx]
-			});
-			setWarningState(initWarningState);
-			setcurrencyState(currencyDefaultSelectIdx);
-			setCheckboxState(false);
-			setChecklistState(initChecklistState);
+			setUserValue(initValue);
+			setStatus(initStatus);
+			setDefaultOption(i18n.lbl_PrefferedCurrency);
 		}
 
 		if (showBylink) {
@@ -646,69 +510,94 @@ const Join = () => {
 
 				<Inputbox
 					icon="icon-member"
-					inputType="text"
-					placeholder={i18n["lbl_Username"]}
-					onFocus={showTipsHandler.bind(null, "UserName")}
-					onBlur={checkUsernameHandler.bind(null, "UserName")}
-					onChange={EditField.bind(null, "UserName")}
 					ClassName="JoinRule"
-					showTips={showTipsState.UserName}
-					Tips={i18n["lbl_UsernameTooltip"]}
-					Warning={warningState.UserName}
-					value={userValueState.UserName}></Inputbox>
+					placeholder={i18n["lbl_Username"]}
+					value={userValue.UserName}
+					onFocus={showOnFocusTip.bind(null, "UserName")}
+					onBlur={checkValue.bind(null, "UserName")}
+					onChange={EditField.bind(null, "UserName")}
+					checked={status.UserName.checked}
+					tip={status.UserName.msg}></Inputbox>
 
 				<InputboxPWD
 					icon="icon-key"
 					inputType={`${!pswState ? "password" : "text"}`}
-					placeholder={i18n["lbl_Password"]}
-					onFocus={showTipsHandler.bind(null, "Password")}
-					onBlur={checkPasswordHandler.bind(null, "Password")}
-					onChange={EditField.bind(null, "Password")}
-					showPsw={pswState}
-					showPswHandler={showPswHandler}
 					ClassName="JoinRule"
-					showTips={showTipsState.Password}
-					Tips={i18n["lbl_PasswordTooltip"]}
-					Warning={warningState.Password}
-					value={userValueState.Password}></InputboxPWD>
+					showPsw={pswState}
+					placeholder={i18n["lbl_Password"]}
+					value={userValue.Password}
+					onFocus={showOnFocusTip.bind(null, "Password")}
+					onBlur={checkValue.bind(null, "Password")}
+					onChange={EditField.bind(null, "Password")}
+					showPswHandler={showPswHandler}
+					checked={status.Password.checked}
+					tip={status.Password.msg}></InputboxPWD>
 
 				<Inputbox
 					icon="icon-email"
-					inputType="text"
-					placeholder={i18n["lbl_Email"]}
-					onFocus={showTipsHandler.bind(null, "Email")}
-					onBlur={checkEmailHandler.bind(null, "Email")}
-					onChange={EditField.bind(null, "Email")}
 					ClassName="JoinRule"
-					showTips={showTipsState.Email}
-					Tips={i18n["lbl_EmailToolTip"]}
-					Warning={warningState.Email}
-					value={userValueState.Email}></Inputbox>
+					placeholder={i18n["lbl_Email"]}
+					value={userValue.Email}
+					onFocus={showOnFocusTip.bind(null, "Email")}
+					onBlur={checkValue.bind(null, "Email")}
+					onChange={EditField.bind(null, "Email")}
+					checked={status.Email.checked}
+					tip={status.Email.msg}></Inputbox>
 
 				{hideCurrency ? null : (
-					<div className="inputBox">
-						<Dropdown
-							mainKey="join-curr"
-							colName={colName[3]}
-							selectedIdx={currencyState}
-							options={siteCurrencyState}
-							clickDropdown={showTipsHandler}
-							onSelectItem={dropdownStateHandler}
-							value={userValueState.Currency}
-							i18n={i18n}></Dropdown>
-						<Tips
-							Icon="icon-coin-dollar"
-							IsOpen={showTipsState.Currency}
-							ClassName="JoinRule">
+					<>
+						<div
+							className="inputBox"
+							onBlur={checkValue.bind(null, "Currency")}>
+							<Dropdown
+								mainKey="join-curr"
+								colName="Currency"
+								defaultOption={defaultOption}
+								selectedIdx={userValue.Currency}
+								options={siteCurrency}
+								onSelectItem={onSelectItem}
+								i18n={i18n}></Dropdown>
+							<Tips
+								Icon="icon-coin-dollar"
+								IsOpen={defaultOption !== null}
+								ClassName="JoinRule">
+								{status.Currency.msg}
+							</Tips>
+						</div>
+						<Tips IsOpen={true} ClassName="JoinRule">
 							{i18n["lbl_PreferredCurrencyToolTip"]}
 						</Tips>
+					</>
+				)}
+
+				{userValue.Currency !== null ? (
+					<div className="inputBox parts">
+						<span className="countryCode">{_areaCode}</span>
+						<Inputbox
+							icon="icon-phone"
+							ClassName="JoinRule"
+							placeholder={i18n["lbl_Phone"]}
+							value={userValue.Phone}
+							areaCode={_areaCode}
+							onFocus={showOnFocusTip.bind(null, "Phone")}
+							onBlur={checkValue.bind(null, "Phone")}
+							onChange={EditField.bind(null, "Phone")}
+							checked={status.Phone.checked}></Inputbox>
+						<div
+							className={`errortip${
+								status.Phone.checked ? "" : " open"
+							}`}>
+							{status.Phone.msg}
+						</div>
 					</div>
+				) : (
+					<></>
 				)}
 
 				<Checkbox
-					Checked={checkboxState}
+					Checked={userValue.Checkbox}
 					className={`Terms${
-						warningState.Checkbox.status ? " error" : ""
+						status.Checkbox.checked === false ? " error" : ""
 					}`}
 					checkboxHandler={checkboxHandler}
 					id="c1">
@@ -724,17 +613,16 @@ const Join = () => {
 					.&nbsp;
 					{i18n["lbl_Check18TC4"]}
 				</Checkbox>
-				{warningState.Checkbox.status ? (
+				{status.Checkbox.checked === false ? (
 					<div className="JoinRule open">
 						{i18n.lbl_Check18TCTooltip}
 					</div>
 				) : null}
 				<div className="btn-group">
-					<button onClick={checklistHandler}>
-						{i18n["lbl_JoinNow"]}
-					</button>
+					<button onClick={clickSubmit}>{i18n["lbl_JoinNow"]}</button>
 				</div>
 			</div>
+
 			<PromoPopup
 				banner={banner}
 				ImgFolder="Promotion"
