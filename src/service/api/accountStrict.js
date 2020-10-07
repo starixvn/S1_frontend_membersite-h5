@@ -47,3 +47,10 @@ export const api_UploadCustPhotoId = formData =>
 			"Content-Type": "multipart/form-data"
 		}
 	});
+
+export const api_SendOTPSMS = () => accountStrictRequest.post("/SendOTPSMS");
+
+export const api_VerifyOTP = ({ inputOTPcode }) =>
+	accountStrictRequest.post("/VerifyOTP", {
+		inputOTPcode
+	});

@@ -306,5 +306,12 @@
     "lbl_PhoneTooltip": "请输入您的电话号码，输入后将无法更改！",
     "msg_PhoneExisted":"电话号码已存在。",
     "lbl_RemindPrefferedCurrency":"请选择首选货币",
-	"lbl_ProfileModifyWarning": "为确保帐户安全，个人资料填写后，将无法修改。"
+    "lbl_ProfileModifyWarning": "为确保帐户安全，个人资料填写后，将无法修改。",
+    "lbl_MobileVerify": "手机验证",
+    "msg_OTPSendCode": "我们已经将验证码发送到您的注册手机。 请检查您的手机并在下面输入您的验证码。",
+    "lbl_Retransmit": "重新发送",
+	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
+	"msg_VerifyCodeTip":"Please enter the verification number",
+	"msg_OTP_Invalid": "Invalid OTP Code"
+
 }
