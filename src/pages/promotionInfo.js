@@ -22,6 +22,14 @@ const promoStatus = {
 	TransferOut: 5
 };
 
+const defPromotionType = {
+	firstDeposit: 1,
+	freeBet: 3,
+	walletBonus: 5,
+	rebate: 6,
+	cashback: 7
+};
+
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
@@ -295,32 +303,40 @@ const ProcessBar = ({
 	currencyId,
 	custTurnOver,
 	custRollOver,
-	RefreshProcessBar
+	RefreshProcessBar,
+	promotionType
 }) => {
-	let percentage =
-		custTurnOver > custRollOver
-			? 100
-			: ((custTurnOver / custRollOver) * 100).toFixed(2);
-	return (
-		<div className="progressBarModule">
-			<div className="bounsName">{i18n.lbl_TurnoverAccumulated}</div>
-			<div className="turnover">
-				<span>
-					{i18n[`Currency_${currencyId}`]}{" "}
-					{number_format(custTurnOver, false)}
-				</span>{" "}
-				/ ({i18n.lbl_Req} {i18n[`Currency_${currencyId}`]}{" "}
-				{number_format(custRollOver, false)})
-				<ReloadSpin func={RefreshProcessBar} />
-			</div>
-			<div className="progressBar">
-				<div className="bar">
-					<div
-						className="progress"
-						style={{ width: `${percentage}%` }}></div>
+	if (
+		promotionType !== defPromotionType.cashback &&
+		promotionType !== defPromotionType.rebate
+	) {
+		let percentage =
+			custTurnOver > custRollOver
+				? 100
+				: ((custTurnOver / custRollOver) * 100).toFixed(2);
+		return (
+			<div className="progressBarModule">
+				<div className="bounsName">{i18n.lbl_TurnoverAccumulated}</div>
+				<div className="turnover">
+					<span>
+						{i18n[`Currency_${currencyId}`]}{" "}
+						{number_format(custTurnOver, false)}
+					</span>{" "}
+					/ ({i18n.lbl_Req} {i18n[`Currency_${currencyId}`]}{" "}
+					{number_format(custRollOver, false)})
+					<ReloadSpin func={RefreshProcessBar} />
 				</div>
-				<div className="percentage">{percentage}%</div>
+				<div className="progressBar">
+					<div className="bar">
+						<div
+							className="progress"
+							style={{ width: `${percentage}%` }}></div>
+					</div>
+					<div className="percentage">{percentage}%</div>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	} else {
+		return <></>;
+	}
 };
