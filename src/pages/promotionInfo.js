@@ -22,6 +22,15 @@ const promoStatus = {
 	TransferOut: 5
 };
 
+const defPromotionType = {
+	firstDeposit: 1,
+	reDeposit: 2,
+	freeBet: 3,
+	walletBonus: 5,
+	rebate: 6,
+	cashback: 7
+};
+
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
@@ -93,10 +102,72 @@ export default () => {
 
 			if (
 				userInfo.currencyId &&
-				userInfo.accountName &&
-				userInfo.phoneNo &&
-				userInfo.email
+				!userInfo.accountName &&
+				!userInfo.phoneNo &&
+				!userInfo.email
 			) {
+				const RedirectToProfile = () => {
+					setRedirectPath(
+						`/${path.member.root}?prevPage=${path.promotionInfo.root}&BonusCode=${_promo.bonusCode}`
+					);
+					ClosePopBox();
+				};
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: <p>{i18n.lbl_UpdatePersonalInfoPromotion}</p>,
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={ClosePopBox}>
+								{i18n.lbl_Cancel}
+							</button>
+							<button
+								onClick={RedirectToProfile}
+								className="btn-check">
+								{i18n.lbl_GoNow}
+							</button>
+						</div>
+					)
+				});
+			} else if (
+				_promo.canJoin &&
+				!_promo.isJoin &&
+				_promo.result &&
+				_promo.requiredAmount > 0
+			) {
+				setPopBox({
+					isOpen: true,
+					title: i18n.lbl_ImportantNote,
+					content: (
+						<>
+							<div className="info">
+								{i18n.lbl_RequireMinAmountHint}
+								<span className="text-org">
+									{` ${
+										i18n[`Currency_${userInfo.currencyId}`]
+									} ${_promo.requiredAmount}`}
+								</span>
+								<br />
+								{i18n.msg_GoToDepositPage}
+							</div>
+						</>
+					),
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={ClosePopBox}>
+								{i18n.lbl_Later}
+							</button>
+							<Link
+								to={`/${path.deposit.root}`}
+								className="btn-check">
+								{i18n.lbl_DepositNow}
+							</Link>
+						</div>
+					)
+				});
+			} else {
 				api_promotion_SetClaimPromotion({
 					langId: userInfo.langId,
 					BonusCode: _promo.bonusCode
@@ -114,7 +185,7 @@ export default () => {
 									title: i18n.lbl_ImportantNote,
 									content: (
 										<>
-											<p>{i18n.lbl_UpdateSuccessful}</p>
+											<p>{i18n.msg_Updatesuccessful}</p>
 										</>
 									),
 									hasBtn: true,
@@ -159,31 +230,6 @@ export default () => {
 						alert(i18n.msg_ApiServerError);
 					}
 				);
-			} else {
-				const RedirectToProfile = () => {
-					setRedirectPath(
-						`/${path.member.root}?prevPage=${path.promotionInfo.root}&BonusCode=${_promo.bonusCode}`
-					);
-					ClosePopBox();
-				};
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: <p>{i18n.lbl_UpdatePersonalInfoPromotion}</p>,
-					hasBtn: true,
-					btnBar: (
-						<div className="btn-group">
-							<button className="blue" onClick={ClosePopBox}>
-								{i18n.lbl_Cancel}
-							</button>
-							<button
-								onClick={RedirectToProfile}
-								className="btn-check">
-								{i18n.lbl_GoNow}
-							</button>
-						</div>
-					)
-				});
 			}
 		}
 	};
@@ -219,7 +265,7 @@ export default () => {
 				promotionInfo.isJoin &&
 					promotionInfo.status === promoStatus.running &&
 					promotionInfo.custExpiryTime
-					? promotionInfo.custExpiryTime
+					? moment(promotionInfo.custExpiryTime).unix()
 					: promotionInfo.periodTo
 			)
 			.diff(new Date())
@@ -237,21 +283,30 @@ export default () => {
 	return redirectPath === null ? (
 		<div className="promodule">
 			<img src={promotionInfo.banner} alt={promotionInfo.title} />
+			<Link className="btn-cancel" to={`/${path.promotion.root}`}>
+				{i18n.lbl_Back}
+			</Link>
 
-			{(promotionInfo.canJoin && promotionInfo.status === 0) ||
-			userInfo.isLogin === false ? (
-				userInfo.isLogin ? (
-					<button
-						className="btn-check"
-						onClick={onJoinPromotion.bind(this, promotionInfo)}>
-						{i18n.lbl_PromoJoinNow}
-					</button>
-				) : (
-					<Link className="btn-check" to={`/${path.login.root}`}>
-						{i18n.lbl_PromoJoinNow}
-					</Link>
-				)
+			{userInfo.isLogin === false ? (
+				<Link className="btn-check" to={`/${path.login.root}`}>
+					{i18n.lbl_PromoJoinNow}
+				</Link>
+			) : userInfo.isLogin && !promotionInfo.isJoin ? (
+				<button
+					className="btn-check"
+					onClick={onJoinPromotion.bind(this, promotionInfo)}>
+					{i18n.lbl_PromoJoinNow}
+				</button>
 			) : null}
+
+			<div className="protitle">{promotionInfo.title}</div>
+			<div className="text">{promotionInfo.description}</div>
+
+			<DepositRecord
+				i18n={i18n}
+				{...promotionInfo}
+				currencyId={userInfo.currencyId}
+			/>
 
 			{promotionInfo.isJoin ? (
 				<ProcessBar
@@ -265,18 +320,30 @@ export default () => {
 				/>
 			) : null}
 
-			<div className="protitle">{promotionInfo.title}</div>
-			<div className="text">{promotionInfo.description}</div>
 			<div className="info">
 				<ul>
 					<li>
-						<span className="title">{i18n.lbl_RollOver}</span>
+						<span className="title">
+							{i18n.lbl_RollOver?.toUpperCase()}
+						</span>
 						<span>{promotionInfo.rollOver}x</span>
 					</li>
 					<li>
-						<span className="title">{i18n.lbl_RemainingTime}</span>
+						<span className="title">
+							{i18n.lbl_RemainingTime?.toUpperCase()}
+						</span>
 						<span>{displayExpiryTime}</span>
 					</li>
+					{promotionInfo.requiredAmount > 0 ? (
+						<li>
+							<span className="title">
+								{i18n.lbl_MinAmount?.toUpperCase()}
+							</span>
+							<span>
+								{number_format(promotionInfo.requiredAmount)}
+							</span>
+						</li>
+					) : null}
 				</ul>
 			</div>
 			<div
@@ -287,6 +354,37 @@ export default () => {
 		</div>
 	) : (
 		<Redirect to={redirectPath} noThrow />
+	);
+};
+
+const DepositRecord = ({
+	i18n,
+	depositId,
+	depositAmount,
+	canJoin,
+	isJoin,
+	currencyId,
+	promotionType
+}) => {
+	return canJoin &&
+		!isJoin &&
+		(promotionType === defPromotionType.reDeposit ||
+			promotionType === defPromotionType.firstDeposit) ? (
+		<div className="minAmount">
+			<div>
+				<div>{i18n.lbl_ID}</div>
+				<div>{depositId}</div>
+			</div>
+			<div>
+				<div>{i18n.lbl_DepositAmount}</div>
+				<div>{`${i18n[`Currency_${currencyId}`]} ${number_format(
+					depositAmount,
+					false
+				)}`}</div>
+			</div>
+		</div>
+	) : (
+		<></>
 	);
 };
 

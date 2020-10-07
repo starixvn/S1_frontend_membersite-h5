@@ -312,6 +312,7 @@
     "lbl_Retransmit": "Kirim ulang",
     "msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
     "msg_VerifyCodeTip":"Please enter the verification number",
-    "msg_OTP_Invalid": "Invalid OTP Code"
-    
+    "msg_OTP_Invalid": "Invalid OTP Code",
+	"lbl_MinAmount": "Jumlah Minimal",
+	"lbl_RequireMinAmountHint": "Jumlah minimal setoran yang diwajibkan adalah minimal Rp"
 }
