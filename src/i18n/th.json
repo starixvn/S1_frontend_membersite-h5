@@ -312,7 +312,7 @@
     "lbl_Retransmit": "ส่งใหม่อีกครั้ง",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip":"Please enter the verification number",
-	"msg_OTP_Invalid": "Invalid OTP Code"
-    
-
+	"msg_OTP_Invalid": "Invalid OTP Code",
+	"lbl_MinAmount": "จำนวนเงินขั้นต่ำ",
+	"lbl_RequireMinAmountHint": "ฝากเงินขั้นต่ำเริ่มต้นที่"
 }

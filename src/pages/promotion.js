@@ -68,7 +68,7 @@ const IndexPage = () => {
 					className="promodule"
 					target="_blank"
 					rel="noopener noreferrer"
-					key={`promotion-${userInfo.langId}-${p.img}`}>
+					key={`promotion-${userInfo.langId}-${p.bonusCode}`}>
 					<img src={imgSRC} alt={p.imgName ?? ""} />
 					<div className="protitle"></div>
 					<div className="text"></div>
@@ -84,7 +84,7 @@ const IndexPage = () => {
 				<Link
 					to={`/${path.promotionInfo.root}?BonusCode=${p.bonusCode}`}
 					className="promodule"
-					key={`promotion-${userInfo.langId}-${p.img}`}>
+					key={`promotion-${userInfo.langId}-${p.bonusCode}`}>
 					<img src={imgSRC} alt={p.imgName ?? ""} />
 					<div className="protitle"></div>
 					<div className="text"></div>

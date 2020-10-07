@@ -312,6 +312,7 @@
     "lbl_Retransmit": "重新发送",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip":"Please enter the verification number",
-	"msg_OTP_Invalid": "Invalid OTP Code"
-
+	"msg_OTP_Invalid": "Invalid OTP Code",
+	"lbl_MinAmount": "最低额",
+	"lbl_RequireMinAmountHint": "最低存款金额为"
 }
