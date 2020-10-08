@@ -314,5 +314,6 @@
 	"msg_VerifyCodeTip": "Please enter the verification number",
 	"msg_OTP_Invalid": "Invalid OTP Code",
 	"lbl_MinAmount": "จำนวนเงินขั้นต่ำ",
-	"lbl_RequireMinAmountHint": "ฝากเงินขั้นต่ำเริ่มต้นที่"
+	"lbl_RequireMinAmountHint": "ฝากเงินขั้นต่ำเริ่มต้นที่",
+	"lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion."
 }

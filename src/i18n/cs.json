@@ -314,5 +314,6 @@
 	"msg_VerifyCodeTip": "Please enter the verification number",
 	"msg_OTP_Invalid": "Invalid OTP Code",
 	"lbl_MinAmount": "最低额",
-	"lbl_RequireMinAmountHint": "最低存款金额为"
+	"lbl_RequireMinAmountHint": "最低存款金额为",
+	"lbl_UpdatePersonalInfoPromotion":"参与优惠前，请更新您的个人信息"
 }

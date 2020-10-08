@@ -314,5 +314,6 @@
 	  "msg_VerifyCodeTip":"Please enter the verification number",
 	  "msg_OTP_Invalid": "Invalid OTP Code",
 	  "lbl_MinAmount": "Min Amount",
-	  "lbl_RequireMinAmountHint": "The minimum amount of deposit are required to be at least" 
+	  "lbl_RequireMinAmountHint": "The minimum amount of deposit are required to be at least",
+	  "lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion."
 }

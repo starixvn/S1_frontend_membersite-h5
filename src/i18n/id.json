@@ -314,5 +314,6 @@
 	"msg_VerifyCodeTip": "Please enter the verification number",
 	"msg_OTP_Invalid": "Invalid OTP Code",
 	"lbl_MinAmount": "Jumlah Minimal",
-	"lbl_RequireMinAmountHint": "Jumlah minimal setoran yang diwajibkan adalah minimal Rp"
+	"lbl_RequireMinAmountHint": "Jumlah minimal setoran yang diwajibkan adalah minimal Rp",
+	"lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion."
 }
