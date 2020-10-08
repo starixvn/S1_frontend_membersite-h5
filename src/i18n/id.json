@@ -214,7 +214,7 @@
 	"lbl_Promotion": "Promosi",
 	"lbl_LiveChat": "Obrolan Langsung",
 	"lbl_Guest": "Tamu",
-	"msg_ApiServerError": "Kesalahan Jaringan API.",
+	"msg_ApiServerError": "Ups! Ada kesalahan, silakan dicoba kembali.",
 	"msg_SubmitDepositTime": "Kirimkan waktu setoran Anda.",
 	"msg_SelectFile": "Pilih file",
 	"msg_ReferenceNumber": "Nomor referensi",

@@ -214,7 +214,7 @@
 	"lbl_Promotion": "โปรโมชั่น",
 	"lbl_LiveChat": "สนทนาสด",
 	"lbl_Guest": "ลูกค้า",
-	"msg_ApiServerError": "API Server  Error",
+	"msg_ApiServerError": "อุ๊ปส์! มีบางอย่างผิดพลาด กรุณาลองใหม่อีกครั้ง",
 	"msg_SubmitDepositTime": "โปรดส่งเวลาการฝากเงินของคุณ",
 	"msg_SelectFile": "เลือกไฟล์",
 	"msg_ReferenceNumber": "หมายเลขอ้างอิง",

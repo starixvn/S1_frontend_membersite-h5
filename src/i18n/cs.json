@@ -214,7 +214,7 @@
 	"lbl_Promotion": "优惠活动",
 	"lbl_LiveChat": "线上客服",
 	"lbl_Guest": "访客",
-	"msg_ApiServerError": "API 数据库错误",
+	"msg_ApiServerError": "糟糕！出现错误，请再尝试。",
 	"msg_SubmitDepositTime": "请提交您存款时间",
 	"msg_SelectFile": "选择文档",
 	"msg_ReferenceNumber": "参照好吗",

@@ -214,7 +214,7 @@
 	"lbl_Promotion": "Promotion",
 	"lbl_LiveChat": "Live Chat",
 	"lbl_Guest": "Guest",
-	"msg_ApiServerError": "API Server Error.",
+	"msg_ApiServerError": "Oops! Something wrong, please try again.",
 	"msg_SubmitDepositTime": "Please submit your deposit time.",
 	"msg_SelectFile": "Select File",
 	"msg_ReferenceNumber": "Reference number",
