@@ -214,7 +214,7 @@
 	"lbl_Promotion": "优惠活动",
 	"lbl_LiveChat": "线上客服",
 	"lbl_Guest": "访客",
-	"msg_ApiServerError": "API 数据库错误",
+	"msg_ApiServerError": "糟糕！出现错误，请再尝试。",
 	"msg_SubmitDepositTime": "请提交您存款时间",
 	"msg_SelectFile": "选择文档",
 	"msg_ReferenceNumber": "参照好吗",
@@ -314,5 +314,6 @@
 	"msg_VerifyCodeTip": "Please enter the verification number",
 	"msg_OTP_Invalid": "Invalid OTP Code",
 	"lbl_MinAmount": "最低额",
-	"lbl_RequireMinAmountHint": "最低存款金额为"
+	"lbl_RequireMinAmountHint": "最低存款金额为",
+	"lbl_UpdatePersonalInfoPromotion":"参与优惠前，请更新您的个人信息"
 }
