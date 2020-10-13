@@ -5,11 +5,12 @@ import { api_CheckResetPwdToken } from "../../service/api/site";
 import Inputbox from "../common/inputbox.password";
 import { getUrlParameter } from "../common/common";
 import { Redirect } from "@reach/router";
+import { LOGOUT } from "../../service/auth";
 
 export default () => {
 	const { i18n } = useContext(i18nContext);
 	const { setPopBox } = useContext(popBoxContext);
-	const { setUserInfo } = useContext(userInfoContext);
+	const { userInfo, setUserInfo } = useContext(userInfoContext);
 	const [newPsw, setNewPsw] = useState("");
 	const [pswState, setPswState] = useState(false);
 	const [warning, setWarning] = useState({ status: false, msg: "" });
@@ -29,23 +30,36 @@ export default () => {
 
 	useEffect(() => {
 		let key = getUrlParameter("key");
+
 		if (key) {
-			api_CheckResetPwdToken(key).then(
-				res => {
-					if (isMountedRef.current) {
-						if (res.data.errorCode === 1) {
-							setRedirectPath("/");
-							setUserInfo(prevState => ({
-								...prevState,
-								isLogin: true
-							}));
-						} else if (res.data.errorCode === 0) {
-							setUserInfo(prevState => ({
-								...prevState,
-								isLogin: true
-							}));
-						} else {
-							setRedirectPath("/");
+			if (userInfo.isLogin === false) {
+				api_CheckResetPwdToken(key).then(
+					res => {
+						if (isMountedRef.current) {
+							if (res.data.errorCode === 1) {
+								setRedirectPath("/");
+								setUserInfo(prevState => ({
+									...prevState,
+									isLogin: true
+								}));
+							} else if (res.data.errorCode === 0) {
+								setUserInfo(prevState => ({
+									...prevState,
+									isLogin: true,
+									loginFromResetPwd: true
+								}));
+							} else {
+								setRedirectPath("/");
+								setPopBox({
+									isOpen: true,
+									title: i18n.lbl_ImportantNote,
+									content: i18n.msg_ApiServerError
+								});
+							}
+						}
+					},
+					err => {
+						if (isMountedRef.current) {
 							setPopBox({
 								isOpen: true,
 								title: i18n.lbl_ImportantNote,
@@ -53,23 +67,14 @@ export default () => {
 							});
 						}
 					}
-				},
-				err => {
-					if (isMountedRef.current) {
-						setPopBox({
-							isOpen: true,
-							title: i18n.lbl_ImportantNote,
-							content: i18n.msg_ApiServerError
-						});
-					}
-				}
-			);
+				);
+			}
 		} else {
 			if (isMountedRef.current) {
 				setRedirectPath("/");
 			}
 		}
-	}, [redirectPath, i18n, setPopBox, setUserInfo]);
+	}, [redirectPath, userInfo.isLogin, setPopBox, setUserInfo]);
 
 	const showPswHandler = () => {
 		setPswState(!pswState);
@@ -117,7 +122,14 @@ export default () => {
 							});
 						} else {
 							const RedirectToHome = () => {
-								setRedirectPath("/");
+								LOGOUT(() => {
+									setRedirectPath("/");
+									setUserInfo(prevState => ({
+										isLogin: false,
+										langId: prevState.langId
+									}));
+								});
+
 								setPopBox({ isOpen: false });
 							};
 							setPopBox({
