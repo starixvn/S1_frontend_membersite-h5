@@ -3436,6 +3436,32 @@ span.important {
   margin: 14vw 0 3vw;
 }
 
+.promotions .claimed {
+  position: absolute;
+  background: rgba(233, 37, 41, 0.8);
+  width: 17vw;
+  height: 17vw;
+  border-radius: 100%;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 3vw;
+  color: white;
+  top: -3vw;
+  left: -3vw;
+  z-index: 1;
+}
+
+.promotions .claimed:before {
+  content: "CLAIMED";
+}
+
 .promotions a.promodule {
   padding: 3vw;
   border: 1px dotted #F77A00;
@@ -3451,30 +3477,18 @@ span.important {
   position: relative;
 }
 
-.promotions a.promodule .claimed {
-  position: absolute;
-  background: rgba(233, 37, 41, 0.8);
-  width: 17vw;
-  height: 17vw;
-  border-radius: 100%;
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+.promotions a.promodule.open {
+  background: #666;
+}
+
+.promotions a.promodule.open .claimed {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 3vw;
-  top: -3vw;
-  left: -3vw;
 }
 
-.promotions a.promodule .claimed:before {
-  content: "CLAIMED";
+.promotions a.promodule.open .btn-group button:nth-child(2) {
+  display: none;
 }
 
 .promotions a.promodule .protitle {
@@ -3504,6 +3518,18 @@ span.important {
   border: 0;
   background: transparent;
   line-height: 24px;
+  position: relative;
+}
+
+.promotions div.promodule.open img {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+}
+
+.promotions div.promodule.open .claimed {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .promotions div.promodule .btn-cancel {
@@ -3897,6 +3923,24 @@ span.important {
           align-items: center;
 }
 
+.rollover div {
+  color: white;
+  font-size: 12px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 50%;
+          flex: 0 0 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  line-height: 24px;
+}
+
+.rollover .icon {
+  color: #F77A00;
+}
+
 .resend {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3916,7 +3960,16 @@ span.important {
   bottom: 3vw;
 }
 
-.Expired > a {
+.Expired > a.promodule {
+  background: #666;
+}
+
+.Expired > a.promodule img, .Expired > a.promodule div:not(.btn-group):not(.claimed) {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+}
+
+.Expired > div.promodule img, .Expired > div.promodule div:not(.btn-group):not(.claimed) {
   -webkit-filter: grayscale(1);
           filter: grayscale(1);
 }
