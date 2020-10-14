@@ -22,7 +22,7 @@ const SetPayment = props => {
 
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [bankList, setBankList] = useState([]);
-	const [selBank, setSelBank] = useState({
+	const [stateSelBank, setSelBank] = useState({
 		idx: null,
 		bank: null
 	});
@@ -56,54 +56,65 @@ const SetPayment = props => {
 			}
 		} else {
 			if (userInfo.isLogin) {
-				setLoading(true);
-				api_GetOnlineBankInfoSysList({
-					payId: props.location.state.payId
-				}).then(
-					res => {
-						if (res.data.errorCode === 0) {
-							let datas = res.data.data.map(b => {
-								let { bankLogo, sysId, bankName, ...rest } = b;
-								return {
-									...rest,
-									image: bankLogo,
-									id: sysId,
-									displayText: bankName
-								};
-							});
+				if (props.location.state.selBank) {
+					setLoading(true);
+					api_GetOnlineBankInfoSysList({
+						payId: props.location.state.payId
+					}).then(
+						res => {
+							if (res.data.errorCode === 0) {
+								let datas = res.data.data.map(b => {
+									let {
+										bankLogo,
+										sysId,
+										bankName,
+										...rest
+									} = b;
+									return {
+										...rest,
+										image: bankLogo,
+										id: sysId,
+										displayText: bankName
+									};
+								});
 
-							if (isMountedRef.current) {
-								if (datas.length > 0) {
-									setBankList(datas);
-								} else {
-									setRedirectPath(`/${path.deposit.root}`);
+								if (isMountedRef.current) {
+									if (datas.length > 0) {
+										setBankList(datas);
+									} else {
+										setRedirectPath(
+											`/${path.deposit.root}`
+										);
+									}
+								}
+							} else {
+								if (isMountedRef.current) {
+									setPopBox({
+										isOpen: true,
+										title: i18n.lbl_ImportantNote,
+										content: res.data.message
+									});
 								}
 							}
-						} else {
+
+							if (isMountedRef.current) {
+								setLoading(false);
+							}
+						},
+						err => {
 							if (isMountedRef.current) {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
-									content: res.data.message
+									content: i18n.msg_ApiServerError
 								});
+								setLoading(false);
 							}
 						}
-
-						if (isMountedRef.current) {
-							setLoading(false);
-						}
-					},
-					err => {
-						if (isMountedRef.current) {
-							setPopBox({
-								isOpen: true,
-								title: i18n.lbl_ImportantNote,
-								content: i18n.msg_ApiServerError
-							});
-							setLoading(false);
-						}
-					}
-				);
+					);
+				} else {
+					setLoading(false);
+				}
 			}
 		}
 	}, [
@@ -150,10 +161,16 @@ const SetPayment = props => {
 	};
 
 	const VaildAmount = _amount => {
+		let { minAmount, maxAmount, selBank } = props.location.state;
+		if (selBank) {
+			minAmount = stateSelBank?.bank?.minAmount;
+			maxAmount = stateSelBank?.bank?.maxAmount;
+		}
+
 		let result = checkAmount(
 			_amount,
-			selBank.bank.minAmount,
-			selBank.bank.maxAmount,
+			minAmount,
+			maxAmount,
 			_isConvert,
 			i18n
 		);
@@ -181,15 +198,22 @@ const SetPayment = props => {
 		let result = VaildAmount(amount);
 
 		if (result) {
+			let { payId, channelId, selBank } = props.location.state;
+			let sysId = 0;
+			if (selBank) {
+				sysId = stateSelBank.bank.sysId;
+				payId = stateSelBank.bank.payId;
+				channelId = stateSelBank.bank.channelId;
+			}
 			const RedirectToNext = real_amount => {
 				window.open(
 					`${config.openURL}/${userInfo.langId}/Cashier/DepositReqOnlineBanking` +
 						"?sysId=" +
-						selBank.bank.sysId +
+						sysId +
 						"&payId=" +
-						selBank.bank.payId +
+						payId +
 						"&ChannelId=" +
-						selBank.bank.channelId +
+						channelId +
 						"&Amount=" +
 						real_amount
 				);
@@ -207,10 +231,12 @@ const SetPayment = props => {
 				content: (
 					<>
 						<p>{i18n.lbl_ConfirmDeposit}</p>
-						<img
-							src={`${config.imgUrl}/common/images/BankLogo/${selBank.bank.bankLogo}`}
-							alt={selBank.bank.bankName}
-						/>
+						{selBank ? (
+							<img
+								src={`${config.imgUrl}/common/images/BankLogo/${stateSelBank.bank.bankLogo}`}
+								alt={stateSelBank.bank.bankName}
+							/>
+						) : null}
 						<div className="tip">
 							<span>{i18n.lbl_DepositAmount} :</span>{" "}
 							{number_format(real_amount, _isConvert)}
@@ -244,27 +270,35 @@ const SetPayment = props => {
 	if (loading) {
 		return <Loading />;
 	} else {
+		let { minAmount, maxAmount, selBank } = props.location.state;
+		if (selBank) {
+			minAmount = stateSelBank?.bank?.minAmount;
+			maxAmount = stateSelBank?.bank?.maxAmount;
+		}
+
 		return redirectPath !== null ? (
 			<Redirect to={redirectPath} noThrow />
 		) : pageVerify ? (
 			<>
 				<Step step={3} />
 				<div className="inputBox">
-					<DropdownIMG
-						mainKey={"onlineBanking-bankList"}
-						onSelectItem={SelectBank}
-						options={bankList}
-						selectedIdx={selBank?.idx}
-						i18n={i18n}
-						ImgURL={`${config.imgUrl}/common/images/BankLogo/`}
-						className="bankLogo"
-					/>
+					{selBank ? (
+						<DropdownIMG
+							mainKey={"onlineBanking-bankList"}
+							onSelectItem={SelectBank}
+							options={bankList}
+							selectedIdx={stateSelBank?.idx}
+							i18n={i18n}
+							ImgURL={`${config.imgUrl}/common/images/BankLogo/`}
+							className="bankLogo"
+						/>
+					) : null}
 					<LimitTip
 						displayTextLimit={i18n.lbl_Limit}
 						displayTextUnLimit={i18n.lbl_Unlimited}
 						_isConvert={_isConvert}
-						minAmount={selBank?.bank?.minAmount}
-						maxAmount={selBank?.bank?.maxAmount}
+						minAmount={minAmount}
+						maxAmount={maxAmount}
 					/>
 				</div>
 				<InputBox

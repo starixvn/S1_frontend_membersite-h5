@@ -88,7 +88,7 @@ export const Main = props => {
 				<Link
 					to={`${p.payName}`}
 					state={{
-						payId: p.payId
+						...p
 					}}
 					className={`icon icon-${p.payName}`}
 				/>
