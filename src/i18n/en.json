@@ -311,9 +311,13 @@
 	"msg_OTPSendCode": "We had send the verification code to your register mobile. Please check your mobile and enter your verification code below.",
 	"lbl_Retransmit": "Retransmit",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
-	  "msg_VerifyCodeTip":"Please enter the verification number",
-	  "msg_OTP_Invalid": "Invalid OTP Code",
-	  "lbl_MinAmount": "Min Amount",
-	  "lbl_RequireMinAmountHint": "The minimum amount of deposit are required to be at least",
-	  "lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion."
+	"msg_VerifyCodeTip":"Please enter the verification number",
+	"msg_OTP_Invalid": "Invalid OTP Code",
+	"lbl_MinAmount": "Min Amount",
+	"lbl_RequireMinAmountHint": "The minimum amount of deposit are required to be at least",
+	"lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion.",
+	"lbl_Processing":"Processing",
+	"lbl_Expired":"Expried",
+	"lbl_FreeBet": "Free Bet",
+	"lbl_PromotionCategory1": "First Deposit"
 }

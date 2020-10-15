@@ -10,27 +10,12 @@ import {
 	api_promotion_SetClaimPromotion
 } from "../service/api/promotion";
 import { api_account_GetCustSpecificBonus } from "../service/api/account";
-import moment from "moment";
 import { Link, Redirect } from "@reach/router";
 import path from "../path";
 import ReloadSpin from "../components/common/reloadSpin";
-import { isExpiry } from "../components/common/promotion.common";
-
-const promoStatus = {
-	running: 1,
-	Canceled: 2,
-	Expiry: 3,
-	TransferOut: 5
-};
-
-const defPromotionType = {
-	firstDeposit: 1,
-	reDeposit: 2,
-	freeBet: 3,
-	walletBonus: 5,
-	rebate: 6,
-	cashback: 7
-};
+import JoinBtn from "../components/promotion/promotion.joinBtn";
+import { defPromotionType } from "../components/promotion/promotion.def";
+import RemainTime from "../components/promotion/promotion.remainTime";
 
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
@@ -260,36 +245,6 @@ export default () => {
 
 	if (promotionInfo === null) return null;
 
-	let _isExpiry = false;
-
-	if (promotionInfo !== null) {
-		_isExpiry = isExpiry({
-			...promotionInfo,
-			isLogin: userInfo.isLogin
-		});
-	}
-
-	let expiryTime = moment.duration(
-		moment
-			.unix(
-				promotionInfo.isJoin &&
-					promotionInfo.status === promoStatus.running &&
-					promotionInfo.custExpiryTime
-					? moment(promotionInfo.custExpiryTime).unix()
-					: promotionInfo.periodTo
-			)
-			.diff(new Date())
-	);
-
-	let displayExpiryTime =
-		expiryTime.days() +
-		" " +
-		i18n.lbl_Days +
-		" " +
-		expiryTime.hours() +
-		" " +
-		i18n.lbl_Hours;
-
 	return redirectPath === null ? (
 		<div className="promodule">
 			<img src={promotionInfo.banner} alt={promotionInfo.title} />
@@ -297,17 +252,10 @@ export default () => {
 				{i18n.lbl_Back}
 			</Link>
 
-			{userInfo.isLogin === false ? (
-				<Link className="btn-check" to={`/${path.login.root}`}>
-					{i18n.lbl_PromoJoinNow}
-				</Link>
-			) : userInfo.isLogin && !promotionInfo.isJoin && !_isExpiry ? (
-				<button
-					className="btn-check"
-					onClick={onJoinPromotion.bind(this, promotionInfo)}>
-					{i18n.lbl_PromoJoinNow}
-				</button>
-			) : null}
+			<JoinBtn
+				promotionInfo={promotionInfo}
+				func_GetPromotionDetail={GetPromotionDetail}
+			/>
 
 			<div className="protitle">{promotionInfo.title}</div>
 			<div className="text">{promotionInfo.description}</div>
@@ -342,7 +290,13 @@ export default () => {
 						<span className="title">
 							{i18n.lbl_RemainingTime?.toUpperCase()}
 						</span>
-						<span>{displayExpiryTime}</span>
+						<span>
+							{RemainTime({
+								promotionInfo,
+								i18n,
+								isLogin: userInfo.isLogin
+							})}
+						</span>
 					</li>
 					{promotionInfo.requiredAmount > 0 ? (
 						<li>

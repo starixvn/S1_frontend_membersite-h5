@@ -315,5 +315,9 @@
 	"msg_OTP_Invalid": "Invalid OTP Code",
 	"lbl_MinAmount": "จำนวนเงินขั้นต่ำ",
 	"lbl_RequireMinAmountHint": "ฝากเงินขั้นต่ำเริ่มต้นที่",
-	"lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion."
+	"lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion.",
+	"lbl_Processing":"Processing",
+	"lbl_Expired": "หมดอายุ",
+	"lbl_FreeBet": "เดิมพันฟรี",
+	"lbl_PromotionCategory1": "ฝากครั้งแรก"	
 }
