@@ -58,7 +58,19 @@
   font-size: 4vw !important;
 }
 
+.icon-MangoPay:before {
+  content: "\e99c";
+}
+
+.icon-icon32px_Double-arrow:before {
+  content: "\e99a";
+}
+
 .icon-affiliate:before {
+  content: "\e99b";
+}
+
+.icon-icon_1_affiliate:before {
   content: "\e997";
 }
 
@@ -474,6 +486,10 @@
   content: "\e910";
 }
 
+.icon-broken_image:before {
+  content: "\e998";
+}
+
 .icon-keyboard_arrow_up:before {
   content: "\e95b";
 }
@@ -702,6 +718,10 @@
   content: "\ea14";
 }
 
+.icon-loop:before {
+  content: "\ea2d";
+}
+
 .icon-arrow-up-left2:before {
   content: "\ea39";
 }
@@ -766,6 +786,10 @@
   content: "\ea92";
 }
 
+.icon-whatsapp:before {
+  content: "\ea93";
+}
+
 .icon-telegram:before {
   content: "\ea95";
 }
@@ -820,6 +844,10 @@
 
 .icon-conversation:before {
   content: "\e935";
+}
+
+.icon-mail-envelope-open:before {
+  content: "\e999";
 }
 
 .icon-moon:before {
