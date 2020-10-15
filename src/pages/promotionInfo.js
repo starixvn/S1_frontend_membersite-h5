@@ -17,14 +17,6 @@ import JoinBtn from "../components/promotion/promotion.joinBtn";
 import { defPromotionType } from "../components/promotion/promotion.def";
 import RemainTime from "../components/promotion/promotion.remainTime";
 
-const defPromotionType = {
-	firstDeposit: 1,
-	freeBet: 3,
-	walletBonus: 5,
-	rebate: 6,
-	cashback: 7
-};
-
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
