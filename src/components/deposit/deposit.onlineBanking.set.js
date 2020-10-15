@@ -186,10 +186,11 @@ const SetPayment = props => {
 	};
 
 	const ClickSubmit = () => {
-		let result = VaildAmount(amount);
+		let { payId, channelId, selBank } = props.location.state;
+		let result =
+			VaildAmount(amount) && (!selBank || (selBank && stateSelBank.bank));
 
 		if (result) {
-			let { payId, channelId, selBank } = props.location.state;
 			let sysId = 0;
 			if (selBank) {
 				sysId = stateSelBank.bank.sysId;
