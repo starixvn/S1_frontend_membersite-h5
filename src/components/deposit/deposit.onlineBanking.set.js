@@ -262,7 +262,7 @@ const SetPayment = props => {
 	if (loading) {
 		return <Loading />;
 	} else {
-		let { minAmount, maxAmount, selBank } = props.location.state;
+		let { minAmount, maxAmount, selBank } = props.location.state || {};
 		if (selBank) {
 			minAmount = stateSelBank?.bank?.minAmount;
 			maxAmount = stateSelBank?.bank?.maxAmount;
