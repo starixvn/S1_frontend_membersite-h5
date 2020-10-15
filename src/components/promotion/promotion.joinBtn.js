@@ -164,7 +164,7 @@ export default ({ promotionInfo, func_GetPromotionDetail, func_CallBack }) => {
 
 	return redirectPath !== null ? (
 		<Redirect to={redirectPath} noThrow />
-	) : userInfo.isLogin === false ? (
+	) : userInfo.isLogin === false && !_isExpiry ? (
 		<Link className="btn-check" to={`/${path.login.root}`}>
 			{i18n.lbl_PromoJoinNow}
 		</Link>
