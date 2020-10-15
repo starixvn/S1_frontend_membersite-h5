@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { popBoxContext, i18nContext } from "../common/context";
 import TurnoverAccumulated from "./popbox.turnover";
+import Otp from "./popbox.otp";
 
 export const defPopBoxType = {
 	default: "default",
-	TurnoverAccumulated: "TurnoverAccumulated"
+	TurnoverAccumulated: "TurnoverAccumulated",
+	Otp: "Otp"
 };
 
 const PopUp = () => {
@@ -19,6 +21,10 @@ const PopUp = () => {
 	switch (popBox.popBoxType) {
 		case defPopBoxType.TurnoverAccumulated:
 			content = <TurnoverAccumulated {...popBox} />;
+			break;
+
+		case defPopBoxType.Otp:
+			content = <Otp />;
 			break;
 
 		default:

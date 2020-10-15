@@ -12,6 +12,7 @@ import {
 import { api_ExistsPhoneNo } from "../../service/api/site";
 import path from "../../path";
 import { monthOptions, initStatus, initValue } from "./profile.def";
+import { defPopBoxType } from "../common/popbox";
 
 const Panel = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
@@ -59,7 +60,8 @@ const Panel = () => {
 		{
 			infoTitle: "phoneNo",
 			colTitle: i18n["lbl_Phone"],
-			content: `(${_areaCode})${userInfo.phoneNo}`
+			content: `(${_areaCode})${userInfo.phoneNo}`,
+			isVerified: userInfo.phoneVerified
 		},
 		{
 			infoTitle: "userName",
@@ -373,6 +375,13 @@ const Panel = () => {
 		}
 	};
 
+	const clickOtp = () => {
+		setPopBox({
+			isOpen: true,
+			popBoxType: defPopBoxType.Otp
+		});
+	};
+
 	let arr = infoList
 		.filter(item => {
 			return (
@@ -381,11 +390,18 @@ const Panel = () => {
 			);
 		})
 		.map(item => {
+			let _isVerified =
+				item.infoTitle === "phoneNo" ? item.isVerified : null;
+
 			return (
 				<ColumnItem
 					key={`profile-${item.infoTitle}`}
 					title={item.colTitle}
 					content={item.content}
+					infoTitle={item.infoTitle}
+					clickOtp={clickOtp}
+					isVerified={_isVerified}
+					i18n={i18n}
 				/>
 			);
 		});
@@ -501,8 +517,21 @@ const Birthday = props => {
 const ColumnItem = props => {
 	return (
 		<li>
-			<span className="title">{props.title}</span>
+			<span className="title">
+				{props.title}
+				{props.isVerified ? (
+					<i className="icon icon-checkmark"></i>
+				) : null}
+			</span>
 			<span>{props.content}</span>
+			{props.infoTitle === "phoneNo" && !props.isVerified ? (
+				<>
+					<button className="otpBtn" onClick={props.clickOtp}>
+						<span className="icon icon-mobile"></span>
+						<span>{props.i18n.lbl_MobileVerify}</span>
+					</button>
+				</>
+			) : null}
 		</li>
 	);
 };

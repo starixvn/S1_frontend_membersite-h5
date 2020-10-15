@@ -127,8 +127,8 @@ export const Main = props => {
 	const VaildAmount = _amount => {
 		let result = checkAmount(
 			_amount,
-			selBank.bank.minAmount,
-			selBank.bank.maxAmount,
+			selBank?.bank?.minAmount,
+			selBank?.bank?.maxAmount,
 			_isConvert,
 			i18n
 		);
@@ -154,7 +154,7 @@ export const Main = props => {
 
 	const ClickSubmit = () => {
 		if (!processing) {
-			let result = VaildAmount(amount);
+			let result = VaildAmount(amount) && selBank.bank;
 			if (result && pageVerify) {
 				const RedirectToNext = (real_amount, sysId) => {
 					api_DepositReqWireTransfer({
