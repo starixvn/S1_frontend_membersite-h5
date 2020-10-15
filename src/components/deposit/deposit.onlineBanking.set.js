@@ -55,66 +55,57 @@ const SetPayment = props => {
 				setLoading(false);
 			}
 		} else {
-			if (userInfo.isLogin) {
-				if (props.location.state.selBank) {
-					setLoading(true);
-					api_GetOnlineBankInfoSysList({
-						payId: props.location.state.payId
-					}).then(
-						res => {
-							if (res.data.errorCode === 0) {
-								let datas = res.data.data.map(b => {
-									let {
-										bankLogo,
-										sysId,
-										bankName,
-										...rest
-									} = b;
-									return {
-										...rest,
-										image: bankLogo,
-										id: sysId,
-										displayText: bankName
-									};
-								});
-
-								if (isMountedRef.current) {
-									if (datas.length > 0) {
-										setBankList(datas);
-									} else {
-										setRedirectPath(
-											`/${path.deposit.root}`
-										);
-									}
-								}
-							} else {
-								if (isMountedRef.current) {
-									setPopBox({
-										isOpen: true,
-										title: i18n.lbl_ImportantNote,
-										content: res.data.message
-									});
-								}
-							}
+			if (userInfo.isLogin && props.location.state.selBank) {
+				setLoading(true);
+				api_GetOnlineBankInfoSysList({
+					payId: props.location.state.payId
+				}).then(
+					res => {
+						if (res.data.errorCode === 0) {
+							let datas = res.data.data.map(b => {
+								let { bankLogo, sysId, bankName, ...rest } = b;
+								return {
+									...rest,
+									image: bankLogo,
+									id: sysId,
+									displayText: bankName
+								};
+							});
 
 							if (isMountedRef.current) {
-								setLoading(false);
+								if (datas.length > 0) {
+									setBankList(datas);
+								} else {
+									setRedirectPath(`/${path.deposit.root}`);
+								}
 							}
-						},
-						err => {
+						} else {
 							if (isMountedRef.current) {
 								setPopBox({
 									isOpen: true,
 									title: i18n.lbl_ImportantNote,
-									content: i18n.msg_ApiServerError
+									content: res.data.message
 								});
-								setLoading(false);
 							}
 						}
-					);
-				} else {
-					setLoading(false);
-				}
+
+						if (isMountedRef.current) {
+							setLoading(false);
+						}
+					},
+					err => {
+						if (isMountedRef.current) {
+							setPopBox({
+								isOpen: true,
+								title: i18n.lbl_ImportantNote,
+								content: i18n.msg_ApiServerError
+							});
+							setLoading(false);
+						}
+					}
+				);
+			} else {
+				setLoading(false);
 			}
 		}
 	}, [
