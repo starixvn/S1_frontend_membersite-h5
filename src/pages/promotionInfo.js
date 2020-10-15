@@ -1,14 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import {
-	userInfoContext,
-	popBoxContext,
-	i18nContext
-} from "../components/common/context";
+import { userInfoContext, i18nContext } from "../components/common/context";
 import { getUrlParameter, number_format } from "../components/common/common";
-import {
-	api_promotion_GetPromotionDetail,
-	api_promotion_SetClaimPromotion
-} from "../service/api/promotion";
+import { api_promotion_GetPromotionDetail } from "../service/api/promotion";
 import { api_account_GetCustSpecificBonus } from "../service/api/account";
 import { Link, Redirect } from "@reach/router";
 import path from "../path";
@@ -16,11 +9,15 @@ import ReloadSpin from "../components/common/reloadSpin";
 import JoinBtn from "../components/promotion/promotion.joinBtn";
 import { defPromotionType } from "../components/promotion/promotion.def";
 import RemainTime from "../components/promotion/promotion.remainTime";
+import {
+	isClaimed,
+	isNew,
+	isExpiry
+} from "../components/promotion/promotion.common";
 
 export default () => {
 	const { userInfo } = useContext(userInfoContext);
 	const { i18n } = useContext(i18nContext);
-	const { setPopBox } = useContext(popBoxContext);
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [promotionInfo, setPromotionInfo] = useState(null);
 	const isMountedRef = useRef(null);
@@ -78,148 +75,6 @@ export default () => {
 		);
 	};
 
-	const onJoinPromotion = _promo => {
-		if (userInfo.isLogin !== false) {
-			const ClosePopBox = () => {
-				setPopBox({
-					isOpen: false
-				});
-			};
-
-			if (
-				userInfo.currencyId &&
-				!userInfo.accountName &&
-				!userInfo.phoneNo &&
-				!userInfo.email
-			) {
-				const RedirectToProfile = () => {
-					setRedirectPath(
-						`/${path.member.root}?prevPage=${path.promotionInfo.root}&BonusCode=${_promo.bonusCode}`
-					);
-					ClosePopBox();
-				};
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: <p>{i18n.lbl_UpdatePersonalInfoPromotion}</p>,
-					hasBtn: true,
-					btnBar: (
-						<div className="btn-group">
-							<button className="blue" onClick={ClosePopBox}>
-								{i18n.lbl_Cancel}
-							</button>
-							<button
-								onClick={RedirectToProfile}
-								className="btn-check">
-								{i18n.lbl_GoNow}
-							</button>
-						</div>
-					)
-				});
-			} else if (
-				_promo.canJoin &&
-				!_promo.isJoin &&
-				_promo.result === 1 &&
-				_promo.requiredAmount > 0
-			) {
-				setPopBox({
-					isOpen: true,
-					title: i18n.lbl_ImportantNote,
-					content: (
-						<>
-							<div className="info">
-								{i18n.lbl_RequireMinAmountHint}
-								<span className="text-org">
-									{` ${
-										i18n[`Currency_${userInfo.currencyId}`]
-									} ${_promo.requiredAmount}`}
-								</span>
-								<br />
-								{i18n.msg_GoToDepositPage}
-							</div>
-						</>
-					),
-					hasBtn: true,
-					btnBar: (
-						<div className="btn-group">
-							<button className="blue" onClick={ClosePopBox}>
-								{i18n.lbl_Later}
-							</button>
-							<Link
-								to={`/${path.deposit.root}`}
-								className="btn-check">
-								{i18n.lbl_DepositNow}
-							</Link>
-						</div>
-					)
-				});
-			} else {
-				api_promotion_SetClaimPromotion({
-					langId: userInfo.langId,
-					BonusCode: _promo.bonusCode
-				}).then(
-					res => {
-						if (isMountedRef.current) {
-							if (res.data.errorCode === 0) {
-								GetPromotionDetail(
-									userInfo.langId,
-									_promo.bonusCode
-								);
-
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: (
-										<>
-											<p>{i18n.msg_Updatesuccessful}</p>
-										</>
-									),
-									hasBtn: true,
-									btnBar: (
-										<div className="btn-group">
-											<button
-												onClick={ClosePopBox}
-												className="btn-check">
-												OK
-											</button>
-										</div>
-									)
-								});
-							} else {
-								setPopBox({
-									isOpen: true,
-									title: i18n.lbl_ImportantNote,
-									content: (
-										<>
-											<p>
-												{res.data.message
-													? res.data.message
-													: `[${res.data.errorCode}] Something went wrong...`}
-											</p>
-										</>
-									),
-									hasBtn: true,
-									btnBar: (
-										<div className="btn-group">
-											<button
-												onClick={ClosePopBox}
-												className="btn-check">
-												{i18n.lbl_Close}
-											</button>
-										</div>
-									)
-								});
-							}
-						}
-					},
-					err => {
-						alert(i18n.msg_ApiServerError);
-					}
-				);
-			}
-		}
-	};
-
 	const RefreshProcessBar = ({ bonusCode, tpId, categoryId }) => {
 		api_account_GetCustSpecificBonus({
 			BonusCode: bonusCode,
@@ -245,8 +100,20 @@ export default () => {
 
 	if (promotionInfo === null) return null;
 
+	let _isClaimed = isClaimed(promotionInfo);
+	let _isNew = _isClaimed ? false : isNew(promotionInfo);
+	let _isExpiry = isExpiry({ ...promotionInfo, isLogin: userInfo.isLogin });
+
 	return redirectPath === null ? (
-		<div className="promodule">
+		<div
+			className={`promodule${promotionInfo.isJoin ? " open" : ""}${
+				_isExpiry ? " Expired" : ""
+			}`}>
+			{_isClaimed ? (
+				<div className="claimed"></div>
+			) : _isNew ? (
+				<div className="new active"></div>
+			) : null}
 			<img src={promotionInfo.banner} alt={promotionInfo.title} />
 			<Link className="btn-cancel" to={`/${path.promotion.root}`}>
 				{i18n.lbl_Back}
