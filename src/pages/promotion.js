@@ -146,8 +146,11 @@ const IndexPage = () => {
 							_isExpiry ? " Expired" : ""
 						}`}
 						key={`promotion-${userInfo.langId}-${p.bonusCode}`}>
-						{_isClaimed ? <div className="claimed"></div> : null}
-						{_isNew ? <div className="new active"></div> : null}
+						{_isClaimed ? (
+							<div className="claimed"></div>
+						) : _isNew ? (
+							<div className="new active"></div>
+						) : null}
 						<img src={imgSRC} alt={p.imgName ?? ""} />
 						<div className="protitle">{p.title}</div>
 						<div className="text">{p.description}</div>
