@@ -18,6 +18,7 @@ import ReloadSpin from "../common/reloadSpin";
 import path from "../../path";
 import { Redirect } from "@reach/router";
 import Loading from "../common/loading";
+import { Iov_GetBlackBox } from "../common/iovation";
 
 const Panel = () => {
 	const { i18n } = useContext(i18nContext);
@@ -252,8 +253,18 @@ const Panel = () => {
 		if (pageVerify) {
 			let result = VaildAmount(amount);
 			if (result) {
-				const RedirectToNext = (accountNo, _real_amount, sysId) => {
-					api_WithdrawalReq(accountNo, _real_amount, sysId).then(
+				const RedirectToNext = async (
+					accountNo,
+					_real_amount,
+					sysId
+				) => {
+					let blackbox = await Iov_GetBlackBox();
+					api_WithdrawalReq(
+						accountNo,
+						_real_amount,
+						sysId,
+						blackbox
+					).then(
 						res => {
 							if (isMountedRef.current) {
 								if (

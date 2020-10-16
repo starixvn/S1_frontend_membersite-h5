@@ -32,6 +32,7 @@ import PromoPopup from "./join.promotion";
 import Logo from "../../styles/img/logo.svg";
 import { initValue, initStatus, currencyToAreacode } from "./join.def";
 import areaCode from "../../datas/areaCode";
+import { Iov_GetBlackBox } from "../common/iovation";
 
 const defaultLangId = GET_LANG_ID();
 
@@ -395,6 +396,7 @@ const Join = () => {
 			regData["RefId"] = getUrlParameter("RefId") || getCookie("RefId");
 			regData["AffId"] = getUrlParameter("AffId") || getCookie("AffId");
 			regData["Aff"] = getUrlParameter("Aff") || getCookie("Aff");
+			regData["blackbox"] = await Iov_GetBlackBox();
 
 			api_Signup(regData, defaultLangId).then(
 				response => {
