@@ -290,10 +290,10 @@
 	"lbl_PromoCategory_2": "Live Casino",
 	"lbl_PromoCategory_3": "Fishing Game",
 	"lbl_PromoCategory_4": "Saba Sports",
-	"lbl_Days": "days",
-	"lbl_Hours": "hours",
-	"lbl_RemainingTime": "REMAINING TIME",
-	"lbl_RollOver": "Rollover",
+	"lbl_Days": "Hari",
+	"lbl_Hours": "Jam",
+	"lbl_RemainingTime": "SISA WAKTU",
+	"lbl_RollOver": "MINIMAL PERPUTARAN",
 	"lbl_TurnoverAccumulated": "Turnover Accumulated",
 	"lbl_Req": "Req.",
 	"lbl_PromoJoinNow": "Gabung Sekarang",
@@ -317,7 +317,7 @@
 	"lbl_RequireMinAmountHint": "Jumlah minimal setoran yang diwajibkan adalah minimal Rp",
 	"lbl_UpdatePersonalInfoPromotion":"Please update your personal information before join promotion.",
 	"lbl_Processing":"Processing",
-	"lbl_Expired":"Expried",
+	"lbl_Expired":"Expired",
 	"lbl_FreeBet": "Freebet",
 	"lbl_PromotionCategory1": "Member baru"
 }
