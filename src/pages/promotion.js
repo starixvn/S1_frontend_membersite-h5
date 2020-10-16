@@ -219,6 +219,10 @@ const IndexPage = () => {
 			  })
 			: null;
 
+	let noData =
+		!rows?.length && !staticRows ? (
+			<div className="not-found">{i18n.msg_NoData}</div>
+		) : null;
 	return (
 		<>
 			<Tab i18n={i18n} tab={tab} onClickTab={onClickTab} />
@@ -230,6 +234,7 @@ const IndexPage = () => {
 			/>
 			{rows}
 			{staticRows}
+			{noData}
 		</>
 	);
 };
