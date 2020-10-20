@@ -20,15 +20,14 @@ const Iovation = () => {
 				  "bbout_element_id" : "",  // this can be changed to store in a different hidden field (or removed to use a different collection method)
 				  "loader" : {
 					"uri_hook" : "/iojs",
-					"subkey"  : "${config.siteName}",
 					"version" : "general5"
 				  }
 				};
 				`}
 			</script>
-			<script
+			{/* <script
 				src={`${config.t_and_cURL}/common/js/loader_only.js`}
-				type="text/javascript"></script>
+				type="text/javascript"></script> */}
 		</Helmet>
 	);
 };
