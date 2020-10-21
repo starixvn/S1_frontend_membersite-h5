@@ -29,8 +29,8 @@ const defTabs = {
 		key: "Processing",
 		displayKey: "lbl_Processing"
 	},
-	Expried: {
-		key: "Expried",
+	Expired: {
+		key: "Expired",
 		displayKey: "lbl_Expired"
 	}
 };
@@ -139,7 +139,7 @@ const IndexPage = () => {
 				let imgSRC = p.banner;
 				let _isClaimed = isClaimed(p);
 				let _isNew = _isClaimed ? false : isNew(p);
-				let _isExpiry = tab === defTabs.Expried.key;
+				let _isExpiry = tab === defTabs.Expired.key;
 				return (
 					<div
 						className={`promodule${p.isJoin ? " open" : ""}${
@@ -255,7 +255,7 @@ const Tab = ({ i18n, tab, onClickTab }) => {
 
 const Nav = ({ i18n, filterType, onClickFilter, tab }) => {
 	let rows =
-		tab === defTabs.Expried.key
+		tab === defTabs.Expired.key
 			? null
 			: defPromotionNav.map(n => {
 					return (
