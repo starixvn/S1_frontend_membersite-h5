@@ -27,9 +27,7 @@ export default ({ promotionInfo, func_GetPromotionDetail, func_CallBack }) => {
 
 			if (
 				userInfo.currencyId &&
-				!userInfo.accountName &&
-				!userInfo.phoneNo &&
-				!userInfo.email
+				!(userInfo.accountName && userInfo.phoneNo && userInfo.email)
 			) {
 				const RedirectToProfile = () => {
 					setRedirectPath(

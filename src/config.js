@@ -18,39 +18,35 @@ const getAffiliate = langId => {
 };
 
 export const siteInfo = langId => {
-	switch (siteName) {
-		case sites.Nova88:
-			return {
-				siteName: "Nova88",
-				affiliateLink: getAffiliate(langId),
-				siteDefaultLang: "en",
-				siteLangList: ["en", "cs", "th", "id"],
-				logo: "logo.svg",
-				description:
-					"Nova88 is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.",
-				iosIcon: "Nova88_256_2.png",
-				socialMedia: {
-					fb: {
-						icon: "facebook2",
-						link: "https://www.facebook.com/nova88official/",
-						displayKey: "lbl_Facebook"
-					},
-					twitter: {
-						icon: "twitter",
-						link: "https://twitter.com/nova88official",
-						displayKey: "lbl_Twitter"
-					},
-					ig: {
-						icon: "instagram",
-						link: "https://www.instagram.com/nova88.net_official",
-						displayKey: "lbl_Instagram"
-					}
-				}
-			};
-
-		default:
-			return {};
-	}
+	return {
+		siteName: "Nova88",
+		affiliateLink: getAffiliate(langId),
+		siteDefaultLang: "en",
+		siteLangList: ["en", "cs", "th", "id"],
+		logo: "logo.svg",
+		description:
+			"Nova88 is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.",
+		iosIcon: "Nova88_256_2.png",
+		socialMedia: {
+			fb: {
+				icon: "facebook2",
+				link: "https://www.facebook.com/nova88official/",
+				displayKey: "lbl_Facebook"
+			},
+			twitter: {
+				icon: "twitter",
+				link: "https://twitter.com/nova88official",
+				displayKey: "lbl_Twitter"
+			},
+			ig: {
+				icon: "instagram",
+				link: "https://www.instagram.com/nova88.net_official",
+				displayKey: "lbl_Instagram"
+			}
+		},
+		staticPromotions:
+			"https://image.n88media.com/NovaPromotion/promotionList.json"
+	};
 };
 
 export default process.env.NODE_ENV === "production"

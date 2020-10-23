@@ -10,7 +10,6 @@ import config, { siteInfo } from "../config";
 import { api_promotion_GetPromotionListV2 } from "../service/api/promotion";
 import path from "../path";
 import { Link } from "@reach/router";
-import StaticPromotionList from "../datas/promotionList";
 import JoinBtn from "../components/promotion/promotion.joinBtn";
 import RemainTime from "../components/promotion/promotion.remainTime";
 import {
@@ -23,14 +22,15 @@ import {
 	isClaimed,
 	isNew
 } from "../components/promotion/promotion.common";
+import staticList from "../datas/promotionList";
 
 const defTabs = {
 	Processing: {
 		key: "Processing",
 		displayKey: "lbl_Processing"
 	},
-	Expried: {
-		key: "Expried",
+	Expired: {
+		key: "Expired",
 		displayKey: "lbl_Expired"
 	}
 };
@@ -42,6 +42,7 @@ const IndexPage = () => {
 	const [tab, setTab] = useState(defTabs.Processing.key);
 	const [filterType, setFilterType] = useState(defFilterType.all);
 	const isMountedRef = useRef(null);
+	// const [staticList, setStaticList] = useState([]);
 
 	useEffect(() => {
 		isMountedRef.current = true;
@@ -64,6 +65,14 @@ const IndexPage = () => {
 
 	useEffect(() => {
 		getPromotionListV2();
+
+		// fetch(siteInfo().staticPromotions)
+		// 	.then(res => {
+		// 		return res.json();
+		// 	})
+		// 	.then(data => {
+		// 		setStaticList(data);
+		// 	});
 	}, [getPromotionListV2]);
 
 	const onClickTab = tabKey => {
@@ -139,7 +148,7 @@ const IndexPage = () => {
 				let imgSRC = p.banner;
 				let _isClaimed = isClaimed(p);
 				let _isNew = _isClaimed ? false : isNew(p);
-				let _isExpiry = tab === defTabs.Expried.key;
+				let _isExpiry = tab === defTabs.Expired.key;
 				return (
 					<div
 						className={`promodule${p.isJoin ? " open" : ""}${
@@ -190,7 +199,7 @@ const IndexPage = () => {
 
 	let staticRows =
 		tab === defTabs.Processing.key && filterType === defFilterType.all
-			? StaticPromotionList.map(p => {
+			? staticList.map(p => {
 					return (
 						<div
 							className="promodule"
@@ -219,6 +228,10 @@ const IndexPage = () => {
 			  })
 			: null;
 
+	let noData =
+		!rows?.length && !staticRows ? (
+			<div className="not-found">{i18n.msg_NoData}</div>
+		) : null;
 	return (
 		<>
 			<Tab i18n={i18n} tab={tab} onClickTab={onClickTab} />
@@ -230,6 +243,7 @@ const IndexPage = () => {
 			/>
 			{rows}
 			{staticRows}
+			{noData}
 		</>
 	);
 };
@@ -250,7 +264,7 @@ const Tab = ({ i18n, tab, onClickTab }) => {
 
 const Nav = ({ i18n, filterType, onClickFilter, tab }) => {
 	let rows =
-		tab === defTabs.Expried.key
+		tab === defTabs.Expired.key
 			? null
 			: defPromotionNav.map(n => {
 					return (

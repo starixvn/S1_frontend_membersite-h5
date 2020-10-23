@@ -1,4 +1,5 @@
 import moment from "moment";
+import { defPromotionType } from "./promotion.def";
 
 const promoStatus = {
 	running: 1,
@@ -16,10 +17,16 @@ export const isExpiry = ({
 	custExpiryTime,
 	isLogin,
 	isJoin,
-	status
+	status,
+	promotionType
 }) => {
 	let bonusExpiry = false;
-	if (isLogin && isJoin) {
+	if (
+		isLogin &&
+		isJoin &&
+		promotionType !== defPromotionType.rebate &&
+		promotionType !== defPromotionType.cashback
+	) {
 		bonusExpiry =
 			moment(moment.unix(custExpiryTime)).isBefore(new moment()) ||
 			(status !== promoStatus.running &&
