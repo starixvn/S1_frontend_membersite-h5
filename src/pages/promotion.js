@@ -10,7 +10,6 @@ import config, { siteInfo } from "../config";
 import { api_promotion_GetPromotionListV2 } from "../service/api/promotion";
 import path from "../path";
 import { Link } from "@reach/router";
-import StaticPromotionList from "../datas/promotionList";
 import JoinBtn from "../components/promotion/promotion.joinBtn";
 import RemainTime from "../components/promotion/promotion.remainTime";
 import {
@@ -42,6 +41,7 @@ const IndexPage = () => {
 	const [tab, setTab] = useState(defTabs.Processing.key);
 	const [filterType, setFilterType] = useState(defFilterType.all);
 	const isMountedRef = useRef(null);
+	const [staticList, setStaticList] = useState([]);
 
 	useEffect(() => {
 		isMountedRef.current = true;
@@ -64,6 +64,14 @@ const IndexPage = () => {
 
 	useEffect(() => {
 		getPromotionListV2();
+
+		fetch(siteInfo().staticPromotions)
+			.then(async res => {
+				return res.json();
+			})
+			.then(data => {
+				setStaticList(data);
+			});
 	}, [getPromotionListV2]);
 
 	const onClickTab = tabKey => {
@@ -190,7 +198,7 @@ const IndexPage = () => {
 
 	let staticRows =
 		tab === defTabs.Processing.key && filterType === defFilterType.all
-			? StaticPromotionList.map(p => {
+			? staticList.map(p => {
 					return (
 						<div
 							className="promodule"
