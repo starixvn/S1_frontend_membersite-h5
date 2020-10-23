@@ -22,6 +22,7 @@ import {
 	isClaimed,
 	isNew
 } from "../components/promotion/promotion.common";
+import staticList from "../datas/promotionList";
 
 const defTabs = {
 	Processing: {
@@ -41,7 +42,7 @@ const IndexPage = () => {
 	const [tab, setTab] = useState(defTabs.Processing.key);
 	const [filterType, setFilterType] = useState(defFilterType.all);
 	const isMountedRef = useRef(null);
-	const [staticList, setStaticList] = useState([]);
+	// const [staticList, setStaticList] = useState([]);
 
 	useEffect(() => {
 		isMountedRef.current = true;
@@ -65,13 +66,13 @@ const IndexPage = () => {
 	useEffect(() => {
 		getPromotionListV2();
 
-		fetch(siteInfo().staticPromotions)
-			.then(async res => {
-				return res.json();
-			})
-			.then(data => {
-				setStaticList(data);
-			});
+		// fetch(siteInfo().staticPromotions)
+		// 	.then(res => {
+		// 		return res.json();
+		// 	})
+		// 	.then(data => {
+		// 		setStaticList(data);
+		// 	});
 	}, [getPromotionListV2]);
 
 	const onClickTab = tabKey => {
