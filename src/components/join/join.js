@@ -27,9 +27,8 @@ import { GET_LANG_ID } from "../../service/language";
 import TandC from "../../service/t_and_c";
 import { useMatch, Redirect } from "@reach/router";
 import path from "../../path";
-import config from "../../config";
+import config, { siteInfo } from "../../config";
 import PromoPopup from "./join.promotion";
-import Logo from "../../styles/img/logo.svg";
 import { initValue, initStatus, currencyToAreacode } from "./join.def";
 import areaCode from "../../datas/areaCode";
 import { Iov_GetBlackBox } from "../common/iovation";
@@ -507,7 +506,7 @@ const Join = () => {
 					<span></span>
 					<span></span>
 				</div>
-				<img src={Logo} alt={config.siteName} />
+				<img src={siteInfo().logo} alt={config.siteName} />
 				<div className="title">{i18n.lbl_JoinNow}</div>
 
 				<Inputbox
