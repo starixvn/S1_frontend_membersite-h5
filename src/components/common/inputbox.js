@@ -17,6 +17,7 @@ const Inputbox = props => {
 						: props.value
 				}
 				max={props.max ? props.max : null}
+				disabled={props.disabled ? props.disabled : null}
 			/>
 			{props.checked === false || props.Warning?.status ? (
 				<div className="icon-module">
