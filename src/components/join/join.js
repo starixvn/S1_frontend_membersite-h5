@@ -46,7 +46,6 @@ const Join = () => {
 	const [pswState, setPswState] = useState(false);
 	const [redirectPath, setRedirectPath] = useState(null);
 	const [banner, setBanner] = useState([]);
-	const [hideCurrency, setHideCurrency] = useState(false);
 	const [affiliateidExist, setAffiliateidExist] = useState("");
 	const [defaultOption, setDefaultOption] = useState(
 		i18n.lbl_PrefferedCurrency
@@ -77,13 +76,9 @@ const Join = () => {
 	}, [nav, userInfo.langId]);
 
 	useEffect(() => {
-		let AffId = getUrlParameter("AffId") || getCookie("AffId");
 		let affiliateid =
 			getUrlParameter("affiliateid") || getCookie("affiliateid");
-
-		if (AffId && isMountedRef) {
-			setHideCurrency(true);
-		} else if (affiliateid && isMountedRef) {
+		if (affiliateid && isMountedRef) {
 			setAffiliateidExist(affiliateid);
 		}
 	}, []);
@@ -555,31 +550,27 @@ const Join = () => {
 					checked={status.Email.checked}
 					tip={status.Email.msg}></Inputbox>
 
-				{hideCurrency ? null : (
-					<>
-						<div
-							className="inputBox"
-							onBlur={checkValue.bind(null, "Currency")}>
-							<Dropdown
-								mainKey="join-curr"
-								colName="Currency"
-								defaultOption={defaultOption}
-								selectedIdx={userValue.Currency}
-								options={siteCurrency}
-								onSelectItem={onSelectItem}
-								i18n={i18n}></Dropdown>
-							<Tips
-								Icon="icon-coin-dollar"
-								IsOpen={defaultOption !== null}
-								ClassName="JoinRule">
-								{status.Currency.msg}
-							</Tips>
-						</div>
-						<Tips IsOpen={true} ClassName="JoinRule">
-							{i18n["lbl_PreferredCurrencyToolTip"]}
-						</Tips>
-					</>
-				)}
+				<div
+					className="inputBox"
+					onBlur={checkValue.bind(null, "Currency")}>
+					<Dropdown
+						mainKey="join-curr"
+						colName="Currency"
+						defaultOption={defaultOption}
+						selectedIdx={userValue.Currency}
+						options={siteCurrency}
+						onSelectItem={onSelectItem}
+						i18n={i18n}></Dropdown>
+					<Tips
+						Icon="icon-coin-dollar"
+						IsOpen={defaultOption !== null}
+						ClassName="JoinRule">
+						{status.Currency.msg}
+					</Tips>
+				</div>
+				<Tips IsOpen={true} ClassName="JoinRule">
+					{i18n["lbl_PreferredCurrencyToolTip"]}
+				</Tips>
 
 				{userValue.Currency !== null ? (
 					<div className="inputBox parts">
