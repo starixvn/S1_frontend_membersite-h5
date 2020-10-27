@@ -319,5 +319,8 @@
 	"lbl_Processing":"进行中",
 	"lbl_Expired":"已过期",
 	"lbl_FreeBet": "免费投注",
-	"lbl_PromotionCategory1": "首次存款"
+	"lbl_PromotionCategory1": "首次存款",
+	"lbl_Affiliate_ID":"代理商 ID/参照号",
+	"lbl_Please_enter_Affiliate_ID":"请填入代理商 ID（可不填）, 填入后无法更换！"
+
 }

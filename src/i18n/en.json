@@ -319,5 +319,7 @@
 	"lbl_Processing":"Processing",
 	"lbl_Expired":"Expired",
 	"lbl_FreeBet": "Free Bet",
-	"lbl_PromotionCategory1": "First Deposit"
+	"lbl_PromotionCategory1": "First Deposit",
+	"lbl_Affiliate_ID":"Affiliate ID/Referral",
+	"lbl_Please_enter_Affiliate_ID":"Please enter Affiliate ID (Optional), it can not change once enter!"
 }
