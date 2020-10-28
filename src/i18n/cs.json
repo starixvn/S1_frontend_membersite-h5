@@ -297,7 +297,7 @@
 	"lbl_TurnoverAccumulated": "Turnover Accumulated",
 	"lbl_Req": "Req.",
 	"lbl_PromoJoinNow": "立即加入",
-	"lbl_GoNow": "Go Now!",
+	"lbl_GoNow": "立即前往",
 	"lbl_Affiliate": "合作伙伴",
 	"lbl_SiteAffiliate": "Nova88 代理",
 	"lbl_AffiliateDesc": "您的成功伴侣",
@@ -319,5 +319,10 @@
 	"lbl_Processing":"进行中",
 	"lbl_Expired":"已过期",
 	"lbl_FreeBet": "免费投注",
-	"lbl_PromotionCategory1": "首次存款"
+	"lbl_PromotionCategory1": "首次存款",
+	"lbl_VertifyContactConfirm": "验证您的号码以享有优惠？",
+	"lbl_VerifyNow":"立即验证",
+	"lbl_GoWithdrawalPage":"前往提款页面？",
+	"lbl_GoPromotionPage":"前往参加優惠吗？"
+
 }

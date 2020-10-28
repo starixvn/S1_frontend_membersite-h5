@@ -24,7 +24,7 @@ const PopUp = () => {
 			break;
 
 		case defPopBoxType.Otp:
-			content = <Otp />;
+			content = <Otp ClosePopbox={popBox.ClosePopbox} />;
 			break;
 
 		default:
