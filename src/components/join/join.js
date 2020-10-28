@@ -600,7 +600,12 @@ const Join = () => {
 					icon="icon-affiliate"
 					ClassName="JoinRule"
 					placeholder={i18n["lbl_Affiliate_ID"]}
-					value={affiliateidExist ?? userValue.AffiliateId}
+					value={
+						affiliateidExist !== ""
+							? affiliateidExist
+							: userValue.AffiliateId
+					}
+					onBlur={checkValue.bind(null, "AffiliateId")}
 					onFocus={showOnFocusTip.bind(null, "AffiliateId")}
 					onChange={EditField.bind(null, "AffiliateId")}
 					checked={status.AffiliateId.checked}
