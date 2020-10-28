@@ -325,6 +325,9 @@
 	"lbl_VertifyContactConfirm": "Verifikasi nomor kontak Anda untuk menikmati promosi kami?",
 	"lbl_VerifyNow":"Verifikasi Sekarang",
 	"lbl_GoWithdrawalPage":"Pergi ke halaman penarikan?",
-	"lbl_GoPromotionPage":"Pergi untuk mengikuti promosi?"
+	"lbl_GoPromotionPage":"Pergi untuk mengikuti promosi?",
+	"lbl_ExchangeRate":"Kurs tukar",
+	"lbl_ExchangeRateReferenceOnly":"Tarif ini hanya untuk referensi",
+	"lbl_ExchangeAmount":"Nilai tukar"
 
 }

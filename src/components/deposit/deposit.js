@@ -14,7 +14,8 @@ import {
 	api_GetBankInfoOffList,
 	api_GetMobilePayGroupList,
 	api_GetDepositInfoRecent,
-	api_SetDepositCancel
+	api_SetDepositCancel,
+	api_payment_GetCryptoPayInfoList
 } from "../../service/api/payment";
 import RecentDatas from "./deposit.recentDatas";
 import Loading from "../common/loading";
@@ -64,6 +65,7 @@ const Panel = () => {
 	const [onlineBankingList, setOnlineBankingList] = useState([]);
 	const [localBankList, setLocalBankList] = useState([]);
 	const [mobilePayList, setMobilePayList] = useState([]);
+	const [cryptoPayList, setCryptoPayList] = useState([]);
 	const [recentDatas, setRecentDatas] = useState([]);
 
 	const [redirectPath, setRedirectPath] = useState(null);
@@ -94,6 +96,25 @@ const Panel = () => {
 		if (userInfo.isLogin) {
 			setLoading(true);
 
+			api_GetOnlinePaymentList().then(
+				res => {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
+						setOnlineBankingList(res.data.data);
+						setAllowPayment(prevState => ({
+							...prevState,
+							[defPayType.onlineBank]:
+								res.data.data && res.data.data.length > 0
+						}));
+						setLoading(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
+						setLoading(false);
+					}
+				}
+			);
+
 			api_GetBankInfoOffList().then(
 				res => {
 					if (res.data.errorCode === 0 && isMountedRef.current) {
@@ -120,6 +141,25 @@ const Panel = () => {
 						setAllowPayment(prevState => ({
 							...prevState,
 							[defPayType.mobilePay]:
+								res.data.data && res.data.data.length > 0
+						}));
+						setLoading(false);
+					}
+				},
+				err => {
+					if (isMountedRef.current) {
+						setLoading(false);
+					}
+				}
+			);
+
+			api_payment_GetCryptoPayInfoList().then(
+				res => {
+					if (res.data.errorCode === 0 && isMountedRef.current) {
+						setCryptoPayList(res.data.data);
+						setAllowPayment(prevState => ({
+							...prevState,
+							[defPayType.cryptoPay]:
 								res.data.data && res.data.data.length > 0
 						}));
 						setLoading(false);
@@ -239,6 +279,8 @@ const Panel = () => {
 						list = localBankList;
 					} else if (key === defPayType.mobilePay) {
 						list = mobilePayList;
+					} else if (key === defPayType.cryptoPay) {
+						list = cryptoPayList;
 					}
 					return (
 						<div key={`deposit-${key}`}>

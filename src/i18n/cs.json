@@ -325,6 +325,9 @@
 	"lbl_VertifyContactConfirm": "验证您的号码以享有优惠？",
 	"lbl_VerifyNow":"立即验证",
 	"lbl_GoWithdrawalPage":"前往提款页面？",
-	"lbl_GoPromotionPage":"前往参加優惠吗？"
+	"lbl_GoPromotionPage":"前往参加優惠吗？",
+	"lbl_ExchangeRate":"兑换汇率",
+	"lbl_ExchangeRateReferenceOnly":"汇率仅供参考",
+	"lbl_ExchangeAmount":"换算金额"
 
 }

@@ -325,5 +325,8 @@
 	"lbl_VertifyContactConfirm": "Verify your contact number to enjoy our promotions?",
 	"lbl_VerifyNow":"Vertify Now",
 	"lbl_GoWithdrawalPage":"Go to withdrawal page?",
-	"lbl_GoPromotionPage":"Go to join promotion?"
+	"lbl_GoPromotionPage":"Go to join promotion?",
+	"lbl_ExchangeRate":"Exchange rate",
+	"lbl_ExchangeRateReferenceOnly":"This rate is only for refence",
+	"lbl_ExchangeAmount":"Exchange Amount"	
 }

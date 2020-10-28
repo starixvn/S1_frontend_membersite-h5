@@ -325,7 +325,10 @@
 	"lbl_VertifyContactConfirm": "ยืนยันหมายเลขโทรศัพท์เพื่อเข้าร่วมรับโปรโมชั่น",
 	"lbl_VerifyNow":"ยืนยันตอนนี้",
 	"lbl_GoWithdrawalPage":"ไปที่ี่หน้าทำรายการถอน",
-	"lbl_GoPromotionPage":"ไปที่เข้าร่วมกิจกรรม"
+	"lbl_GoPromotionPage":"ไปที่เข้าร่วมกิจกรรม",
+	"lbl_ExchangeRate":"อัตราแลกเปลี่ยน",
+	"lbl_ExchangeRateReferenceOnly":"อัตรานี้ใช้สำหรับการอ้างอิงเท่านั้น",
+	"lbl_ExchangeAmount":"จำนวนเงินแลกเปลี่ยน"
 
 	
 }
