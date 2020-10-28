@@ -298,7 +298,7 @@
 	"lbl_TurnoverAccumulated": "Turnover Accumulated",
 	"lbl_Req": "Req.",
 	"lbl_PromoJoinNow": "Gabung Sekarang",
-	"lbl_GoNow": "Go Now!",
+	"lbl_GoNow": "Pergi sekarang!",
 	"lbl_Affiliate": "Affiliates",
 	"lbl_SiteAffiliate": "Nova88 Affiliate",
 	"lbl_AffiliateDesc": "Partner Anda menuju Sukses",
@@ -309,7 +309,7 @@
 	"lbl_RemindPrefferedCurrency": "Mata Uang Pilihan wajib diisi.",
 	"lbl_ProfileModifyWarning": "Pastikan keamanan akun Anda, Data Anda tidak dapat diubah atau modifikasi setelah diajukan",
 	"lbl_MobileVerify": "Verifikasi telepon",
-	"msg_OTPSendCode": "Kami telah mengirimkan kode verifikasi ke ponsel Anda yang terdaftar. Silakan periksa telepon Anda dan masukkan kode verifikasi Anda di bawah ini.",
+	"msg_OTPSendCode": "Kami telah mengirimkan kode verifikasi ke nomor ponsel Anda yang terdaftar. Silakan periksa dan masukkan kode verifikasi di bawah ini.",
 	"lbl_Retransmit": "Kirim ulang",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip": "Please enter the verification number",
@@ -321,5 +321,10 @@
 	"lbl_Expired":"Expired",
 	"lbl_FreeBet": "Freebet",
 	"lbl_PromotionCategory1": "Member baru",
-	"lbl_CryptoPay":"Pembayaran Crypto"
+	"lbl_CryptoPay":"Pembayaran Crypto",
+	"lbl_VertifyContactConfirm": "Verifikasi nomor kontak Anda untuk menikmati promosi kami?",
+	"lbl_VerifyNow":"Verifikasi Sekarang",
+	"lbl_GoWithdrawalPage":"Pergi ke halaman penarikan?",
+	"lbl_GoPromotionPage":"Pergi untuk mengikuti promosi?"
+
 }
