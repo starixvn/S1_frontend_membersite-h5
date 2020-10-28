@@ -13,6 +13,7 @@ import { api_ExistsPhoneNo } from "../../service/api/site";
 import path from "../../path";
 import { monthOptions, initStatus, initValue } from "./profile.def";
 import { defPopBoxType } from "../common/popbox";
+import { redirectToPrev } from "./profile.redirect";
 
 const Panel = () => {
 	const { userInfo, setUserInfo } = useContext(userInfoContext);
@@ -256,6 +257,24 @@ const Panel = () => {
 				}
 			};
 
+			const openOtpHint = () => {
+				setPopBox({
+					isOpen: true,
+					title: i18n.msg_Updatesuccessful,
+					content: <div>{i18n["lbl_VertifyContactConfirm"]}</div>,
+					hasBtn: true,
+					btnBar: (
+						<div className="btn-group">
+							<button className="blue" onClick={closePopbox}>
+								{i18n["lbl_Later"]}
+							</button>
+							<button className="orange" onClick={clickOtp}>
+								{i18n["lbl_VerifyNow"]}
+							</button>
+						</div>
+					)
+				});
+			};
 			const setProfile = () => {
 				let profileData = {
 					AccountName: userInfo.accountName ?? userValue.accountName,
@@ -282,6 +301,10 @@ const Panel = () => {
 													...prevState,
 													...res.data.data
 												}));
+
+												if (!userInfo.phoneVerified) {
+													openOtpHint();
+												}
 											} else {
 												setPopBox({
 													isOpen: true,
@@ -303,31 +326,8 @@ const Panel = () => {
 										}
 									}
 								);
-								setPopBox({
-									isOpen: true,
-									title: i18n.msg_Updatesuccessful,
-									content: i18n.msg_GoToDepositPage,
-									hasBtn: true,
-									btnBar: (
-										<div className="btn-group">
-											<button
-												className="blue"
-												onClick={closePopbox}>
-												{i18n["lbl_Cancel"]}
-											</button>
-											<button
-												className="orange"
-												onClick={closePopbox.bind(
-													null,
-													{
-														_redirectPath: `/${path.deposit.root}`
-													}
-												)}>
-												{i18n["lbl_Confirm"]}
-											</button>
-										</div>
-									)
-								});
+
+								redirectToPrev(i18n, setPopBox, closePopbox);
 							} else if (errorCode === 21) {
 								setStatus(prevState => ({
 									...prevState,
@@ -376,9 +376,17 @@ const Panel = () => {
 	};
 
 	const clickOtp = () => {
+		const ClosePopbox = ({ _redirectPath }) => {
+			setPopBox({ isOpen: false });
+			if (_redirectPath) {
+				setRedirectPath(_redirectPath);
+			}
+		};
+
 		setPopBox({
 			isOpen: true,
-			popBoxType: defPopBoxType.Otp
+			popBoxType: defPopBoxType.Otp,
+			ClosePopbox: ClosePopbox
 		});
 	};
 
