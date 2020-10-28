@@ -308,7 +308,7 @@
 	"lbl_RemindPrefferedCurrency":"Preffered Currency is required.",
 	"lbl_ProfileModifyWarning": "Ensure account security, personal information cannot be modified after filling.",
 	"lbl_MobileVerify": "Mobile verification",
-	"msg_OTPSendCode": "We had send the verification code to your register mobile. Please check your mobile and enter your verification code below.",
+	"msg_OTPSendCode": "We had send the verification code to your registered mobile no. Please check and enter the verification code below.",
 	"lbl_Retransmit": "Retransmit",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip":"Please enter the verification number",

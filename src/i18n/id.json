@@ -308,7 +308,7 @@
 	"lbl_RemindPrefferedCurrency": "Mata Uang Pilihan wajib diisi.",
 	"lbl_ProfileModifyWarning": "Pastikan keamanan akun Anda, Data Anda tidak dapat diubah atau modifikasi setelah diajukan",
 	"lbl_MobileVerify": "Verifikasi telepon",
-	"msg_OTPSendCode": "Kami telah mengirimkan kode verifikasi ke ponsel Anda yang terdaftar. Silakan periksa telepon Anda dan masukkan kode verifikasi Anda di bawah ini.",
+	"msg_OTPSendCode": "Kami telah mengirimkan kode verifikasi ke nomor ponsel Anda yang terdaftar. Silakan periksa dan masukkan kode verifikasi di bawah ini.",
 	"lbl_Retransmit": "Kirim ulang",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip": "Please enter the verification number",
