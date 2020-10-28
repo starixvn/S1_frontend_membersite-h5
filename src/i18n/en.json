@@ -319,5 +319,9 @@
 	"lbl_Processing":"Processing",
 	"lbl_Expired":"Expired",
 	"lbl_FreeBet": "Free Bet",
-	"lbl_PromotionCategory1": "First Deposit"
+	"lbl_PromotionCategory1": "First Deposit",
+	"lbl_VertifyContactConfirm": "Verify your contact number to enjoy our promotions?",
+	"lbl_VerifyNow":"Vertify Now",
+	"lbl_GoWithdrawalPage":"Go to withdrawal page?",
+	"lbl_GoPromotionPage":"Go to join promotion?"
 }
