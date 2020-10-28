@@ -297,7 +297,7 @@
 	"lbl_TurnoverAccumulated": "Turnover Accumulated",
 	"lbl_Req": "Req.",
 	"lbl_PromoJoinNow": "立即加入",
-	"lbl_GoNow": "Go Now!",
+	"lbl_GoNow": "立即前往",
 	"lbl_Affiliate": "合作伙伴",
 	"lbl_SiteAffiliate": "Nova88 代理",
 	"lbl_AffiliateDesc": "您的成功伴侣",
@@ -308,7 +308,7 @@
 	"lbl_RemindPrefferedCurrency": "请选择首选货币",
 	"lbl_ProfileModifyWarning": "为确保帐户安全，个人资料填写后，将无法修改。",
 	"lbl_MobileVerify": "手机验证",
-	"msg_OTPSendCode": "我们已经将验证码发送到您的注册手机。 请检查您的手机并在下面输入您的验证码。",
+	"msg_OTPSendCode": "验证码已发到您注册的手机号，请查看手机并在以下输入验证码",
 	"lbl_Retransmit": "重新发送",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip": "Please enter the verification number",
@@ -321,6 +321,10 @@
 	"lbl_FreeBet": "免费投注",
 	"lbl_PromotionCategory1": "首次存款",
 	"lbl_Affiliate_ID":"代理商 ID/参照号",
-	"lbl_Please_enter_Affiliate_ID":"请填入代理商 ID（可不填）, 填入后无法更换！"
+	"lbl_Please_enter_Affiliate_ID":"请填入代理商 ID（可不填）, 填入后无法更换！",
+	"lbl_VertifyContactConfirm": "验证您的号码以享有优惠？",
+	"lbl_VerifyNow":"立即验证",
+	"lbl_GoWithdrawalPage":"前往提款页面？",
+	"lbl_GoPromotionPage":"前往参加優惠吗？"
 
 }

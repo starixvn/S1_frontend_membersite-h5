@@ -308,7 +308,7 @@
 	"lbl_RemindPrefferedCurrency":"Preffered Currency is required.",
 	"lbl_ProfileModifyWarning": "Ensure account security, personal information cannot be modified after filling.",
 	"lbl_MobileVerify": "Mobile verification",
-	"msg_OTPSendCode": "We had send the verification code to your register mobile. Please check your mobile and enter your verification code below.",
+	"msg_OTPSendCode": "We had send the verification code to your registered mobile no. Please check and enter the verification code below.",
 	"lbl_Retransmit": "Retransmit",
 	"msg_API_SendOTPSMS_5002": "Entered the wrong phone number.",
 	"msg_VerifyCodeTip":"Please enter the verification number",
@@ -321,5 +321,9 @@
 	"lbl_FreeBet": "Free Bet",
 	"lbl_PromotionCategory1": "First Deposit",
 	"lbl_Affiliate_ID":"Affiliate ID/Referral",
-	"lbl_Please_enter_Affiliate_ID":"Please enter Affiliate ID (Optional), it can not change once enter!"
+	"lbl_Please_enter_Affiliate_ID":"Please enter Affiliate ID (Optional), it can not change once enter!",
+	"lbl_VertifyContactConfirm": "Verify your contact number to enjoy our promotions?",
+	"lbl_VerifyNow":"Vertify Now",
+	"lbl_GoWithdrawalPage":"Go to withdrawal page?",
+	"lbl_GoPromotionPage":"Go to join promotion?"
 }
