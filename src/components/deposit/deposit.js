@@ -23,7 +23,8 @@ import PageVerify from "./deposit.pageVerify";
 const defPayType = {
 	onlineBank: "onlineBank",
 	localBank: "localBank",
-	mobilePay: "mobilePay"
+	mobilePay: "mobilePay",
+	cryptoPay: "cryptoPay"
 };
 
 const defPayment = {
@@ -41,6 +42,11 @@ const defPayment = {
 		icon: "icon icon-mobile",
 		displayKey: "lbl_MobileDeposit",
 		creditTimeKey: "lbl_5mins"
+	},
+	[defPayType.cryptoPay]: {
+		icon: "icon icon-BTC",
+		displayKey: "lbl_CryptoPay",
+		creditTimeKey: "lbl_Instant"
 	}
 };
 
@@ -87,25 +93,6 @@ const Panel = () => {
 	useEffect(() => {
 		if (userInfo.isLogin) {
 			setLoading(true);
-
-			api_GetOnlinePaymentList().then(
-				res => {
-					if (res.data.errorCode === 0 && isMountedRef.current) {
-						setOnlineBankingList(res.data.data);
-						setAllowPayment(prevState => ({
-							...prevState,
-							[defPayType.onlineBank]:
-								res.data.data && res.data.data.length > 0
-						}));
-						setLoading(false);
-					}
-				},
-				err => {
-					if (isMountedRef.current) {
-						setLoading(false);
-					}
-				}
-			);
 
 			api_GetBankInfoOffList().then(
 				res => {

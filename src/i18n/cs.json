@@ -114,6 +114,7 @@
 	"lbl_DepositType1": "网络银行",
 	"lbl_DepositType2": "手机支付",
 	"lbl_DepositType3": "银行卡",
+	"lbl_DepositType4": "加密货币",
 	"lbl_Date": "日期",
 	"lbl_Time": "时间",
 	"lbl_ID": "ID",
@@ -319,5 +320,6 @@
 	"lbl_Processing":"进行中",
 	"lbl_Expired":"已过期",
 	"lbl_FreeBet": "免费投注",
-	"lbl_PromotionCategory1": "首次存款"
+	"lbl_PromotionCategory1": "首次存款",
+	"lbl_CryptoPay":"加密货币"
 }

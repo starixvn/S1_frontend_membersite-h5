@@ -114,6 +114,7 @@
 	"lbl_DepositType1": "ธนาคารออนไลน์",
 	"lbl_DepositType2": "จ่ายผ่านมือถือ",
 	"lbl_DepositType3": "ธนาคารในประเทศ",
+	"lbl_DepositType4": "ชำระเงินแบบ Crypto",
 	"lbl_Date": "วันที่",
 	"lbl_Time": "เวลา",
 	"lbl_ID": "ID",
@@ -319,5 +320,6 @@
 	"lbl_Processing":"กำลังดำเนินการ",
 	"lbl_Expired": "หมดอายุ",
 	"lbl_FreeBet": "เดิมพันฟรี",
-	"lbl_PromotionCategory1": "ฝากครั้งแรก"	
+	"lbl_PromotionCategory1": "ฝากครั้งแรก",
+	"lbl_CryptoPay":"ชำระเงินแบบ Crypto"
 }
