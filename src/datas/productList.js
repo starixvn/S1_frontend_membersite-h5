@@ -16,7 +16,6 @@ import casino_PG from "../styles/img/casino_PG.jpg";
 import casino_JOKER from "../styles/img/casino_JOKER.jpg";
 import casino_YGG from "../styles/img/casino_YGG.jpg";
 import casino_GPI from "../styles/img/casino_GPI.jpg";
-import Fish from "../styles/img/fish.jpg";
 import id4d from "../styles/img/id4d.jpg";
 import Keno from "../styles/img/keno.jpg";
 import Lottery from "../styles/img/lottery.jpg";
@@ -151,14 +150,24 @@ const gameList = ({ langId }) => [
 	{
 		category: "game",
 		categoryIcon: "game",
+		className: "casinoList",
 		translateKey: "lbl_Fishing",
+		comingSoonImg: Coming_soon,
 		items: [
 			{
-				icon: "game",
 				gameId: 10,
 				tpId: 7,
-				img: Fish,
-				spanTextKey: "lbl_Fishing"
+				img: require("../styles/img/fish_GG.jpg")
+			},
+			{
+				gameId: "F-SF01",
+				tpId: 10,
+				img: require("../styles/img/fish_SG.jpg")
+			},
+			{
+				gameId: "F-SF02",
+				tpId: 10,
+				img: require("../styles/img/fish_SGW.jpg")
 			}
 		]
 	},
