@@ -23,7 +23,14 @@ const Inputbox = props => {
 					<i className="icon icon-warning"></i>
 				</div>
 			) : null}
-			{props.tip ? (
+			{props.Warning?.status ? (
+				<div
+					className={`${props.ClassName}${
+						props.Warning.status ? " open" : ""
+					}`}>
+					{props.Warning.msg}
+				</div>
+			) : props.tip ? (
 				<div
 					className={`${props.ClassName}${props.tip ? " open" : ""}`}>
 					{props.tip}
@@ -34,13 +41,6 @@ const Inputbox = props => {
 						props.showTips ? " open" : ""
 					}`}>
 					{props.Tips}
-				</div>
-			) : props.Warning?.status ? (
-				<div
-					className={`${props.ClassName}${
-						props.Warning.status ? " open" : ""
-					}`}>
-					{props.Warning.msg}
 				</div>
 			) : null}
 		</div>

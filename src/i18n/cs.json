@@ -114,6 +114,7 @@
 	"lbl_DepositType1": "网络银行",
 	"lbl_DepositType2": "手机支付",
 	"lbl_DepositType3": "银行卡",
+	"lbl_DepositType4": "加密货币",
 	"lbl_Date": "日期",
 	"lbl_Time": "时间",
 	"lbl_ID": "ID",
@@ -320,9 +321,13 @@
 	"lbl_Expired":"已过期",
 	"lbl_FreeBet": "免费投注",
 	"lbl_PromotionCategory1": "首次存款",
+	"lbl_CryptoPay":"加密货币",
 	"lbl_VertifyContactConfirm": "验证您的号码以享有优惠？",
 	"lbl_VerifyNow":"立即验证",
 	"lbl_GoWithdrawalPage":"前往提款页面？",
-	"lbl_GoPromotionPage":"前往参加優惠吗？"
+	"lbl_GoPromotionPage":"前往参加優惠吗？",
+	"lbl_ExchangeRate":"兑换汇率",
+	"lbl_ExchangeRateReferenceOnly":"汇率仅供参考",
+	"lbl_ExchangeAmount":"换算金额"
 
 }

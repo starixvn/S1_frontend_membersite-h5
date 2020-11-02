@@ -28,6 +28,12 @@ import {
 import SetMobilePay from "./components/deposit/deposit.mobilePay.set";
 
 import {
+	Panel as CryptoPay,
+	Main as CryptoPayMain
+} from "./components/deposit/deposit.cryptoPay";
+import SetCryptoPay from "./components/deposit/deposit.cryptoPay.set";
+
+import {
 	Panel as LocalBank,
 	Main as LocalBankMain
 } from "./components/deposit/deposit.localBank";
@@ -107,6 +113,17 @@ const Index = () => {
 									}
 								/>
 							</MobilePay>
+							<CryptoPay path={path.deposit.sub.cryptoPay.root}>
+								<CryptoPayMain
+									path={path.deposit.sub.cryptoPay.sub.root}
+								/>
+								<SetCryptoPay
+									path={
+										path.deposit.sub.cryptoPay.sub
+											.setCryptoPay.root
+									}
+								/>
+							</CryptoPay>
 							<LocalBank path={path.deposit.sub.localBank.root}>
 								<LocalBankMain path="/" />
 							</LocalBank>

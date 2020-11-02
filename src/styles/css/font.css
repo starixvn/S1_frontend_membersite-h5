@@ -42,10 +42,6 @@
   margin-bottom: 1vw;
 }
 
-.icon-member:before {
-  font-size: 6.3vw !important;
-}
-
 .icon-cog:before {
   font-size: 6.3vw !important;
 }
@@ -56,6 +52,38 @@
 
 .icon-JDpay:before {
   font-size: 4vw !important;
+}
+
+.icon-nodata:before {
+  content: "\e9a7";
+}
+
+.icon-USDC:before {
+  content: "\e9a3";
+}
+
+.icon-USDT:before {
+  content: "\e9a4";
+}
+
+.icon-deposit1:before {
+  content: "\e99e";
+}
+
+.icon-FAQS:before {
+  content: "\e99f";
+}
+
+.icon-play:before {
+  content: "\e9a0";
+}
+
+.icon-register:before {
+  content: "\e9a1";
+}
+
+.icon-withdrawal1:before {
+  content: "\e9a2";
 }
 
 .icon-MangoPay:before {
@@ -76,6 +104,14 @@
 
 .icon-icon_1_cop:before {
   content: "\e996";
+}
+
+.icon-ETH:before {
+  content: "\e9a5";
+}
+
+.icon-BTC:before {
+  content: "\e9a6";
 }
 
 .icon-line:before {
@@ -612,6 +648,10 @@
 
 .icon-phone:before {
   content: "\e942";
+}
+
+.icon-map2:before {
+  content: "\e99d";
 }
 
 .icon-history:before {

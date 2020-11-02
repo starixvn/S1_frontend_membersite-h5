@@ -181,7 +181,9 @@ const SetMobilePay = props => {
 					<div className="info">
 						<ul>
 							<li>
-								<span className="title">Zalo</span>
+								<span className="title">
+									{paymentInfo.groupName}
+								</span>
 								<LimitTip
 									minAmount={paymentInfo.minAmount}
 									maxAmount={paymentInfo.maxAmount}

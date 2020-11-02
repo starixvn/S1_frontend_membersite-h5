@@ -207,12 +207,12 @@ header .Join.open, header .Login.open {
 }
 
 header .Join .dropdown, header .Login .dropdown {
-  padding: 3vw 0 3vw 5vw;
+  padding: 3vw 0 3vw 9vw;
   margin-left: 0;
 }
 
 header .Join .dropdown .btn, header .Login .dropdown .btn {
-  padding: 0 3vw;
+  padding: 0;
   background: transparent;
 }
 
@@ -241,10 +241,6 @@ header .Join .inputBox, header .Login .inputBox {
   margin: 2vw 0 0;
 }
 
-header .Join .inputBox > input, header .Login .inputBox > input {
-  margin: 1vw 0;
-}
-
 header .Join .inputBox > input::-webkit-input-placeholder, header .Login .inputBox > input::-webkit-input-placeholder {
   color: #fff;
 }
@@ -265,6 +261,7 @@ header .Join .inputBox .JoinRule, header .Login .inputBox .JoinRule {
   height: 0;
   visibility: hidden;
   opacity: 0;
+  margin-top: 1vw;
 }
 
 header .Join .inputBox .JoinRule.open, header .Login .inputBox .JoinRule.open {
@@ -282,11 +279,9 @@ header .Join .inputBox > .icon-module, header .Login .inputBox > .icon-module {
 }
 
 header .Join .inputBox i.icon, header .Login .inputBox i.icon {
-  position: absolute;
-  -webkit-transform: translateY(60%);
-          transform: translateY(60%);
-  left: 2vw;
-  top: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 header .Join .inputBox i.icon.icon-eye, header .Join .inputBox i.icon.icon-eye-blocked, header .Login .inputBox i.icon.icon-eye, header .Login .inputBox i.icon.icon-eye-blocked {
@@ -294,25 +289,23 @@ header .Join .inputBox i.icon.icon-eye, header .Join .inputBox i.icon.icon-eye-b
 }
 
 header .Join .inputBox i.icon.icon-key + input + div > .icon-eye, header .Login .inputBox i.icon.icon-key + input + div > .icon-eye {
-  display: inline-block;
-  position: initial;
-  margin-right: 2vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 header .Join .inputBox i.icon.icon-key + input + div > .icon-eye-blocked, header .Login .inputBox i.icon.icon-key + input + div > .icon-eye-blocked {
-  display: inline-block;
-  position: initial;
-  margin-right: 2vw;
-}
-
-header .Join .inputBox i.icon.icon-warning, header .Login .inputBox i.icon.icon-warning {
-  position: initial;
-  margin-right: 2vw;
-  display: inline-block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 header .Join .inputBox i.icon.icon-warning.open, header .Login .inputBox i.icon.icon-warning.open {
   display: none;
+}
+
+header .Join .inputBox.parts .inputBox, header .Login .inputBox.parts .inputBox {
+  margin: 0;
 }
 
 header .Join button, header .Login button {
@@ -320,7 +313,6 @@ header .Join button, header .Login button {
   border-radius: 3px;
   color: #fff;
   padding: 3vw;
-  margin-top: 2vw;
 }
 
 header .Join .Terms, header .Login .Terms {
@@ -1042,7 +1034,7 @@ footer > a.open .circleAnimation + span {
   width: 100%;
   margin-left: -1px;
   left: 0;
-  top: calc(12vw + 1px);
+  top: 10vw;
   max-height: 45vw;
   overflow-y: scroll;
 }
@@ -1058,6 +1050,12 @@ footer > a.open .circleAnimation + span {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+}
+
+.dropdown > .dropdown-container .dropdown-item .bankLogo.icon {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
 }
 
 .dropdown > .dropdown-container .dropdown-item .bankLogo img {
@@ -1082,13 +1080,18 @@ footer > a.open .circleAnimation + span {
   display: -ms-flexbox;
   display: flex;
   color: #fff;
-  min-height: 7vw;
 }
 
 .dropdown > .btn .bankLogo {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+}
+
+.dropdown > .btn .bankLogo.icon {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
 }
 
 .dropdown > .btn .bankLogo img {
@@ -1167,6 +1170,15 @@ footer > a.open .circleAnimation + span {
   border-bottom-right-radius: 5px;
   line-height: 6vw;
   width: calc(100% - 8vw - 2px);
+}
+
+#popup .popTxt > div.icon {
+  text-align: center;
+  margin-top: 10vw;
+}
+
+#popup .popTxt > div.icon:before {
+  font-size: 20vw;
 }
 
 #popup .popTxt img {
@@ -1494,7 +1506,6 @@ footer > a.open .circleAnimation + span {
 
 .inputBox.parts .inputBox {
   width: 100%;
-  margin: 0;
   -webkit-box-flex: 2.5;
       -ms-flex: 2.5;
           flex: 2.5;
@@ -1502,6 +1513,10 @@ footer > a.open .circleAnimation + span {
 
 .inputBox.parts .inputBox input {
   margin: 0;
+}
+
+.inputBox.parts .inputBox input[type="date"] {
+  padding: 3vw 1vw 3vw 9vw;
 }
 
 .inputBox .dropdown i.icon {
@@ -1512,10 +1527,16 @@ footer > a.open .circleAnimation + span {
 
 .inputBox i.icon {
   position: absolute;
-  -webkit-transform: translateY(60%);
-          transform: translateY(60%);
   left: 2vw;
   top: 0;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-height: 10vw;
 }
 
 .inputBox i.icon.icon-cake {
@@ -1527,7 +1548,9 @@ footer > a.open .circleAnimation + span {
 .inputBox i.icon.icon-warning {
   position: initial;
   margin-right: 2vw;
-  display: inline-block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .inputBox i.icon.icon-eye {
@@ -1546,6 +1569,10 @@ footer > a.open .circleAnimation + span {
   position: absolute;
   right: 0;
   top: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
 }
 
 .LoginRule {
@@ -1655,6 +1682,7 @@ footer > a.open .circleAnimation + span {
   border-radius: 5px;
   overflow: hidden;
   line-height: 0;
+  background: white;
 }
 
 .selectBank button.open {
@@ -1797,7 +1825,7 @@ footer > a.open .circleAnimation + span {
           flex-direction: column;
   color: #fff;
   float: left;
-  width: calc(100% / 3);
+  width: calc(100% / 2);
   margin: 2vw 0;
 }
 
@@ -4025,5 +4053,27 @@ span.important {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.nodata {
+  text-align: center;
+  padding: 10vw 0;
+  color: #F77A00;
+}
+
+.nodata.icon:before {
+  font-size: 15vw;
+}
+
+.nodata div {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3vw;
+  border-radius: 5px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin: auto;
+  margin-top: 3vw;
+  color: white;
 }
 /*# sourceMappingURL=style.css.map */

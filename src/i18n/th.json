@@ -114,6 +114,7 @@
 	"lbl_DepositType1": "ธนาคารออนไลน์",
 	"lbl_DepositType2": "จ่ายผ่านมือถือ",
 	"lbl_DepositType3": "ธนาคารในประเทศ",
+	"lbl_DepositType4": "ชำระเงินแบบ Crypto",
 	"lbl_Date": "วันที่",
 	"lbl_Time": "เวลา",
 	"lbl_ID": "ID",
@@ -320,10 +321,14 @@
 	"lbl_Expired": "หมดอายุ",
 	"lbl_FreeBet": "เดิมพันฟรี",
 	"lbl_PromotionCategory1": "ฝากครั้งแรก",
+	"lbl_CryptoPay":"ชำระเงินแบบ Crypto",
 	"lbl_VertifyContactConfirm": "ยืนยันหมายเลขโทรศัพท์เพื่อเข้าร่วมรับโปรโมชั่น",
 	"lbl_VerifyNow":"ยืนยันตอนนี้",
 	"lbl_GoWithdrawalPage":"ไปที่ี่หน้าทำรายการถอน",
-	"lbl_GoPromotionPage":"ไปที่เข้าร่วมกิจกรรม"
+	"lbl_GoPromotionPage":"ไปที่เข้าร่วมกิจกรรม",
+	"lbl_ExchangeRate":"อัตราแลกเปลี่ยน",
+	"lbl_ExchangeRateReferenceOnly":"อัตรานี้ใช้สำหรับการอ้างอิงเท่านั้น",
+	"lbl_ExchangeAmount":"จำนวนเงินแลกเปลี่ยน"
 
 	
 }

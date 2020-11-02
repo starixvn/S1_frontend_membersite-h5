@@ -114,6 +114,7 @@
 	"lbl_DepositType1": "Online Banking",
 	"lbl_DepositType2": "Mobile Payment",
 	"lbl_DepositType3": "Local Bank",
+	"lbl_DepositType4": "Crypto Pay",
 	"lbl_Date": "Date",
 	"lbl_Time": "Time",
 	"lbl_ID": "ID",
@@ -320,8 +321,12 @@
 	"lbl_Expired":"Expired",
 	"lbl_FreeBet": "Free Bet",
 	"lbl_PromotionCategory1": "First Deposit",
+	"lbl_CryptoPay":"Crypto Pay",
 	"lbl_VertifyContactConfirm": "Verify your contact number to enjoy our promotions?",
 	"lbl_VerifyNow":"Vertify Now",
 	"lbl_GoWithdrawalPage":"Go to withdrawal page?",
-	"lbl_GoPromotionPage":"Go to join promotion?"
+	"lbl_GoPromotionPage":"Go to join promotion?",
+	"lbl_ExchangeRate":"Exchange rate",
+	"lbl_ExchangeRateReferenceOnly":"This rate is only for refence",
+	"lbl_ExchangeAmount":"Exchange Amount"	
 }

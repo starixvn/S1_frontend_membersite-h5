@@ -51,6 +51,15 @@ export default {
 					}
 				}
 			},
+			cryptoPay: {
+				root: "cryptoPay",
+				sub: {
+					root: "/",
+					setCryptoPay: {
+						root: ":channelName"
+					}
+				}
+			},
 			localBank: {
 				root: "localBank"
 			},
